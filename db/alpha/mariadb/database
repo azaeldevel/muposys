@@ -1,0 +1,6 @@
+create database `sysapp.alpha`; 
+
+CREATE USER 'sysapp'@localhost IDENTIFIED BY '123456';
+
+
+

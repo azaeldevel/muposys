@@ -1,0 +1,4 @@
+
+CREATE DATABASE sysapp_alpha;
+CREATE USER sysapp PASSWORD '123456';
+GRANT ALL ON DATABASE sysapp_alpha to sysapp;

@@ -1,0 +1,9 @@
+
+CREATE TYPE "Countries" AS ENUM ('MEX', 'USA');
+CREATE TABLE "Persons" (id serial PRIMARY KEY,name1 VARCHAR(30) NOT NULL,name2 VARCHAR(30),name3 VARCHAR(30),name4 VARCHAR(30),country Countries);
+GRANT ALL PRIVILEGES ON TABLE Persons to sysapp;
+INSERT INTO "Persons"(name1) VALUES('root');
+
+
+CREATE TABLE "Users" ( person INT PRIMARY KEY, name VARCHAR(8) NOT NULL,pwdtxt VARCHAR(12), CONSTRAINT fk_person_id FOREIGN KEY(person) REFERENCES "Persons"(id));
+INSERT INTO "Users"(person,name) VALUES(1,'root');
