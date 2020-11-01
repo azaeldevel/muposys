@@ -11,4 +11,11 @@
         <maven.compiler.target>14</maven.compiler.target>
     </properties>
     <name>octetos-sysapp</name>
+    <dependencies>
+        <dependency>
+            <groupId>octetos</groupId>
+            <artifactId>syapp.db</artifactId>
+            <version>0.1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
