@@ -1,0 +1,21 @@
+<?xml version = "1.0"?>
+<xs:schema xmlns:xs = "http://www.w3.org/2001/XMLSchema">
+<xs:element name = 'configuration'>
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name = 'mysql' minOccurs = '1' maxOccurs = '1'/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:element>
+   
+<xs:complexType name = "mysql">
+	<xs:sequence>
+		<xs:element name = "host" type = "xs:string"/>
+		<xs:element name = "port" type = "xs:string"/>
+		<xs:element name = "user" type = "xs:string"/>
+		<xs:element name = "code" type = "xs:string"/>
+		<xs:element name = "database" type = "xs:string"/>
+	</xs:sequence>
+</xs:complexType>
+
+</xs:schema>

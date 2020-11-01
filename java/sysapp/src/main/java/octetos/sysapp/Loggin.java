@@ -5,11 +5,14 @@
  */
 package octetos.sysapp;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.ParserConfigurationException;
 import octetos.syapp.db.Users;
+import org.xml.sax.SAXException;
 
 /**
  *
@@ -108,7 +111,25 @@ public class Loggin extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btAcceptActionPerformed
-        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect("localhost","sysapp.alpha",3306,"sysapp","123456");
+        Configuration config = null;
+        try 
+        {
+            config = new Configuration();
+        } 
+        catch (ParserConfigurationException ex) 
+        {
+            Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (SAXException ex) 
+        {
+            Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        catch (IOException ex) 
+        {
+            Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect(config.getDataSource());
         
         octetos.db.mysql.Connector connector = new octetos.db.mysql.Connector();
         boolean checkConection = false;

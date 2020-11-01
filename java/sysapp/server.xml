@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<!-- This is a comment -->
+<configuration>
+	<mysql>
+		<host>localhost</host>
+		<port>3306</port>
+		<user>sysapp</user>
+		<code>956A-981GLP97</code>
+		<database>sysapp.alpha</database>
+	</mysql>
+</configuration>

@@ -1,18 +1,29 @@
 
 package octetos.db.mysql;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 
 /**
  *
  * @author azael
  */
-public class Datconnect extends com.mysql.cj.jdbc.MysqlDataSource implements octetos.db.Datconnect  
+public class Datconnect extends MysqlDataSource implements octetos.db.Datconnect  
 {
     private String host;
     private String user;
     private String password;
     private String database;
     private int port;
+    
+    public Datconnect(MysqlDataSource d)
+    {
+        host = d.getServerName();
+        user = d.getUser();
+        password = d.getPassword();
+        database = d.getDatabaseName();
+        port = d.getPort();
+    }
     
     /**
      * @param host
