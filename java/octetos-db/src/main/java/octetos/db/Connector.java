@@ -13,5 +13,5 @@ public interface Connector
 {   
     public boolean connect(Datconnect connector) throws SQLException;
     public void close()throws SQLException;
-    public boolean execute(String str,ResultSet rs) throws SQLException;
+    public ResultSet execute(String str) throws SQLException;
 }

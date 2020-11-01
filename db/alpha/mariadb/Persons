@@ -1,9 +1,9 @@
 
 CREATE TABLE Persons (id INT AUTO_INCREMENT PRIMARY KEY,name1 VARCHAR(30) NOT NULL,name2 VARCHAR(30),name3 VARCHAR(30),name4 VARCHAR(30),country ENUM ('MEX', 'USA'));
-INSERT INTO Persons(name1) VALUES('root');
+
 
 
 CREATE TABLE Users ( person INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(8) NOT NULL,pwdtxt VARCHAR(12), FOREIGN KEY(person) REFERENCES Persons(id));
-INSERT INTO Users(person,name) VALUES(1,'root');
+
 
 

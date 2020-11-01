@@ -16,14 +16,13 @@ public class Connector implements octetos.db.Connector
 {    
     private Connection connection;
         
-    public boolean execute(String str,ResultSet rs) throws SQLException
+    public ResultSet execute(String str) throws SQLException
     {
         Statement stmt = null;
 
         stmt = connection.createStatement();
-        rs = stmt.executeQuery(str);
+        return stmt.executeQuery(str);
         
-        return true;
     }
     public void close() throws SQLException
     {
