@@ -34,4 +34,5 @@ C++/sysapp-gtk/ltmain.sh
 C++/sysapp-gtk/missing
 C++/sysapp-gtk/po/Makefile.in.in
 C++/sysapp-gtk/src/Makefile.in
-
+C++/sysapp-apidb/sysappdb.apidb.bk
+C++/sysapp-gtk/libraries/

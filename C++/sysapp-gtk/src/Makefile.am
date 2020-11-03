@@ -1,7 +1,3 @@
-## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
-
 
 uidir = $(pkgdatadir)/ui
 ui_DATA = sysapp.ui
@@ -11,7 +7,7 @@ AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(SYSAPP_CFLAGS)
+	$(GTKMM_CFLAGS)
 
 AM_CFLAGS =\
 	 -Wall\
@@ -19,12 +15,11 @@ AM_CFLAGS =\
 
 bin_PROGRAMS = sysapp
 
-sysapp_SOURCES = \
-	main.cc
-
-sysapp_LDFLAGS = 
-
-sysapp_LDADD = $(SYSAPP_LIBS)
+syapp_CXXFLAGS = -I$(top_srcdir)/libraries
+syapp_CPPFLAGS = -I$(top_srcdir)/libraries 
+sysapp_LDFLAGS = -L$(top_srcdir)/libraries
+sysapp_LDADD = $(GTKMM_LIBS) $(OCTETOS_DB_MARIA_LIBS) -lsysappdb
+sysapp_SOURCES = main.cc Login.cc
 
 
 

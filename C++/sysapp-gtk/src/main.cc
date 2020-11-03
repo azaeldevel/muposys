@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * main.cc
  * Copyright (C) 2020 Azael R. <azael.devel@gmail.com>
@@ -33,6 +32,8 @@
 /* #define UI_FILE PACKAGE_DATA_DIR"/ui/sysapp.ui" */
 #define UI_FILE "src/sysapp.ui"
 
+
+#include "Login.hh"
    
 int
 main (int argc, char *argv[])
@@ -51,14 +52,15 @@ main (int argc, char *argv[])
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-	Gtk::Window* main_win = 0;
-	builder->get_widget("main_window", main_win);
+	
+	Login* wndLogin = 0;
+	builder->get_widget_derived("wndLogin", wndLogin);
 
-
-	if (main_win)
+	if (wndLogin)
 	{
-		kit.run(*main_win);
+		kit.run(*wndLogin);
 	}
+	
 	return 0;
 }
 
