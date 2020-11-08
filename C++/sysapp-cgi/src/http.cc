@@ -34,7 +34,7 @@ namespace sysapp::http
 	   	{
 	  		if(user.downloadIDs(conn))
 	  		{
-	  			std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
+	  			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
 	  		}
 	  		else
 	  		{
@@ -45,7 +45,7 @@ namespace sysapp::http
 	   	{
 	   		if(user.insert(conn,host,mdString))
 	   		{
-	   			std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
+	   			//std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
 	   		}
 	   		else
 	   		{

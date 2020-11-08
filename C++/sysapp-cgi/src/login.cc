@@ -31,19 +31,20 @@ int main ()
 	std::cout << "Content-type:text/html\r\n\r\n";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
-   	std::cout << "<title>Procesadon Session..</title>\n";
+   	std::cout << "<meta charset=\"utf-8\">\n";
+   	std::cout << "<title>Procesadon Sesión..</title>\n";
    	cgicc::Cgicc formData;   	
    	cgicc::form_iterator itUser = formData.getElement("user"); 
    	if( !itUser->isEmpty() && itUser != (*formData).end()) {  
-      std::cout << "Usuario : " << **itUser << "<br>";  
+      //std::cout << "Usuario : " << **itUser << "<br>";  
    	} else {
-      	std::cout << "No text entered for first name \n";  
+      	//std::cout << "No text entered for first name \n";  
    	}
    	cgicc::form_iterator itPassword = formData.getElement("psw");  
    	if( !itPassword->isEmpty() && itPassword != (*formData).end()) {  
-      std::cout << "Contraseña : " << **itPassword << "<br>"; 
+      	//std::cout << "Contraseña : " << **itPassword << "<br>"; 
    	} else {
-      	std::cout << "No text entered for first name \n";  
+      	//std::cout << "No text entered for first name \n";  
    	}
    	bool flag = false;
    	sysapp::http::Session session;   	
@@ -55,7 +56,10 @@ int main ()
    	std::string strredirect = "/sysapp.html?id=";
    	strredirect += session.getMD5();
    	
-   	std::cout << "<meta http-equiv=\"Refresh\" content=\"2;url=" << strredirect << "\"\n";
+   	if(flag)
+   	{
+   		std::cout << "<meta http-equiv=\"Refresh\" content=\"2;url=" << strredirect << "\"\n";
+   	}
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";
 	
