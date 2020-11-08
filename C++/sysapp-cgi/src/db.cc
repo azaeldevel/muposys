@@ -11,9 +11,22 @@ namespace db
 {
 namespace sqlite
 {
+	
+	bool User::insert(Conector& connect,const std::string& h,const std::string& s)
+	{
+		std::string sql = "INSERT INTO User(remote_addr,session) VALUES('";
+        sql += h + "','" + s + "')";
+        if(connect.insert(sql))
+        {
+        	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
+            return true;
+        }
+				
+        return false;
+	}
 	bool User::updateSession(Conector& connect,const std::string& str)
 	{
-		std::string sql = "UPDATE User SET session='";
+		std::string sql = "UPDATE User SET session = '";
         sql += str + "' WHERE id = " + std::to_string(id) + ";";
         std::cout << sql << "<br>";
         return connect.update(str);
@@ -157,65 +170,29 @@ namespace sqlite
     bool Conector::insert(const std::string& str)
     {
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
-        if( rc == SQLITE_NOTADB ) 
+        if( rc != SQLITE_OK ) 			
         {
-            //fprintf(stderr, "SQL error(%i): La base de datso tiene mal formato: %s\n",rc, sqlite3_errmsg((sqlite3*)serverConnector));
-            //sqlite3_free(zErrMsg);
-            //std::cout << "Error: " << sqlite3_errmsg((sqlite3*)serverConnector) << "\n";
-            return false;				
-        }
-        else if( rc == SQLITE_ABORT ) 
-        {
-            //fprintf(stderr, "SQL error(%i) : %s\n Quiza la callback retorn no-zero valor.",rc, sqlite3_errmsg((sqlite3*)serverConnector));
-            //sqlite3_free(zErrMsg);
-            std::cout << "Error: " << sqlite3_errmsg((sqlite3*)serverConnector) << "\n";
-            return false;				
-        }
-        else if( rc != SQLITE_OK ) 			
-        {
-            //fprintf(stderr, "SQL error(%i): %s\n",rc, sqlite3_errmsg((sqlite3*)serverConnector));
-            //std::cout << "Error: " << sqlite3_errmsg((sqlite3*)serverConnector) << "\n";
-            //sqlite3_free(zErrMsg);
             return false;			
         } 
         else 
         {
-            //fprintf(stdout, "Operation done successfully\n");
             return true;			
-        }
-        return true;			
+        }			
     }	
     /**
     ***
     **/
     bool Conector::query(const std::string& str, int (*callback)(void*,int,char**,char**),void* obj)
     {
-        char *zErrMsg = 0;
-        int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), callback, obj, &zErrMsg);
-        if( rc == SQLITE_NOTADB ) 
+        int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), callback, obj, NULL);
+        if( rc != SQLITE_OK ) 			
         {
-            fprintf(stderr, "SQL error(%i) 1: La base de datso tiene mal formato: %s\n",rc, zErrMsg);
-            sqlite3_free(zErrMsg);
-            return false;				
-        }
-        else if( rc == SQLITE_ABORT ) 
-        {
-            fprintf(stderr, "SQL error(%i) 2: %s\n Quiza la callback retorn no-zero valor.",rc, zErrMsg);
-            sqlite3_free(zErrMsg);
-            return false;				
-        }
-        else if( rc != SQLITE_OK ) 			
-        {
-            fprintf(stderr, "SQL error(%i) 3: %s\n",rc, zErrMsg);
-            sqlite3_free(zErrMsg);
             return false;			
         } 
         else 
         {
-            //fprintf(stdout, "Operation done successfully\n");
             return true;			
-        }
-        return true;			
+        }			
     }
     void* Conector::getServerConnector()
     {

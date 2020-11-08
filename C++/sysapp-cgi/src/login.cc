@@ -56,8 +56,8 @@ int main () {
       	cout << "No text entered for first name " << endl;  
    	}
    
-   	const char* host = getenv("REMOTE_ADDR");
-   	//const char *host = "host6";
+   	//const char* host = getenv("REMOTE_ADDR");
+   	const char *host = "host6";
    	//std::cout << "<br>Host : " << host << "\n";
    	//std::cout << "<br>REMOTE USER : " << getenv("REMOTE_USER") << "\n";
    	sysapp::db::sqlite::Conector conn("database");
@@ -79,17 +79,9 @@ int main () {
    	}
    	else
    	{
-   		if(user.inserteRemoteAddr(conn,host))
+   		if(user.insert(conn,host,host))
    		{
-   			std::cout << "Inserted addr: " << user.getID() << "<br>";
-   			if(user.updateSession(conn,host))
-   			{
-   				std::cout << "updates session : " << host << "<br>";
-   			}
-   			else
-   			{
-   				std::cout << "Fail update session : "<< "(" << conn.getErrorCode() << ") " << conn.getErrorMessage() << "<br>";
-   			}
+   			std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
    		}
    		else
    		{

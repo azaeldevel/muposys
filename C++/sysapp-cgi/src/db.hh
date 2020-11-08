@@ -47,6 +47,7 @@ namespace sqlite
         static bool selectAll(Conector& conect, std::vector<User*>& vec);
 		bool downloadIDs(Conector& conect);
 		bool inserteRemoteAddr(Conector& conect,const std::string&);
+		bool insert(Conector& conect,const std::string&,const std::string&);
 		User();
 		const std::string& getRomoteAddress()const;
 		const std::string& getSession()const;
