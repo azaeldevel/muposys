@@ -1,3 +1,4 @@
+#include <mysql/mysql.h>
 #include "sysappdb.hpp"
 
 namespace sysappdb
@@ -13,13 +14,13 @@ namespace sysappdb
 	{
 		return country;
 	}
-	bool Persons::updateCountry(octetos::db::mariadb::Connector& connector,const std::string& country)
+	bool Persons::updateCountry(octetos::db::mysql::Connector& connector,const std::string& country)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET country = '" + country + "'";
 		sqlString = sqlString + " WHERE "  + "id = " +  std::to_string(id);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	int Persons::getID() const
@@ -42,13 +43,13 @@ namespace sysappdb
 	{
 		return name1;
 	}
-	bool Persons::updateName1(octetos::db::mariadb::Connector& connector,const std::string& name1)
+	bool Persons::updateName1(octetos::db::mysql::Connector& connector,const std::string& name1)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name1 = '" + name1 + "'";
 		sqlString = sqlString + " WHERE "  + "id = " +  std::to_string(id);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	const std::string& Persons::getName2() const
@@ -59,13 +60,13 @@ namespace sysappdb
 	{
 		return name2;
 	}
-	bool Persons::updateName2(octetos::db::mariadb::Connector& connector,const std::string& name2)
+	bool Persons::updateName2(octetos::db::mysql::Connector& connector,const std::string& name2)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name2 = '" + name2 + "'";
 		sqlString = sqlString + " WHERE "  + "id = " +  std::to_string(id);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	const std::string& Persons::getName3() const
@@ -76,13 +77,13 @@ namespace sysappdb
 	{
 		return name3;
 	}
-	bool Persons::updateName3(octetos::db::mariadb::Connector& connector,const std::string& name3)
+	bool Persons::updateName3(octetos::db::mysql::Connector& connector,const std::string& name3)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name3 = '" + name3 + "'";
 		sqlString = sqlString + " WHERE "  + "id = " +  std::to_string(id);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	const std::string& Persons::getName4() const
@@ -93,13 +94,13 @@ namespace sysappdb
 	{
 		return name4;
 	}
-	bool Persons::updateName4(octetos::db::mariadb::Connector& connector,const std::string& name4)
+	bool Persons::updateName4(octetos::db::mysql::Connector& connector,const std::string& name4)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name4 = '" + name4 + "'";
 		sqlString = sqlString + " WHERE "  + "id = " +  std::to_string(id);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	Persons::Persons(int id)
@@ -118,9 +119,9 @@ namespace sysappdb
 	Persons::Persons()
 	{
 	}
-	bool Persons::insert(octetos::db::mariadb::Connector& connector,std::string name1)
+	bool Persons::insert(octetos::db::mysql::Connector& connector,std::string name1)
 	{
-		octetos::db::mariadb::Datresult dt;
+		octetos::db::mysql::Datresult dt;
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO " + TABLE_NAME ; 
 		sqlString = sqlString + "(name1)";
@@ -130,14 +131,14 @@ namespace sysappdb
 		else return false;
 		return false;
 	}
-	std::vector<Persons*>* Persons::select(octetos::db::mariadb::Connector& connector, const std::string& where, int leng)
+	std::vector<Persons*>* Persons::select(octetos::db::mysql::Connector& connector, const std::string& where, int leng)
 	{
 		std::string sqlString = "SELECT id FROM Persons WHERE " + where ;
 		if(leng > 0)
 		{
 			sqlString += " LIMIT  "  + std::to_string(leng);
 		}
-		octetos::db::mariadb::Datresult dt;
+		octetos::db::mysql::Datresult dt;
 		bool flag = connector.execute(sqlString,dt);
 		if(flag)
 		{
@@ -164,13 +165,13 @@ namespace sysappdb
 	{
 		return name;
 	}
-	bool Users::updateName(octetos::db::mariadb::Connector& connector,const std::string& name)
+	bool Users::updateName(octetos::db::mysql::Connector& connector,const std::string& name)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name = '" + name + "'";
 		sqlString = sqlString + " WHERE "  + "person = " +  std::to_string(person);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	int Users::getPerson() const
@@ -193,13 +194,13 @@ namespace sysappdb
 	{
 		return pwdtxt;
 	}
-	bool Users::updatePwdtxt(octetos::db::mariadb::Connector& connector,const std::string& pwdtxt)
+	bool Users::updatePwdtxt(octetos::db::mysql::Connector& connector,const std::string& pwdtxt)
 	{
 		std::string sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET pwdtxt = '" + pwdtxt + "'";
 		sqlString = sqlString + " WHERE "  + "person = " +  std::to_string(person);
-		octetos::db::mariadb::Datresult dt56239;
+		octetos::db::mysql::Datresult dt56239;
 		return connector.execute(sqlString,dt56239);
 	}
 	Users::Users(int person)
@@ -215,9 +216,9 @@ namespace sysappdb
 	Users::Users()
 	{
 	}
-	bool Users::insert(octetos::db::mariadb::Connector& connector,std::string name)
+	bool Users::insert(octetos::db::mysql::Connector& connector,std::string name)
 	{
-		octetos::db::mariadb::Datresult dt;
+		octetos::db::mysql::Datresult dt;
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO " + TABLE_NAME ; 
 		sqlString = sqlString + "(name)";
@@ -227,10 +228,10 @@ namespace sysappdb
 		else return false;
 		return false;
 	}
-	bool Users::checkpass(octetos::db::mariadb::Connector& connector)
+	bool Users::checkpass(octetos::db::mysql::Connector& connector)
 	{ 
 		std::string sqlString = "SELECT name,pwdtxt FROM Users WHERE person = '" + std::to_string(person) + "'";
-		octetos::db::mariadb::Datresult dt;
+		octetos::db::mysql::Datresult dt;
 		bool flag = connector.execute(sqlString,dt);
 		if(flag)
 		{
@@ -247,14 +248,14 @@ namespace sysappdb
 			return false;
 		}
 	} 
-	std::vector<Users*>* Users::select(octetos::db::mariadb::Connector& connector, const std::string& where, int leng)
+	std::vector<Users*>* Users::select(octetos::db::mysql::Connector& connector, const std::string& where, int leng)
 	{
 		std::string sqlString = "SELECT person FROM Users WHERE " + where ;
 		if(leng > 0)
 		{
 			sqlString += " LIMIT  "  + std::to_string(leng);
 		}
-		octetos::db::mariadb::Datresult dt;
+		octetos::db::mysql::Datresult dt;
 		bool flag = connector.execute(sqlString,dt);
 		if(flag)
 		{

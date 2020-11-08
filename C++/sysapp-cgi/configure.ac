@@ -25,6 +25,8 @@ PKG_CHECK_MODULES(SQLITE3, [sqlite3])
 
 PKG_CHECK_MODULES(OPENSSL, [openssl])
 
+PKG_CHECK_MODULES(OCTETOS_DB_MYSQL, [octetos-db-mysql])
+
 AC_OUTPUT([
 Makefile
 src/Makefile

@@ -19,7 +19,11 @@
 
 
 
+#include <cgicc/Cgicc.h> 
+
+
 #include "http.hh"
+#include "server.hh"
 
 
 int main ()
@@ -27,28 +31,41 @@ int main ()
 	std::cout << "Content-type:text/html\r\n\r\n";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
-   	std::cout << "<title>Preccesiong login..</title>\n";
-   	std::cout << "</head>\n";
-   	std::cout << "<body>\n";
-
-   	/*cgicc::form_iterator fi = formData.getElement("user"); 
-   	std::string u; 
-   	if( !fi->isEmpty() && fi != (*formData).end()) {  
-      std::cout << "Usuario : " << **fi << "<br>";  
-      u = **fi;
+   	std::cout << "<title>Procesadon Session..</title>\n";
+   	cgicc::Cgicc formData;   	
+   	cgicc::form_iterator itUser = formData.getElement("user"); 
+   	if( !itUser->isEmpty() && itUser != (*formData).end()) {  
+      std::cout << "Usuario : " << **itUser << "<br>";  
    	} else {
       	std::cout << "No text entered for first name \n";  
-   	}*/
-   
+   	}
+   	cgicc::form_iterator itPassword = formData.getElement("psw");  
+   	if( !itPassword->isEmpty() && itPassword != (*formData).end()) {  
+      std::cout << "Contraseña : " << **itPassword << "<br>"; 
+   	} else {
+      	std::cout << "No text entered for first name \n";  
+   	}
+   	bool flag = false;
+   	sysapp::http::Session session;   	
+   	sysapp::server::Login login;
+   	if(login.check(**itUser,**itPassword))
+   	{
+   		flag = true;
+   	}
+   	std::string strredirect = "localhost/?id=";
+   	strredirect += session.getMD5();
    	
+   	std::cout << "<meta http-equiv=\"Refresh\" content=\"5;url=https:" << strredirect << "\"\n";
+   	std::cout << "</head>\n";
+   	std::cout << "<body>\n";
+	
    	
-   	sysapp::http::Session session;
+   	if(not flag)
+   	{
+   		std::cout << "<br>Usuario/Contraseña incorrectos<br>";
+   	}
+		
    	
-   	
-   	std::cout << "<br>Host : " << session.getHost() << "<br>";
-   	std::cout << "<br>MD5 : " << session.getMD5() << "<br>";
-   	
-   
    	std::cout << "<br/>\n";
    	std::cout << "</body>\n";
    	std::cout << "</html>\n";
