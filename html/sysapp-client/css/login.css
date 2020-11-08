@@ -39,10 +39,6 @@ button:hover {
   position: relative;
 }
 
-img.avatar {
-  width: 40%;
-  border-radius: 50%;
-}
 
 .container {
   padding: 16px;
@@ -108,13 +104,24 @@ span.psw {
   to {transform: scale(1)}
 }
 
-/* Change styles for span and cancel button on extra small screens */
-@media screen and (max-width: 300px) {
-  span.psw {
-     display: block;
-     float: none;
-  }
-  .cancelbtn {
-     width: 100%;
-  }
+
+
+@media screen and (min-width: 1000px) 
+{
+	.modal-content 
+	{
+  		width: 40%; 
+	}
+	.cancelbtn 
+	{
+     	width: 20%;
+  	}
+}
+
+@media screen and (max-width: 400px) 
+{
+	span.psw 
+	{
+		font-size : 10px;
+  	}
 }
