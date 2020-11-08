@@ -30,6 +30,10 @@
 #include <cgicc/HTTPHTMLHeader.h> 
 #include <cgicc/HTMLClasses.h>  
 
+#include <openssl/md5.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "db.hh"
 
    
@@ -56,9 +60,15 @@ int main () {
       	cout << "No text entered for first name " << endl;  
    	}
    
-   	//const char* host = getenv("REMOTE_ADDR");
-   	const char *host = "host6";
-   	//std::cout << "<br>Host : " << host << "\n";
+   	char mdString[33];
+   	const char* host = getenv("REMOTE_ADDR");
+   	unsigned char digest[MD5_DIGEST_LENGTH];
+   	MD5((unsigned char*)&host, strlen(host), (unsigned char*)&digest);
+   	for(int i = 0; i < 16; i++)
+         sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
+   	//const char *host = "host6";
+   	std::cout << "<br>Host : " << host << "<br>";
+   	std::cout << "<br>MD5 : " << mdString << "<br>";
    	//std::cout << "<br>REMOTE USER : " << getenv("REMOTE_USER") << "\n";
    	sysapp::db::sqlite::Conector conn("database");
    	//std::string var = "REMOTE_USER=";
