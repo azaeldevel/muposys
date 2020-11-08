@@ -52,10 +52,10 @@ int main ()
    	{
    		flag = true;
    	}
-   	std::string strredirect = "localhost/?id=";
+   	std::string strredirect = "/sysapp.html?id=";
    	strredirect += session.getMD5();
    	
-   	std::cout << "<meta http-equiv=\"Refresh\" content=\"5;url=https:" << strredirect << "\"\n";
+   	std::cout << "<meta http-equiv=\"Refresh\" content=\"2;url=" << strredirect << "\"\n";
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";
 	

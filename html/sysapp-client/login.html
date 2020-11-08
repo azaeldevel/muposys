@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/login.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/login.css">
+	<meta charset="utf-8">
+</head>
+
+<body>
+
+
+<div id="loginForm" class="modal">
+  
+  <form class="modal-content animate" action="/cgi/login.cgi" method="post">
+    
+    <div class="container">
+      <label for="user"><b>Usuario:</b></label>
+      <input type="text" placeholder="Enter Username" name="user" required>
+
+      <label for="psw"><b>Contraseña:</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+        
+      <button type="submit">Login</button>
+      <label>
+        <input type="checkbox" checked="checked" name="remember"> Recordame aquí
+      </label>
+    </div>
+
+    <div class="container" style="background-color:#f1f1f1">
+      <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
+      <span class="psw">¿Olvidó su <a href="#">contraseña?</a></span>
+    </div>
+  </form>
+</div>
+
+
+</body>
+</html>
