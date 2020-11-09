@@ -12,18 +12,34 @@ namespace sysapp::server
 
 namespace elements
 {
+
+	/**
+	*@brief Todo elemento html
+	*/
 	class Element
 	{
 	public:
 		virtual bool print(std::ostream& out) = 0;
 	};
 
+	/**
+	*@brief Pricipalmente tiene un obejto para imprimir la salida
+	*/
 	class Container
 	{
+	protected:
+		std::ostream& out;
+
 	public:
 		virtual bool print() = 0;
+		virtual std::ostream& getDefaultOutput();
+		Container(std::ostream&);
+		std::ostream& getOut();
 	};
 	
+	/**
+	*@brief Seccion head de html
+	*/
 	class Head : public Element
 	{
 	private:
@@ -39,40 +55,22 @@ namespace elements
 		virtual bool print(std::ostream& out);
 	};
 
+	/**
+	*@brief Seccion body de html
+	*/
 	class Body : public Element
 	{
-		
-	public:
-		virtual bool print(std::ostream& out);
 	};
 
-
-	/*class Page
-	{
-	private:
-		HTML html;
-
-	public:
-		enum ContentType
-		{
-			TEXT
-		};
-		
-		HTML& getHTML();
-
-	private:
-		ContentType contentType;
-
-	};*/
-
+	/**
+	*@brief Clase base para contenedores, un hijo de esta clase represetna un mime(content-type)
+	*/
 	class ContentType : public Container
 	{
-	protected:
-		std::ostream& out;
 		
 	public:
 		enum Text
-		{	
+		{
 			html,
 			plain
 		};
@@ -81,11 +79,14 @@ namespace elements
 		ContentType(std::ostream& out);
 	};
 	
+	/**
+	*@brief Representa un mime para content-ype:text/html 
+	*/
 	class HTML : public ContentType
 	{
 	private:
 		Head head;
-		Body body;
+		Body* body;
 	public:
 		Head* getHead();
 		Body* getBody();

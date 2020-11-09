@@ -6,10 +6,20 @@ namespace sysapp::server::elements
 {
 
 
-bool Body::print(std::ostream& out)
-{
 
-	return true;
+
+
+std::ostream& Container::getOut()
+{
+	return out;
+}
+Container::Container(std::ostream& o) : out(o)
+{
+	
+}
+std::ostream& Container::getDefaultOutput()
+{
+	return std::cout;
 }
 
 
@@ -19,7 +29,15 @@ bool Body::print(std::ostream& out)
 
 
 
-ContentType::ContentType(std::ostream& o) : out(o)
+
+
+
+
+
+
+
+
+ContentType::ContentType(std::ostream& out) : Container(out)
 {
 	
 }
@@ -38,20 +56,25 @@ bool HTML::print()
 	bool rethead = head.print(out);
 	if(not rethead) return false;
 	
-	bool retbody = body.print(out);	
-	if(not retbody) return false;
+	if(body)
+	{
+		bool retbody = body->print(out);	
+		if(not retbody) return false;
+	}
 	
 	return true;
 }
 HTML::HTML(std::ostream& out) : ContentType(out)
-{}
+{
+	body = NULL;
+}
 Head* HTML::getHead()
 {
 	return &head;
 }
 Body* HTML::getBody()
 {
-	return &body;
+	return body;
 }
 
 
