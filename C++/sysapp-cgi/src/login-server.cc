@@ -1,7 +1,7 @@
 
 #include <cgicc/Cgicc.h> 
 
-
+#include "config.h"
 #include "login-server.hh"
 
 
@@ -17,11 +17,17 @@ bool Login::Body::print(std::ostream& out)
 {
 	out << "<body>\n";	
 		
-	if(not flagSession)
+	if(flagSession)
 	{
-		std::cout << "<br>Usuario/Contraseña incorrectos<br>";
-	}				
-	out << "<br/>\n";
+		out << "<br>"<< PACKAGE_STRING << "<br>";
+	}
+	else
+	{
+		out << "<br>Usuario/Contraseña incorrectos<br>";
+	}
+	
+	
+	out << "</body>\n";
 	
 	return true;
 }
@@ -37,16 +43,15 @@ bool Login::Body::print(std::ostream& out)
 
 	bool Login::print()
 	{
-		return buildHead();
+		return buildHTML();
 	}
 	bool Login::buildHTML()
 	{
 		out << "<html>\n";
 		
 	   	buildHead();
+	   	html->getBody()->print(out);
 	   	
-	   	
-	   	out << "</body>\n";
 	   	out << "</html>\n";
 	   	
 	   	return true;
@@ -77,7 +82,7 @@ bool Login::Body::print(std::ostream& out)
 	   	
 	   	if(flagSession)
 	   	{
-	   		out << "<meta http-equiv=\"Refresh\" content=\"2;url=" << strredirect << "\"\n";
+	   		out << "<meta http-equiv=\"Refresh\" content=\"3;url=" << strredirect << "\"\n";
 	   	}
 	   	
 	   	out << "</head>\n";
