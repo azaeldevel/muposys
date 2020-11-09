@@ -3,7 +3,7 @@
 
 bin_PROGRAMS = login.cgi 
 
-login_cgi_SOURCES = login.cc db.cc http.cc server.cc
+login_cgi_SOURCES = login.cc db.cc http.cc server.cc server-elements.cc
 
 login_cgi_LDFLAGS = -L$(top_srcdir)/lib
 

@@ -22,55 +22,97 @@
 #include <cgicc/Cgicc.h> 
 
 
-#include "http.hh"
 #include "server.hh"
 
+namespace sysapp
+{
+
+class Login : public server::elements::Content
+{
+private:
+	server::elements::HTML* html;
+	bool flagSession;
+	
+	
+	bool buildHead()
+	{
+		out << "<head>\n";
+	   	cgicc::Cgicc formData;   	
+	   	cgicc::form_iterator itUser = formData.getElement("user"); 
+	   	if( !itUser->isEmpty() && itUser != (*formData).end()) {  
+		  //std::cout << "Usuario : " << **itUser << "<br>";  
+	   	} else {
+		  	//std::cout << "No text entered for first name \n";  
+	   	}
+	   	cgicc::form_iterator itPassword = formData.getElement("psw");  
+	   	if( !itPassword->isEmpty() && itPassword != (*formData).end()) {  
+		  	//std::cout << "Contraseña : " << **itPassword << "<br>"; 
+	   	} else {
+		  	//std::cout << "No text entered for first name \n";  
+	   	}
+	   	   	
+	   	sysapp::server::Login login;
+	   	flagSession = login.check(**itUser,**itPassword);
+	   	std::string strredirect = "/sysapp.html?session=";
+	   	strredirect += login.getSession();
+	   		   		
+	   	html->getHead()->print(out);  
+	   	
+	   	if(flagSession)
+	   	{
+	   		out << "<meta http-equiv=\"Refresh\" content=\"5;url=" << strredirect << "\"\n";
+	   	}
+	   	
+	   	out << "</head>\n";
+	   	
+	   	return true;
+	}
+	bool buildHTML()
+	{
+		out << "<html>\n";
+		
+	   	buildHead();
+	   	
+	   	out << "<body>\n";		
+	   	
+	   	if(not flagSession)
+	   	{
+	   		std::cout << "<br>Usuario/Contraseña incorrectos<br>";
+	   	}
+			
+	   	
+	   	out << "<br/>\n";
+	   	out << "</body>\n";
+	   	out << "</html>\n";
+	   	
+	   	return true;
+	}
+	
+public:
+	virtual bool print()
+	{
+		return buildHead();
+	}
+	
+	Login()
+	{
+		html = (server::elements::HTML*)contentType(server::elements::ContentType::Text::html);	   
+		html->getHead()->setTitle("Procesadon Sesión (nuevo)..");
+		html->getHead()->addMetaCharset("UTF-8");	
+	}
+	~Login()
+	{
+		delete html;
+	}
+};
+
+}
 
 int main ()
 {
-	std::cout << "Content-type:text/html\r\n\r\n";
-   	std::cout << "<html>\n";
-   	std::cout << "<head>\n";
-   	std::cout << "<meta charset=\"utf-8\">\n";
-   	std::cout << "<title>Procesadon Sesión..</title>\n";
-   	cgicc::Cgicc formData;   	
-   	cgicc::form_iterator itUser = formData.getElement("user"); 
-   	if( !itUser->isEmpty() && itUser != (*formData).end()) {  
-      //std::cout << "Usuario : " << **itUser << "<br>";  
-   	} else {
-      	//std::cout << "No text entered for first name \n";  
-   	}
-   	cgicc::form_iterator itPassword = formData.getElement("psw");  
-   	if( !itPassword->isEmpty() && itPassword != (*formData).end()) {  
-      	//std::cout << "Contraseña : " << **itPassword << "<br>"; 
-   	} else {
-      	//std::cout << "No text entered for first name \n";  
-   	}
-   	   	
-   	sysapp::server::Login login;
-   	bool flag = login.check(**itUser,**itPassword);
-   	std::string strredirect = "/sysapp.html?session=";
-   	strredirect += login.getSession();
+	sysapp::Login login;
+   	login.print();
    	
-   	if(flag)
-   	{
-   		std::cout << "<meta http-equiv=\"Refresh\" content=\"1;url=" << strredirect << "\"\n";
-   	}
-   	
-   	std::cout << "</head>\n";
-   	std::cout << "<body>\n";
-	
-   	
-   	if(not flag)
-   	{
-   		std::cout << "<br>Usuario/Contraseña incorrectos<br>";
-   	}
-		
-   	
-   	std::cout << "<br/>\n";
-   	std::cout << "</body>\n";
-   	std::cout << "</html>\n";
-   
-   return 0;
+   	return 0;
 }
 
