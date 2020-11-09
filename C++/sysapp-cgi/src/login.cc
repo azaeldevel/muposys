@@ -46,20 +46,17 @@ int main ()
    	} else {
       	//std::cout << "No text entered for first name \n";  
    	}
-   	bool flag = false;
-   	sysapp::http::Session session;   	
+   	   	
    	sysapp::server::Login login;
-   	if(login.check(**itUser,**itPassword))
-   	{
-   		flag = true;
-   	}
-   	std::string strredirect = "/sysapp.html?id=";
-   	strredirect += login.getSessionID();
+   	bool flag = login.check(**itUser,**itPassword);
+   	std::string strredirect = "/sysapp.html?session=";
+   	strredirect += login.getSession();
    	
    	if(flag)
    	{
-   		std::cout << "<meta http-equiv=\"Refresh\" content=\"2;url=" << strredirect << "\"\n";
+   		std::cout << "<meta http-equiv=\"Refresh\" content=\"1;url=" << strredirect << "\"\n";
    	}
+   	
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";
 	

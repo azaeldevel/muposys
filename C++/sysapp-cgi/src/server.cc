@@ -9,9 +9,9 @@
 namespace sysapp::server
 {
 
-const std::string& Login::getSessionID()const
+const std::string& Login::getSession()const
 {
-	return session.getSessionID();
+	return session.getSession();
 }
 bool Login::check(const std::string& userstr,const std::string& password)
 {

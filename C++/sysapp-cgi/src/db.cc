@@ -14,7 +14,8 @@ namespace sqlite
 	
 	bool User::insert(Conector& connect,const std::string& h,const std::string& s)
 	{
-		std::string sql = "INSERT INTO User(remote_addr,session) VALUES('";
+		std::string sql = "INSERT INTO ";
+        sql += TABLE_NAME + "(remote_addr,session) VALUES('";
         sql += h + "','" + s + "')";
         if(connect.insert(sql))
         {
@@ -26,7 +27,8 @@ namespace sqlite
 	}
 	bool User::updateSession(Conector& connect,const std::string& str)
 	{
-		std::string sql = "UPDATE User SET session = '";
+		std::string sql = "UPDATE  ";
+        sql += TABLE_NAME + " SET session = '";
         sql += str + "' WHERE id = " + std::to_string(id) + ";";
         std::cout << sql << "<br>";
         return connect.update(str);
@@ -49,7 +51,8 @@ namespace sqlite
 	}
 	bool User::inserteRemoteAddr(Conector& connect,const std::string& str)
 	{
-		std::string sql = "INSERT INTO User(remote_addr) VALUES('";
+		std::string sql = "INSERT INTO  ";
+        sql += TABLE_NAME + "(remote_addr) VALUES('";
         sql += str + "')";
         if(connect.insert(sql))
         {
@@ -70,7 +73,8 @@ namespace sqlite
     bool User::downloadIDs(Conector& connect)
     {
     	//std::cout << "download id : " << id << "\n";
-    	std::string sql = "SELECT remote_addr,session FROM User WHERE id = ";
+    	std::string sql = "SELECT remote_addr,session FROM  ";
+        sql += TABLE_NAME + " WHERE id = ";
         sql += std::to_string(id) ;
         //std::cout << sql << "\n";
         return connect.query(sql,callbackIDs,this);
@@ -84,7 +88,8 @@ namespace sqlite
     }
     bool User::selectBySession(Conector& connect, const std::string& r)
     {
-        std::string sql = "SELECT id FROM User WHERE session = '";
+        std::string sql = "SELECT id FROM  ";
+        sql += TABLE_NAME + " WHERE session = '";
         sql += r + "'";
         if(connect.query(sql,callbackBySession,this))
         {
@@ -102,7 +107,8 @@ namespace sqlite
     }
     bool User::selectByRemoteAddr(Conector& connect, const std::string& r)
     {
-        std::string sql = "SELECT id FROM User WHERE remote_addr = '";
+        std::string sql = "SELECT id FROM ";
+        sql += TABLE_NAME + " WHERE remote_addr = '";
         sql += r + "'";
         bool ret =  connect.query(sql,callbackByRemoteAddr,this);
         if(ret == false) return false;
@@ -111,7 +117,7 @@ namespace sqlite
         return true;
     }
 	
-	std::string User::TABLE_NAME = "User";
+	std::string User::TABLE_NAME = "Session";
 		
 		
 		
