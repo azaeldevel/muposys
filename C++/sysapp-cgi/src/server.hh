@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include "http.hh"
 
 namespace sysapp::server
 {
@@ -10,10 +11,12 @@ namespace sysapp::server
 class Login
 {
 private:	
+	sysapp::http::Session session;
 	
 
 public:
 	bool check(const std::string&,const std::string&);
+	const char* getSessionID()const;
 };
 
 }

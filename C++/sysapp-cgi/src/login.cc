@@ -54,7 +54,7 @@ int main ()
    		flag = true;
    	}
    	std::string strredirect = "/sysapp.html?id=";
-   	strredirect += session.getMD5();
+   	strredirect += login.getSessionID();
    	
    	if(flag)
    	{

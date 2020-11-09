@@ -56,6 +56,7 @@ C++/sysapp-cgi/ltmain.sh
 C++/sysapp-cgi/missing
 C++/sysapp-cgi/src/Makefile.in
 C++/sysapp-cgi/src/db.sqbpro
+C++/sysapp-cgi/database-bk
 C++/sysapp-cgi/sysapp-cgi.anjuta
 java/syapp-db/nbproject/
 java/syapp-db/target/
