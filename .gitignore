@@ -60,3 +60,5 @@ C++/sysapp-cgi/database-bk
 C++/sysapp-cgi/sysapp-cgi.anjuta
 java/syapp-db/nbproject/
 java/syapp-db/target/
+C++/sysapp-apidb/sysappdb.cpp
+C++/sysapp-apidb/sysappdb.hpp
