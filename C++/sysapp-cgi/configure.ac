@@ -1,6 +1,6 @@
 
 
-AC_INIT(sysapp-cgi, 0.1.0-alpha)
+AC_INIT(sysapp-cgi, 0.2.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 

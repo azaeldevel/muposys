@@ -97,9 +97,9 @@ bool Login::Body::print(std::ostream& out)
 	{
 		delete html;
 	}
-	Login::Login()
+	Login::Login():server::elements::Html(getDefaultOutput())
 	{
-		html = (server::elements::HTML*)contentType(server::elements::ContentType::Text::html);	   
+		html = (server::elements::Html*)contentType(server::elements::ContentType::Text::html);	   
 		html->getHead()->setTitle("Procesadon Sesión (nuevo)..");
 		html->getHead()->addMetaCharset("UTF-8");
 		html->setBody(new Body(flagSession));	

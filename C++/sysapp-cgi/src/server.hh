@@ -32,7 +32,7 @@ namespace elements
 
 	public:
 		virtual bool print() = 0;
-		virtual std::ostream& getDefaultOutput();
+		static std::ostream& getDefaultOutput();
 		Container(std::ostream&);
 		std::ostream& getOut();
 	};
@@ -62,6 +62,8 @@ namespace elements
 	{
 	};
 
+
+	
 	/**
 	*@brief Clase base para contenedores, un hijo de esta clase represetna un mime(content-type)
 	*/
@@ -76,13 +78,14 @@ namespace elements
 		};
 		
 	public:
-		ContentType(std::ostream& out);
+		ContentType(std::ostream& out);		
+		ContentType* contentType(ContentType::Text);
 	};
 	
 	/**
 	*@brief Representa un mime para content-ype:text/html 
 	*/
-	class HTML : public ContentType
+	class Html : public ContentType
 	{
 	private:
 		Head head;
@@ -90,21 +93,11 @@ namespace elements
 	public:
 		Head* getHead();
 		Body* getBody();
-		HTML(std::ostream& out);
+		Html(std::ostream& out);
 		virtual bool print();
 		void setBody(Body*);
 	};
 
-	class Content
-	{
-	protected:
-		std::ostream& out;
-
-	public:
-		Content();
-		HTML& createHtmlPage();
-		ContentType* contentType(ContentType::Text);
-	};
 }
 
 

@@ -9,10 +9,10 @@
 namespace sysapp
 {
 
-class Login : public server::elements::Content
+class Login : public server::elements::Html
 {
 private:
-	server::elements::HTML* html;
+	server::elements::Html* html;
 	bool flagSession;
 	
 	

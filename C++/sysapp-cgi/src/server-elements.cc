@@ -36,66 +36,14 @@ std::ostream& Container::getDefaultOutput()
 
 
 
-
-ContentType::ContentType(std::ostream& out) : Container(out)
-{
-	
-}
-
-
-
-
-
-
-
-
-
-void HTML::setBody(Body* b)
-{
-	body = b;
-}
-bool HTML::print()
-{
-	bool rethead = head.print(out);
-	if(not rethead) return false;
-	
-	if(body)
-	{
-		bool retbody = body->print(out);	
-		if(not retbody) return false;
-	}
-	
-	return true;
-}
-HTML::HTML(std::ostream& out) : ContentType(out)
-{
-	body = NULL;
-}
-Head* HTML::getHead()
-{
-	return &head;
-}
-Body* HTML::getBody()
-{
-	return body;
-}
-
-
-
-
-
-
-
-
-
-ContentType* Content::contentType(ContentType::Text type)
+ContentType* ContentType::contentType(ContentType::Text type)
 {
 	ContentType* content = NULL;
 	out << "Content-type:";
 	switch(type)
 	{
 		case ContentType::Text::html:
-			content = new HTML(out);
+			content = new Html(out);
 			out << "text/html";
 		break;
 		case ContentType::Text::plain:
@@ -109,12 +57,53 @@ ContentType* Content::contentType(ContentType::Text type)
 	
 	return content;
 }
+ContentType::ContentType(std::ostream& out) : Container(out)
+{
+	
+}
 
-/**
-*\brief Por defualt usa la salida estandard
-*/
-Content::Content() : out(std::cout)
-{}
+
+
+
+
+
+
+
+
+void Html::setBody(Body* b)
+{
+	body = b;
+}
+bool Html::print()
+{
+	bool rethead = head.print(out);
+	if(not rethead) return false;
+	
+	if(body)
+	{
+		bool retbody = body->print(out);	
+		if(not retbody) return false;
+	}
+	
+	return true;
+}
+Html::Html(std::ostream& out) : ContentType(out)
+{
+	body = NULL;
+}
+Head* Html::getHead()
+{
+	return &head;
+}
+Body* Html::getBody()
+{
+	return body;
+}
+
+
+
+
+
 
 
 
