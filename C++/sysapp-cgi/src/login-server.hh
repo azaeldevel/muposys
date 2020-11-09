@@ -23,6 +23,17 @@ public:
 	virtual bool print();
 	Login();
 	~Login();
+
+	class Body : public server::elements::Body
+	{
+	private:
+		const bool& flagSession;
+
+	public:
+		virtual bool print(std::ostream& out);
+		Body(const bool& flagSession);
+		
+	};
 };
 
 }

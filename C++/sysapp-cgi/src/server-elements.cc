@@ -50,7 +50,10 @@ ContentType::ContentType(std::ostream& out) : Container(out)
 
 
 
-
+void HTML::setBody(Body* b)
+{
+	body = b;
+}
 bool HTML::print()
 {
 	bool rethead = head.print(out);

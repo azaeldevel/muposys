@@ -92,6 +92,7 @@ namespace elements
 		Body* getBody();
 		HTML(std::ostream& out);
 		virtual bool print();
+		void setBody(Body*);
 	};
 
 	class Content

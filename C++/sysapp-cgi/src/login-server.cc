@@ -8,6 +8,33 @@
 namespace sysapp
 {
 
+
+Login::Body::Body(const bool& f) : flagSession(f)
+{
+
+}
+bool Login::Body::print(std::ostream& out)
+{
+	out << "<body>\n";	
+		
+	if(not flagSession)
+	{
+		std::cout << "<br>Usuario/Contraseña incorrectos<br>";
+	}				
+	out << "<br/>\n";
+	
+	return true;
+}
+
+
+
+
+
+
+
+
+
+
 	bool Login::print()
 	{
 		return buildHead();
@@ -18,15 +45,7 @@ namespace sysapp
 		
 	   	buildHead();
 	   	
-	   	out << "<body>\n";		
 	   	
-	   	if(not flagSession)
-	   	{
-	   		std::cout << "<br>Usuario/Contraseña incorrectos<br>";
-	   	}
-			
-	   	
-	   	out << "<br/>\n";
 	   	out << "</body>\n";
 	   	out << "</html>\n";
 	   	
@@ -77,6 +96,7 @@ namespace sysapp
 	{
 		html = (server::elements::HTML*)contentType(server::elements::ContentType::Text::html);	   
 		html->getHead()->setTitle("Procesadon Sesión (nuevo)..");
-		html->getHead()->addMetaCharset("UTF-8");	
+		html->getHead()->addMetaCharset("UTF-8");
+		html->setBody(new Body(flagSession));	
 	}	
 }
