@@ -16,7 +16,7 @@ private:
 
 public:
 	bool check(const std::string&,const std::string&);
-	const char* getSessionID()const;
+	const std::string& getSessionID()const;
 };
 
 }

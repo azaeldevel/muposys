@@ -13,13 +13,13 @@ namespace sysapp::http
 
 class Session
 {
-private:
-	char mdString[33];
+private:	
 	const char* host;
 	unsigned char digest[MD5_DIGEST_LENGTH];
-	
+	std::string session;
+
 public:
-	const char* getMD5() const;
+	const std::string& getSessionID() const;
 	const char* getHost() const;
 	Session();
 	

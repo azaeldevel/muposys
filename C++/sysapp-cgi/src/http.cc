@@ -9,9 +9,9 @@
 namespace sysapp::http
 {
 
-	const char* Session::getMD5() const
+	const std::string& Session::getSessionID() const
 	{
-		return (const char*)mdString;
+		return session;
 	}
 	const char* Session::getHost() const
 	{
@@ -19,13 +19,14 @@ namespace sysapp::http
 	}
 	Session::Session()
 	{
+		char mdString[33];
 		host = getenv("REMOTE_ADDR");
 		MD5((unsigned char*)host, strlen(host), (unsigned char*)&digest);
 		for(int i = 0; i < 16; i++)
         {
         	sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
         }
-        
+        session = mdString;
         //
         sysapp::db::sqlite::Conector conn("database");
         sysapp::db::sqlite::User user;
