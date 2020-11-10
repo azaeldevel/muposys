@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -f ~/develop/sysapp/html/sysapp-client/*~
+rm -f ~/develop/sysapp/html/sysapp-html/*~
 
 
-cp -r -u  ~/develop/sysapp/html/sysapp-client/* /var/www/sysapp
+cp -r -u  ~/develop/sysapp/html/sysapp-html/* /var/www/sysapp
