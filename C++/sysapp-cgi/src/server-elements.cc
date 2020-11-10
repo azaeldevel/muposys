@@ -116,7 +116,12 @@ Body* Html::getBody()
 
 
 
-
+bool Head::addCSS(const std::string& fn)
+{
+	css.push_back(fn);
+	
+	return true;
+}
 bool Head::print(std::ostream& out)
 {
 	//titulo
@@ -127,7 +132,11 @@ bool Head::print(std::ostream& out)
 	{
 		out << str <<"\n";
 	}
-
+	
+	for(const std::string& fn : css)
+	{
+		out << "<link rel=\"stylesheet\" href=\"" << fn << "\">\n";
+	}
 	return true;
 }
 void Head::setTitle(const std::string& t)

@@ -76,6 +76,8 @@ bool Application::print()
 		html = (server::elements::Html*)contentType(server::elements::ContentType::Text::html);	   
 		html->getHead()->setTitle("System Application");
 		html->getHead()->addMetaCharset("UTF-8");
+		html->getHead()->addMetaName("viewport","width=device-width, initial-scale=1");
+		html->getHead()->addCSS("/css/application.css");
 		html->setBody(new Body());	
 	}	
 }

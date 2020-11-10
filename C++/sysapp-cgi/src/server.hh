@@ -47,7 +47,8 @@ namespace elements
 	private:
 		std::string title;
 		std::vector<std::string> meta;
-		
+		std::vector<std::string> css;
+
 	public:
 		bool addMetaCharset(const std::string&);
 		bool addMetaContent();
@@ -55,6 +56,7 @@ namespace elements
 		bool addMetaName(const std::string& name, const std::string& content);
 		void setTitle(const std::string&);
 		virtual bool print(std::ostream& out);
+		bool addCSS(const std::string& filename);
 	};
 
 	/**
