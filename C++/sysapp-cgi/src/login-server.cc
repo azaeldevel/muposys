@@ -1,5 +1,5 @@
 
-#include <cgicc/Cgicc.h> 
+
 
 #include "config.h"
 #include "login-server.hh"
@@ -17,7 +17,9 @@ bool Login::Body::print(std::ostream& out)
 {		
 	if(flagSession)
 	{
-		out << "<br>"<< PACKAGE_STRING << "<br>";
+		//out << "<br>"<< PACKAGE_STRING << "<br>";
+		//out << "<br>"<< getenv("REMOTE_ADDR") << "<br>";
+		//out << "<br>"<< getenv("REMOTE_HOST") << "<br>";
 	}
 	else
 	{
@@ -70,17 +72,17 @@ bool Login::Body::print(std::ostream& out)
 	   	} else {
 		  	//std::cout << "No text entered for first name \n";  
 	   	}
-	   	   	
+	   		   	
 	   	sysapp::server::Login login;
 	   	flagSession = login.check(**itUser,**itPassword);
-	   	std::string strredirect = "/sysapp.html?session=";
+	   	std::string strredirect = "/cgi/application?session=";
 	   	strredirect += login.getSession();
-	   		   		
+	   	
 	   	html->getHead()->print(out);  
 	   	
 	   	if(flagSession)
 	   	{
-	   		out << "<meta http-equiv=\"Refresh\" content=\"3;url=" << strredirect << "\"\n";
+	   		out << "<meta http-equiv=\"Refresh\" content=\"1;url=" << strredirect << "\"\n";
 	   	}
 	   	
 	   	out << "</head>\n";

@@ -17,6 +17,7 @@ namespace db
 		std::string sql = "INSERT INTO ";
         sql += TABLE_NAME + "(remote_addr,session) VALUES('";
         sql += h + "','" + s + "')";
+        //std::cout << sql << "<br>";
         if(connect.insert(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());

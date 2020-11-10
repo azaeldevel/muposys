@@ -9,9 +9,14 @@
 namespace sysapp::server
 {
 
+
+Login::Login()
+{
+	session = new sysapp::http::Session("");
+}
 const std::string& Login::getSession()const
 {
-	return session.getSession();
+	return session->getSession();
 }
 bool Login::check(const std::string& userstr,const std::string& password)
 {

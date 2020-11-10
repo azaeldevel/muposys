@@ -14,7 +14,8 @@ namespace elements
 {
 
 	/**
-	*@brief Todo elemento html
+	*@brief Todo elemento html, secarateriza por no tener variable output,
+	*       por tener etiqueta de apertura y cerradura en metodo print
 	*/
 	class Element
 	{
@@ -23,7 +24,8 @@ namespace elements
 	};
 
 	/**
-	*@brief Pricipalmente tiene un obejto para imprimir la salida
+	*@brief Secarateriza por tener variable output,
+	*       por no tener etiqueta de apertura y cerradura en metodo print
 	*/
 	class Container
 	{
@@ -104,12 +106,13 @@ namespace elements
 class Login
 {
 private:	
-	sysapp::http::Session session;
+	sysapp::http::Session* session;
 	
 
 public:
 	bool check(const std::string&,const std::string&);
 	const std::string& getSession()const;
+	Login();
 };
 
 }
