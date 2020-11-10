@@ -1,4 +1,4 @@
-#include "db.hh"
+#include "http-db.hh"
 
 #include <stdio.h>
 #include <sqlite3.h> 
@@ -7,9 +7,9 @@
 
 namespace sysapp
 {
-namespace db
+namespace http
 {
-namespace sqlite
+namespace db
 {
 	
 	bool User::insert(Conector& connect,const std::string& h,const std::string& s)

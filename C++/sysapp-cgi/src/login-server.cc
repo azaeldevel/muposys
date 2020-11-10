@@ -14,9 +14,7 @@ Login::Body::Body(const bool& f) : flagSession(f)
 
 }
 bool Login::Body::print(std::ostream& out)
-{
-	out << "<body>\n";	
-		
+{		
 	if(flagSession)
 	{
 		out << "<br>"<< PACKAGE_STRING << "<br>";
@@ -25,10 +23,7 @@ bool Login::Body::print(std::ostream& out)
 	{
 		out << "<br>Usuario/Contraseña incorrectos<br>";
 	}
-	
-	
-	out << "</body>\n";
-	
+		
 	return true;
 }
 
@@ -50,7 +45,10 @@ bool Login::Body::print(std::ostream& out)
 		out << "<html>\n";
 		
 	   	buildHead();
+	   	
+		out << "<body>\n";
 	   	html->getBody()->print(out);
+		out << "</body>\n";
 	   	
 	   	out << "</html>\n";
 	   	

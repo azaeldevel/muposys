@@ -6,9 +6,9 @@
 
 namespace sysapp
 {
-namespace db
+namespace http
 {
-namespace sqlite
+namespace db
 {
     class Conector
     {

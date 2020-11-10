@@ -4,7 +4,7 @@
 
 
 #include "http.hh"
-
+#include "http-db.hh"
 
 namespace sysapp::http
 {
@@ -18,7 +18,8 @@ namespace sysapp::http
 		return host;
 	}
 	Session::Session()
-	{
+	{		
+		unsigned char digest[MD5_DIGEST_LENGTH];
 		char mdString[33];
 		char* h = getenv("REMOTE_ADDR");
 		MD5((unsigned char*)h, strlen(h), (unsigned char*)&digest);
@@ -29,8 +30,8 @@ namespace sysapp::http
         session = mdString;
         host = h;
         //
-        sysapp::db::sqlite::Conector conn("database");
-        sysapp::db::sqlite::User user;
+        sysapp::http::db::Conector conn("database");
+        sysapp::http::db::User user;
    		conn.begin();
 	   	if(user.selectByRemoteAddr(conn,host))//existe?
 	   	{

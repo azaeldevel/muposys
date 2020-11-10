@@ -6,7 +6,7 @@
 #include <string.h>
 
 
-#include "db.hh"
+
 
 namespace sysapp::http
 {
@@ -15,7 +15,6 @@ class Session
 {
 private:	
 	std::string host;
-	unsigned char digest[MD5_DIGEST_LENGTH];
 	std::string session;
 
 public:
