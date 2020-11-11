@@ -151,7 +151,6 @@ bool Head::addMetaName(const std::string& name, const std::string& content)
 	str += "\"";
 	str += "content=\"";
 	str += content;
-	str += "\"";
 	str += "\">";	
 	
 	meta.push_back(str);

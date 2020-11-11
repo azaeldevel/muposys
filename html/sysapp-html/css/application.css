@@ -1,5 +1,103 @@
 
+@import "theme.css";
+
+
 body
 {
-	background : #79869B
+	background-color : var(--theme-background-color);
+	margin : 0;
+	border : 0;
+}
+
+body > #menu
+{
+	background-color: black;
+	height: 6vh;
+	width: 100%;
+}
+
+
+
+body > #menu > #user
+{
+	float: right;
+	height: 100%;
+	width: 15%;
+}
+body > #menu > #user > #system, body > #menu > #user > #photo
+{
+	float: right;
+	height: 100%;
+	width: 50%;
+	background-repeat : no-repeat;
+	background-size : contain;
+	background-position: center;
+}
+
+
+
+
+
+
+
+@media screen and (max-width : 299px)
+{
+	body > #menu > #user > #system
+	{
+		background-image: url(/theme/gnome-2.91/16x16/categories/preferences-desktop.png);
+	}
+	body > #menu > #user > #photo
+	{
+		background-image: url(/theme/gnome-2.91/16x16/status/avatar-default.png);
+	}
+}
+
+
+
+@media screen and (min-width: 300px) and (max-width : 599px)
+{
+	body > #menu > #user > #system
+	{
+		background-image: url(/theme/gnome-2.91/22x22/categories/preferences-desktop.png);
+	}
+	body > #menu > #user > #photo
+	{
+		background-image: url(/theme/gnome-2.91/22x22/status/avatar-default.png);
+	}
+}
+
+@media screen and (min-width: 600px) and (max-width : 899px)
+{
+	body > #menu > #user > #system
+	{
+		background-image: url(/theme/gnome-2.91/32x32/categories/preferences-desktop.png);
+	}
+	body > #menu > #user > #photo
+	{
+		background-image: url(/theme/gnome-2.91/32x32/status/avatar-default.png);
+	}
+}
+
+@media screen and (min-width: 900px) and (max-width : 1199px)
+{
+	body > #menu > #user > #system
+	{
+		background-image: url(/theme/gnome-2.91/48x48/categories/preferences-desktop.png);
+	}
+	body > #menu > #user > #photo
+	{
+		background-image: url(/theme/gnome-2.91/48x48/status/avatar-default.png);
+	}
+}
+
+@media screen and (min-width: 1200px)
+{
+	body > #menu > #user > #system
+	{
+		background-image: url(/theme/gnome-2.91/48x48/categories/preferences-desktop.png);
+	}
+	body > #menu > #user > #photo
+	{
+		background-image: url(/theme/gnome-2.91/256x256/status/avatar-default.png);
+	}
 }

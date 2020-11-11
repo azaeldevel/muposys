@@ -22,7 +22,24 @@ bool Application::Body::print(std::ostream& out)
 	{
 		std::cout << "Fallo al encontrar la session<br>";
 	}
+	
+	out << "<div id=\"menu\">";
+	
+	
+		out << "<div id=\"user\">";			
+			
+			out << "<div id=\"photo\">";
+			
+			out << "</div>\n";
+			out << "<div id=\"system\">";
+			
+			out << "</div>\n";		
 		
+		out << "</div>\n";
+	
+	out << "</div>\n";
+	
+	
 	return true;
 }
 
