@@ -22,18 +22,26 @@ body > #menu > #user
 {
 	float: right;
 	height: 100%;
-	width: 15%;
+	min-width: 15%;
 }
-body > #menu > #user > #system, body > #menu > #user > #photo
+body > #menu > #user > #logout, body > #menu > #user > #system, body > #menu > #user > #photo
 {
 	float: right;
 	height: 100%;
-	width: 50%;
+	width: 30%;
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
 }
-
+body > #menu > #user > #space
+{
+	float: right;
+	height: 100%;
+	width: 10%;
+	background-repeat : no-repeat;
+	background-size : contain;
+	background-position: center;
+}
 
 
 
@@ -50,6 +58,10 @@ body > #menu > #user > #system, body > #menu > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/16x16/status/avatar-default.png);
 	}
+	body > #menu > #user > #logout
+	{
+		background-image: url(/theme/gnome-2.91/256x256/actions/application-exit.png);
+	}
 }
 
 
@@ -64,6 +76,10 @@ body > #menu > #user > #system, body > #menu > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/22x22/status/avatar-default.png);
 	}
+	body > #menu > #user > #logout
+	{
+		background-image: url(/theme/gnome-2.91/16x16/actions/application-exit.png);
+	}
 }
 
 @media screen and (min-width: 600px) and (max-width : 899px)
@@ -75,6 +91,10 @@ body > #menu > #user > #system, body > #menu > #user > #photo
 	body > #menu > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/32x32/status/avatar-default.png);
+	}
+	body > #menu > #user > #logout
+	{
+		background-image: url(/theme/gnome-2.91/32x32/actions/application-exit.png);
 	}
 }
 
@@ -88,6 +108,10 @@ body > #menu > #user > #system, body > #menu > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/48x48/status/avatar-default.png);
 	}
+	body > #menu > #user > #logout
+	{
+		background-image: url(/theme/gnome-2.91/48x48/actions/application-exit.png);
+	}
 }
 
 @media screen and (min-width: 1200px)
@@ -99,5 +123,9 @@ body > #menu > #user > #system, body > #menu > #user > #photo
 	body > #menu > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/256x256/status/avatar-default.png);
+	}
+	body > #menu > #user > #logout
+	{
+		background-image: url(/theme/gnome-2.91/48x48/actions/application-exit.png);
 	}
 }

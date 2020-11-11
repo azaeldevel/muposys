@@ -28,12 +28,18 @@ bool Application::Body::print(std::ostream& out)
 	
 		out << "<div id=\"user\">";			
 			
+			out << "<div id=\"logout\">";
+			
+			out << "</div>\n";
+			out << "<div id=\"space\">";
+			
+			out << "</div>\n";
 			out << "<div id=\"photo\">";
 			
 			out << "</div>\n";
 			out << "<div id=\"system\">";
 			
-			out << "</div>\n";		
+			out << "</div>\n";			
 		
 		out << "</div>\n";
 	
