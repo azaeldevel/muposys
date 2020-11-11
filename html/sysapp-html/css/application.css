@@ -33,6 +33,13 @@ body > #menu > #user > #logout, body > #menu > #user > #system, body > #menu > #
 	background-size : contain;
 	background-position: center;
 }
+body > #menu > #user > #logout > a, body > #menu > #user > #system > a, body > #menu > #user > #photo > a
+{	
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
+}
 body > #menu > #user > #space
 {
 	float: right;
