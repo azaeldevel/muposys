@@ -10,14 +10,32 @@ namespace http
 {
 namespace db
 {
+	class Variable;
+
+
     class Conector
     {
     private:
         void* serverConnector;
     public:
-        Conector(const std::string&);
+
+		/**
+		*@brief Crean una conexion a la base de dato indicada
+		*@param filename Nombre de archivo de la base de datos.
+		*/
+        Conector(const std::string& filename);
         ~Conector();
+
+		/**
+		*@brief Realiza una consula
+		*@return true si la consulta se completo satisfactoriamente(incluso si no returna registros), falso si hubo un error. 
+		*/
         bool query(const std::string&,int (*callback)(void*,int,char**,char**),void* obj);
+
+		/**
+		*@brief Realiza una consula
+		*@return true si la consulta se completo satisfactoriamente(incluso si no returna registros), falso si hubo un error. 
+		*/
 		bool query(const std::string&);
 		//bool update(const std::string&);
         void* getServerConnector();
@@ -28,7 +46,11 @@ namespace db
 		bool commit();
 		bool rollback();
     };
-        
+    
+	/**
+	*@brief Tabla principal para almacenar la informacion de sesion.
+	*
+	*/
     class Session
     {
 	private:
@@ -54,6 +76,26 @@ namespace db
 		int getID()const;
 		bool updateSession(Conector& connect,const std::string& str);
 		bool remove(Conector& connect);
+		/**
+		*@brief Modifica el valor de la variable indicada
+		*@return true si existe y escribe el valor, falso en otro caso.
+		*/
+		bool setVariable(Conector& conect,const std::string& name,const std::string& value);
+		/**
+		*@brief Agrega una variable a la tabla de variable para esta sesion
+		*@return true si crea la variable, falso si ya existe
+		*/
+		bool addVariable(Conector& conect,const std::string& name,const std::string& value);
+		/**
+		*@brief Busca y retuna una variable
+		*@return true si encuentra la variable, falso en otro caso.
+		*/
+		bool getVariable(Conector& conect,const std::string& name, Variable&);
+		/**
+		*@brief Busca todas las variables asignadas a esta session
+		*@return true si encuentra alguna, falso en otro caso.
+		*/
+		bool getVariables(Conector& conect, std::vector<Variable*>& vec);
     }; 
 
 	  
@@ -76,8 +118,8 @@ namespace db
 		bool remove(Conector& connect);
 		static bool select(Conector& conect,const Session& session, std::vector<Variable*>& vec);
 		static bool remove(Conector& connect,const Session& session);
-	};
-    
+		bool updateValue(Conector& connect,const Session& session,const std::string& name,const std::string& value);
+	};    
 }
 }
 }

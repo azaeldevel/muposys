@@ -14,7 +14,7 @@ bool Application::Body::print(std::ostream& out)
 {		
 	sysapp::server::Login* login;
 	cgicc::Cgicc cgi;
-	bool flagserror = false;
+	//bool flagserror = false;
 	cgicc::const_form_iterator it = sysapp::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
 	if(it != cgi.getElements().end())
 	{
@@ -61,11 +61,10 @@ bool Application::Body::print(std::ostream& out)
 	
 	out << "</div>\n";
 	
-	if(flagserror)
+	/*if(flagserror)
 	{
-		//out << "Fallo la lectura de usuario : " << connhttp.getErrorMessage() << "<br>";
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-	}
+	}*/
 				
 	delete login;
 	return true;
