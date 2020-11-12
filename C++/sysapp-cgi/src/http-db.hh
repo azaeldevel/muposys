@@ -47,7 +47,7 @@ namespace db
         static bool selectAll(Conector& conect, std::vector<Session*>& vec);
 		bool downloadIDs(Conector& conect);
 		bool inserteRemoteAddr(Conector& conect,const std::string&);
-		bool insert(Conector& conect,const std::string&,const std::string&);
+		bool insert(Conector& conect,const std::string& remote_addr,const std::string& session,const std::string& lasttime);
 		Session();
 		const std::string& getRomoteAddress()const;
 		const std::string& getSession()const;

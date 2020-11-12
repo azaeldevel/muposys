@@ -68,11 +68,11 @@ namespace db
 
 
 	
-	bool Session::insert(Conector& connect,const std::string& h,const std::string& s)
+	bool Session::insert(Conector& connect,const std::string& r,const std::string& s,const std::string& t)
 	{
 		std::string sql = "INSERT INTO ";
-        sql += TABLE_NAME + "(remote_addr,session) VALUES('";
-        sql += h + "','" + s + "')";
+        sql += TABLE_NAME + "(remote_addr,session,lasttime) VALUES('";
+        sql += r + "','" + s + "','" + t + "')";
         //std::cout << sql << "<br>";
         if(connect.insert(sql))
         {

@@ -1,12 +1,19 @@
 
 
-
+#include <chrono>
 
 
 #include "http.hh"
 
+
+
 namespace sysapp::http
 {
+
+uint64_t timeSinceEpochMillisec() {
+  using namespace std::chrono;
+  return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+}
 
 
 cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const_form_iterator last, const std::string& val)
@@ -74,7 +81,8 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		   	}
 		   	else
 		   	{
-		   		if(session.insert(conn,host,mdString))
+		   		
+		   		if(session.insert(conn,host,mdString,std::to_string(timeSinceEpochMillisec())))
 		   		{
 		   			//std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
 		   			if(session.downloadIDs(conn))
