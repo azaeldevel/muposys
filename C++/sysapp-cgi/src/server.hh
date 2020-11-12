@@ -113,8 +113,10 @@ private:
 
 public:
 	bool check(const std::string&,const std::string&);
-	const std::string& getSession()const;
+	const std::string& getSessionID()const;
 	Login();
+	Login(const std::string& sessionid);
+	const sysapp::http::Session& getSession()const;
 };
 
 }

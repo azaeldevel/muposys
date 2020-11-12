@@ -4,7 +4,6 @@
 
 
 #include "http.hh"
-#include "http-db.hh"
 
 namespace sysapp::http
 {
@@ -27,20 +26,21 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 
 
 
-
-	const std::string& Session::getSession() const
+	const sysapp::http::db::Session& Session::getSession() const
 	{
 		return session;
+	}
+	const std::string& Session::getSessionID() const
+	{
+		return session.getSession();
 	}
 	const std::string& Session::getHost() const
 	{
 		return host;
 	}
 	Session::Session(const std::string& id)
-	{		
-		session = id;
-		
-		
+	{
+		//session = id;
 		unsigned char digest[MD5_DIGEST_LENGTH];
 		char mdString[33];
 		char* h = getenv("REMOTE_ADDR");
@@ -53,37 +53,63 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
         {
         	sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
         }
-        session = mdString;
+        //session = mdString;
         host = h;
         //
         sysapp::http::db::Conector conn("database");
-        sysapp::http::db::Session user;
    		conn.begin();
    		
    		if(id.empty())
    		{
-		   	if(user.selectByRemoteAddr(conn,host))//existe?
+		   	if(session.selectByRemoteAddr(conn,host))//existe?
 		   	{
-		  		if(user.downloadIDs(conn))
+		  		if(session.downloadIDs(conn))
 		  		{
 		  			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
 		  		}
 		  		else
 		  		{
-		  			std::cout << "Fallo Descarga<br>";
+		  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		  		}
 		   	}
 		   	else
 		   	{
-		   		if(user.insert(conn,host,md5semilla))
+		   		if(session.insert(conn,host,mdString))
 		   		{
 		   			//std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
+		   			if(session.downloadIDs(conn))
+			  		{
+			  			
+			  		}
+			  		else
+			  		{
+			  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			  		}
 		   		}
 		   		else
 		   		{
-		  			std::cout << "Fail insert : " << conn.getErrorMessage() << "<br>";
+		  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		  		}
 		   	}
+	   	}
+	   	else
+	   	{
+	   		if(session.selectBySession(conn,id))
+	   		{
+	   			//std::cout << "Sesion : " << id << " encontrada <br>";
+		   		if(session.downloadIDs(conn))
+			  	{
+			  		//std::cout << "Sesion : " << session.getID() << " datos descargados <br>";
+			  	}
+			  	else
+			  	{
+			  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			  	}
+	   		}
+	   		else
+	   		{
+	   			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+	   		}
 	   	}
 	   	conn.commit();
 	   	conn.close();

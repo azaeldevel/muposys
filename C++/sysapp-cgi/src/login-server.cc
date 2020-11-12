@@ -76,7 +76,7 @@ bool Login::Body::print(std::ostream& out)
 	   	sysapp::server::Login login;
 	   	flagSession = login.check(**itUser,**itPassword);
 	   	std::string strredirect = "/cgi/application?session=";
-	   	strredirect += login.getSession();
+	   	strredirect += login.getSessionID();
 	   	
 	   	html->getHead()->print(out);  
 	   	

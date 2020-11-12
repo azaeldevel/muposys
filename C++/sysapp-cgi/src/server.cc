@@ -10,13 +10,21 @@ namespace sysapp::server
 {
 
 
+const sysapp::http::Session& Login::getSession()const
+{
+	return *session;
+}
+Login::Login(const std::string& s)
+{
+	session = new sysapp::http::Session(s);
+}
 Login::Login()
 {
 	session = new sysapp::http::Session("");
 }
-const std::string& Login::getSession()const
+const std::string& Login::getSessionID()const
 {
-	return session->getSession();
+	return session->getSessionID();
 }
 bool Login::check(const std::string& userstr,const std::string& password)
 {
@@ -54,6 +62,18 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	{
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
+			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
+			sysapp::http::db::Conector connhttp("database");
+			sysapp::http::db::Variable var;
+			if(var.insert(connhttp,session->getSession(),"user",userbd->getName()))
+			{
+				
+			}
+			else
+			{
+				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			}
+			connhttp.close();
 			conn.close();
 			return true;
 		}

@@ -11,6 +11,62 @@ namespace http
 {
 namespace db
 {
+
+	const std::string& Variable::getName()const
+	{
+		return name;
+	}
+	const std::string& Variable::getValue()const
+	{
+		return value;
+	}
+   	int Variable::callbackBySession(void *obj, int argc, char **argv, char **azColName)
+    {
+        Variable* p = (Variable*)obj;	
+        p->id = std::atoi(argv[0]);	
+        p->name = argv[1];
+        p->value = argv[2];
+        return 0;
+    }
+    bool Variable::select(Conector& connect,const Session& session, const std::string&)
+    {
+        std::string sql = "SELECT id,name,value FROM  ";
+        sql += TABLE_NAME + " WHERE session = ";
+        sql += std::to_string(session.getID());
+        //std::cout << "SQL: " << sql << "<br>\n";
+        if(connect.query(sql,callbackBySession,this))
+        {
+            return true;
+        }
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+    }
+	bool Variable::insert(Conector& connect,const Session& s ,const std::string& n,const std::string& v)
+	{
+		std::string sql = "INSERT INTO ";
+        sql += TABLE_NAME + "(session,name,value) VALUES('";
+        sql += std::to_string(s.getID()) + "','";
+        sql += n + "','" + v + "')";
+        //std::cout << sql << "<br>";
+        if(connect.insert(sql))
+        {
+        	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
+            return true;
+        }
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+	}
+	std::string Variable::TABLE_NAME = "Variables";
+
+
+
+
+
+
+
+
 	
 	bool Session::insert(Conector& connect,const std::string& h,const std::string& s)
 	{
@@ -23,7 +79,8 @@ namespace db
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
         }
-				
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
 	bool Session::updateSession(Conector& connect,const std::string& str)
@@ -60,7 +117,8 @@ namespace db
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
         }
-				
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
    	int Session::callbackIDs(void *obj, int argc, char **argv, char **azColName)
@@ -96,7 +154,8 @@ namespace db
         {
             return true;
         }
-			
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
     }
     int Session::callbackByRemoteAddr(void *obj, int argc, char **argv, char **azColName)
@@ -156,6 +215,7 @@ namespace db
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
         if( rc != SQLITE_OK ) 			
         {
+        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
             return false;			
         } 
         else 
@@ -179,6 +239,7 @@ namespace db
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
         if( rc != SQLITE_OK ) 			
         {
+        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
             return false;			
         } 
         else 
@@ -194,6 +255,7 @@ namespace db
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), callback, obj, NULL);
         if( rc != SQLITE_OK ) 			
         {
+        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
             return false;			
         } 
         else 
@@ -213,12 +275,12 @@ namespace db
     {
         serverConnector = NULL;
         int rc = sqlite3_open(dbname.c_str(), (sqlite3**)&serverConnector);
-        if( rc ) {
-				fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg((sqlite3*)serverConnector));
-				//return(0);
-        } else {
-				//fprintf(stderr, "Opened database(%s) successfully\n",dbname.c_str());
-        }
+        if( rc ) 
+        {
+			//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg((sqlite3*)serverConnector));
+			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			//return(0);
+        } 
     }
 }
 }

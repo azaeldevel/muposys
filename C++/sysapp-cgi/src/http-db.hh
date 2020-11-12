@@ -55,7 +55,23 @@ namespace db
 		bool updateSession(Conector& connect,const std::string& str);
     }; 
 
-	   
+	  
+	class Variable
+	{
+	private:
+		static std::string TABLE_NAME;
+        int id;
+		std::string name;
+		std::string value;
+		
+		static int callbackBySession(void *data, int argc, char **argv, char **azColName);
+    public:
+		int getID() const;
+		bool insert(Conector& conect,const Session& session,const std::string& name,const std::string& value);
+		bool select(Conector& conect,const Session& session, const std::string& name);
+		const std::string& getName()const;
+		const std::string& getValue()const;
+	};
     
 }
 }

@@ -12,16 +12,22 @@ Application::Body::Body()
 }
 bool Application::Body::print(std::ostream& out)
 {		
+	sysapp::server::Login* login;
 	cgicc::Cgicc cgi;
+	bool flagserror = false;
 	cgicc::const_form_iterator it = sysapp::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
 	if(it != cgi.getElements().end())
 	{
 		//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
+		login = new sysapp::server::Login((*it).getValue());
 	}
 	else
 	{
-		std::cout << "Fallo al encontrar la session<br>";
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 	}
+	
+	
+	
 	
 	out << "<div id=\"menu\">";
 	
@@ -35,7 +41,17 @@ bool Application::Body::print(std::ostream& out)
 			
 			out << "</div></a>\n";
 			out << "<div id=\"photo\"><a href=\"#/user.html\" > ";
-			
+			/*sysapp::http::db::Conector connhttp("database");
+			sysapp::http::db::Variable var;
+			if(var.select(connhttp,login->getSession().getSession(),"user"))
+			{
+				out << var.getValue();				
+			}
+			else
+			{
+				flagserror = true;
+			}
+			connhttp.close();*/
 			out << "</a></div>\n";
 			out << "<div id=\"system\"><a href=\"/system.html\" >";
 			
@@ -45,7 +61,13 @@ bool Application::Body::print(std::ostream& out)
 	
 	out << "</div>\n";
 	
-	
+	if(flagserror)
+	{
+		//out << "Fallo la lectura de usuario : " << connhttp.getErrorMessage() << "<br>";
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+	}
+				
+	delete login;
 	return true;
 }
 

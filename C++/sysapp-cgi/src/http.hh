@@ -7,6 +7,7 @@
 #include <cgicc/Cgicc.h> 
 
 
+#include "http-db.hh"
 
 namespace sysapp::http
 {
@@ -17,12 +18,14 @@ class Session
 {
 private:	
 	std::string host;
-	std::string session;
+	//std::string session;
+	sysapp::http::db::Session session;
 	
 public:
-	const std::string& getSession() const;
+	const std::string& getSessionID() const;
 	const std::string& getHost() const;
 	Session(const std::string& id);	
+	const sysapp::http::db::Session& getSession() const;
 };
 
 }
