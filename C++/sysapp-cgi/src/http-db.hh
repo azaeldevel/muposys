@@ -18,8 +18,8 @@ namespace db
         Conector(const std::string&);
         ~Conector();
         bool query(const std::string&,int (*callback)(void*,int,char**,char**),void* obj);
-		bool insert(const std::string&);
-		bool update(const std::string&);
+		bool query(const std::string&);
+		//bool update(const std::string&);
         void* getServerConnector();
 		void close();
 		const char* getErrorMessage()const;
@@ -53,6 +53,7 @@ namespace db
 		const std::string& getSession()const;
 		int getID()const;
 		bool updateSession(Conector& connect,const std::string& str);
+		bool remove(Conector& connect);
     }; 
 
 	  
@@ -65,12 +66,16 @@ namespace db
 		std::string value;
 		
 		static int callbackBySession(void *data, int argc, char **argv, char **azColName);
+		static int callbackID(void *data, int argc, char **argv, char **azColName);
     public:
 		int getID() const;
 		bool insert(Conector& conect,const Session& session,const std::string& name,const std::string& value);
 		bool select(Conector& conect,const Session& session, const std::string& name);
 		const std::string& getName()const;
 		const std::string& getValue()const;
+		bool remove(Conector& connect);
+		static bool select(Conector& conect,const Session& session, std::vector<Variable*>& vec);
+		static bool remove(Conector& connect,const Session& session);
 	};
     
 }

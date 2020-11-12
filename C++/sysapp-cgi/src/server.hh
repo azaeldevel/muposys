@@ -116,7 +116,7 @@ public:
 	const std::string& getSessionID()const;
 	Login();
 	Login(const std::string& sessionid);
-	const sysapp::http::Session& getSession()const;
+	sysapp::http::Session& getSession();
 };
 
 }

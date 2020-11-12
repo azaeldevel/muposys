@@ -33,7 +33,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 
 
 
-	const sysapp::http::db::Session& Session::getSession() const
+	sysapp::http::db::Session& Session::getSession()
 	{
 		return session;
 	}

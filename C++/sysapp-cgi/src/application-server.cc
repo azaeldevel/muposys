@@ -34,7 +34,7 @@ bool Application::Body::print(std::ostream& out)
 	
 		out << "<div id=\"user\">";			
 			
-			out << "<div id=\"logout\"><a href=\"/login.html\" > ";
+			out << "<div id=\"logout\"><a href=\"/cgi/logout?session=" << (*it).getValue() <<  "\" > ";
 			
 			out << "</a></div>\n";
 			out << "<div id=\"space\">";

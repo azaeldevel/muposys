@@ -25,7 +25,7 @@ public:
 	const std::string& getSessionID() const;
 	const std::string& getHost() const;
 	Session(const std::string& id);	
-	const sysapp::http::db::Session& getSession() const;
+	sysapp::http::db::Session& getSession();
 };
 
 }

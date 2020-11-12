@@ -10,7 +10,7 @@ namespace sysapp::server
 {
 
 
-const sysapp::http::Session& Login::getSession()const
+sysapp::http::Session& Login::getSession()
 {
 	return *session;
 }

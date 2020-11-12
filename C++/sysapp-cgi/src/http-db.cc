@@ -11,7 +11,56 @@ namespace http
 {
 namespace db
 {
-
+	bool Variable::remove(Conector& connect,const Session& session)
+    {
+        std::string sql = "DELETE FROM  ";
+        sql += TABLE_NAME + " WHERE session = ";
+        sql += std::to_string(session.getID());
+        //std::cout << "SQL: " << sql << "<br>\n";
+        if(connect.query(sql))
+        {
+            return true;
+        }
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+    }
+	bool Variable::remove(Conector& connect)
+    {
+        std::string sql = "DELETE FROM  ";
+        sql += TABLE_NAME + " WHERE id = ";
+        sql += std::to_string(id);
+        //std::cout << "SQL: " << sql << "<br>\n";
+        if(connect.query(sql))
+        {
+            return true;
+        }
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+    }
+   	int Variable::callbackID(void *obj, int argc, char **argv, char **azColName)
+    {
+        std::vector<Variable*>* vec = (std::vector<Variable*>*)obj;
+        Variable* v = new Variable();        	
+        v->id = std::atoi(argv[0]);	
+        vec->push_back(v);
+        
+        return 0;
+    }
+	bool Variable::select(Conector& connect,const Session& s, std::vector<Variable*>& vec)
+    {
+        std::string sql = "SELECT id FROM  ";
+        sql += TABLE_NAME + " WHERE session = ";
+        sql += std::to_string(s.getID());
+        if(connect.query(sql,callbackID,&vec))
+        {
+            return true;
+        }
+		
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+    }
 	const std::string& Variable::getName()const
 	{
 		return name;
@@ -49,7 +98,7 @@ namespace db
         sql += std::to_string(s.getID()) + "','";
         sql += n + "','" + v + "')";
         //std::cout << sql << "<br>";
-        if(connect.insert(sql))
+        if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
@@ -67,14 +116,33 @@ namespace db
 
 
 
-	
+	bool Session::remove(Conector& connect)
+	{
+		if(not Variable::remove(connect,*this))
+		{
+			return false;
+		}
+		
+		
+        std::string sql = "DELETE FROM  ";
+        sql += TABLE_NAME + " WHERE id = ";
+        sql += std::to_string(id);
+        //std::cout << "SQL: " << sql << "<br>\n";
+        if(connect.query(sql))
+        {
+            return true;
+        }
+				
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		return false;
+	}
 	bool Session::insert(Conector& connect,const std::string& r,const std::string& s,const std::string& t)
 	{
 		std::string sql = "INSERT INTO ";
         sql += TABLE_NAME + "(remote_addr,session,lasttime) VALUES('";
         sql += r + "','" + s + "','" + t + "')";
         //std::cout << sql << "<br>";
-        if(connect.insert(sql))
+        if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
@@ -89,7 +157,7 @@ namespace db
         sql += TABLE_NAME + " SET session = '";
         sql += str + "' WHERE id = " + std::to_string(id) + ";";
         std::cout << sql << "<br>";
-        return connect.update(str);
+        return connect.query(str);
 	}
 	const std::string& Session::getRomoteAddress()const
 	{
@@ -112,7 +180,7 @@ namespace db
 		std::string sql = "INSERT INTO  ";
         sql += TABLE_NAME + "(remote_addr) VALUES('";
         sql += str + "')";
-        if(connect.insert(sql))
+        if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
@@ -210,7 +278,7 @@ namespace db
 	{
 		return sqlite3_errmsg((sqlite3*)serverConnector);
 	}
-	bool Conector::update(const std::string& str)
+	/*bool Conector::update(const std::string& str)
     {
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
         if( rc != SQLITE_OK ) 			
@@ -222,7 +290,7 @@ namespace db
         {
             return true;			
         }			
-    }
+    }*/
 	void Conector::close()
 	{
 		if(serverConnector != NULL) 
@@ -234,7 +302,7 @@ namespace db
 	/**
     ***
     **/
-    bool Conector::insert(const std::string& str)
+    bool Conector::query(const std::string& str)
     {
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
         if( rc != SQLITE_OK ) 			

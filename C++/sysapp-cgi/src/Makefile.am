@@ -4,7 +4,7 @@ noinst_LTLIBRARIES = libsysapp-http.la libsysapp-server.la
 
 
 
-bin_PROGRAMS = login application
+bin_PROGRAMS = login application logout
 
 DBTYPE=
 DBLIBS=
@@ -43,3 +43,6 @@ login_LDADD =   libsysapp-server.la
 
 application_SOURCES = application.cc application-server.cc 
 application_LDADD =   libsysapp-server.la 
+
+logout_SOURCES = logout.cc  
+logout_LDADD =   $(CGICC_LIBS) libsysapp-server.la
