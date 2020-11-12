@@ -57,6 +57,10 @@ body > #menu > #user > #space
 
 @media screen and (max-width : 299px)
 {
+	body > #menu > #user
+	{
+		min-width: 30%;
+	}
 	body > #menu > #user > #system
 	{
 		background-image: url(/theme/gnome-2.91/16x16/categories/preferences-desktop.png);
@@ -67,7 +71,7 @@ body > #menu > #user > #space
 	}
 	body > #menu > #user > #logout
 	{
-		background-image: url(/theme/gnome-2.91/256x256/actions/application-exit.png);
+		background-image: url(/theme/gnome-2.91/16x16/actions/application-exit.png);
 	}
 }
 
@@ -75,6 +79,10 @@ body > #menu > #user > #space
 
 @media screen and (min-width: 300px) and (max-width : 599px)
 {
+	body > #menu > #user
+	{
+		min-width: 25%;
+	}
 	body > #menu > #user > #system
 	{
 		background-image: url(/theme/gnome-2.91/22x22/categories/preferences-desktop.png);

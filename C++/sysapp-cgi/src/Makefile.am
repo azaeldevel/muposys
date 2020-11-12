@@ -6,18 +6,37 @@ noinst_LTLIBRARIES = libsysapp-http.la libsysapp-server.la
 
 bin_PROGRAMS = login application
 
+DBTYPE=
+DBLIBS=
+DBCFLAGS=
+if WITH_MARIADB
+DBTYPE=-DMARIADB
+DBLIBS=$(OCTETOS_DB_MARIA_LIBS)
+DBCFLAGS=$(OCTETOS_DB_MARIA__CFLAGS)
+endif
+if WITH_MYSQL
+DBTYPE=-DMYSQL
+DBLIBS=$(OCTETOS_DB_MYSQL_LIBS)
+DBCFLAGS=$(OCTETOS_DB_MYSQL_CFLAGS)
+endif
+if WITH_POSTGRESQL
+DBTYPE=-DPOSTGRESQL
+DBLIBS=$(OCTETOS_DB_POSTGRESQL_LIBS)
+DBCFLAGS=$(OCTETOS_DB_POSTGRESQL_CFLAGS)
+endif
+
 
 libsysapp_http_la_LDFLAGS = -static
 libsysapp_http_la_SOURCES = http.cc http-db.cc
 libsysapp_http_la_LDFLAGS = -L$(top_srcdir)/lib
-libsysapp_http_la_CXXFLAGS = -I$(top_srcdir)/include
+libsysapp_http_la_CXXFLAGS = -I$(top_srcdir)/include $(DBTYPE)
 libsysapp_http_la_LIBADD = -lsysappdb
 
 libsysapp_server_la_LDFLAGS = -static
 libsysapp_server_la_SOURCES = login-server.cc server.cc server-elements.cc
 libsysapp_server_la_LDFLAGS = -L$(top_srcdir)/lib
-libsysapp_server_la_CXXFLAGS = -I$(top_srcdir)/include $(SQLITE3_CFLAGS) $(OCTETOS_DB_MYSQL_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS)
-libsysapp_server_la_LIBADD =   libsysapp-http.la -lsysappdb  $(SQLITE3_LIBS) $(OCTETOS_DB_MYSQL_LIBS) $(CGICC_LIBS) $(OPENSSL_LIBS)  
+libsysapp_server_la_CXXFLAGS = -I$(top_srcdir)/include $(SQLITE3_CFLAGS)  $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DBTYPE) $(DBCFLAGS)
+libsysapp_server_la_LIBADD =   libsysapp-http.la -lsysappdb  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS)  $(DBLIBS)
 
 login_SOURCES = login.cc 
 login_LDADD =   libsysapp-server.la  
