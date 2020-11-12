@@ -57,7 +57,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
         host = h;
         //
         sysapp::http::db::Conector conn("database");
-        sysapp::http::db::User user;
+        sysapp::http::db::Session user;
    		conn.begin();
    		
    		if(id.empty())

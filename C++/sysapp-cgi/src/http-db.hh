@@ -29,7 +29,7 @@ namespace db
 		bool rollback();
     };
         
-    class User
+    class Session
     {
 	private:
 		static std::string TABLE_NAME;
@@ -44,16 +44,18 @@ namespace db
     public:
         bool selectByRemoteAddr(Conector& conect, const std::string&);
 		bool selectBySession(Conector& conect, const std::string&);
-        static bool selectAll(Conector& conect, std::vector<User*>& vec);
+        static bool selectAll(Conector& conect, std::vector<Session*>& vec);
 		bool downloadIDs(Conector& conect);
 		bool inserteRemoteAddr(Conector& conect,const std::string&);
 		bool insert(Conector& conect,const std::string&,const std::string&);
-		User();
+		Session();
 		const std::string& getRomoteAddress()const;
 		const std::string& getSession()const;
 		int getID()const;
 		bool updateSession(Conector& connect,const std::string& str);
-    };    
+    }; 
+
+	   
     
 }
 }

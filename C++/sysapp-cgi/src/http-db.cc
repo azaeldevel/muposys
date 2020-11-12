@@ -12,7 +12,7 @@ namespace http
 namespace db
 {
 	
-	bool User::insert(Conector& connect,const std::string& h,const std::string& s)
+	bool Session::insert(Conector& connect,const std::string& h,const std::string& s)
 	{
 		std::string sql = "INSERT INTO ";
         sql += TABLE_NAME + "(remote_addr,session) VALUES('";
@@ -26,7 +26,7 @@ namespace db
 				
         return false;
 	}
-	bool User::updateSession(Conector& connect,const std::string& str)
+	bool Session::updateSession(Conector& connect,const std::string& str)
 	{
 		std::string sql = "UPDATE  ";
         sql += TABLE_NAME + " SET session = '";
@@ -34,23 +34,23 @@ namespace db
         std::cout << sql << "<br>";
         return connect.update(str);
 	}
-	const std::string& User::getRomoteAddress()const
+	const std::string& Session::getRomoteAddress()const
 	{
 		return remote_addr;
 	}
-	const std::string&User:: getSession()const
+	const std::string& Session:: getSession()const
 	{
 		return session;
 	}
-	int User::getID()const
+	int Session::getID()const
 	{
 		return id;
 	}
-	User::User()
+	Session::Session()
 	{
 		id = -1;
 	}
-	bool User::inserteRemoteAddr(Conector& connect,const std::string& str)
+	bool Session::inserteRemoteAddr(Conector& connect,const std::string& str)
 	{
 		std::string sql = "INSERT INTO  ";
         sql += TABLE_NAME + "(remote_addr) VALUES('";
@@ -63,15 +63,15 @@ namespace db
 				
         return false;
 	}
-   	int User::callbackIDs(void *obj, int argc, char **argv, char **azColName)
+   	int Session::callbackIDs(void *obj, int argc, char **argv, char **azColName)
     {
-        User* p = (User*)obj;	
+        Session* p = (Session*)obj;	
         p->remote_addr = argv[0] != NULL ? argv[0] : "";	
         p->session = argv[1] != NULL ? argv[1] : "";
         
         return 0;
     }
-    bool User::downloadIDs(Conector& connect)
+    bool Session::downloadIDs(Conector& connect)
     {
     	//std::cout << "download id : " << id << "\n";
     	std::string sql = "SELECT remote_addr,session FROM  ";
@@ -80,14 +80,14 @@ namespace db
         //std::cout << sql << "\n";
         return connect.query(sql,callbackIDs,this);
     }
-   	int User::callbackBySession(void *obj, int argc, char **argv, char **azColName)
+   	int Session::callbackBySession(void *obj, int argc, char **argv, char **azColName)
     {
-        User* p = (User*)obj;	
+        Session* p = (Session*)obj;	
         p->id = std::atoi(argv[0]);	
         
         return 0;
     }
-    bool User::selectBySession(Conector& connect, const std::string& r)
+    bool Session::selectBySession(Conector& connect, const std::string& r)
     {
         std::string sql = "SELECT id FROM  ";
         sql += TABLE_NAME + " WHERE session = '";
@@ -99,14 +99,14 @@ namespace db
 			
         return false;
     }
-    int User::callbackByRemoteAddr(void *obj, int argc, char **argv, char **azColName)
+    int Session::callbackByRemoteAddr(void *obj, int argc, char **argv, char **azColName)
     {
-        User* p = (User*)obj;	
+        Session* p = (Session*)obj;	
         p->id = std::atoi(argv[0]);	        
         //std::cout << "id : " << p->id << "\n";
         return 0;
     }
-    bool User::selectByRemoteAddr(Conector& connect, const std::string& r)
+    bool Session::selectByRemoteAddr(Conector& connect, const std::string& r)
     {
         std::string sql = "SELECT id FROM ";
         sql += TABLE_NAME + " WHERE remote_addr = '";
@@ -118,7 +118,7 @@ namespace db
         return true;
     }
 	
-	std::string User::TABLE_NAME = "Session";
+	std::string Session::TABLE_NAME = "Session";
 		
 		
 		
