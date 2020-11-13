@@ -6,7 +6,7 @@
 #include "server.hh"
 
 
-namespace sysapp
+namespace muposys
 {
 
 class Login : public server::elements::Html

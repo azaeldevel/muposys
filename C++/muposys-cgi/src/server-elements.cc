@@ -2,7 +2,7 @@
 
 #include "server.hh"
 
-namespace sysapp::server::elements
+namespace muposys::server::elements
 {
 
 

@@ -5,7 +5,7 @@
 #include "server.hh"
 
 
-namespace sysapp
+namespace muposys
 {
 
 class Application : public server::elements::Html

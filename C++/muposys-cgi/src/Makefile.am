@@ -1,6 +1,6 @@
 
 
-noinst_LTLIBRARIES = libsysapp-http.la libsysapp-server.la
+noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la
 
 
 
@@ -26,23 +26,23 @@ DBCFLAGS=$(OCTETOS_DB_POSTGRESQL_CFLAGS)
 endif
 
 
-libsysapp_http_la_LDFLAGS = -static
-libsysapp_http_la_SOURCES = http.cc http-db.cc
-libsysapp_http_la_LDFLAGS = -L$(top_srcdir)/lib
-libsysapp_http_la_CXXFLAGS = -I$(top_srcdir)/include $(DBTYPE)
-libsysapp_http_la_LIBADD = -lsysappdb
+libmuposys_http_la_LDFLAGS = -static
+libmuposys_http_la_SOURCES = http.cc http-db.cc
+libmuposys_http_la_LDFLAGS = -L$(top_srcdir)/lib
+libmuposys_http_la_CXXFLAGS = -I$(top_srcdir)/include $(DBTYPE)
+libmuposys_http_la_LIBADD = -lmuposysdb
 
-libsysapp_server_la_LDFLAGS = -static
-libsysapp_server_la_SOURCES = login-server.cc server.cc server-elements.cc
-libsysapp_server_la_LDFLAGS = -L$(top_srcdir)/lib
-libsysapp_server_la_CXXFLAGS = -I$(top_srcdir)/include $(SQLITE3_CFLAGS)  $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DBTYPE) $(DBCFLAGS)
-libsysapp_server_la_LIBADD =   libsysapp-http.la -lsysappdb  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS)  $(DBLIBS)
+libmuposys_server_la_LDFLAGS = -static
+libmuposys_server_la_SOURCES = login-server.cc server.cc server-elements.cc
+libmuposys_server_la_LDFLAGS = -L$(top_srcdir)/lib
+libmuposys_server_la_CXXFLAGS = -I$(top_srcdir)/include $(SQLITE3_CFLAGS)  $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DBTYPE) $(DBCFLAGS)
+libmuposys_server_la_LIBADD =   libmuposys-http.la -lmuposysdb  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS)  $(DBLIBS)
 
 login_SOURCES = login.cc 
-login_LDADD =   libsysapp-server.la  
+login_LDADD =   libmuposys-server.la  
 
 application_SOURCES = application.cc application-server.cc 
-application_LDADD =   libsysapp-server.la 
+application_LDADD =   libmuposys-server.la 
 
 logout_SOURCES = logout.cc  
-logout_LDADD =   $(CGICC_LIBS) libsysapp-server.la
+logout_LDADD =   $(CGICC_LIBS) libmuposys-server.la

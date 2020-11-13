@@ -1,13 +1,13 @@
 #!/bin/bash
 
 #WEBDIRECTORY="/var/www/localhost/htdocs"
-#WEBDIRECTORY="/var/www/sysapp"
+#WEBDIRECTORY="/var/www/muposys"
 WEBDIRECTORY="/var/www/html/"
 
-rm -f ~/develop/sysapp/html/sysapp-html/*~
+rm -f /home/azael/develop/muposys/html/muposys-html/*~
 
 
-cp -r -u -f ~/develop/sysapp/html/sysapp-html/* $WEBDIRECTORY
+cp -r -u -f /home/azael/develop/muposys/html/muposys-html/* $WEBDIRECTORY
 
 if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then

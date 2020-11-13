@@ -13,13 +13,13 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-bin_PROGRAMS = sysapp
+bin_PROGRAMS = muposys
 
-syapp_CXXFLAGS = -I$(top_srcdir)/libraries
-syapp_CPPFLAGS = -I$(top_srcdir)/libraries 
-sysapp_LDFLAGS = -L$(top_srcdir)/libraries
-sysapp_LDADD = $(GTKMM_LIBS) $(OCTETOS_DB_MARIA_LIBS) -lsysappdb
-sysapp_SOURCES = main.cc Login.cc
+muposys_CXXFLAGS = -I$(top_srcdir)/libraries
+muposys_CPPFLAGS = -I$(top_srcdir)/libraries 
+muposys_LDFLAGS = -L$(top_srcdir)/libraries
+muposys_LDADD = $(GTKMM_LIBS) $(OCTETOS_DB_MARIA_LIBS) -lmuposysdb
+muposys_SOURCES = main.cc Login.cc
 
 
 

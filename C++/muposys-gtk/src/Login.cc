@@ -17,13 +17,13 @@ void Login::on_accept_button_clicked()
 	octetos::db::mariadb::Connector conn;	
 	try
 	{
-		conn.connect(sysappdb::datconex);
+		conn.connect(muposysdb::datconex);
 	}
 	catch(octetos::db::SQLException& e)
 	{		
 		return;
 	}
-	sysappdb::Users user(1);
+	muposysdb::Users user(1);
 	if(user.checkpass(conn))
 	{
 		//std::cout << "Usuario DB : " << user.getName() << "\n";

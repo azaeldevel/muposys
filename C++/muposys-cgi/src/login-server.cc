@@ -5,7 +5,7 @@
 #include "login-server.hh"
 
 
-namespace sysapp
+namespace muposys
 {
 
 
@@ -73,7 +73,7 @@ bool Login::Body::print(std::ostream& out)
 		  	//std::cout << "No text entered for first name \n";  
 	   	}
 	   		   	
-	   	sysapp::server::Login login;
+	   	muposys::server::Login login;
 	   	flagSession = login.check(**itUser,**itPassword);
 	   	std::string strredirect = "/cgi/application?session=";
 	   	strredirect += login.getSessionID();

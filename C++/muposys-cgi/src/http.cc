@@ -7,7 +7,7 @@
 
 
 
-namespace sysapp::http
+namespace muposys::http
 {
 
 uint64_t timeSinceEpochMillisec() {
@@ -33,7 +33,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 
 
 
-	sysapp::http::db::Session& Session::getSession()
+	muposys::http::db::Session& Session::getSession()
 	{
 		return session;
 	}
@@ -63,7 +63,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
         //session = mdString;
         host = h;
         //
-        sysapp::http::db::Conector conn("database");
+        muposys::http::db::Conector conn("database");
    		conn.begin();
    		
    		if(id.empty())

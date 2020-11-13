@@ -7,7 +7,7 @@
 
 #include "http.hh"
 
-namespace sysapp::server
+namespace muposys::server
 {
 
 namespace elements
@@ -108,7 +108,7 @@ namespace elements
 class Login
 {
 private:	
-	sysapp::http::Session* session;
+	muposys::http::Session* session;
 	
 
 public:
@@ -116,7 +116,7 @@ public:
 	const std::string& getSessionID()const;
 	Login();
 	Login(const std::string& sessionid);
-	sysapp::http::Session& getSession();
+	muposys::http::Session& getSession();
 };
 
 }

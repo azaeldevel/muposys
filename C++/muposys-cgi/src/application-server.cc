@@ -2,7 +2,7 @@
 #include "application-server.hh"
 
 
-namespace sysapp
+namespace muposys
 {
 
 
@@ -12,14 +12,14 @@ Application::Body::Body()
 }
 bool Application::Body::print(std::ostream& out)
 {		
-	sysapp::server::Login* login;
+	muposys::server::Login* login;
 	cgicc::Cgicc cgi;
 	//bool flagserror = false;
-	cgicc::const_form_iterator it = sysapp::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
+	cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
 	if(it != cgi.getElements().end())
 	{
 		//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
-		login = new sysapp::server::Login((*it).getValue());
+		login = new muposys::server::Login((*it).getValue());
 	}
 	else
 	{
@@ -117,8 +117,10 @@ bool Application::print()
 	}
 	Application::Application():server::elements::Html(getDefaultOutput())
 	{
-		html = (server::elements::Html*)contentType(server::elements::ContentType::Text::html);	   
-		html->getHead()->setTitle("System Application");
+		html = (server::elements::Html*)contentType(server::elements::ContentType::Text::html);	
+		std::string title =  "System Application - ";
+		title += PACKAGE_VERSION;
+		html->getHead()->setTitle(title);
 		html->getHead()->addMetaCharset("UTF-8");
 		html->getHead()->addMetaName("viewport","width=device-width, initial-scale=1");
 		html->getHead()->addCSS("/css/application.css");

@@ -1,26 +1,26 @@
 
-#include <sysappdb.hpp>
+#include <muposysdb.hpp>
 
 
 #include "server.hh"
 
 
 
-namespace sysapp::server
+namespace muposys::server
 {
 
 
-sysapp::http::Session& Login::getSession()
+muposys::http::Session& Login::getSession()
 {
 	return *session;
 }
 Login::Login(const std::string& s)
 {
-	session = new sysapp::http::Session(s);
+	session = new muposys::http::Session(s);
 }
 Login::Login()
 {
-	session = new sysapp::http::Session("");
+	session = new muposys::http::Session("");
 }
 const std::string& Login::getSessionID()const
 {
@@ -38,10 +38,10 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	#error "Base dedatos desconocida."
 #endif
 
-	conn.connect(sysappdb::datconex);
+	conn.connect(muposysdb::datconex);
 	
-	sysappdb::Users* userbd;
-	std::vector<sysappdb::Users*>* usrlst = sysappdb::Users::selecrUserByName(conn,userstr);
+	muposysdb::Users* userbd;
+	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::selecrUserByName(conn,userstr);
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
@@ -63,8 +63,8 @@ bool Login::check(const std::string& userstr,const std::string& password)
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
-			sysapp::http::db::Conector connhttp("database");
-			sysapp::http::db::Variable var;
+			muposys::http::db::Conector connhttp("database");
+			muposys::http::db::Variable var;
 			if(var.insert(connhttp,session->getSession(),"user",userbd->getName()))
 			{
 				

@@ -12,15 +12,15 @@ int main()
 	std::cout << "<head>\n";
 	std::cout << "<title>Terminado session</title>\n";
 	cgicc::Cgicc cgi;
-	cgicc::const_form_iterator it = sysapp::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
+	cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
 	if(it != cgi.getElements().end())
 	{
 		//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
-		sysapp::http::db::Conector connhttp("database");
-		sysapp::server::Login* login = new sysapp::server::Login((*it).getValue());
+		muposys::http::db::Conector connhttp("database");
+		muposys::server::Login* login = new muposys::server::Login((*it).getValue());
 		if(login->getSession().getSession().remove(connhttp))
 		{
-			std::cout << "<meta http-equiv=\"Refresh\" content=\"1;url=/login.html\"\n";
+			std::cout << "<meta http-equiv=\"Refresh\" content=\"0;url=/login.html\"\n";
 		   	
 			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";					
 		}

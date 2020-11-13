@@ -6,7 +6,7 @@
 
 int main()
 {
-	sysapp::Application app;
+	muposys::Application app;
 	app.print();
 	
 	return 0;
