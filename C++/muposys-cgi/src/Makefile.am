@@ -4,7 +4,7 @@ noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la
 
 
 
-bin_PROGRAMS = login application logout
+bin_PROGRAMS = login application logout useradd
 
 DBTYPE=
 DBLIBS=
@@ -38,6 +38,8 @@ libmuposys_server_la_LDFLAGS = -L$(top_srcdir)/lib
 libmuposys_server_la_CXXFLAGS = -I$(top_srcdir)/include $(SQLITE3_CFLAGS)  $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DBTYPE) $(DBCFLAGS)
 libmuposys_server_la_LIBADD =   libmuposys-http.la -lmuposysdb  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS)  $(DBLIBS)
 
+
+
 login_SOURCES = login.cc 
 login_LDADD =   libmuposys-server.la  
 
@@ -46,3 +48,8 @@ application_LDADD =   libmuposys-server.la
 
 logout_SOURCES = logout.cc  
 logout_LDADD =   $(CGICC_LIBS) libmuposys-server.la
+
+useradd_LDADD =   $(CGICC_LIBS) $(DBLIBS) -lmuposysdb libmuposys-server.la 
+useradd_LDFLAGS = -L$(top_srcdir)/lib
+useradd_CXXFLAGS = -I$(top_srcdir)/include $(DBTYPE) $(DBCFLAGS)
+useradd_SOURCES = useradd.cc
