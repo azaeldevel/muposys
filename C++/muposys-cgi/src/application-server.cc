@@ -6,7 +6,7 @@ namespace muposys
 {
 
 
-Application::Body::Body()
+Application::Body::Body() 
 {
 
 }
@@ -81,6 +81,8 @@ bool Application::Body::print(std::ostream& out)
 
 bool Application::print()
 {
+	ContentType::print();
+	
 	return buildHTML();
 }
 	bool Application::buildHTML()
@@ -90,7 +92,7 @@ bool Application::print()
 	   	buildHead();
 	   	
 		out << "<body>\n";
-	   	html->getBody()->print(out);
+	   	getBody()->print(out);
 		out << "</body>\n";
 	   	
 	   	out << "</html>\n";
@@ -101,7 +103,7 @@ bool Application::print()
 	{
 		out << "<head>\n";
 	   	
-	   	html->getHead()->print(out); 
+	   	getHead()->print(out); 
 	   	
 	   	out << "</head>\n";
 	   	
@@ -113,17 +115,17 @@ bool Application::print()
 
 	Application::~Application()
 	{
-		delete html;
+		
 	}
-	Application::Application():server::elements::Html(getDefaultOutput())
+	Application::Application() : server::elements::Window(getDefaultOutput(),new Body())
 	{
-		html = (server::elements::Html*)contentType(server::elements::ContentType::Text::html);	
+		setContentType(server::elements::ContentType::Text::html);	
 		std::string title =  "System Application - ";
 		title += PACKAGE_VERSION;
-		html->getHead()->setTitle(title);
-		html->getHead()->addMetaCharset("UTF-8");
-		html->getHead()->addMetaName("viewport","width=device-width, initial-scale=1");
-		html->getHead()->addCSS("/css/application.css");
-		html->setBody(new Body());	
+		getHead()->setTitle(title);
+		getHead()->addMetaCharset("UTF-8");
+		getHead()->addMetaName("viewport","width=device-width, initial-scale=1");
+		getHead()->addCSS("/css/application.css");
+
 	}	
 }

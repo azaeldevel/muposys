@@ -66,7 +66,15 @@ namespace elements
 	{
 	};
 
+	class Form : public Body
+	{
 
+	};
+	
+	class MessageDialog : public Body
+	{
+
+	};
 	
 	/**
 	*@brief Clase base para contenedores, un hijo de esta clase represetna un mime(content-type)
@@ -80,10 +88,12 @@ namespace elements
 			html,
 			plain
 		};
-		
+		ContentType::Text contenttype;
+
 	public:
 		ContentType(std::ostream& out);		
-		ContentType* contentType(ContentType::Text);
+		void  setContentType(ContentType::Text);
+		bool print();
 	};
 	
 	/**
@@ -98,10 +108,24 @@ namespace elements
 		Head* getHead();
 		Body* getBody();
 		Html(std::ostream& out);
+		Html(std::ostream& out,Body* b);
 		virtual bool print();
 		void setBody(Body*);
 	};
 
+	class Window : public server::elements::Html
+	{
+	private:	
+		
+		bool buildHead();
+		bool buildHTML();
+		
+	public:
+		virtual bool print();
+		Window(std::ostream& out,Body*);
+		virtual ~Window();
+
+	};
 }
 
 
@@ -118,6 +142,8 @@ public:
 	Login(const std::string& sessionid);
 	muposys::http::Session& getSession();
 };
+
+
 
 }
 

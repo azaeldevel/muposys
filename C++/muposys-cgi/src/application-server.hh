@@ -8,21 +8,15 @@
 namespace muposys
 {
 
-class Application : public server::elements::Html
+class Application : public server::elements::Window
 {
 private:
-	server::elements::Html* html;
-
 	
 	
 	bool buildHead();
 	bool buildHTML();
 	
 public:
-	virtual bool print();
-	Application();
-	~Application();
-
 	class Body : public server::elements::Body
 	{
 	private:
@@ -32,6 +26,13 @@ public:
 		Body();
 		
 	};
+
+
+
+	virtual bool print();
+	Application();
+	~Application();
+
 };
 
 }

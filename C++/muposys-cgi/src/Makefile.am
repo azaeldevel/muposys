@@ -33,7 +33,7 @@ libmuposys_http_la_CXXFLAGS = -I$(top_srcdir)/include $(DBTYPE)
 libmuposys_http_la_LIBADD = -lmuposysdb
 
 libmuposys_server_la_LDFLAGS = -static
-libmuposys_server_la_SOURCES = login-server.cc server.cc server-elements.cc
+libmuposys_server_la_SOURCES = server.cc server-elements.cc
 libmuposys_server_la_LDFLAGS = -L$(top_srcdir)/lib
 libmuposys_server_la_CXXFLAGS = -I$(top_srcdir)/include $(SQLITE3_CFLAGS)  $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DBTYPE) $(DBCFLAGS)
 libmuposys_server_la_LIBADD =   libmuposys-http.la -lmuposysdb  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS)  $(DBLIBS)

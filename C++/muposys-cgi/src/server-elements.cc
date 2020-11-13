@@ -5,6 +5,66 @@
 namespace muposys::server::elements
 {
 
+template<typename Base, typename T> inline bool instanceof(const T*) 
+{
+   return std::is_base_of<Base, T>::value;
+}
+
+
+
+
+
+bool Window::print()
+{
+	return buildHTML();
+}
+bool Window::buildHTML()
+{
+	
+	out << "<html>\n";	
+		buildHead();	
+		out << "<body>\n";	
+			out << "<div class=\"modal\">\n";
+				if(instanceof<Form>(getBody()))
+				{
+					out << "<form class=\"modal-content animate\" action=\"/cgi/useradd\" method=\"post\">";
+					getBody()->print(out);
+					out << "</form>";
+				}
+				else
+				{
+					getBody()->print(out);
+				}
+			out << "</div>\n";
+		out << "</body>\n";	   	
+	out << "</html>\n";	   	
+	return true;
+}
+bool Window::buildHead()
+{
+	out << "<head>\n";
+	   	
+	getHead()->print(out);  
+	   		   	
+	out << "</head>\n";
+	   	
+	return true;
+}
+Window::~Window()
+{
+	
+}
+Window::Window(std::ostream& out,Body* body):server::elements::Html(out,body)
+{
+	setContentType(server::elements::ContentType::Text::html);	   
+	getHead()->addMetaCharset("UTF-8");
+	setBody(body);	
+}
+
+
+
+
+
 
 
 
@@ -35,12 +95,11 @@ std::ostream& Container::getDefaultOutput()
 
 
 
-
-ContentType* ContentType::contentType(ContentType::Text type)
+bool ContentType::print()
 {
 	ContentType* content = NULL;
 	out << "Content-type:";
-	switch(type)
+	switch(contenttype)
 	{
 		case ContentType::Text::html:
 			content = new Html(out);
@@ -51,11 +110,14 @@ ContentType* ContentType::contentType(ContentType::Text type)
 		break;
 		default:
 			return NULL;
-	};
-	
+	};	
 	out << "\r\n\r\n";
 	
-	return content;
+	return true;
+}
+void ContentType::setContentType(ContentType::Text type)
+{
+	contenttype = type;
 }
 ContentType::ContentType(std::ostream& out) : Container(out)
 {
@@ -70,6 +132,10 @@ ContentType::ContentType(std::ostream& out) : Container(out)
 
 
 
+Html::Html(std::ostream& out,Body* b) : ContentType(out)
+{
+	body = b;
+}
 void Html::setBody(Body* b)
 {
 	body = b;

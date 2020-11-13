@@ -23,14 +23,52 @@
 
 
 
-#include "login-server.hh"
+#include "server.hh"
+
 
 
 int main ()
 {
-	muposys::Login login;
-   	login.print();
+	std::cout << "Content-type:text/html\r\n\r\n";
+   	std::cout << "<html>\n";
+   	std::cout << "<head>\n";
    	
-   	return 0;
+   	cgicc::Cgicc formData;   	
+	cgicc::form_iterator itUser = formData.getElement("user"); 
+	if( !itUser->isEmpty() && itUser != (*formData).end()) 
+	{  
+		//std::cout << "Usuario : " << **itUser << "<br>";  
+	} 
+	else 
+	{
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+	}
+	cgicc::form_iterator itPassword = formData.getElement("psw");  
+	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
+	{  
+		//std::cout << "Contraseña : " << **itPassword << "<br>"; 
+	} 
+	else 
+	{
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+	}
+		   		   	
+	muposys::server::Login login;
+	bool flagSession = login.check(**itUser,**itPassword);
+	std::string strredirect = "/cgi/application?session=";
+	strredirect += login.getSessionID();
+	
+		   	
+	if(flagSession)
+	{
+		std::cout << "<meta http-equiv=\"Refresh\" content=\"0;url=" << strredirect << "\"\n";
+	}
+   	
+   	std::cout << "</head>\n";
+   	std::cout << "<body>\n";
+   	std::cout << "</body>\n";
+   	std::cout << "</html>\n";
+		   	
+	return 0;
 }
 
