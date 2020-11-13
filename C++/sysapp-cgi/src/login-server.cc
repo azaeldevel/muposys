@@ -82,7 +82,7 @@ bool Login::Body::print(std::ostream& out)
 	   	
 	   	if(flagSession)
 	   	{
-	   		out << "<meta http-equiv=\"Refresh\" content=\"1;url=" << strredirect << "\"\n";
+	   		out << "<meta http-equiv=\"Refresh\" content=\"0;url=" << strredirect << "\"\n";
 	   	}
 	   	
 	   	out << "</head>\n";

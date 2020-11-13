@@ -307,7 +307,8 @@ namespace db
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
         if( rc != SQLITE_OK ) 			
         {
-        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
+        	std::cout << getErrorMessage() << "<br>";
             return false;			
         } 
         else 

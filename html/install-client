@@ -1,7 +1,8 @@
 #!/bin/bash
 
 #WEBDIRECTORY="/var/www/localhost/htdocs"
-WEBDIRECTORY="/var/www/sysapp"
+#WEBDIRECTORY="/var/www/sysapp"
+WEBDIRECTORY="/var/www/html/"
 
 rm -f ~/develop/sysapp/html/sysapp-html/*~
 
@@ -19,3 +20,5 @@ if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	rm -r gnome-2.91
 fi
 
+chown www-data:www-data -R /var/www
+chmod u+w /var/www
