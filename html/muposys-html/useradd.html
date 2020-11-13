@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="js/login.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/application.css">
+	<meta charset="utf-8">
+	<title>Crear Usuario</title>
+</head>
+
+<body>
+
+
+<div class="modal">
+	<form class="modal-content animate" action="/cgi/useradd" method="post">
+		<div class="container">
+			
+		  	<label for="name1"><b>Nombre:</b></label>
+		  	<input type="text" placeholder="Agrege su primer nombre" name="name1" required>
+
+		  	<label for="name2"><b>Apellido Paterno:</b></label>
+		  	<input type="text" placeholder="Agregar su Apellido Paterno" name="name2" required>
+
+
+		  	<label for="email"><b>Correo electronico</b></label>
+		  	<input type="text" placeholder="Agregar email" name="email" required>
+
+		  	<label for="user"><b>Usuario:</b></label>
+		  	<input type="text" placeholder="Introdusca nombre de usario" name="user" required>
+
+		  	<label for="psw"><b>Contraseña:</b></label>
+		  	<input type="password" placeholder="Introdusca contrseña" name="psw" required>
+			
+		  	<label for="psw"><b>Confirmación:</b></label>
+		  	<input type="password" placeholder="Confirme contrseña" name="psw" required>
+			
+		  	<button type="submit">Crear usuario</button>
+	 	</div>
+  </form>
+</div>
+
+
+</body>
+</html>
