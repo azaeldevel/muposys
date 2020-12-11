@@ -7,9 +7,14 @@
 enum StatusCode
 {
 	SUCCEFULY,
-	USER_ALREADY_EXISTE,
-	
+	USER_ALREADY_EXISTE,	
 	PASSWORD_NOT_MATCH,
+	NOT_FOUND_NAME1,
+	EMPTY_NAME1,
+	FAIL_INSERT_NAME1,
+	NOT_FOUND_NAME2,
+	EMPTY_NAME2,
+	FAIL_UPDATE_NAME2,
 };
 /**
 *@brief Realiza el registro de un uevo usario
@@ -63,7 +68,43 @@ int validRegister(cgicc::Cgicc& cgi)
 	}
 	std::cout << "Contraseñas correctas<br>";
 	
-	return 0;
+	
+	//creando person
+	muposysdb::Persons person;
+	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"name1");
+	if(it != cgi.getElements().end())
+	{
+		return NOT_FOUND_NAME1;
+	}
+	std::string name1 = (*it).getValue();
+	if(name1.empty())
+	{
+		return EMPTY_NAME1;
+	}
+	if(not person.insert(conn,name1))
+	{
+		return FAIL_INSERT_NAME1;
+	}
+	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"name2");
+	if(it != cgi.getElements().end())
+	{
+		return NOT_FOUND_NAME2;
+	}
+	std::string name2 = (*it).getValue();
+	if(name2.empty())
+	{
+		return EMPTY_NAME2;
+	}
+	if(not person.updateName2(conn,name1))
+	{
+		return FAIL_UPDATE_NAME2;
+	}
+	
+	//creating user
+	muposysdb::Users user;
+	
+	
+	return SUCCEFULY;
 }
 
 
@@ -85,6 +126,7 @@ int main()
 		if((*it).getValue().compare("register") == 0)
 		{
 			statuscode = validRegister(cgi);
+			
 		}
 		else
 		{
