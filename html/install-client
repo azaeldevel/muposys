@@ -2,12 +2,13 @@
 
 #WEBDIRECTORY="/var/www/localhost/htdocs"
 #WEBDIRECTORY="/var/www/muposys"
-WEBDIRECTORY="/var/www/html/"
+#WEBDIRECTORY="/var/www/html/"
+WEBDIRECTORY="/srv/http/"
 
-rm -f /home/azael/develop/muposys/html/muposys-html/*~
+rm -f /home/azael/develop/octetos/muposys/html/muposys-html/*~
 
 
-cp -r -u -f /home/azael/develop/muposys/html/muposys-html/* $WEBDIRECTORY
+cp -r -u -f /home/azael/develop/octetos/muposys/html/muposys-html/* $WEBDIRECTORY
 
 if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then
@@ -20,5 +21,5 @@ if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	rm -r gnome-2.91
 fi
 
-chown www-data:www-data -R /var/www
-chmod u+w /var/www
+#chown www-data:www-data -R /var/www
+#chmod u+w /var/www

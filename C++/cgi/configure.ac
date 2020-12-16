@@ -1,6 +1,6 @@
 
 
-AC_INIT(sysapp-cgi, 0.6.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys-cgi, 0.6.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 

@@ -9,7 +9,7 @@ ALTER TABLE Persons MODIFY COLUMN age FLOAT;
 ALTER TABLE Persons MODIFY COLUMN canyonNumber FLOAT;
 ALTER TABLE Persons MODIFY COLUMN canyonLength FLOAT;
 
-CREATE TABLE Users ( user INT NOT NULL, name VARCHAR(8) NOT NULL,pwdtxt VARCHAR(12), FOREIGN KEY(user) REFERENCES Persons(person));
+CREATE TABLE Users ( user INT NOT NULL, name VARCHAR(20) NOT NULL,pwdtxt VARCHAR(12), FOREIGN KEY(user) REFERENCES Persons(person));
 ALTER TABLE Users ADD CONSTRAINT users_user_unique UNIQUE (user);
 ALTER TABLE Users ADD CONSTRAINT users_name_unique UNIQUE (name);
 

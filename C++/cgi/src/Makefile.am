@@ -25,6 +25,17 @@ DBLIBS=$(OCTETOS_DB_POSTGRESQL_LIBS)
 DBCFLAGS=$(OCTETOS_DB_POSTGRESQL_CFLAGS)
 endif
 
+$(top_srcdir)/../apidb/libmuposysdb.a : $(top_srcdir)/../apidb/muposys.apidb
+	cd $(top_srcdir)/../apidb/ && apidb-build -p $<
+	cd $(top_srcdir)/../apidb && cmake . && make
+
+$(top_builddir)/src/include/muposysdb.hpp : $(top_srcdir)/../apidb/libmuposysdb.a
+	 cp $@ $(top_srcddir)/src/include/
+
+$(top_builddir)/src/lib/libmuposysdb.a : $(top_srcdir)/../apidb/libmuposysdb.a
+	cp $@ $(top_srcdir)/src/lib/
+
+login.cc : $(top_builddir)/src/include/muposysdb.hpp $(top_builddir)/src/lib/libmuposysdb.a
 
 libmuposys_http_la_LDFLAGS = -static
 libmuposys_http_la_SOURCES = http.cc http-db.cc
