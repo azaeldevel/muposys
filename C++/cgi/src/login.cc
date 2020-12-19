@@ -32,32 +32,40 @@ int main ()
 	std::cout << "Content-type:text/html\r\n\r\n";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
-   	
+	
+   	std::cout << "Step 1 : \n<br>";
+	
    	cgicc::Cgicc formData;   	
 	cgicc::form_iterator itUser = formData.getElement("user"); 
 	if( !itUser->isEmpty() && itUser != (*formData).end()) 
-	{  
-		//std::cout << "Usuario : " << **itUser << "<br>";  
-	} 
+	{
+		std::cout << "Usuario : " << **itUser << "<br>";  
+	}
 	else 
 	{
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
+	
+   	std::cout << "Step 2 : \n<br>";
+	
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
-	{  
-		//std::cout << "Contraseña : " << **itPassword << "<br>"; 
+	{
+		std::cout << "Contraseña : " << **itPassword << "<br>"; 
 	} 
 	else 
 	{
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
+	
+   	std::cout << "Step 3 : \n<br>";
 		   		   	
 	muposys::server::Login login;
 	bool flagSession = login.check(**itUser,**itPassword);
 	std::string strredirect = "/cgi/application?session=";
 	strredirect += login.getSessionID();
 	
+   	std::cout << "Step 4 : \n<br>";
 		   	
 	if(flagSession)
 	{

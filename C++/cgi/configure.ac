@@ -19,6 +19,7 @@ PKG_CHECK_MODULES(SQLITE3, [sqlite3])
 
 PKG_CHECK_MODULES(OPENSSL, [openssl])
 
+PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
 
 AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
 if test "x$with_mysql" = "xyes"; then 

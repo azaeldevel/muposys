@@ -12,15 +12,6 @@ namespace muposys::server
 
 
 
-
-
-
-
-
-
-
-
-
 muposys::http::Session& Login::getSession()
 {
 	return *session;
@@ -68,9 +59,11 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	{
 		userbd = usrlst->at(0);
 	}
-	
 	if(userbd->checkpass(conn))
 	{
+		std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
+		std::cout << "userbd name : " << userbd->getName () << "<br>";
+		std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";

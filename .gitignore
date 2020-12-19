@@ -4,6 +4,7 @@ java/octetos-db/target
 /java/db/target/
 /java/db/nbproject/
 /java/muposys/nbproject/
+C++/apidb/CMakeFiles/
 C++/apidb/CMakeLists.txt
 C++/apidb/build/
 C++/apidb/cmake.modules/
@@ -63,3 +64,7 @@ gnome-icon-theme-*.tar.bz2
 java/db/target/
 C++/apidb/muposysdb.cpp
 C++/apidb/muposysdb.hpp
+C++/apidb/CMakeCache.txt
+C++/apidb/Makefile
+C++/apidb/cmake_install.cmake
+C++/apidb/libmuposysdb.a

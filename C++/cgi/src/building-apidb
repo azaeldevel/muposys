@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SRCDIR=$1
+
+PFILE=$SRCDIR/src/muposys.apidb
+BUILDP=$SRCDIR/src
+
+apidb-build -p $PFILE -o $BUILDP

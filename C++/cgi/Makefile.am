@@ -12,4 +12,4 @@ database_DATA = database
 
 install-data-hook:
 	chown www-data:www-data -R /var/www
-	chmod u+w /var/www
+	chmod -R u+w /var/www
