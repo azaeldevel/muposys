@@ -68,3 +68,6 @@ C++/apidb/CMakeCache.txt
 C++/apidb/Makefile
 C++/apidb/cmake_install.cmake
 C++/apidb/libmuposysdb.a
+C++/cgi/src/config.h.in
+C++/cgi/src/muposysdb.cpp
+C++/cgi/src/muposysdb.hpp

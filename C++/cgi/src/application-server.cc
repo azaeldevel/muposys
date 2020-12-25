@@ -41,7 +41,8 @@ namespace muposys
 				
 				out << "</div></a>\n";
 				out << "<div id=\"photo\"><a href=\"#/user.html\" > ";
-				/*sysapp::http::db::Conector connhttp("database");
+				/*
+				sysapp::http::db::Conector connhttp("database");
 				sysapp::http::db::Variable var;
 				if(var.select(connhttp,login->getSession().getSession(),"user"))
 				{
@@ -51,7 +52,8 @@ namespace muposys
 				{
 					flagserror = true;
 				}
-				connhttp.close();*/
+				connhttp.close();
+				*/
 				out << "</a></div>\n";
 				out << "<div id=\"system\"><a href=\"/system.html\" >";
 				

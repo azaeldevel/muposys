@@ -1,7 +1,7 @@
 
 noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la
 
-bin_PROGRAMS = login application logout useradd
+bin_PROGRAMS = login application logout userregister-methode
 
 
 DBLIBS=
@@ -48,7 +48,7 @@ application_LDADD =   libmuposys-server.la $(DBLIBS)
 logout_SOURCES = logout.cc  
 logout_LDADD =   $(CGICC_LIBS) libmuposys-server.la $(DBLIBS)
 
-useradd_LDADD = $(CGICC_LIBS) $(DBLIBS) libmuposys-server.la 
-useradd_LDFLAGS = 
-useradd_CXXFLAGS = $(DEFINES)
-useradd_SOURCES = useradd.cc 
+userregister_methode_LDADD = $(CGICC_LIBS) $(DBLIBS) libmuposys-server.la 
+userregister_methode_LDFLAGS = 
+userregister_methode_CXXFLAGS = $(DEFINES)
+userregister_methode_SOURCES = userregister-methode.cc 

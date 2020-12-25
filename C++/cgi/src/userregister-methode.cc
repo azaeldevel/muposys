@@ -126,7 +126,6 @@ int main()
 		if((*it).getValue().compare("register") == 0)
 		{
 			statuscode = validRegister(cgi);
-			
 		}
 		else
 		{
