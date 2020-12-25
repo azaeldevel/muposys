@@ -24,7 +24,7 @@ bool Window::buildHTML()
 	out << "<html>\n";	
 		buildHead();	
 		out << "<body>\n";	
-			out << "<div class=\"modal\">\n";
+			//out << "<div class=\"modal\">\n";
 				if(instanceof<Form>(getBody()))
 				{
 					out << "<form class=\"modal-content animate\" action=\"/cgi/useradd\" method=\"post\">";
@@ -35,7 +35,7 @@ bool Window::buildHTML()
 				{
 					getBody()->print(out);
 				}
-			out << "</div>\n";
+			//out << "</div>\n";
 		out << "</body>\n";	   	
 	out << "</html>\n";	   	
 	return true;

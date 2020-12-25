@@ -11,7 +11,55 @@ namespace muposys::server
 
 
 
-
+void Login::methode()
+{
+	std::cout << "Content-type:text/html\r\n\r\n";
+   	std::cout << "<html>\n";
+   	std::cout << "<head>\n";
+	
+   	//std::cout << "Step 1 : \n<br>";
+	
+   	cgicc::Cgicc formData;   	
+	cgicc::form_iterator itUser = formData.getElement("user"); 
+	if( !itUser->isEmpty() && itUser != (*formData).end()) 
+	{
+		//std::cout << "Usuario : " << **itUser << "<br>";  
+	}
+	else 
+	{
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+	}
+	
+   	//std::cout << "Step 2 : \n<br>";
+	
+	cgicc::form_iterator itPassword = formData.getElement("psw");  
+	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
+	{
+		//std::cout << "Contraseña : " << **itPassword << "<br>"; 
+	} 
+	else 
+	{
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+	}
+	
+   	//std::cout << "Step 3 : \n<br>";
+		   		   	
+	bool flagSession = check(**itUser,**itPassword);
+	std::string strredirect = "/cgi/application?session=";
+	strredirect += getSessionID();
+	
+   	//std::cout << "Step 4 : \n<br>";
+		   	
+	if(flagSession)
+	{
+		std::cout << "<meta http-equiv=\"Refresh\" content=\"0;url=" << strredirect << "\"\n";
+	}
+   	
+   	std::cout << "</head>\n";
+   	std::cout << "<body>\n";
+   	std::cout << "</body>\n";
+   	std::cout << "</html>\n";
+}
 muposys::http::Session& Login::getSession()
 {
 	return *session;

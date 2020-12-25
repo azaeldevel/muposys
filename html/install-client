@@ -8,7 +8,7 @@ WEBDIRECTORY="/var/www/html/"
 rm -f /home/azael/develop/octetos/muposys/html/muposys-html/*~
 
 
-cp -r -f /home/azael/develop/octetos/muposys/html/muposys-html/* $WEBDIRECTORY
+cp -rf /home/azael/develop/octetos/muposys/html/muposys-html/* $WEBDIRECTORY
 
 if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then

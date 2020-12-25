@@ -134,9 +134,13 @@ class Login
 private:	
 	muposys::http::Session* session;
 	
+	bool check(const std::string&,const std::string&);
 
 public:
-	bool check(const std::string&,const std::string&);
+	/**
+	*\brief html reponse methed in server side for logit.html
+	*/
+	void methode();
 	const std::string& getSessionID()const;
 	Login();
 	Login(const std::string& sessionid);
