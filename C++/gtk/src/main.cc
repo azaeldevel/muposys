@@ -30,13 +30,14 @@
 
 /* For testing propose use the local (not installed) ui file */
 /* #define UI_FILE PACKAGE_DATA_DIR"/ui/sysapp.ui" */
-#define UI_FILE "src/sysapp.ui"
+#define UI_FILE "src/muposys.ui"
 
 
-#include "Login.hh"
-   
-int
-main (int argc, char *argv[])
+//#include "Login.hh"
+#include "Main.hh"
+
+
+int main (int argc, char *argv[])
 {
 	Gtk::Main kit(argc, argv);
 
@@ -53,12 +54,13 @@ main (int argc, char *argv[])
 		return 1;
 	}
 	
-	Login* wndLogin = 0;
-	builder->get_widget_derived("wndLogin", wndLogin);
+	//Login* wndLogin = 0;
+	Main* wndMain = 0;
+	builder->get_widget_derived("wndMain", wndMain);
 
-	if (wndLogin)
+	if (wndMain)
 	{
-		kit.run(*wndLogin);
+		kit.run(*wndMain);
 	}
 	
 	return 0;

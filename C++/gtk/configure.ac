@@ -1,7 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 dnl Created by Anjuta application wizard.
 
-AC_INIT(muposys, 0.1.0-alpha)
+AC_INIT(muposys, 0.1)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -33,8 +33,28 @@ LT_INIT
 
 PKG_CHECK_MODULES(GTKMM, [gtkmm-3.0 ])
 
+PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract ])
+
 PKG_CHECK_MODULES(OCTETOS_DB_MARIA, [octetos-db-maria ])
 
+AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
+if test "x$with_mysql" = "xyes"; then 
+	PKG_CHECK_MODULES(OCTETOS_DB_MYSQL, [octetos-db-mysql])
+fi
+AM_CONDITIONAL(WITH_MYSQL, test x"$with_mysql" = "xyes")
+
+AC_ARG_WITH([mariadb], AS_HELP_STRING([--with-mariadb], [Soporta para MariDB.]))
+if test "x$with_mariadb" = "xyes"; then 
+	PKG_CHECK_MODULES(OCTETOS_DB_MARIA, [octetos-db-maria])
+fi
+AM_CONDITIONAL(WITH_MARIADB, test x"$with_mariadb" = "xyes")
+
+
+AC_ARG_WITH([postgresql], AS_HELP_STRING([--with-postgresql], [Soporta para PostgreSQL.]))
+if test "x$with_postgresql" = "xyes"; then 
+	PKG_CHECK_MODULES(OCTETOS_DB_POSTGRESQL, [octetos-db-postgresql])
+fi
+AM_CONDITIONAL(WITH_POSTGRESQL, test x"$with_postgresql" = "xyes")
 
 
 AC_OUTPUT([

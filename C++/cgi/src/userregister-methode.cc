@@ -15,6 +15,9 @@ enum StatusCode
 	NOT_FOUND_NAME2,
 	EMPTY_NAME2,
 	FAIL_UPDATE_NAME2,
+	FAIL_CREATE_REGISTER,
+	FAIL_EMTY_USERNAME,
+	FAIL_ON_SAVE,
 };
 /**
 *@brief Realiza el registro de un uevo usario
@@ -26,6 +29,7 @@ int validRegister(cgicc::Cgicc& cgi)
 	
 	//verificar si existe usuario
 	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"user");
+	std::string username = (*it).getValue();
 #if defined MARIADB
 	octetos::db::mariadb::Connector conn;
 #elif defined MYSQL
@@ -37,72 +41,86 @@ int validRegister(cgicc::Cgicc& cgi)
 #endif
 	conn.connect(muposysdb::datconex);
 	muposysdb::Users* userbd;
-	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::selecrUserByName(conn,(*it).getValue());
+	std::string strnamewhere= "name = '";
+	strnamewhere += username + "' and status = 'A'";
+	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::select(conn,strnamewhere);
 	if(usrlst->size() == 0)
 	{
-		//no existe el usuario, proceso correcto		
+		std::cout << "<h1>no existe el usuario, proceso correcto</h1>\n";
 	}
-	else if(usrlst->size() > 1) 
+	else if(usrlst->size() >= 1) 
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de 
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
+		std::cout << "<h1>ya existe el usuario, proceso correcto</h1>\n";
 		return USER_ALREADY_EXISTE;
 	}
-	else
-	{
-		userbd = usrlst->at(0);
-	}
-	delete usrlst;
-	conn.close();
-	std::cout << "Nombre de usuario disponoble<br>";
-	
 	
 	//verificar contraseña
-	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"psw");
-	std::string psw = (*it).getValue();
-	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"pswconfirm");
-	std::string pswconfirm = (*it).getValue();
+	std::string psw = **(cgi.getElement("psw")); 
+	std::string pswconfirm = **(cgi.getElement("pswconfirm")); 
 	if(psw.compare(pswconfirm) == 0)
 	{
+		std::cout << "<h1>Contraseñas correctas</h1>\n";
 		return PASSWORD_NOT_MATCH;
 	}
-	std::cout << "Contraseñas correctas<br>";
+	//std::cout << "Contraseñas correctas<br>";
 	
 	
 	//creando person
-	muposysdb::Persons person;
-	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"name1");
-	if(it != cgi.getElements().end())
-	{
-		return NOT_FOUND_NAME1;
-	}
-	std::string name1 = (*it).getValue();
+	muposysdb::Persons person;	
+	std::string name1 = **(cgi.getElement("name1")); 
 	if(name1.empty())
 	{
 		return EMPTY_NAME1;
 	}
-	if(not person.insert(conn,name1))
-	{
-		return FAIL_INSERT_NAME1;
-	}
-	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"name2");
-	if(it != cgi.getElements().end())
-	{
-		return NOT_FOUND_NAME2;
-	}
-	std::string name2 = (*it).getValue();
-	if(name2.empty())
-	{
-		return EMPTY_NAME2;
-	}
-	if(not person.updateName2(conn,name1))
-	{
-		return FAIL_UPDATE_NAME2;
-	}
-	
+		
 	//creating user
-	muposysdb::Users user;
+	std::string userstr = **(cgi.getElement("user"));
+	if(userstr.empty())
+	{
+		return FAIL_EMTY_USERNAME;
+	}
+	muposysdb::Users user;	
+	if(not user.insert(conn,name1,userstr))
+	{
+		std::cout << "<h1>Fallo insert user</h1>\n";
+		return FAIL_CREATE_REGISTER;
+	}
+	else
+	{
+		std::cout << "<h1>Completado : insert user</h1>\n";
+	}
 	
+	if(not user.updateStatus(conn,"R"))
+	{
+		std::cout << "<h1>Fallo update status</h1>\n";
+		return FAIL_ON_SAVE;
+	}
+	else
+	{
+		std::cout << "<h1>Completado : update status</h1>\n";
+	}
+	if(not user.updatePwdtxt(conn,psw))
+	{
+		std::cout << "<h1>Fallo update password</h1>\n";
+		return FAIL_ON_SAVE;
+	}
+	else
+	{
+		std::cout << "<h1>Completado : update password</h1>\n";
+	}
+	
+	if(not conn.commit())
+	{
+		std::cout << "<h1>Fallo commit</h1>\n";
+		return FAIL_ON_SAVE;
+	}
+	else
+	{
+		std::cout << "<h1>Completado commit</h1>\n";
+	}
+	delete usrlst;
 	
 	return SUCCEFULY;
 }
@@ -120,23 +138,20 @@ int main()
 	cgicc::Cgicc cgi;
 	bool accepted = false;
 	int statuscode = 0;
-	cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"type");
-	if(it != cgi.getElements().end())
+	std::string typestr = **(cgi.getElement("register"));
+	if(typestr.compare("register") == 0)
 	{
-		if((*it).getValue().compare("register") == 0)
-		{
-			statuscode = validRegister(cgi);
-		}
-		else
-		{
-		
-		}
+		statuscode = validRegister(cgi);
+	}	
+
+	if(statuscode != SUCCEFULY)
+	{
+		std::cout << "<h1>Un error ocurrio</h1>\n";
 	}
 	else
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		std::cout << "<h1>Completado</h1>\n";
 	}
-	
 	
    	std::cout << "</body>\n";
    	std::cout << "</html>\n";

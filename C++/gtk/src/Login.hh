@@ -1,10 +1,7 @@
-#ifndef SYSAPP_LOGIN_HH
-#define SYSAPP_LOGIN_HH
+#ifndef MUPOSYS_LOGIN_HH
+#define MUPOSYS_LOGIN_HH
 
 #include <gtkmm.h>
-#include "../libraries/muposysdb.hpp"
-
-
 
 class Login : public Gtk::Window
 {
@@ -21,6 +18,7 @@ protected:
 
 public:
 	Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	Login();
 };
 
 #endif

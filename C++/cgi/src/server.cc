@@ -91,7 +91,9 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	conn.connect(muposysdb::datconex);
 	
 	muposysdb::Users* userbd;
-	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::selecrUserByName(conn,userstr);
+	std::string strwhere = "name = ";
+	strwhere += "'" + userstr + "' and status = 'A'";
+	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::select(conn,strwhere);
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
@@ -109,9 +111,9 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	}
 	if(userbd->checkpass(conn))
 	{
-		std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
-		std::cout << "userbd name : " << userbd->getName () << "<br>";
-		std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
+		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
+		//std::cout << "userbd name : " << userbd->getName () << "<br>";
+		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
