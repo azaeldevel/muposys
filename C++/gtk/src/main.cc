@@ -55,7 +55,7 @@ int main (int argc, char *argv[])
 	}
 	
 	//Login* wndLogin = 0;
-	Main* wndMain = 0;
+	muposys::Main* wndMain = 0;
 	builder->get_widget_derived("wndMain", wndMain);
 
 	if (wndMain)
