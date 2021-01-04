@@ -1,17 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package octetos.sysapp;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
-import octetos.syapp.db.Users;
+import octetos.muposys.db.Users;
+
 import org.xml.sax.SAXException;
 
 /**
@@ -129,9 +127,9 @@ public class Loggin extends javax.swing.JInternalFrame {
             Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect(config.getDataSource());
+        octetos.db.maria.Datconnect dat = new octetos.db.maria.Datconnect(config.getDataSource());
         
-        octetos.db.mysql.Connector connector = new octetos.db.mysql.Connector();
+        octetos.db.maria.Connector connector = new octetos.db.maria.Connector();
         boolean checkConection = false;
         try
         {
@@ -142,13 +140,14 @@ public class Loggin extends javax.swing.JInternalFrame {
             e.printStackTrace(); 
         }       
         
-        
-        Users user = new Users();
+        String where = "status = 'A' and name = '" + txUser.getText() + "'";
+        ArrayList<Users> lsuser = null;
         boolean check = false;
         try 
         {
-            check = user.check(connector, txUser.getText(), txpwd.getText());
-        } 
+            lsuser = Users.select(connector,where,2);
+            //check = user.check(connector, txUser.getText(), txpwd.getText());
+        }
         catch (SQLException ex) 
         {
             Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
@@ -177,6 +176,18 @@ public class Loggin extends javax.swing.JInternalFrame {
             
         }
         
+        if(lsuser.size() > 1)
+        {
+            return;
+        }
+        else if(lsuser.size() == 0)
+        {
+            return;
+        }
+        else
+        {
+            check = true;
+        }
         
         if(check)
         {

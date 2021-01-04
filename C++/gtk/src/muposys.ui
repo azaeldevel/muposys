@@ -26,7 +26,7 @@ Author: Azael Reyes
   <!-- interface-license-type lgplv3 -->
   <!-- interface-name sysapp -->
   <!-- interface-authors Azael Reyes -->
-  <object class="GtkAboutDialog">
+  <object class="GtkAboutDialog" id="dlgAbout">
     <property name="name">dlgAbout</property>
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
@@ -107,6 +107,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
               <object class="GtkEntry" id="txUser">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="text" translatable="yes">root</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -142,6 +143,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
               <object class="GtkEntry" id="txPassword">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
+                <property name="text" translatable="yes">123456</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -399,9 +401,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
                 <property name="position">0</property>
               </packing>
             </child>
-            <child>
-              <placeholder/>
-            </child>
           </object>
           <packing>
             <property name="expand">False</property>
@@ -440,37 +439,57 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkImage">
-                        <property name="width_request">100</property>
-                        <property name="height_request">80</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="stock">gtk-disconnect</property>
-                      </object>
-                      <packing>
-                        <property name="x">4</property>
-                        <property name="y">8</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkButton">
-                        <property name="label" translatable="yes">button</property>
+                      <object class="GtkButton" id="btTest">
+                        <property name="label">gtk-execute</property>
                         <property name="width_request">100</property>
                         <property name="height_request">80</property>
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <property name="use_stock">True</property>
+                        <property name="image_position">top</property>
+                        <property name="always_show_image">True</property>
                       </object>
                       <packing>
                         <property name="x">7</property>
                         <property name="y">97</property>
                       </packing>
                     </child>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="width_request">100</property>
+                        <property name="height_request">80</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">label</property>
+                      </object>
+                      <packing>
+                        <property name="x">215</property>
+                        <property name="y">223</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkMenuButton">
+                        <property name="width_request">100</property>
+                        <property name="height_request">80</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="focus_on_click">False</property>
+                        <property name="receives_default">True</property>
+                        <child>
+                          <placeholder/>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="x">242</property>
+                        <property name="y">122</property>
+                      </packing>
+                    </child>
                   </object>
                 </child>
               </object>
               <packing>
-                <property name="expand">False</property>
+                <property name="expand">True</property>
                 <property name="fill">True</property>
                 <property name="position">1</property>
               </packing>
@@ -498,7 +517,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
             </child>
           </object>
           <packing>
-            <property name="expand">False</property>
+            <property name="expand">True</property>
             <property name="fill">True</property>
             <property name="position">1</property>
           </packing>

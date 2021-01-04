@@ -4,8 +4,8 @@
 	<mysql>
 		<host>localhost</host>
 		<port>3306</port>
-		<user>sysapp</user>
+		<user>muposys</user>
 		<code>956A-981GLP97</code>
-		<database>sysapp.alpha</database>
+		<database>muposys-0.1-alpha</database>
 	</mysql>
 </configuration>

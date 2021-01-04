@@ -75,8 +75,8 @@ void Login::on_accept_button_clicked()
 	
 	if(userbd->checkpass(conn))
 	{
-		std::cout << "Usuario DB : " << userbd->getName() << "\n";
-		std::cout << "Usuario Pw : " << userbd->getPwdtxt() << "\n";
+		//std::cout << "Usuario DB : " << userbd->getName() << "\n";
+		//std::cout << "Usuario Pw : " << userbd->getPwdtxt() << "\n";
 		//std::cout << "Usuario GTK : " << txUser->get_text() << "\n";
 		//std::cout << "Usuario GTK : " << txPassword->get_text() << "\n";
 		if((txUser->get_text() == Glib::ustring(userbd->getName()))  and (txPassword->get_text() == Glib::ustring(userbd->getPwdtxt())))

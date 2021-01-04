@@ -44,15 +44,17 @@ AboutDialog::AboutDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
 void Main::Tools::about_display()
 {
-	//dlgAbout = 0;
-	//builder->get_widget_derived("dlgAbout", dlgAbout);
-	//dlgAbout->show();
+	dlgAbout = 0;
+	builder->get_widget_derived("dlgAbout", dlgAbout);
+	dlgAbout->show();
 }
 Main::Tools::Tools(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : builder(refGlade)
 {
 	builder->get_widget("mnbMain", mnbMain);
 	builder->get_widget("mniAbout", mniAbout);
-	mniAbout->signal_select().connect(sigc::mem_fun(*this, &Main::Tools::about_display));
+	mniAbout->signal_activate_item ().connect(sigc::mem_fun(*this, &Main::Tools::about_display));
+
+	builder->get_widget("boxTools", boxTools);
 }
 
 
@@ -68,9 +70,7 @@ Main::ActivityArea::ActivityArea(BaseObjectType* cobject, const Glib::RefPtr<Gtk
 	builder->get_widget("vwpWork", vwpWork);
 	builder->get_widget("fxWork", fxWork);
 
-	vwpWork->set_size_request(400,400);
-}		 
-
+} 
 
 
 
@@ -110,7 +110,15 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade)
 	wndLogin->show();
 
 	activityActual = new Activity(cobject,refGlade);
+		
+	builder->get_widget("btTest", btTest);
+	btTest->signal_button_press_event().connect(sigc::mem_fun(*this, &Main::on_button_press));
 }
 
+bool Main::on_button_press(GdkEventButton* event)
+{
+	//gtk_window_set_position ((GtkWindow*)GTK_WIDGET(event->window), GTK_WIN_POS_CENTER);
+	return true;
+}
 
 }

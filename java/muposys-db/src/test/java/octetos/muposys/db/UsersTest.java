@@ -1,6 +1,7 @@
 
-package octetos.syapp.db;
+package octetos.muposys.db;
 
+import java.sql.SQLException;
 import octetos.db.mysql.Connector;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
@@ -39,9 +40,9 @@ public class UsersTest {
      */
     @Test
     public void testCheck() throws Exception {
-        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect("localhost","sysapp.alpha",3306,"sysapp","123456");
+        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect("localhost","muposys-0.1-alpha",3306,"muposys","123456");
         
-        octetos.db.mysql.Connector connector = new octetos.db.mysql.Connector();
+        octetos.db.maria.Connector connector = new octetos.db.maria.Connector();
         boolean checkConection = false;
         try
         {
@@ -53,12 +54,15 @@ public class UsersTest {
             assertTrue(false);
         }
         assertEquals(checkConection, true);
-        
-        
-        Users user = new Users();
-        boolean check = user.check(connector, "root", "123456");
+        boolean check = false;
+        Users user = new Users(1);
+        user.downName(connector);
+        user.downPwdtxt(connector);
+        if(user.getName().compareTo("root") == 0 && user.getPwdtxt().compareTo("123456") == 0 )
+        {
+            check = true;
+        }
         assertTrue(check);
-               
         
         try
         {

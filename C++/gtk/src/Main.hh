@@ -51,7 +51,7 @@ namespace muposys
 			Gtk::MenuBar* mnbMain;
 			Gtk::MenuItem* mniAbout;
 			AboutDialog* dlgAbout;
-			Gtk::Box* box;
+			Gtk::Box* boxTools;
 			const Glib::RefPtr<Gtk::Builder>& builder;
 		protected:
 			void about_display();
@@ -96,12 +96,16 @@ namespace muposys
 		**/
 		Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
 		
+		bool on_button_press(GdkEventButton* event);
+		
+
 	private:
 		const Glib::RefPtr<Gtk::Builder> builder;
 		Login* wndLogin;
 		Activities activities;
 		Activity* activityActual;	
-		Tools tools;	
+		Tools tools;
+		Gtk::Button* btTest;	
 	};
 
 

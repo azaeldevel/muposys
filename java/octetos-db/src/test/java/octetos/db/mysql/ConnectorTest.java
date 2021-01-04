@@ -49,7 +49,7 @@ public class ConnectorTest {
     @Test
     public void testConnect() throws Exception {
         
-        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect("localhost","sysapp.alpha",3306,"sysapp","123456");
+        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect("localhost","muposys-0.1-alpha",3306,"muposys","123456");
         
         octetos.db.mysql.Connector connector = new octetos.db.mysql.Connector();
         boolean checkConection = false;

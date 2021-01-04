@@ -71,3 +71,4 @@ C++/apidb/libmuposysdb.a
 C++/cgi/src/config.h.in
 C++/cgi/src/muposysdb.cpp
 C++/cgi/src/muposysdb.hpp
+/java/muposys-db/target/

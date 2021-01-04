@@ -2,7 +2,7 @@
 
 #WEBDIRECTORY="/var/www/localhost/htdocs"
 #WEBDIRECTORY="/var/www/muposys"
-WEBDIRECTORY="/var/www/html/"
+WEBDIRECTORY="/var/www/vhosts/muposys/html"
 #WEBDIRECTORY="/srv/http/"
 
 rm -f /home/azael/develop/octetos/muposys/html/muposys-html/*~

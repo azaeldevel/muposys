@@ -43,8 +43,8 @@ public class ConfigurationTest {
         assertNotEquals(config, null);
         
         MysqlDataSource dat = config.getDataSource();
-        assertTrue(dat.getUser().compareTo("sysapp") == 0);
-        assertTrue(dat.getDatabaseName().compareTo("sysapp.alpha") == 0);
+        assertTrue(dat.getUser().compareTo("muposys") == 0);
+        assertTrue(dat.getDatabaseName().compareTo("muposys-0.1-alpha") == 0);
     }
     
     @BeforeAll

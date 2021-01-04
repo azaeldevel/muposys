@@ -1,5 +1,5 @@
 
-package octetos.db.mysql;
+package octetos.db.maria;
 
 
 import java.sql.Connection;
@@ -15,7 +15,11 @@ import java.sql.Statement;
 public class Connector implements octetos.db.Connector
 {    
     private Connection connection;
-    
+      
+    public int last_inserted_id()
+    {
+        return 0;
+    }
     @Override
     public boolean delete(String str,ResultSet rs) throws SQLException
     {
@@ -32,7 +36,7 @@ public class Connector implements octetos.db.Connector
         Statement stmt = null;
 
         stmt = connection.createStatement();
-        return stmt.executeQuery(str);
+        return stmt.executeQuery(str);   
     }
     @Override
     public boolean update(String str,ResultSet rs) throws SQLException
