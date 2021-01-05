@@ -1,5 +1,5 @@
 
-package octetos.sysapp;
+package octetos.muposys;
 
 
 import com.mysql.cj.jdbc.MysqlDataSource;

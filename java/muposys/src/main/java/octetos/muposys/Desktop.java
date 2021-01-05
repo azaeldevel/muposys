@@ -1,5 +1,5 @@
 
-package octetos.sysapp;
+package octetos.muposys;
 
 import java.awt.Dimension;
 
@@ -57,7 +57,7 @@ public class Desktop extends javax.swing.JFrame
     public Desktop() {
         initComponents();
         
-        octetos.sysapp.Loggin loggin = new octetos.sysapp.Loggin(this);
+        octetos.muposys.Loggin loggin = new octetos.muposys.Loggin(this);
         add(loggin,Positions.CENTER);        
     }
 

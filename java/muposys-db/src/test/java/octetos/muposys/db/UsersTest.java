@@ -1,8 +1,7 @@
 
 package octetos.muposys.db;
 
-import java.sql.SQLException;
-import octetos.db.mysql.Connector;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +39,7 @@ public class UsersTest {
      */
     @Test
     public void testCheck() throws Exception {
-        octetos.db.mysql.Datconnect dat = new octetos.db.mysql.Datconnect("localhost","muposys-0.1-alpha",3306,"muposys","123456");
+        octetos.db.maria.Datconnect dat = new octetos.db.maria.Datconnect("localhost","muposys-0.1-alpha",3306,"muposys","123456");
         
         octetos.db.maria.Connector connector = new octetos.db.maria.Connector();
         boolean checkConection = false;

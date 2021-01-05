@@ -1,5 +1,5 @@
 
-package octetos.sysapp;
+package octetos.muposys;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 import java.io.IOException;
@@ -27,15 +27,7 @@ public class ConfigurationTest {
         {
             config = new Configuration();
         } 
-        catch (ParserConfigurationException ex) 
-        {
-            Logger.getLogger(ConfigurationTest.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (SAXException ex) 
-        {
-            Logger.getLogger(ConfigurationTest.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (IOException ex) 
+        catch (ParserConfigurationException | SAXException | IOException ex) 
         {
             Logger.getLogger(ConfigurationTest.class.getName()).log(Level.SEVERE, null, ex);
         }

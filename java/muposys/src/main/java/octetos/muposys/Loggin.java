@@ -1,5 +1,5 @@
 
-package octetos.sysapp;
+package octetos.muposys;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -113,16 +113,8 @@ public class Loggin extends javax.swing.JInternalFrame {
         try 
         {
             config = new Configuration();
-        } 
-        catch (ParserConfigurationException ex) 
-        {
-            Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (SAXException ex) 
-        {
-            Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        catch (IOException ex) 
+        }
+        catch (ParserConfigurationException | SAXException | IOException ex) 
         {
             Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -138,15 +130,15 @@ public class Loggin extends javax.swing.JInternalFrame {
         catch(java.sql.SQLException e)            
         {
             e.printStackTrace(); 
-        }       
+        }   
         
         String where = "status = 'A' and name = '" + txUser.getText() + "'";
         ArrayList<Users> lsuser = null;
         boolean check = false;
+        Users user= null;
         try 
         {
-            lsuser = Users.select(connector,where,2);
-            //check = user.check(connector, txUser.getText(), txpwd.getText());
+            lsuser = user.select(connector,where,2);
         }
         catch (SQLException ex) 
         {
@@ -172,8 +164,7 @@ public class Loggin extends javax.swing.JInternalFrame {
         }
         catch(java.sql.SQLException e)            
         {
-            e.printStackTrace(); 
-            
+            e.printStackTrace();
         }
         
         if(lsuser.size() > 1)
@@ -186,7 +177,21 @@ public class Loggin extends javax.swing.JInternalFrame {
         }
         else
         {
-            check = true;
+            user = lsuser.get(0);
+            try
+            {
+                if(user.downName(connector) && user.downPwdtxt(connector))
+                {
+                    if(user.getName().compareTo(txUser.getText()) == 0 && user.getPwdtxt().compareTo(txpwd.getText()) == 0)
+                    {
+                        check = true;                    
+                    }
+                }
+            }
+            catch(java.sql.SQLException e)
+            {
+                
+            }
         }
         
         if(check)
@@ -196,7 +201,7 @@ public class Loggin extends javax.swing.JInternalFrame {
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "Contraseña incorrecta","Usauario/Contraseña incorrectos",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Contraseña incorrecta " + user.getName() + " " + txpwd.getText(),"Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btAcceptActionPerformed
 
