@@ -157,30 +157,32 @@ public class Loggin extends javax.swing.JInternalFrame {
                 e.printStackTrace(); 
 
             }
-        }        
-        try
-        {
-            connector.close();
-        }
-        catch(java.sql.SQLException e)            
-        {
-            e.printStackTrace();
-        }
+        }   
         
         if(lsuser.size() > 1)
         {
-            return;
+            JOptionPane.showMessageDialog(this, "Nombre de usuario ambiguo","Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
         }
         else if(lsuser.size() == 0)
         {
-            return;
+            JOptionPane.showMessageDialog(this, "Usuario desconocido","Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
         }
         else
         {
             user = lsuser.get(0);
             try
             {
-                if(user.downName(connector) && user.downPwdtxt(connector))
+                boolean nameD = user.downName(connector);
+                if(!nameD)
+                {
+                    JOptionPane.showMessageDialog(this, "Fallo la descarga de Name.","Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
+                }
+                boolean pwdD = user.downPwdtxt(connector);
+                if(!pwdD)
+                {
+                    JOptionPane.showMessageDialog(this, "Fallo la descarga de Contrasena.","Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
+                }
+                if(nameD && pwdD)
                 {
                     if(user.getName().compareTo(txUser.getText()) == 0 && user.getPwdtxt().compareTo(txpwd.getText()) == 0)
                     {
@@ -193,7 +195,15 @@ public class Loggin extends javax.swing.JInternalFrame {
                 
             }
         }
-        
+         
+        try
+        {
+            connector.close();
+        }
+        catch(java.sql.SQLException e)            
+        {
+            e.printStackTrace();
+        }
         if(check)
         {
             desktop.enableApplication();
@@ -202,7 +212,7 @@ public class Loggin extends javax.swing.JInternalFrame {
         else
         {
             JOptionPane.showMessageDialog(this, "Contraseña incorrecta " + user.getName() + " " + txpwd.getText(),"Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
-        }
+        }            
     }//GEN-LAST:event_btAcceptActionPerformed
 
     private void btCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelActionPerformed

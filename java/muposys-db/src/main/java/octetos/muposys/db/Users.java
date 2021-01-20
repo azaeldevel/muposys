@@ -136,9 +136,11 @@ public class Users
 		sqlString = sqlString + "user = " +  "'" + user.getPerson().getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
+                System.out.println(sqlString);
 		if(rs.next())
 		{
 			name = rs.getString(1);
+                        System.out.println("name : " + name);
 			return true;
 		}
 		return false;
@@ -150,9 +152,11 @@ public class Users
 		sqlString = sqlString + "user = " +  "'" + user.getPerson().getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
+                System.out.println(sqlString);
 		if(rs.next())
 		{
 			pwdtxt = rs.getString(1);
+                        System.out.println("pwdtxt : " + pwdtxt);
 			return true;
 		}
 		return false;

@@ -2,13 +2,32 @@
 
 #WEBDIRECTORY="/var/www/localhost/htdocs"
 #WEBDIRECTORY="/var/www/muposys"
-WEBDIRECTORY="/var/www/vhosts/muposys/html"
+#WEBDIRECTORY="/var/www/vhosts/muposys/html"
 #WEBDIRECTORY="/srv/http/"
 
-rm -f /home/azael/develop/octetos/muposys/html/muposys-html/*~
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+    Redcore)
+        
+    ;;
+    manjareland)
+        
+    ;;
+    Gentoo)
+        WEBDIRECTORY="/var/www/vhosts/muposys/html"
+    ;;
+    debland)
+        
+        
+    ;;
+    Ubuntu)
+        
+    ;;
+    *)
+esac
 
-
-cp -rf /home/azael/develop/octetos/muposys/html/muposys-html/* $WEBDIRECTORY
+rm -f muposys-html/*~
+cp -r -f muposys-html/* $WEBDIRECTORY
 
 if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then
@@ -21,5 +40,27 @@ if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
 	rm -r gnome-2.91
 fi
 
-chown www-data:www-data -R /var/www
-chmod u+w /var/www
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+    Redcore)
+        
+    ;;
+    manjareland)
+        
+    ;;
+    Gentoo)
+        chown apache:apache -R /var/www
+        chmod u+w /var/www    
+    ;;
+    debland)
+        
+        
+    ;;
+    Ubuntu)
+        chown www-data:www-data -R /var/www
+        chmod u+w /var/www
+    ;;
+    *)
+esac
+
+
