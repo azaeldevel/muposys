@@ -1,5 +1,7 @@
 package octetos.muposys.db;
-import java.sql.ResultSet;import java.sql.SQLException;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -8,30 +10,34 @@ public class Users
 	String TABLE_NAME = "`Users`";
 
 	String name;
+	Persons person;
 	String pwdtxt;
 	String status;
-	Persons user;
 
 
 	public Users()
 	{
 	}
-	public Users(int user)
+	public Users(int person)
 	{
-		this.user = new Persons(user);
+		this.person = new Persons(person);
 	}
 	public Users(Users obj)
 	{
 		this.name = obj.name;
+		this.person = obj.person;
 		this.pwdtxt = obj.pwdtxt;
 		this.status = obj.status;
-		this.user = obj.user;
 	}
 
 
 	public String getName()
 	{
 		return name;
+	}
+	public Persons getPerson()
+	{
+		return person;
 	}
 	public String getPwdtxt()
 	{
@@ -41,10 +47,6 @@ public class Users
 	{
 		return status;
 	}
-	public Persons getUser()
-	{
-		return user;
-	}
 
 
 	public boolean updateName(octetos.db.maria.Connector connector,String name) throws SQLException
@@ -52,7 +54,7 @@ public class Users
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name = '" + name + "'";
-		sqlString = sqlString + " WHERE user = " + user.getPerson().getID();
+		sqlString = sqlString + " WHERE person = " + person.getEnte().getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -61,7 +63,7 @@ public class Users
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET pwdtxt = '" + pwdtxt + "'";
-		sqlString = sqlString + " WHERE user = " + user.getPerson().getID();
+		sqlString = sqlString + " WHERE person = " + person.getEnte().getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -70,42 +72,45 @@ public class Users
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET status = '" + status + "'";
-		sqlString = sqlString + " WHERE user = " + user.getPerson().getID();
+		sqlString = sqlString + " WHERE person = " + person.getEnte().getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
 
 
-	boolean insert(octetos.db.maria.Connector connector,String userName1,String name) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,String personName1,String name) throws SQLException
 	{
-		this.user = new Persons();
-		if(user.insert(connector,userName1) == false) return false;
+                //System.out.println("Users::insert Step 1");
+		person = new Persons();
+                //System.out.println("Users::insert Step 2");
+		if(person.insert(connector,personName1) == false) return false;
+                //System.out.println("Users::insert Step 3");
 		String sqlString = "";
-		sqlString = sqlString + "INSERT INTO " + TABLE_NAME ; 
-		sqlString = sqlString + "(user,name)";
-		sqlString = sqlString + " VALUES(" + user.getPerson().getID() + ","  + "'" + name + "'" + ")";
-		ResultSet rs = null;
-		if(connector.insert(sqlString,rs)) return true;
-		return false;
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
+		sqlString = sqlString + "(person,name)";
+		sqlString = sqlString + " VALUES(" + person.getEnte().getID() + ","  +  "'"  + name + "'" +  ")";
+		ResultSet dt = null;
+                //System.out.println("Users::insert Step 4");
+		return connector.insert(sqlString,dt);
 	}
 
 
-	public boolean select(octetos.db.maria.Connector connector,Persons user) throws SQLException
+	public boolean select(octetos.db.maria.Connector connector,Persons person) throws SQLException
 	{
-		String sql = "SELECT  user";
-		sql = sql + " FROM " + TABLE_NAME  + " WHERE user = " + user.getPerson().getID();
+		String sql = "SELECT  person";
+		sql = sql + " FROM " + TABLE_NAME  + " WHERE person = " + person.getEnte().getID();
 		ResultSet rs = null;
 		rs = connector.select(sql);
 		if(rs != null)
 		{
-			this.user = new Persons(user);
+			this.person = new Persons(person);
 			return true;
 		}
 		return false;
 	}
 	public static ArrayList<Users> select(octetos.db.maria.Connector connector,String where, int leng)  throws SQLException
 	{
-		String sqlString = "SELECT user FROM Users WHERE ";
+		String sqlString = "SELECT person FROM Users WHERE ";
 		sqlString += where;
 		if(leng > 0)
 		{
@@ -133,14 +138,12 @@ public class Users
 	{
 		String sqlString = "SELECT name ";
 		sqlString = sqlString + " FROM Users WHERE ";
-		sqlString = sqlString + "user = " +  "'" + user.getPerson().getID() + "'";
+		sqlString = sqlString + "person = " +  "'" + person.getEnte().getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
-                System.out.println(sqlString);
 		if(rs.next())
 		{
 			name = rs.getString(1);
-                        System.out.println("name : " + name);
 			return true;
 		}
 		return false;
@@ -149,14 +152,12 @@ public class Users
 	{
 		String sqlString = "SELECT pwdtxt ";
 		sqlString = sqlString + " FROM Users WHERE ";
-		sqlString = sqlString + "user = " +  "'" + user.getPerson().getID() + "'";
+		sqlString = sqlString + "person = " +  "'" + person.getEnte().getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
-                System.out.println(sqlString);
 		if(rs.next())
 		{
 			pwdtxt = rs.getString(1);
-                        System.out.println("pwdtxt : " + pwdtxt);
 			return true;
 		}
 		return false;
@@ -165,7 +166,7 @@ public class Users
 	{
 		String sqlString = "SELECT status ";
 		sqlString = sqlString + " FROM Users WHERE ";
-		sqlString = sqlString + "user = " +  "'" + user.getPerson().getID() + "'";
+		sqlString = sqlString + "person = " +  "'" + person.getEnte().getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())

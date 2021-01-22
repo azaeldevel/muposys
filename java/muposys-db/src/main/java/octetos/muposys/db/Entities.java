@@ -1,5 +1,7 @@
 package octetos.muposys.db;
-import java.sql.ResultSet;import java.sql.SQLException;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -46,14 +48,14 @@ public class Entities
 	}
 
 
-	boolean insert(octetos.db.maria.Connector connector) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector) throws SQLException
 	{
 		String sqlString = "";
-		sqlString = sqlString + "INSERT INTO " + TABLE_NAME ; 
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "()";
-		sqlString = sqlString + " VALUES(" + ")";
-		ResultSet rs = null;
-		if(connector.insert(sqlString,rs))
+		sqlString = sqlString + " VALUES(" +  ")";
+		ResultSet dt = null;
+		if(connector.insert(sqlString,dt))
 		{
 			id = connector.last_inserted_id();
 			if(id > 0) return true;

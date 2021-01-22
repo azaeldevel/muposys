@@ -1,5 +1,7 @@
 package octetos.muposys.db;
-import java.sql.ResultSet;import java.sql.SQLException;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -10,32 +12,32 @@ public class Persons
 	float age;
 	float canyonLength;
 	float canyonNumber;
+	Entities ente;
 	String gender;
 	String name1;
 	String name2;
 	String name3;
 	String name4;
-	Entities person;
 
 
 	public Persons()
 	{
 	}
-	public Persons(int person)
+	public Persons(int ente)
 	{
-		this.person = new Entities(person);
+		this.ente = new Entities(ente);
 	}
 	public Persons(Persons obj)
 	{
 		this.age = obj.age;
 		this.canyonLength = obj.canyonLength;
 		this.canyonNumber = obj.canyonNumber;
+		this.ente = obj.ente;
 		this.gender = obj.gender;
 		this.name1 = obj.name1;
 		this.name2 = obj.name2;
 		this.name3 = obj.name3;
 		this.name4 = obj.name4;
-		this.person = obj.person;
 	}
 
 
@@ -50,6 +52,10 @@ public class Persons
 	float getCanyonNumber()
 	{
 		return canyonNumber;
+	}
+	public Entities getEnte()
+	{
+		return ente;
 	}
 	public String getGender()
 	{
@@ -71,10 +77,6 @@ public class Persons
 	{
 		return name4;
 	}
-	public Entities getPerson()
-	{
-		return person;
-	}
 
 
 	public boolean updateAge(octetos.db.maria.Connector connector,float age) throws SQLException
@@ -82,7 +84,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET age = " + age;
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -91,7 +93,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET canyonLength = " + canyonLength;
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -100,7 +102,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET canyonNumber = " + canyonNumber;
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -109,7 +111,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET gender = '" + gender + "'";
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -118,7 +120,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name1 = '" + name1 + "'";
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -127,7 +129,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name2 = '" + name2 + "'";
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -136,7 +138,7 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name3 = '" + name3 + "'";
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
@@ -145,42 +147,45 @@ public class Persons
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString + " SET name4 = '" + name4 + "'";
-		sqlString = sqlString + " WHERE person = " + person.getID();
+		sqlString = sqlString + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		return connector.update(sqlString,rs);
 	}
 
 
-	boolean insert(octetos.db.maria.Connector connector,String name1) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,String name1) throws SQLException
 	{
-		this.person = new Entities();
-		if(person.insert(connector) == false) return false;
+                //System.out.println("Persons::insert Step 1");
+		ente = new Entities();
+                //System.out.println("Persons::insert Step 2");
+		if(ente.insert(connector) == false) return false;
+                //System.out.println("Persons::insert Step 3");
 		String sqlString = "";
-		sqlString = sqlString + "INSERT INTO " + TABLE_NAME ; 
-		sqlString = sqlString + "(person,name1)";
-		sqlString = sqlString + " VALUES(" + person.getID() + ","  + "'" + name1 + "'" + ")";
-		ResultSet rs = null;
-		if(connector.insert(sqlString,rs)) return true;
-		return false;
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
+		sqlString = sqlString + "(ente,name1)";
+		sqlString = sqlString + " VALUES(" + ente.getID() + ","  +  "'"  + name1 + "'" +  ")";
+		ResultSet dt = null;
+                //System.out.println("Persons::insert Step 4");
+		return connector.insert(sqlString,dt);
 	}
 
 
-	public boolean select(octetos.db.maria.Connector connector,Entities person) throws SQLException
+	public boolean select(octetos.db.maria.Connector connector,Entities ente) throws SQLException
 	{
-		String sql = "SELECT  person";
-		sql = sql + " FROM " + TABLE_NAME  + " WHERE person = " + person.getID();
+		String sql = "SELECT  ente";
+		sql = sql + " FROM " + TABLE_NAME  + " WHERE ente = " + ente.getID();
 		ResultSet rs = null;
 		rs = connector.select(sql);
 		if(rs != null)
 		{
-			this.person = new Entities(person);
+			this.ente = new Entities(ente);
 			return true;
 		}
 		return false;
 	}
 	public static ArrayList<Persons> select(octetos.db.maria.Connector connector,String where, int leng)  throws SQLException
 	{
-		String sqlString = "SELECT person FROM Persons WHERE ";
+		String sqlString = "SELECT ente FROM Persons WHERE ";
 		sqlString += where;
 		if(leng > 0)
 		{
@@ -208,7 +213,7 @@ public class Persons
 	{
 		String sqlString = "SELECT age ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -222,7 +227,7 @@ public class Persons
 	{
 		String sqlString = "SELECT canyonLength ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -236,7 +241,7 @@ public class Persons
 	{
 		String sqlString = "SELECT canyonNumber ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -250,7 +255,7 @@ public class Persons
 	{
 		String sqlString = "SELECT gender ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -264,7 +269,7 @@ public class Persons
 	{
 		String sqlString = "SELECT name1 ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -278,7 +283,7 @@ public class Persons
 	{
 		String sqlString = "SELECT name2 ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -292,7 +297,7 @@ public class Persons
 	{
 		String sqlString = "SELECT name3 ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())
@@ -306,7 +311,7 @@ public class Persons
 	{
 		String sqlString = "SELECT name4 ";
 		sqlString = sqlString + " FROM Persons WHERE ";
-		sqlString = sqlString + "person = " +  "'" + person.getID() + "'";
+		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
 		ResultSet rs = null;
 		rs = connector.select(sqlString);
 		if(rs.next())

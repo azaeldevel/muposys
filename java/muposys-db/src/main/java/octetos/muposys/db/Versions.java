@@ -1,5 +1,7 @@
 package octetos.muposys.db;
-import java.sql.ResultSet;import java.sql.SQLException;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -91,17 +93,16 @@ public class Versions
 	}
 
 
-	boolean insert(octetos.db.maria.Connector connector,byte major) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,byte major) throws SQLException
 	{
-		this.ente = new Entities();
+		ente = new Entities();
 		if(ente.insert(connector) == false) return false;
 		String sqlString = "";
-		sqlString = sqlString + "INSERT INTO " + TABLE_NAME ; 
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "(ente,major)";
-		sqlString = sqlString + " VALUES(" + ente.getID() + ","  + major + ")";
-		ResultSet rs = null;
-		if(connector.insert(sqlString,rs)) return true;
-		return false;
+		sqlString = sqlString + " VALUES(" + ente.getID() + ","  + major +  ")";
+		ResultSet dt = null;
+		return connector.insert(sqlString,dt);
 	}
 
 
