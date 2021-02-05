@@ -24,6 +24,9 @@
 
 #include <gtkmm.h>
 
+
+#include "muposysdb.hpp"
+
 namespace muposys
 {
 
@@ -36,12 +39,15 @@ protected:
 	Gtk::Label* lbMessage;
 	Gtk::Button* btAccept;
 	Gtk::Button* btCancel;
+	muposysdb::Users** user;
     //signal handlers
     void on_accept_button_clicked();
     void on_cancel_button_clicked();
-
+	
 public:
 	Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+
+	void linkUser(muposysdb::Users** user);
 };
 
 }

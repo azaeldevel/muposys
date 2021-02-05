@@ -127,6 +127,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			md5sum = dt.getString(0);
 			return true;
 		}
@@ -182,7 +183,7 @@ namespace muposysdb
 		return canyonNumber;
 	}
 
-	const Entities& Persons::getEnte() const
+	Entities& Persons::getEnte() const
 	{
 		return *ente;
 	}
@@ -395,6 +396,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			age = dt.getfloat(0);
 			return true;
 		}
@@ -408,6 +410,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			canyonLength = dt.getfloat(0);
 			return true;
 		}
@@ -421,6 +424,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			canyonNumber = dt.getfloat(0);
 			return true;
 		}
@@ -434,6 +438,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			gender = dt.getString(0);
 			return true;
 		}
@@ -447,6 +452,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name1 = dt.getString(0);
 			return true;
 		}
@@ -460,6 +466,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name2 = dt.getString(0);
 			return true;
 		}
@@ -473,6 +480,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name3 = dt.getString(0);
 			return true;
 		}
@@ -486,6 +494,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name4 = dt.getString(0);
 			return true;
 		}
@@ -525,7 +534,7 @@ namespace muposysdb
 		return brief;
 	}
 
-	const Entities& SoftwareProjects::getEnte() const
+	Entities& SoftwareProjects::getEnte() const
 	{
 		return *ente;
 	}
@@ -637,6 +646,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			brief = dt.getString(0);
 			return true;
 		}
@@ -650,6 +660,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name = dt.getString(0);
 			return true;
 		}
@@ -708,7 +719,7 @@ namespace muposysdb
 		return priority;
 	}
 
-	const SoftwareProjects& SoftwareRQs::getProject() const
+	SoftwareProjects& SoftwareRQs::getProject() const
 	{
 		return *project;
 	}
@@ -845,6 +856,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name = dt.getString(0);
 			return true;
 		}
@@ -858,6 +870,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			number = dt.getint(0);
 			return true;
 		}
@@ -871,6 +884,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			origin = dt.getString(0);
 			return true;
 		}
@@ -884,6 +898,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			priority = dt.getint(0);
 			return true;
 		}
@@ -897,6 +912,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			type = dt.getString(0);
 			return true;
 		}
@@ -937,7 +953,7 @@ namespace muposysdb
 		return name;
 	}
 
-	const Persons& Users::getPerson() const
+	Persons& Users::getPerson() const
 	{
 		return *person;
 	}
@@ -1110,6 +1126,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name = dt.getString(0);
 			return true;
 		}
@@ -1123,6 +1140,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			pwdtxt = dt.getString(0);
 			return true;
 		}
@@ -1136,6 +1154,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			status = dt.getString(0);
 			return true;
 		}
@@ -1172,7 +1191,7 @@ namespace muposysdb
 	}
 
 
-	const Entities& Versions::getEnte() const
+	Entities& Versions::getEnte() const
 	{
 		return *ente;
 	}
@@ -1317,6 +1336,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			major = dt.getchar(0);
 			return true;
 		}
@@ -1330,6 +1350,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			minor = dt.getchar(0);
 			return true;
 		}
@@ -1343,6 +1364,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			name = dt.getString(0);
 			return true;
 		}
@@ -1356,6 +1378,7 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
+			if(!dt.nextRow()) return false;
 			patch = dt.getchar(0);
 			return true;
 		}

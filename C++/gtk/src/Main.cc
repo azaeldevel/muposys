@@ -38,26 +38,53 @@ AboutDialog::AboutDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 
 
 
-	 
-	 
 Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
 {
+	set_title(titleWindow());
+	builder->get_widget("tbrDocsSeller", tbrDocsSeller);
+	builder->get_widget("tbrAdmin", tbrAdmin);
+	builder->get_widget("btUser", btUser);
+	builder->get_widget("btQuotation", btQuotation);
+	builder->get_widget("lbUser", lbUser);
+	builder->get_widget("lbSystem", lbSystem);
+	lbSystem->set_text(systemName());
+	signal_focus_in_event().connect(sigc::mem_fun(*this, &Main::on_windows_focus));
+	
 	wndLogin = 0;
+	user = NULL;
 	builder->get_widget_derived("wndLogin", wndLogin);
+	wndLogin->linkUser(&user);
 	wndLogin->show();
-
-	set_title(title_window());
 }
+const char* Main::titleWindow()const
+{
+	return MIPOSYS_NAME_FULL;
+}
+const char* Main::systemName()const
+{
+	return MIPOSYS_NAME;
+}
+
 
 bool Main::on_button_press(GdkEventButton* event)
 {
 	//gtk_window_set_position ((GtkWindow*)GTK_WIDGET(event->window), GTK_WIN_POS_CENTER);
 	return true;
 }
-
-const char* Main::title_window()const
+bool Main::on_windows_focus(void* user_data)
 {
-	return MIPOSYS_NAME_FULL;
+	if(user != NULL)
+	{
+		std::string strname;
+		if(!user->getPerson().getName1().empty()) strname += user->getPerson().getName1();
+		strname += " ";
+		if(!user->getPerson().getName3().empty()) strname += user->getPerson().getName3();
+		strname += "(";
+		strname += user->getName() + ")";
+		lbUser->set_text(strname);
+		//std::cout << "\n>>>>>>>>>>>>>lbUser->set_text(" << user->getName() << ")\n";
+	}
+	
+	return true;
 }
-
 }

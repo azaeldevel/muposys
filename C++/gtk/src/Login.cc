@@ -37,12 +37,17 @@ Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade
     
     btAccept->signal_clicked().connect(sigc::mem_fun(*this, &Login::on_accept_button_clicked));
     btCancel->signal_clicked().connect(sigc::mem_fun(*this, &Login::on_cancel_button_clicked));
-	set_size_request(350,200);
+	//set_size_request(350,200);
+}
+
+void Login::linkUser(muposysdb::Users** u)
+{
+	user = u;
 }
 
 void Login::on_accept_button_clicked()
 {
-	octetos::db::mariadb::Connector conn;	
+	octetos::db::maria::Connector conn;	
 	try
 	{
 		conn.connect(muposysdb::datconex);
@@ -55,7 +60,7 @@ void Login::on_accept_button_clicked()
 	muposysdb::Users* userbd = NULL;
 	std::string strnamewhere= "name = '";
 	strnamewhere += txUser->get_text() + "' and status = 'A'";
-	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::select(conn,strnamewhere);
+	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::select(conn,strnamewhere,1);
 	if(usrlst->size() == 0)
 	{
 		lbMessage->set_text("Usuario/Contraseña no coinciden");
@@ -83,6 +88,9 @@ void Login::on_accept_button_clicked()
 		{
 			lbMessage->set_text("OK clicked");
 			//std::cout << "OK clicked\n";
+			userbd->getPerson().downName1(conn);
+			userbd->getPerson().downName3(conn);
+			*user = userbd;
 			close();
 		}
 		else

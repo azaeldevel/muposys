@@ -50,11 +50,23 @@ namespace muposys
 		**/
 		Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);		
 		bool on_button_press(GdkEventButton* event);		
-		const char* title_window()const;
+		const char* titleWindow()const;
+		const char* systemName()const;
+		//carga de gui no gestionadna por glade
+		
+	protected:
+		bool on_windows_focus(void* user_data);
 	private:
 		const Glib::RefPtr<Gtk::Builder> builder;
 		Login* wndLogin;
-		Gtk::Button* btTest;	
+		Gtk::Toolbar* tbrDocsSeller;
+		Gtk::Toolbar* tbrAdmin;
+		Gtk::Button* btUser;
+		Gtk::Button* btQuotation;
+		Gtk::Label* lbUser;
+		Gtk::Label* lbSystem;
+		muposysdb::Users* user;
+		std::string struser;	
 	};
 
 }

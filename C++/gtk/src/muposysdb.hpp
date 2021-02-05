@@ -54,7 +54,7 @@ namespace muposysdb
 		float getAge() const; 
 		float getCanyonLength() const; 
 		float getCanyonNumber() const; 
-		const Entities& getEnte() const; 
+		Entities& getEnte() const; 
 		const std::string& getGender() const; 
 		const std::string& getName1() const; 
 		const std::string& getName2() const; 
@@ -102,7 +102,7 @@ namespace muposysdb
 		SoftwareProjects(int ente);
 
 		const std::string& getBrief() const; 
-		const Entities& getEnte() const; 
+		Entities& getEnte() const; 
 		const std::string& getName() const; 
 		int getEnteValue() const; 
 
@@ -139,7 +139,7 @@ namespace muposysdb
 		int getNumber() const; 
 		const std::string& getOrigin() const; 
 		int getPriority() const; 
-		const SoftwareProjects& getProject() const; 
+		SoftwareProjects& getProject() const; 
 		const std::string& getType() const; 
 		int getProjectValue() const; 
 		int getNumberValue() const; 
@@ -177,7 +177,7 @@ namespace muposysdb
 		Users(int person);
 
 		const std::string& getName() const; 
-		const Persons& getPerson() const; 
+		Persons& getPerson() const; 
 		const std::string& getPwdtxt() const; 
 		const std::string& getStatus() const; 
 		int getPersonValue() const; 
@@ -214,7 +214,7 @@ namespace muposysdb
 		Versions(const Versions&);
 		Versions(int ente);
 
-		const Entities& getEnte() const; 
+		Entities& getEnte() const; 
 		unsigned char getMajor() const; 
 		unsigned char getMinor() const; 
 		const std::string& getName() const; 

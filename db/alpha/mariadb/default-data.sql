@@ -9,3 +9,6 @@ UPDATE Users SET pwdtxt='123456' WHERE person = 1;
 UPDATE Users SET status='A' WHERE person = 1;
 
 INSERT INTO Versions(ente,name,major,minor,patch) VALUES(2,'database',0,1,0);
+
+UPDATE Persons SET name1='Azael' WHERE person = 1;
+UPDATE Persons SET name3='Reyes' WHERE person = 1;
