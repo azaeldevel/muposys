@@ -37,66 +37,84 @@ public class Versions
 	{
 		return ente;
 	}
-	byte getMajor()
+
+	public byte getMajor()
 	{
 		return major;
 	}
-	byte getMinor()
+
+	public byte getMinor()
 	{
 		return minor;
 	}
+
 	public String getName()
 	{
 		return name;
 	}
-	byte getPatch()
+
+	public byte getPatch()
 	{
 		return patch;
 	}
 
+	public int getEnteValue()
+	{
+		return ente.getID();
+	}
 
-	public boolean updateMajor(octetos.db.maria.Connector connector,byte major) throws SQLException
+
+	public boolean upMajor(octetos.db.maria.Connector connector,byte major) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString + " SET major = " + major;
-		sqlString = sqlString + " WHERE ente = " + ente.getID();
-		ResultSet rs = null;
-		return connector.update(sqlString,rs);
+		sqlString = sqlString +  " SET " +  "major = " + major;
+		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		return connector.update(sqlString,dt);
 	}
-	public boolean updateMinor(octetos.db.maria.Connector connector,byte minor) throws SQLException
+	public boolean upMinor(octetos.db.maria.Connector connector,byte minor) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString + " SET minor = " + minor;
-		sqlString = sqlString + " WHERE ente = " + ente.getID();
-		ResultSet rs = null;
-		return connector.update(sqlString,rs);
+		sqlString = sqlString +  " SET " +  "minor = " + minor;
+		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		return connector.update(sqlString,dt);
 	}
-	public boolean updateName(octetos.db.maria.Connector connector,String name) throws SQLException
+	public boolean upName(octetos.db.maria.Connector connector,String name) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString + " SET name = '" + name + "'";
-		sqlString = sqlString + " WHERE ente = " + ente.getID();
-		ResultSet rs = null;
-		return connector.update(sqlString,rs);
+		sqlString = sqlString +  " SET " +  "name = " + "'" + name + "'";
+		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		return connector.update(sqlString,dt);
 	}
-	public boolean updatePatch(octetos.db.maria.Connector connector,byte patch) throws SQLException
+	public boolean upPatch(octetos.db.maria.Connector connector,byte patch) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString + " SET patch = " + patch;
-		sqlString = sqlString + " WHERE ente = " + ente.getID();
-		ResultSet rs = null;
-		return connector.update(sqlString,rs);
+		sqlString = sqlString +  " SET " +  "patch = " + patch;
+		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		return connector.update(sqlString,dt);
 	}
 
 
 	public boolean insert(octetos.db.maria.Connector connector,byte major) throws SQLException
 	{
-		ente = new Entities();
-		if(ente.insert(connector) == false) return false;
+		this.ente = new Entities();
+		if(this.ente.insert(connector) == false) return false;
+		String sqlString = "";
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
+		sqlString = sqlString + "(ente,major)";
+		sqlString = sqlString + " VALUES(" + ente.getID() + ","  + major +  ")";
+		ResultSet dt = null;
+		return connector.insert(sqlString,dt);
+	}
+	public boolean insert(octetos.db.maria.Connector connector,Entities ente,byte major) throws SQLException
+	{
 		String sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "(ente,major)";
@@ -106,100 +124,116 @@ public class Versions
 	}
 
 
-	public boolean select(octetos.db.maria.Connector connector,Entities ente) throws SQLException
-	{
-		String sql = "SELECT  ente";
-		sql = sql + " FROM " + TABLE_NAME  + " WHERE ente = " + ente.getID();
-		ResultSet rs = null;
-		rs = connector.select(sql);
-		if(rs != null)
-		{
-			this.ente = new Entities(ente);
-			return true;
-		}
-		return false;
-	}
-	public static ArrayList<Versions> select(octetos.db.maria.Connector connector,String where, int leng)  throws SQLException
+	public static ArrayList<Versions> select(octetos.db.maria.Connector connector,String where, int leng, char order)  throws SQLException
 	{
 		String sqlString = "SELECT ente FROM Versions WHERE ";
 		sqlString += where;
+		if(order == 'a' || order == 'A')
+		{
+			sqlString = sqlString + " ORDER BY ente ASC ";
+		}
+		else if(order == 'd' || order == 'D')
+		{
+			sqlString = sqlString + " ORDER BY ente DESC ";
+		}
 		if(leng > 0)
 		{
-			sqlString += " LIMIT  ";
+			sqlString += " LIMIT ";
 			sqlString += leng;
- 		}
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs != null)
+		}
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
 			ArrayList<Versions> tmpVc = new ArrayList<Versions>();
-			while(rs.next())
+			while(dt.next())
 			{
-				Versions tmp;
-				tmp = new Versions(rs.getInt(1));
+				Versions tmp = null;
+				tmp = new Versions(dt.getInt(1));
 				tmpVc.add(tmp);
 			}
 			return tmpVc;
 		}
 		return null;
 	}
+	public boolean select(octetos.db.maria.Connector connector,Entities ente) throws SQLException
+	{
+		String sqlString = "SELECT  ente";
+		sqlString = sqlString + " FROM " + TABLE_NAME + " WHERE " +  "ente = " + ente.getID();
+		ResultSet dat = null;
+		dat = connector.select(sqlString);
+		if(dat != null)
+		{
+			this.ente = new Entities();
+		}
+		return dat != null;
+	}
 
 
 	public boolean downMajor(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT major ";
-		sqlString = sqlString + " FROM Versions WHERE ";
-		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs.next())
+		String sqlString = "SELECT major  FROM Versions WHERE ";
+		sqlString = sqlString +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
-			major = rs.getByte(1);
+			if(!dt.next()) return false;
+			major = dt.getByte(0);
 			return true;
 		}
 		return false;
 	}
 	public boolean downMinor(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT minor ";
-		sqlString = sqlString + " FROM Versions WHERE ";
-		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs.next())
+		String sqlString = "SELECT minor  FROM Versions WHERE ";
+		sqlString = sqlString +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
-			minor = rs.getByte(1);
+			if(!dt.next()) return false;
+			minor = dt.getByte(0);
 			return true;
 		}
 		return false;
 	}
 	public boolean downName(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT name ";
-		sqlString = sqlString + " FROM Versions WHERE ";
-		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs.next())
+		String sqlString = "SELECT name  FROM Versions WHERE ";
+		sqlString = sqlString +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
-			name = rs.getString(1);
+			if(!dt.next()) return false;
+			name = dt.getString(1);
 			return true;
 		}
 		return false;
 	}
 	public boolean downPatch(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT patch ";
-		sqlString = sqlString + " FROM Versions WHERE ";
-		sqlString = sqlString + "ente = " +  "'" + ente.getID() + "'";
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs.next())
+		String sqlString = "SELECT patch  FROM Versions WHERE ";
+		sqlString = sqlString +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
-			patch = rs.getByte(1);
+			if(!dt.next()) return false;
+			patch = dt.getByte(0);
 			return true;
 		}
 		return false;
+	}
+
+
+	public boolean remove(octetos.db.maria.Connector connector) throws SQLException
+	{
+		String sqlString = "DELETE FROM Versions WHERE ";
+		sqlString = sqlString +  "ente = " + ente.getID();
+		ResultSet dt = null;
+		return connector.remove(sqlString,dt);
 	}
 
 

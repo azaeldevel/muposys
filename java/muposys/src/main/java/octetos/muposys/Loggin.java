@@ -138,7 +138,7 @@ public class Loggin extends javax.swing.JInternalFrame {
         Users user= null;
         try 
         {
-            lsuser = user.select(connector,where,2);
+            lsuser = user.select(connector,where,2,'A');
         }
         catch (SQLException ex) 
         {

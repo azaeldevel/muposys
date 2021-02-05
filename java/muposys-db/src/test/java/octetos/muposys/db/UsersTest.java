@@ -10,7 +10,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Random;
-
+import java.sql.Timestamp;    
+import java.util.Date;    
+import java.text.SimpleDateFormat;  
 
 /**
  *
@@ -66,6 +68,8 @@ public class UsersTest {
         }
         assertTrue(check);
         
+        assertTrue(user.getPersonValue() == 1);
+        
         try
         {
             connector.close();
@@ -95,9 +99,9 @@ public class UsersTest {
         }
         
         Random rand = new Random(); 
-        int r = rand.nextInt(10000);
+        int r = rand.nextInt(100000);
         
-        String userstr,name,userstr2,name2;
+        String userstr,name,userstr2,name2,userstr3,name3;
         
         userstr = "user-";
         userstr += r;
@@ -115,7 +119,18 @@ public class UsersTest {
             assertTrue(false);
         }
         
-        r = rand.nextInt(10000);
+        Date date = new Date();
+        Timestamp ts = new Timestamp(date.getTime());  
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");  
+        String md5 = formatter.format(ts);
+        //System.out.println(md5);
+        if(user.getPerson().getEnte().upMd5sum(connector,md5))
+        {
+            //System.out.println("update id=" + user.getPerson().getEnte().getID() + ", md5=" + md5);
+            assertTrue(true);
+        }
+        
+        r = rand.nextInt(100000);
         userstr2 = "user-";
         userstr2 += r;
         name2 = "name-";
@@ -132,10 +147,37 @@ public class UsersTest {
             assertTrue(false);
         }
         
-        ArrayList<Users> userList = Users.select(connector, "person != 0", 10);
+        r = rand.nextInt(100000);
+        userstr3 = "user-";
+        userstr3 += r;
+        name3 = "name-";
+        name3 += r;
+        Users user3 = new Users();        
+        if(user3.insert(connector,userstr3,name3))
+        {
+            //System.out.println("insert : " + name2);
+            assertTrue(true);
+        }
+        else
+        {
+            System.err.println("Fail : " + name3);
+            assertTrue(false);
+        }
+        if(user3.remove(connector))
+        {
+            //System.out.println("remove : " + name3);
+            assertTrue(true);
+        }
+        else
+        {
+            System.err.println("Fail : " + name3);
+            assertTrue(false);
+        }
+        
+        ArrayList<Users> userList = Users.select(connector, "person != 0", 10, 'D');
         for(Users u : userList)
         {
-            System.out.println("User id=" + u.getPerson().getEnte().getID());
+            //System.out.println("User id=" + u.getPerson().getEnte().getID());
             assertTrue(u.getPerson().getEnte().getID() > 0);
         }
         
@@ -145,7 +187,9 @@ public class UsersTest {
      * Test of select method, of class Users.
      */
     @Test
-    public void testSelect() throws Exception {
+    public void testSelect() throws Exception 
+    {
+        
     }
 
     /**

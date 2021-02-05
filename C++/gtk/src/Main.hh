@@ -40,74 +40,22 @@ namespace muposys
 	public:
 		AboutDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
 	};
-	
-	
+
 	class Main : public Gtk::Window
 	{
 	public:
-		class Tools : public std::vector<Gtk::Widget*>
-		{
-		private:
-			Gtk::MenuBar* mnbMain;
-			Gtk::MenuItem* mniAbout;
-			AboutDialog* dlgAbout;
-			Gtk::Box* boxTools;
-			const Glib::RefPtr<Gtk::Builder>& builder;
-		protected:
-			void about_display();
-		public:
-			Tools(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-		};
-		
-		class ActivityArea
-		{
-		private:
-			Gtk::Viewport* vwpWork;
-			Gtk::Fixed* fxWork;
-			std::vector<Gtk::Widget*> tools;
-			const Glib::RefPtr<Gtk::Builder>& builder;
-			
-		public:
-			ActivityArea(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-		};
-		
-		class Activity
-		{
-		protected:
-			Tools* tools;
-			ActivityArea* area;	
-			const Glib::RefPtr<Gtk::Builder>& builder;
-			
-		public:	
-			Activity(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-		};
 
-		class Activities : public std::stack<Activity*>
-		{
-		private:
-			const Glib::RefPtr<Gtk::Builder>& builder;
-			
-		public:
-			Activities(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-		};
-		
 		/**
 		*
 		**/
-		Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-		
-		bool on_button_press(GdkEventButton* event);
-		
-
+		Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);		
+		bool on_button_press(GdkEventButton* event);		
+		const char* title_window()const;
 	private:
 		const Glib::RefPtr<Gtk::Builder> builder;
 		Login* wndLogin;
-		Activities activities;
-		Activity* activityActual;	
-		Tools tools;
 		Gtk::Button* btTest;	
 	};
-
 
 }
 #endif 

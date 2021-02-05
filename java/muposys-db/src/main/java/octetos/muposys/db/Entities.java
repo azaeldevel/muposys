@@ -27,24 +27,30 @@ public class Entities
 	}
 
 
-	int getID()
+	public int getID()
 	{
 		return id;
 	}
+
 	public String getMd5sum()
 	{
 		return md5sum;
 	}
 
+	public int getIDValue()
+	{
+		return id;
+	}
 
-	public boolean updateMd5sum(octetos.db.maria.Connector connector,String md5sum) throws SQLException
+
+	public boolean upMd5sum(octetos.db.maria.Connector connector,String md5sum) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString + " SET md5sum = '" + md5sum + "'";
-		sqlString = sqlString + " WHERE id = " + id;
-		ResultSet rs = null;
-		return connector.update(sqlString,rs);
+		sqlString = sqlString +  " SET " +  "md5sum = " + "'" + md5sum + "'";
+		sqlString = sqlString + " WHERE " +  "id = " + id;
+		ResultSet dt = null;
+		return connector.update(sqlString,dt);
 	}
 
 
@@ -64,58 +70,74 @@ public class Entities
 	}
 
 
-	public boolean select(octetos.db.maria.Connector connector,int id) throws SQLException
-	{
-		String sql = "SELECT  id";
-		sql = sql + " FROM " + TABLE_NAME  + " WHERE id = " + id;
-		ResultSet rs = null;
-		rs = connector.select(sql);
-		if(rs != null)
-		{
-			this.id = id;
-			return true;
-		}
-		return false;
-	}
-	public static ArrayList<Entities> select(octetos.db.maria.Connector connector,String where, int leng)  throws SQLException
+	public static ArrayList<Entities> select(octetos.db.maria.Connector connector,String where, int leng, char order)  throws SQLException
 	{
 		String sqlString = "SELECT id FROM Entities WHERE ";
 		sqlString += where;
+		if(order == 'a' || order == 'A')
+		{
+			sqlString = sqlString + " ORDER BY id ASC ";
+		}
+		else if(order == 'd' || order == 'D')
+		{
+			sqlString = sqlString + " ORDER BY id DESC ";
+		}
 		if(leng > 0)
 		{
-			sqlString += " LIMIT  ";
+			sqlString += " LIMIT ";
 			sqlString += leng;
- 		}
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs != null)
+		}
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
 			ArrayList<Entities> tmpVc = new ArrayList<Entities>();
-			while(rs.next())
+			while(dt.next())
 			{
-				Entities tmp;
-				tmp = new Entities(rs.getInt(1));
+				Entities tmp = null;
+				tmp = new Entities(dt.getInt(1));
 				tmpVc.add(tmp);
 			}
 			return tmpVc;
 		}
 		return null;
 	}
+	public boolean select(octetos.db.maria.Connector connector,int id) throws SQLException
+	{
+		String sqlString = "SELECT  id";
+		sqlString = sqlString + " FROM " + TABLE_NAME + " WHERE " +  "id = " + id;
+		ResultSet dat = null;
+		dat = connector.select(sqlString);
+		if(dat != null)
+		{
+			this.id = id;
+		}
+		return dat != null;
+	}
 
 
 	public boolean downMd5sum(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT md5sum ";
-		sqlString = sqlString + " FROM Entities WHERE ";
-		sqlString = sqlString + "id = " + id;
-		ResultSet rs = null;
-		rs = connector.select(sqlString);
-		if(rs.next())
+		String sqlString = "SELECT md5sum  FROM Entities WHERE ";
+		sqlString = sqlString +  "id = " + id;
+		ResultSet dt = null;
+		dt = connector.select(sqlString);
+		if(dt != null)
 		{
-			md5sum = rs.getString(1);
+			if(!dt.next()) return false;
+			md5sum = dt.getString(1);
 			return true;
 		}
 		return false;
+	}
+
+
+	public boolean remove(octetos.db.maria.Connector connector) throws SQLException
+	{
+		String sqlString = "DELETE FROM Entities WHERE ";
+		sqlString = sqlString +  "id = " + id;
+		ResultSet dt = null;
+		return connector.remove(sqlString,dt);
 	}
 
 

@@ -83,6 +83,7 @@ void Login::on_accept_button_clicked()
 		{
 			lbMessage->set_text("OK clicked");
 			//std::cout << "OK clicked\n";
+			close();
 		}
 		else
 		{
@@ -97,7 +98,6 @@ void Login::on_accept_button_clicked()
 	}
 	
 	conn.close();
-    close();
 }
 
 void Login::on_cancel_button_clicked()
