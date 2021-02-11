@@ -95,16 +95,25 @@ public class Users
 		sqlString = sqlString + "(person,name)";
 		sqlString = sqlString + " VALUES(" + person.getEnte().getID() + ","  +  "'"  + name + "'" +  ")";
 		ResultSet dt = null;
-		return connector.insert(sqlString,dt);
+		if(connector.insert(sqlString,dt))
+		{
+			return true;
+		}
+		return false;
 	}
-	public boolean insert(octetos.db.maria.Connector connector,Persons person,String name) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,Persons person,String  name) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "(person,name)";
 		sqlString = sqlString + " VALUES(" + person.getEnte().getID() + ","  +  "'"  + name + "'" +  ")";
 		ResultSet dt = null;
-		return connector.insert(sqlString,dt);
+		if(connector.insert(sqlString,dt))
+		{
+			this.person = person;
+			return true;
+		}
+		return false;
 	}
 
 
@@ -148,7 +157,7 @@ public class Users
 		dat = connector.select(sqlString);
 		if(dat != null)
 		{
-			this.person = new Persons();
+			this.person = new Persons(person);
 		}
 		return dat != null;
 	}
@@ -160,10 +169,13 @@ public class Users
 		sqlString = sqlString +  "person = " + person.getEnte().getID();
 		ResultSet dt = null;
 		dt = connector.select(sqlString);
+                System.out.println("str : " + sqlString);
 		if(dt != null)
 		{
 			if(!dt.next()) return false;
+                        System.out.println("data : " + dt.getString(1));
 			name = dt.getString(1);
+                        System.out.println("name : " + name);
 			return true;
 		}
 		return false;

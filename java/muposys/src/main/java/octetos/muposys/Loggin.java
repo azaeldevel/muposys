@@ -145,18 +145,6 @@ public class Loggin extends javax.swing.JInternalFrame {
             Logger.getLogger(Loggin.class.getName()).log(Level.SEVERE, null, ex);
             //JOptionPane.showMessageDialog(this, "Contraseña incorrecta","Usauario/Contraseña incorrectos",JOptionPane.ERROR_MESSAGE);
             return;
-        }
-        finally
-        {
-            try
-            {
-                connector.close();
-            }
-            catch(java.sql.SQLException e)            
-            {
-                e.printStackTrace(); 
-
-            }
         }   
         
         if(lsuser.size() > 1)
@@ -172,16 +160,21 @@ public class Loggin extends javax.swing.JInternalFrame {
             user = lsuser.get(0);
             try
             {
+                //System.out.println("Loggin - data : " + user.getName());
                 boolean nameD = user.downName(connector);
+                //System.out.println("Loggin 2 - data : " + user.getName());
                 if(!nameD)
                 {
                     JOptionPane.showMessageDialog(this, "Fallo la descarga de Name.","Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
                 }
+                
+                //System.out.println("Loggin 3 - data : " + user.getName());
                 boolean pwdD = user.downPwdtxt(connector);
                 if(!pwdD)
                 {
                     JOptionPane.showMessageDialog(this, "Fallo la descarga de Contrasena.","Usauario/Contraseña incorrectos ",JOptionPane.ERROR_MESSAGE);
                 }
+                
                 if(nameD && pwdD)
                 {
                     if(user.getName().compareTo(txUser.getText()) == 0 && user.getPwdtxt().compareTo(txpwd.getText()) == 0)
@@ -192,7 +185,7 @@ public class Loggin extends javax.swing.JInternalFrame {
             }
             catch(java.sql.SQLException e)
             {
-                
+                JOptionPane.showMessageDialog(this, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
             }
         }
          

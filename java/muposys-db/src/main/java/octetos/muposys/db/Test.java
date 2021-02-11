@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+//import octetos.muposys.db.Catalog;
 
 /**
  *
@@ -182,5 +183,47 @@ public class Test
         {
             System.err.println("Fail : " + rqname3);
         }
+        if(rq3.downName(connector))
+        {
+            System.out.println("descarga de (name): " + rqname3);
+        }
+        else
+        {
+            System.err.println("Fallo descarga (name) " + rqname3);
+        }
+        if(rq3.downPriority(connector))
+        {
+            System.out.println("descarga de (priority): " + rqname3);
+        }
+        else
+        {
+            System.err.println("Fallo descarga (priority) " + rqname3);
+        }
+        System.out.println("In project:" + rq3.getProjectValue() + ", RQ number:" + rq3.getNumber() + ", Name: " + rq3.getName()); 
+        if(rqname3.compareTo(rq3.getName()) == 0)
+        {
+            System.out.println("descarga comprobada para " + rqname3);
+        }
+        else
+        {
+            System.err.println("Fallo comprobacion de descarga " + rqname3);
+        }
+        
+        r = rand.nextInt(100000);
+        String strnumber1 = "item-";
+        strnumber1 += r;
+        String brief1 = "brief-";
+        brief1 += r;
+        Catalog item1 = new Catalog();        
+        if(item1.insert(connector,strnumber1,"M",brief1))
+        {
+            System.out.println("insert : " + strnumber1);
+        }
+        else
+        {
+            System.err.println("Fail : " + strnumber1);
+        }
+        
+        connector.commit();
     }
 }

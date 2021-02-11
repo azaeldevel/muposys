@@ -175,16 +175,25 @@ public class Persons
 		sqlString = sqlString + "(ente,name1)";
 		sqlString = sqlString + " VALUES(" + ente.getID() + ","  +  "'"  + name1 + "'" +  ")";
 		ResultSet dt = null;
-		return connector.insert(sqlString,dt);
+		if(connector.insert(sqlString,dt))
+		{
+			return true;
+		}
+		return false;
 	}
-	public boolean insert(octetos.db.maria.Connector connector,Entities ente,String name1) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,Entities ente,String  name1) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "(ente,name1)";
 		sqlString = sqlString + " VALUES(" + ente.getID() + ","  +  "'"  + name1 + "'" +  ")";
 		ResultSet dt = null;
-		return connector.insert(sqlString,dt);
+		if(connector.insert(sqlString,dt))
+		{
+			this.ente = ente;
+			return true;
+		}
+		return false;
 	}
 
 
@@ -228,7 +237,7 @@ public class Persons
 		dat = connector.select(sqlString);
 		if(dat != null)
 		{
-			this.ente = new Entities();
+			this.ente = new Entities(ente);
 		}
 		return dat != null;
 	}

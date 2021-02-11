@@ -123,17 +123,26 @@ public class SoftwareRQs
 		sqlString = sqlString + "(project,number,name,priority)";
 		sqlString = sqlString + " VALUES(" + project.getEnte().getID() + ","  + number + ","  +  "'"  + name + "'" + ","  + priority +  ")";
 		ResultSet dt = null;
-		if(connector.insert(sqlString,dt)) return true;
+		if(connector.insert(sqlString,dt))
+		{
+			this.number = number;
+			return true;
+		}
 		return false;
 	}
-	public boolean insert(octetos.db.maria.Connector connector,SoftwareProjects project,int number,String name,int priority) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,SoftwareProjects project,int number,String  name,int priority) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "(project,number,name,priority)";
 		sqlString = sqlString + " VALUES(" + project.getEnte().getID() + ","  + number + ","  +  "'"  + name + "'" + ","  + priority +  ")";
 		ResultSet dt = null;
-		if(connector.insert(sqlString,dt)) return true;
+		if(connector.insert(sqlString,dt))
+		{
+			this.project = new SoftwareProjects(project);
+			this.number = number;
+			return true;
+		}
 		return false;
 	}
 
@@ -178,7 +187,7 @@ public class SoftwareRQs
 		dat = connector.select(sqlString);
 		if(dat != null)
 		{
-			this.project = new SoftwareProjects();
+			this.project = new SoftwareProjects(project);
 			this.number = number;
 		}
 		return dat != null;

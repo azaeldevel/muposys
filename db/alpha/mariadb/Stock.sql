@@ -1,5 +1,10 @@
-CREATE TABLE Catalogs (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(30) NOT NULL, type ENUM ('in', 'out') );
-
-CREATE TABLE CatalogsDetails (catalog INT NOT NULL, type ENUM ('service', 'material'), number VARCHAR(30) NOT NULL,FOREIGN KEY(catalog) REFERENCES Catalogs(id));
 
 
+CREATE TABLE Catalog(ente INT NOT NULL,number VARCHAR(30) NOT NULL, type ENUM ('S', 'M') NOT NULL,brief VARCHAR(256) NOT NULL,FOREIGN KEY(ente) REFERENCES Entities(id));
+ALTER TABLE Catalog ADD CONSTRAINT ente_unique PRIMARY KEY (ente);
+ALTER TABLE Catalog ADD CONSTRAINT number_unique UNIQUE (number);
+
+
+
+CREATE TABLE Stock(catalog INT NOT NULL, number VARCHAR(30) NOT NULL, FOREIGN KEY(catalog,number) REFERENCES Catalog(catalog,number));
+ALTER TABLE Stock ADD CONSTRAINT item UNIQUE (catalog,number);

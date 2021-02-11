@@ -5,57 +5,50 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 
-public class Versions
+public class Catalog
 {
-	String TABLE_NAME = "`Versions`";
+	String TABLE_NAME = "`Catalog`";
 
+	String brief;
 	Entities ente;
-	byte major;
-	byte minor;
-	String name;
-	byte patch;
+	String number;
+	String type;
 
 
-	public Versions()
+	public Catalog()
 	{
 	}
-	public Versions(int ente)
+	public Catalog(int ente)
 	{
 		this.ente = new Entities(ente);
 	}
-	public Versions(Versions obj)
+	public Catalog(Catalog obj)
 	{
+		this.brief = obj.brief;
 		this.ente = obj.ente;
-		this.major = obj.major;
-		this.minor = obj.minor;
-		this.name = obj.name;
-		this.patch = obj.patch;
+		this.number = obj.number;
+		this.type = obj.type;
 	}
 
+
+	public String getBrief()
+	{
+		return brief;
+	}
 
 	public Entities getEnte()
 	{
 		return ente;
 	}
 
-	public byte getMajor()
+	public String getNumber()
 	{
-		return major;
+		return number;
 	}
 
-	public byte getMinor()
+	public String getType()
 	{
-		return minor;
-	}
-
-	public String getName()
-	{
-		return name;
-	}
-
-	public byte getPatch()
-	{
-		return patch;
+		return type;
 	}
 
 	public int getEnteValue()
@@ -64,52 +57,43 @@ public class Versions
 	}
 
 
-	public boolean upMajor(octetos.db.maria.Connector connector,byte major) throws SQLException
+	public boolean upBrief(octetos.db.maria.Connector connector,String brief) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "major = " + major;
+		sqlString = sqlString +  " SET " +  "brief = " + "'" + brief + "'";
 		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		return connector.update(sqlString,dt);
 	}
-	public boolean upMinor(octetos.db.maria.Connector connector,byte minor) throws SQLException
+	public boolean upNumber(octetos.db.maria.Connector connector,String number) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "minor = " + minor;
+		sqlString = sqlString +  " SET " +  "number = " + "'" + number + "'";
 		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		return connector.update(sqlString,dt);
 	}
-	public boolean upName(octetos.db.maria.Connector connector,String name) throws SQLException
+	public boolean upType(octetos.db.maria.Connector connector,String type) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "name = " + "'" + name + "'";
-		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
-		ResultSet dt = null;
-		return connector.update(sqlString,dt);
-	}
-	public boolean upPatch(octetos.db.maria.Connector connector,byte patch) throws SQLException
-	{
-		String sqlString = "";
-		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "patch = " + patch;
+		sqlString = sqlString +  " SET " +  "type = " + "'" + type + "'";
 		sqlString = sqlString + " WHERE " +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		return connector.update(sqlString,dt);
 	}
 
 
-	public boolean insert(octetos.db.maria.Connector connector,byte major) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,String number,String type,String brief) throws SQLException
 	{
 		this.ente = new Entities();
 		if(this.ente.insert(connector) == false) return false;
 		String sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(ente,major)";
-		sqlString = sqlString + " VALUES(" + ente.getID() + ","  + major +  ")";
+		sqlString = sqlString + "(ente,number,type,brief)";
+		sqlString = sqlString + " VALUES(" + ente.getID() + ","  +  "'"  + number + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
 		ResultSet dt = null;
 		if(connector.insert(sqlString,dt))
 		{
@@ -117,12 +101,12 @@ public class Versions
 		}
 		return false;
 	}
-	public boolean insert(octetos.db.maria.Connector connector,Entities ente,byte major) throws SQLException
+	public boolean insert(octetos.db.maria.Connector connector,Entities ente,String  number,String  type,String  brief) throws SQLException
 	{
 		String sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(ente,major)";
-		sqlString = sqlString + " VALUES(" + ente.getID() + ","  + major +  ")";
+		sqlString = sqlString + "(ente,number,type,brief)";
+		sqlString = sqlString + " VALUES(" + ente.getID() + ","  +  "'"  + number + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
 		ResultSet dt = null;
 		if(connector.insert(sqlString,dt))
 		{
@@ -133,9 +117,9 @@ public class Versions
 	}
 
 
-	public static ArrayList<Versions> select(octetos.db.maria.Connector connector,String where, int leng, char order)  throws SQLException
+	public static ArrayList<Catalog> select(octetos.db.maria.Connector connector,String where, int leng, char order)  throws SQLException
 	{
-		String sqlString = "SELECT ente FROM Versions WHERE ";
+		String sqlString = "SELECT ente FROM Catalog WHERE ";
 		sqlString += where;
 		if(order == 'a' || order == 'A')
 		{
@@ -154,11 +138,11 @@ public class Versions
 		dt = connector.select(sqlString);
 		if(dt != null)
 		{
-			ArrayList<Versions> tmpVc = new ArrayList<Versions>();
+			ArrayList<Catalog> tmpVc = new ArrayList<Catalog>();
 			while(dt.next())
 			{
-				Versions tmp = null;
-				tmp = new Versions(dt.getInt(1));
+				Catalog tmp = null;
+				tmp = new Catalog(dt.getInt(1));
 				tmpVc.add(tmp);
 			}
 			return tmpVc;
@@ -179,58 +163,44 @@ public class Versions
 	}
 
 
-	public boolean downMajor(octetos.db.maria.Connector connector) throws SQLException
+	public boolean downBrief(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT major  FROM Versions WHERE ";
+		String sqlString = "SELECT brief  FROM Catalog WHERE ";
 		sqlString = sqlString +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		dt = connector.select(sqlString);
 		if(dt != null)
 		{
 			if(!dt.next()) return false;
-			major = dt.getByte(0);
+			brief = dt.getString(1);
 			return true;
 		}
 		return false;
 	}
-	public boolean downMinor(octetos.db.maria.Connector connector) throws SQLException
+	public boolean downNumber(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT minor  FROM Versions WHERE ";
+		String sqlString = "SELECT number  FROM Catalog WHERE ";
 		sqlString = sqlString +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		dt = connector.select(sqlString);
 		if(dt != null)
 		{
 			if(!dt.next()) return false;
-			minor = dt.getByte(0);
+			number = dt.getString(1);
 			return true;
 		}
 		return false;
 	}
-	public boolean downName(octetos.db.maria.Connector connector) throws SQLException
+	public boolean downType(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "SELECT name  FROM Versions WHERE ";
+		String sqlString = "SELECT type  FROM Catalog WHERE ";
 		sqlString = sqlString +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		dt = connector.select(sqlString);
 		if(dt != null)
 		{
 			if(!dt.next()) return false;
-			name = dt.getString(1);
-			return true;
-		}
-		return false;
-	}
-	public boolean downPatch(octetos.db.maria.Connector connector) throws SQLException
-	{
-		String sqlString = "SELECT patch  FROM Versions WHERE ";
-		sqlString = sqlString +  "ente = " + ente.getID();
-		ResultSet dt = null;
-		dt = connector.select(sqlString);
-		if(dt != null)
-		{
-			if(!dt.next()) return false;
-			patch = dt.getByte(0);
+			type = dt.getString(1);
 			return true;
 		}
 		return false;
@@ -239,7 +209,7 @@ public class Versions
 
 	public boolean remove(octetos.db.maria.Connector connector) throws SQLException
 	{
-		String sqlString = "DELETE FROM Versions WHERE ";
+		String sqlString = "DELETE FROM Catalog WHERE ";
 		sqlString = sqlString +  "ente = " + ente.getID();
 		ResultSet dt = null;
 		return connector.remove(sqlString,dt);
