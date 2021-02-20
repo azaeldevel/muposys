@@ -11,5 +11,5 @@ databasedir = $(datarootdir)
 database_DATA = database
 
 install-data-hook:
-	chown www-data:www-data -R /var/www
-	chmod -R u+w /var/www
+	chown apache:apache -R /var/www/localhost
+	chmod -R u+w /var/www/localhost

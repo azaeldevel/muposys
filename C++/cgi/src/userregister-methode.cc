@@ -1,11 +1,12 @@
 
-#include <muposysdb.hpp>
+#include "muposysdb.hpp"
 
 
 #include "server.hh"
 
 enum StatusCode
 {
+	FAILCODE,
 	SUCCEFULY,
 	USER_ALREADY_EXISTE,	
 	PASSWORD_NOT_MATCH,
@@ -31,7 +32,7 @@ int validRegister(cgicc::Cgicc& cgi)
 	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"user");
 	std::string username = (*it).getValue();
 #if defined MARIADB
-	octetos::db::mariadb::Connector conn;
+	octetos::db::maria::Connector conn;
 #elif defined MYSQL
 	octetos::db::mysql::Connector conn;
 #elif defined POSTGRESQL
@@ -39,7 +40,10 @@ int validRegister(cgicc::Cgicc& cgi)
 #else
 	#error "Base dedatos desconocida."
 #endif
-	conn.connect(muposysdb::datconex);
+	if(!conn.connect(muposysdb::datconex))
+	{
+		std::cout << "<h1>fallo la conexion</h1>\n";
+	}
 	muposysdb::Users* userbd;
 	std::string strnamewhere= "name = '";
 	strnamewhere += username + "' and status = 'A'";
@@ -59,19 +63,18 @@ int validRegister(cgicc::Cgicc& cgi)
 	//verificar contraseña
 	std::string psw = **(cgi.getElement("psw")); 
 	std::string pswconfirm = **(cgi.getElement("pswconfirm")); 
-	if(psw.compare(pswconfirm) == 0)
+	if(psw.compare(pswconfirm) != 0)
 	{
-		std::cout << "<h1>Contraseñas correctas</h1>\n";
+		std::cout << "<h1>Contraseñas incorrectas " << psw << " != " << pswconfirm << "</h1>\n";
 		return PASSWORD_NOT_MATCH;
 	}
-	//std::cout << "Contraseñas correctas<br>";
-	
 	
 	//creando person
 	muposysdb::Persons person;	
 	std::string name1 = **(cgi.getElement("name1")); 
 	if(name1.empty())
 	{
+		std::cout << "<h1>Error : Nombre vacio</h1>\n";
 		return EMPTY_NAME1;
 	}
 		
@@ -79,6 +82,7 @@ int validRegister(cgicc::Cgicc& cgi)
 	std::string userstr = **(cgi.getElement("user"));
 	if(userstr.empty())
 	{
+		std::cout << "<h1>Error : Usuario vacio</h1>\n";
 		return FAIL_EMTY_USERNAME;
 	}
 	muposysdb::Users user;	
@@ -92,7 +96,7 @@ int validRegister(cgicc::Cgicc& cgi)
 		std::cout << "<h1>Completado : insert user</h1>\n";
 	}
 	
-	if(not user.updateStatus(conn,"R"))
+	if(not user.upStatus(conn,"R"))
 	{
 		std::cout << "<h1>Fallo update status</h1>\n";
 		return FAIL_ON_SAVE;
@@ -101,7 +105,7 @@ int validRegister(cgicc::Cgicc& cgi)
 	{
 		std::cout << "<h1>Completado : update status</h1>\n";
 	}
-	if(not user.updatePwdtxt(conn,psw))
+	if(not user.upPwdtxt(conn,psw))
 	{
 		std::cout << "<h1>Fallo update password</h1>\n";
 		return FAIL_ON_SAVE;
@@ -121,6 +125,8 @@ int validRegister(cgicc::Cgicc& cgi)
 		std::cout << "<h1>Completado commit</h1>\n";
 	}
 	delete usrlst;
+
+	conn.close();
 	
 	return SUCCEFULY;
 }
@@ -132,25 +138,38 @@ int main()
 	std::cout << "Content-type:text/html\r\n\r\n";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
-   	std::cout << "</head>\n";
-   	std::cout << "<body>\n";
-   	
+	
 	cgicc::Cgicc cgi;
 	bool accepted = false;
 	int statuscode = 0;
-	std::string typestr = **(cgi.getElement("register"));
+	std::string typestr = **(cgi.getElement("type"));
 	if(typestr.compare("register") == 0)
 	{
-		statuscode = validRegister(cgi);
-	}	
-
+		try
+		{
+			statuscode = validRegister(cgi);
+		}
+		catch(std::exception& ex)
+		{
+			std::cout << "<h1>" << ex.what() << "</h1>\n";
+		}
+	}
+	else
+	{
+		std::cout << "<h1>No se detecto la bandera de registro</h1>\n";
+	}
+	std::cout << "<meta http-equiv = \"refresh\" content = \"2; url = /index.html\"/>\n";
+	
+   	std::cout << "</head>\n";
+   	std::cout << "<body>\n";	
+	
 	if(statuscode != SUCCEFULY)
 	{
 		std::cout << "<h1>Un error ocurrio</h1>\n";
 	}
 	else
 	{
-		std::cout << "<h1>Completado</h1>\n";
+		std::cout << "<h1>Completado...</h1>\n";
 	}
 	
    	std::cout << "</body>\n";

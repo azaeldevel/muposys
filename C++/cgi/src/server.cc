@@ -79,7 +79,7 @@ const std::string& Login::getSessionID()const
 bool Login::check(const std::string& userstr,const std::string& password)
 {
 #if defined MARIADB
-	octetos::db::mariadb::Connector conn;
+	octetos::db::maria::Connector conn;
 #elif defined MYSQL
 	octetos::db::mysql::Connector conn;
 #elif defined POSTGRESQL

@@ -6,5 +6,5 @@ ALTER TABLE Catalog ADD CONSTRAINT number_unique UNIQUE (number);
 
 
 
-CREATE TABLE Stock(catalog INT NOT NULL, number VARCHAR(30) NOT NULL, FOREIGN KEY(catalog,number) REFERENCES Catalog(catalog,number));
+CREATE TABLE Stock(catalog INT NOT NULL, number VARCHAR(30) NOT NULL, FOREIGN KEY(catalog) REFERENCES Catalog(ente),FOREIGN KEY(number) REFERENCES Catalog(number));
 ALTER TABLE Stock ADD CONSTRAINT item UNIQUE (catalog,number);

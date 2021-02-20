@@ -14,7 +14,7 @@ case $DISTRO in
         
     ;;
     Gentoo)
-        WEBDIRECTORY="/var/www/vhosts/muposys/html"
+        WEBDIRECTORY="/var/www/localhost/htdocs"
     ;;
     debland)
         
@@ -49,8 +49,8 @@ case $DISTRO in
         
     ;;
     Gentoo)
-        chown apache:apache -R /var/www
-        chmod u+w /var/www    
+        chown apache:apache -R $WEBDIRECTORY
+        chmod u+w $WEBDIRECTORY    
     ;;
     debland)
         
