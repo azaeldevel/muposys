@@ -52,3 +52,8 @@ userregister_methode_LDADD = $(CGICC_LIBS) $(DBLIBS) libmuposys-server.la
 userregister_methode_LDFLAGS = 
 userregister_methode_CXXFLAGS = $(DEFINES)
 userregister_methode_SOURCES = userregister-methode.cc 
+
+noinst_PROGRAMS = develop
+
+develop_SOURCES = develop.cc Mail.cc
+develop_LDADD = $(LIBCURL_LIBS)

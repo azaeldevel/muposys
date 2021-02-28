@@ -15,6 +15,8 @@ enum StatusCode
 	FAIL_INSERT_NAME1,
 	NOT_FOUND_NAME2,
 	EMPTY_NAME2,
+	NOT_FOUND_NAME3,
+	EMPTY_NAME3,
 	FAIL_UPDATE_NAME2,
 	FAIL_CREATE_REGISTER,
 	FAIL_EMTY_USERNAME,
@@ -114,6 +116,22 @@ int validRegister(cgicc::Cgicc& cgi)
 	{
 		std::cout << "<h1>Completado : update password</h1>\n";
 	}
+	std::string name3 = **(cgi.getElement("name3")); 
+	if(name3.empty())
+	{
+		std::cout << "<h1>Error : Nombre vacio</h1>\n";
+		return EMPTY_NAME3;
+	}	
+	if(not user.getPerson().upName3(conn,name3))
+	{
+		std::cout << "<h1>Fallo update name3</h1>\n";
+		return FAIL_ON_SAVE;
+	}
+	else
+	{
+		std::cout << "<h1>Completado : update password</h1>\n";
+	}
+	
 	
 	if(not conn.commit())
 	{
@@ -123,9 +141,8 @@ int validRegister(cgicc::Cgicc& cgi)
 	else
 	{
 		std::cout << "<h1>Completado commit</h1>\n";
-	}
+	}	
 	delete usrlst;
-
 	conn.close();
 	
 	return SUCCEFULY;
@@ -134,11 +151,9 @@ int validRegister(cgicc::Cgicc& cgi)
 
 int main()
 {
-
 	std::cout << "Content-type:text/html\r\n\r\n";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
-	
 	cgicc::Cgicc cgi;
 	bool accepted = false;
 	int statuscode = 0;
@@ -158,7 +173,7 @@ int main()
 	{
 		std::cout << "<h1>No se detecto la bandera de registro</h1>\n";
 	}
-	std::cout << "<meta http-equiv = \"refresh\" content = \"2; url = /index.html\"/>\n";
+	if(statuscode == SUCCEFULY) std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/index.html\"/>\n";
 	
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";	
@@ -171,7 +186,6 @@ int main()
 	{
 		std::cout << "<h1>Completado...</h1>\n";
 	}
-	
    	std::cout << "</body>\n";
    	std::cout << "</html>\n";
    	

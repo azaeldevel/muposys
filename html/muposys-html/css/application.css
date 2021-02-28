@@ -90,6 +90,16 @@ input[type=text], input[type=password] {
 	background-color:#f1f1f1;
 }
 
+div.n1
+{
+    display : inline;
+    float:left;
+}
+div.n3
+{
+    display : inline;
+    float:left;
+}
 
 button {
   background-color: #275AAD;

@@ -52,7 +52,7 @@ void Login::methode()
 		   	
 	if(flagSession)
 	{
-		std::cout << "<meta http-equiv=\"Refresh\" content=\"0;url=" << strredirect << "\"\n";
+		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=" << strredirect << "\"\n";
 	}
    	
    	std::cout << "</head>\n";
