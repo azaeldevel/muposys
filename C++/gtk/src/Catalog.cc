@@ -33,7 +33,7 @@ Catalog::Catalog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refG
 	//treeview
 	m_refTreeModel = Gtk::ListStore::create(m_Columns);
   	treeData->set_model(m_refTreeModel);
-	Gtk::TreeModel::Row row;		
+	/*Gtk::TreeModel::Row row;		
 	row = *(m_refTreeModel->append());
 	row[m_Columns.id] = 1;
   	row[m_Columns.number] = "item1";
@@ -41,7 +41,7 @@ Catalog::Catalog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refG
 	row = *(m_refTreeModel->append());
 	row[m_Columns.id] = 2;
   	row[m_Columns.number] = "item2";
-	row[m_Columns.brief] = "descripcion.....";
+	row[m_Columns.brief] = "descripcion.....";*/
 	treeData->append_column("Numero", m_Columns.number);
 	treeData->append_column("Descripcion", m_Columns.brief);
 }
@@ -61,7 +61,7 @@ bool Catalog::on_search_KeyPress(GdkEventKey* event)
 	for(muposysdb::Catalog* c : *lst)
 	{
 		row = *(m_refTreeModel->append());
-		row[m_Columns.id] = c->getEnteValue();
+		row[m_Columns.id] = c->getItemValue();
 		c->downNumber(*connector);
 	  	row[m_Columns.number] = c->getNumber();
 		c->downBrief (*connector);
@@ -98,6 +98,8 @@ CatalogData::CatalogData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 	builder->get_widget("inBrief", inBrief);
 	builder->get_widget("btAcceptCatalogData", btAccept);
     builder->get_widget("btCancelCatalogData", btCancel);
+	builder->get_widget("opClient", opClient);
+	builder->get_widget("opSupplier", opSupplier);
 
 	
 	btAccept->signal_clicked().connect(sigc::mem_fun(*this, &CatalogData::on_accept_button_clicked));
@@ -154,9 +156,19 @@ void CatalogData::on_accept_button_clicked()
 		type = "M";
 	}
 
+	std::string mode;
+	if(opClient->get_active())
+	{
+		mode = "C";
+	}
+	else if(opSupplier->get_active())
+	{
+		mode = "S";
+	}
+
 	//std::cout << "Step 4.\n";
 	
-	bool fljob = insert(*connector,inNumber->get_text(),type,inBrief->get_text());
+	bool fljob = insert(*connector,inNumber->get_text(),mode,type,inBrief->get_text());
 
 	//commit si es una conexion local
 	if(fljob and localconection) connector->commit(); 

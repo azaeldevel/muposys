@@ -26,6 +26,7 @@
 #include "Login.hh"
 #include "constants.h"
 #include "Catalog.hh"
+#include "Buys.hh"
 
 
 
@@ -45,10 +46,7 @@ AboutDialog::AboutDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
 {
 	set_title(titleWindow());
-	builder->get_widget("tbrDocsSeller", tbrDocsSeller);
-	builder->get_widget("tbrAdmin", tbrAdmin);
-	//builder->get_widget("btUser", btUser);
-	//builder->get_widget("btQuotation", btQuotation);
+	
 	builder->get_widget("lbUser", lbUser);
 	builder->get_widget("lbSystem", lbSystem);
 	lbSystem->set_text(systemName());
@@ -56,7 +54,9 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) 
 	btStockCatalog = 0;
 	builder->get_widget("btStockCatalog", btStockCatalog);
 	btStockCatalog->signal_clicked().connect(sigc::mem_fun(*this,&Main::on_btStockCatalog_clicked));
-		
+	builder->get_widget("btBuy", btBuy);
+	btBuy->signal_clicked().connect(sigc::mem_fun(*this,&Main::on_btBuy_clicked));
+	
 	wndLogin = 0;
 	user = NULL;
 	builder->get_widget_derived("wndLogin", wndLogin);
@@ -101,4 +101,11 @@ void Main::on_btStockCatalog_clicked()
 	builder->get_widget_derived("wndCatalog", wndCatalog);
 	wndCatalog->show();
 }
+void Main::on_btBuy_clicked()
+{
+	Buys* wndBuys = 0;
+	builder->get_widget_derived("wndBuys", wndBuys);
+	wndBuys->show();
+}
+
 }

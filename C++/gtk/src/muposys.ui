@@ -26,47 +26,6 @@ Author: Azael Reyes
   <!-- interface-license-type lgplv3 -->
   <!-- interface-name muposys -->
   <!-- interface-authors Azael Reyes -->
-  <object class="GtkWindow">
-    <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkSearchEntry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="primary_icon_name">edit-find-symbolic</property>
-            <property name="primary_icon_activatable">False</property>
-            <property name="primary_icon_sensitive">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTreeView">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <child internal-child="selection">
-              <object class="GtkTreeSelection"/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkAboutDialog" id="dlgAbout">
     <property name="name">dlgAbout</property>
     <property name="can_focus">False</property>
@@ -185,6 +144,72 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Cambiar Contrasena</property>
         <property name="use_underline">True</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="wndBuys">
+    <property name="name">wndBuys</property>
+    <property name="can_focus">False</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+        <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkToolbar">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkToolButton" id="btNew">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Nueva Compra</property>
+                <property name="use_underline">True</property>
+                <property name="stock_id">gtk-new</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="homogeneous">True</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkSearchEntry">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="primary_icon_name">edit-find-symbolic</property>
+            <property name="primary_icon_activatable">False</property>
+            <property name="primary_icon_sensitive">False</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTreeView">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <child internal-child="selection">
+              <object class="GtkTreeSelection"/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
       </object>
     </child>
   </object>
@@ -340,7 +365,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="active">True</property>
                 <property name="draw_indicator">True</property>
                 <property name="group">opItem</property>
               </object>
@@ -357,7 +381,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">False</property>
-                <property name="active">True</property>
                 <property name="draw_indicator">True</property>
               </object>
               <packing>
@@ -409,7 +432,60 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="label" translatable="yes">Modo             :</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="opClient">
+                <property name="label" translatable="yes">Cliente</property>
+                <property name="name">opClient</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="active">True</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">opSupplier</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkRadioButton" id="opSupplier">
+                <property name="label" translatable="yes">Proveedor</property>
+                <property name="name">opSupplier</property>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">False</property>
+                <property name="draw_indicator">True</property>
+                <property name="group">opClient</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">3</property>
+          </packing>
         </child>
         <child>
           <object class="GtkBox">
@@ -629,32 +705,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
             <property name="can_focus">False</property>
             <property name="orientation">vertical</property>
             <child>
-              <object class="GtkToolbar" id="tbrAdmin">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkToolButton" id="btAddUser">
-                    <property name="name">btAddUser</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="is_important">True</property>
-                    <property name="label" translatable="yes">Agregar Usuario</property>
-                    <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-add</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkToolbar" id="tlStock">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
@@ -672,13 +722,25 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
                     <property name="homogeneous">True</property>
                   </packing>
                 </child>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkToolbar" id="tbBuys">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkToolButton" id="btStockCatalogMovs">
+                  <object class="GtkToolButton" id="btBuy">
+                    <property name="name">btBuy</property>
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">Operaciones</property>
+                    <property name="label" translatable="yes">Compra</property>
                     <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-execute</property>
+                    <property name="stock_id">gtk-orientation-landscape</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -693,30 +755,10 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
               </packing>
             </child>
             <child>
-              <object class="GtkToolbar" id="tbrDocsSeller">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <child>
-                  <object class="GtkToolButton" id="btQuotation">
-                    <property name="name">btQuotation</property>
-                    <property name="visible">True</property>
-                    <property name="can_focus">False</property>
-                    <property name="is_important">True</property>
-                    <property name="label" translatable="yes">Cotizacion</property>
-                    <property name="use_underline">True</property>
-                    <property name="stock_id">gtk-page-setup</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="homogeneous">True</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
           </object>
           <packing>
@@ -805,47 +847,6 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
             <property name="expand">False</property>
             <property name="fill">True</property>
             <property name="position">2</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
-  <object class="GtkWindow" id="wndQuotation">
-    <property name="can_focus">False</property>
-    <child>
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkBox">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="orientation">vertical</property>
-        <child>
-          <object class="GtkSearchEntry">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="primary_icon_name">edit-find-symbolic</property>
-            <property name="primary_icon_activatable">False</property>
-            <property name="primary_icon_sensitive">False</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">0</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTreeView">
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <child internal-child="selection">
-              <object class="GtkTreeSelection"/>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">1</property>
           </packing>
         </child>
       </object>

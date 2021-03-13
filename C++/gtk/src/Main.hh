@@ -57,18 +57,18 @@ namespace muposys
 	protected:
 		bool on_windows_focus(void* user_data);
 		void on_btStockCatalog_clicked();
+		void on_btBuy_clicked();
 	private:
 		const Glib::RefPtr<Gtk::Builder> builder;
 		Login* wndLogin;
-		Gtk::Toolbar* tbrDocsSeller;
-		Gtk::Toolbar* tbrAdmin;
-		Gtk::Button* btUser;
-		Gtk::Button* btQuotation;
+		//Gtk::Toolbar* tbrDocsSeller;
+		//Gtk::Toolbar* tbrAdmin;				
 		Gtk::Label* lbUser;
 		Gtk::Label* lbSystem;
 		muposysdb::Users* user;
 		std::string struser;
-		Gtk::ToolButton* btStockCatalog;	
+		Gtk::ToolButton* btStockCatalog;
+		Gtk::ToolButton* btBuy;
 	};
 
 }

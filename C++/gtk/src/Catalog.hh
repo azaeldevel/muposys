@@ -22,6 +22,7 @@ protected:
 	Gtk::Entry* inBrief;
 	Gtk::Button* btAccept;
 	Gtk::Button* btCancel;
+	Gtk::RadioButton *opClient,*opSupplier;
 
     void on_accept_button_clicked();
     void on_cancel_button_clicked();
