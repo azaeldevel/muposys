@@ -4,7 +4,7 @@ ALTER TABLE Supplier ADD number INT NOT NULL;
 ALTER TABLE Supplier ADD nameShort VARCHAR(30) NOT NULL;
 ALTER TABLE Supplier ADD CONSTRAINT FOREIGN KEY(supplier) REFERENCES Entities(id);
 ALTER TABLE Supplier ADD CONSTRAINT PRIMARY KEY (supplier);
-
+ALTER TABLE Supplier ADD CONSTRAINT UNIQUE (number);
 
 
 CREATE TABLE Movements (id INT NOT NULL);
@@ -17,7 +17,7 @@ ALTER TABLE Movements ADD delta INT NOT NULL;
 ALTER TABLE Movements ADD doc INT NOT NULL; -- primero se crea el documento para referirlo aqui
 ALTER TABLE Movements ADD CONSTRAINT FOREIGN KEY(id) REFERENCES Entities(id);
 ALTER TABLE Movements ADD CONSTRAINT PRIMARY KEY (id);
-ALTER TABLE Movements ADD CONSTRAINT FOREIGN KEY(item) REFERENCES Catalog(item);
+ALTER TABLE Movements ADD CONSTRAINT FOREIGN KEY(item) REFERENCES CatalogSupplier(item);
 ALTER TABLE Movements ADD CONSTRAINT FOREIGN KEY(doc) REFERENCES Entities(id);
 
 

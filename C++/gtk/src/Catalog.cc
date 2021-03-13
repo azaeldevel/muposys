@@ -56,9 +56,9 @@ bool Catalog::on_search_KeyPress(GdkEventKey* event)
 	m_refTreeModel->clear();
 	std::string where = "number LIKE '";
 	where += search->get_text() + "%' OR brief LIKE '%" + search->get_text() + "%'";
-	std::vector<muposysdb::Catalog*>* lst = CatalogData::select(*connector,where);
+	std::vector<muposysdb::CatalogSupplier*>* lst = CatalogSupplierData::select(*connector,where);
 	Gtk::TreeModel::Row row;
-	for(muposysdb::Catalog* c : *lst)
+	for(muposysdb::CatalogSupplier* c : *lst)
 	{
 		row = *(m_refTreeModel->append());
 		row[m_Columns.id] = c->getItemValue();
@@ -73,7 +73,7 @@ bool Catalog::on_search_KeyPress(GdkEventKey* event)
 }
 void Catalog::on_btCatalogData_clicked()
 {
-	CatalogData* wndCatalogData = 0;
+	CatalogSupplierData* wndCatalogData = 0;
 	builder->get_widget_derived("wndCatalogData", wndCatalogData);
 	wndCatalogData->show();
 }
@@ -88,7 +88,7 @@ Catalog::ModelColumns::ModelColumns()
 
 
 
-CatalogData::CatalogData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
+CatalogSupplierData::CatalogSupplierData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
 {
 	connector = NULL;
 	
@@ -98,15 +98,13 @@ CatalogData::CatalogData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builde
 	builder->get_widget("inBrief", inBrief);
 	builder->get_widget("btAcceptCatalogData", btAccept);
     builder->get_widget("btCancelCatalogData", btCancel);
-	builder->get_widget("opClient", opClient);
-	builder->get_widget("opSupplier", opSupplier);
 
 	
-	btAccept->signal_clicked().connect(sigc::mem_fun(*this, &CatalogData::on_accept_button_clicked));
-    btCancel->signal_clicked().connect(sigc::mem_fun(*this, &CatalogData::on_cancel_button_clicked));
+	btAccept->signal_clicked().connect(sigc::mem_fun(*this, &CatalogSupplierData::on_accept_button_clicked));
+    btCancel->signal_clicked().connect(sigc::mem_fun(*this, &CatalogSupplierData::on_cancel_button_clicked));
 	
 }
-void CatalogData::on_accept_button_clicked()
+void CatalogSupplierData::on_accept_button_clicked()
 {
 	//std::cout << "Step 1.\n";
 	//valid inputs
@@ -130,10 +128,10 @@ void CatalogData::on_accept_button_clicked()
 		localconection = true;//conexion local
 		try
 		{
-			std::cout << "Step 2.1.\n";
+			//std::cout << "Step 2.1.\n";
 			connector = new octetos::db::maria::Connector();
 			connector->connect(muposysdb::datconex);
-			std::cout << "Step 2.2.\n";
+			//std::cout << "Step 2.2.\n";
 		}
 		catch(const std::exception& e)
 		{		
@@ -156,19 +154,9 @@ void CatalogData::on_accept_button_clicked()
 		type = "M";
 	}
 
-	std::string mode;
-	if(opClient->get_active())
-	{
-		mode = "C";
-	}
-	else if(opSupplier->get_active())
-	{
-		mode = "S";
-	}
-
 	//std::cout << "Step 4.\n";
 	
-	bool fljob = insert(*connector,inNumber->get_text(),mode,type,inBrief->get_text());
+	bool fljob = insert(*connector,inNumber->get_text(),type,inBrief->get_text());
 
 	//commit si es una conexion local
 	if(fljob and localconection) connector->commit(); 
@@ -183,7 +171,7 @@ void CatalogData::on_accept_button_clicked()
 	if(fljob) close();
 }
 
-void CatalogData::on_cancel_button_clicked()
+void CatalogSupplierData::on_cancel_button_clicked()
 {
     
 }

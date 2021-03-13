@@ -158,27 +158,24 @@ namespace muposysdb
 
 
 
-	const std::string Catalog::TABLE_NAME = "`Catalog`";
-	Catalog::Catalog()
+	const std::string CatalogClient::TABLE_NAME = "`CatalogClient`";
+	CatalogClient::CatalogClient()
 	{
 		item = NULL;
 	}
-	Catalog::Catalog(int item)
+	CatalogClient::CatalogClient(int item)
 	{
 		this->item = new Entities(item);
 	}
-	Catalog::Catalog(const Catalog& obj)
+	CatalogClient::CatalogClient(const CatalogClient& obj)
 	{
 		this->brief = obj.brief;
-		this->factoryID = obj.factoryID;
 		this->item = obj.item;
-		this->mode = obj.mode;
 		this->number = obj.number;
-		this->providerID = obj.providerID;
 		this->ref1 = obj.ref1;
 		this->type = obj.type;
 	}
-	Catalog::~Catalog()
+	CatalogClient::~CatalogClient()
 	{
 		if(item != NULL)
 		{
@@ -188,53 +185,38 @@ namespace muposysdb
 	}
 
 
-	const std::string& Catalog::getBrief() const
+	const std::string& CatalogClient::getBrief() const
 	{
 		return brief;
 	}
 
-	const std::string& Catalog::getFactoryID() const
-	{
-		return factoryID;
-	}
-
-	Entities& Catalog::getItem() const
+	Entities& CatalogClient::getItem() const
 	{
 		return *item;
 	}
 
-	const std::string& Catalog::getMode() const
-	{
-		return mode;
-	}
-
-	const std::string& Catalog::getNumber() const
+	const std::string& CatalogClient::getNumber() const
 	{
 		return number;
 	}
 
-	const std::string& Catalog::getProviderID() const
-	{
-		return providerID;
-	}
-
-	const std::string& Catalog::getRef1() const
+	const std::string& CatalogClient::getRef1() const
 	{
 		return ref1;
 	}
 
-	const std::string& Catalog::getType() const
+	const std::string& CatalogClient::getType() const
 	{
 		return type;
 	}
 
-	int Catalog::getItemValue() const
+	int CatalogClient::getItemValue() const
 	{
 		return (*item).getID();
 	}
 
 
-	bool Catalog::upBrief(octetos::db::maria::Connector& connector,const std::string& brief)
+	bool CatalogClient::upBrief(octetos::db::maria::Connector& connector,const std::string& brief)
 	{
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
@@ -243,25 +225,7 @@ namespace muposysdb
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
-	bool Catalog::upFactoryID(octetos::db::maria::Connector& connector,const std::string& factoryID)
-	{
-		std::string sqlString  = "";
-		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "factoryID = " + "'" + factoryID + "'";
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
-		octetos::db::maria::Datresult dt;
-		return connector.update(sqlString,dt);
-	}
-	bool Catalog::upMode(octetos::db::maria::Connector& connector,const std::string& mode)
-	{
-		std::string sqlString  = "";
-		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "mode = " + "'" + mode + "'";
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
-		octetos::db::maria::Datresult dt;
-		return connector.update(sqlString,dt);
-	}
-	bool Catalog::upNumber(octetos::db::maria::Connector& connector,const std::string& number)
+	bool CatalogClient::upNumber(octetos::db::maria::Connector& connector,const std::string& number)
 	{
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
@@ -270,16 +234,7 @@ namespace muposysdb
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
-	bool Catalog::upProviderID(octetos::db::maria::Connector& connector,const std::string& providerID)
-	{
-		std::string sqlString  = "";
-		sqlString = "UPDATE " + TABLE_NAME;
-		sqlString = sqlString +  " SET " +  "providerID = " + "'" + providerID + "'";
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
-		octetos::db::maria::Datresult dt;
-		return connector.update(sqlString,dt);
-	}
-	bool Catalog::upRef1(octetos::db::maria::Connector& connector,const std::string& ref1)
+	bool CatalogClient::upRef1(octetos::db::maria::Connector& connector,const std::string& ref1)
 	{
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
@@ -288,7 +243,7 @@ namespace muposysdb
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
-	bool Catalog::upType(octetos::db::maria::Connector& connector,const std::string& type)
+	bool CatalogClient::upType(octetos::db::maria::Connector& connector,const std::string& type)
 	{
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
@@ -299,14 +254,14 @@ namespace muposysdb
 	}
 
 
-	bool Catalog::insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& mode,const std::string& type,const std::string& brief)
+	bool CatalogClient::insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& type,const std::string& brief)
 	{
 		this->item = new Entities();
 		if(this->item->insert(connector) == false) return false;
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(item,number,mode,type,brief)";
-		sqlString = sqlString + " VALUES(" + std::to_string((*item).getID()) + ","  +  "'"  + number + "'" + ","  +  "'"  + mode + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
+		sqlString = sqlString + "(item,number,type,brief)";
+		sqlString = sqlString + " VALUES(" + std::to_string((*item).getID()) + ","  +  "'"  + number + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
 		octetos::db::maria::Datresult dt;
 		if(connector.insert(sqlString,dt))
 		{
@@ -314,12 +269,12 @@ namespace muposysdb
 		}
 		return false;
 	}
-	bool Catalog::insert(octetos::db::maria::Connector& connector,const Entities&  item,const std::string&  number,const std::string&  mode,const std::string&  type,const std::string&  brief)
+	bool CatalogClient::insert(octetos::db::maria::Connector& connector,const Entities&  item,const std::string&  number,const std::string&  type,const std::string&  brief)
 	{
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(item,number,mode,type,brief)";
-		sqlString = sqlString + " VALUES(" + std::to_string(item.getID()) + ","  +  "'"  + number + "'" + ","  +  "'"  + mode + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
+		sqlString = sqlString + "(item,number,type,brief)";
+		sqlString = sqlString + " VALUES(" + std::to_string(item.getID()) + ","  +  "'"  + number + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
 		octetos::db::maria::Datresult dt;
 		if(connector.insert(sqlString,dt))
 		{
@@ -330,9 +285,9 @@ namespace muposysdb
 	}
 
 
-	std::vector<Catalog*>* Catalog::select(octetos::db::maria::Connector& connector, const std::string& where, int leng, char order)
+	std::vector<CatalogClient*>* CatalogClient::select(octetos::db::maria::Connector& connector, const std::string& where, int leng, char order)
 	{
-		std::string sqlString = "SELECT item FROM Catalog WHERE ";
+		std::string sqlString = "SELECT item FROM CatalogClient WHERE ";
 		sqlString += where;
 		if(order == 'a' || order == 'A')
 		{
@@ -351,18 +306,18 @@ namespace muposysdb
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
 		{
-			std::vector<Catalog*>* tmpVc = new std::vector<Catalog*>;
+			std::vector<CatalogClient*>* tmpVc = new std::vector<CatalogClient*>;
 			while(dt.nextRow())
 			{
-				Catalog* tmp = NULL;
-				tmp = new Catalog(dt.getint(0));
+				CatalogClient* tmp = NULL;
+				tmp = new CatalogClient(dt.getint(0));
 				tmpVc->push_back(tmp);
 			}
 			return tmpVc;
 		}
 		return NULL;
 	}
-	bool Catalog::select(octetos::db::maria::Connector& connector,const Entities &item)
+	bool CatalogClient::select(octetos::db::maria::Connector& connector,const Entities &item)
 	{
 		std::string sqlString = "SELECT  item";
 		sqlString = sqlString + " FROM " + TABLE_NAME + " WHERE " +  "item = " + std::to_string(item.getID());
@@ -376,9 +331,9 @@ namespace muposysdb
 	}
 
 
-	bool Catalog::downBrief(octetos::db::maria::Connector& connector)
+	bool CatalogClient::downBrief(octetos::db::maria::Connector& connector)
 	{
-		std::string sqlString = "SELECT brief  FROM Catalog WHERE ";
+		std::string sqlString = "SELECT brief  FROM CatalogClient WHERE ";
 		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
@@ -390,37 +345,9 @@ namespace muposysdb
 		}
 		return false;
 	}
-	bool Catalog::downFactoryID(octetos::db::maria::Connector& connector)
+	bool CatalogClient::downNumber(octetos::db::maria::Connector& connector)
 	{
-		std::string sqlString = "SELECT factoryID  FROM Catalog WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
-		octetos::db::maria::Datresult dt;
-		bool flag = connector.select(sqlString,dt);
-		if(flag)
-		{
-			if(!dt.nextRow()) return false;
-			factoryID = dt.getString(0);
-			return true;
-		}
-		return false;
-	}
-	bool Catalog::downMode(octetos::db::maria::Connector& connector)
-	{
-		std::string sqlString = "SELECT mode  FROM Catalog WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
-		octetos::db::maria::Datresult dt;
-		bool flag = connector.select(sqlString,dt);
-		if(flag)
-		{
-			if(!dt.nextRow()) return false;
-			mode = dt.getString(0);
-			return true;
-		}
-		return false;
-	}
-	bool Catalog::downNumber(octetos::db::maria::Connector& connector)
-	{
-		std::string sqlString = "SELECT number  FROM Catalog WHERE ";
+		std::string sqlString = "SELECT number  FROM CatalogClient WHERE ";
 		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
@@ -432,23 +359,9 @@ namespace muposysdb
 		}
 		return false;
 	}
-	bool Catalog::downProviderID(octetos::db::maria::Connector& connector)
+	bool CatalogClient::downRef1(octetos::db::maria::Connector& connector)
 	{
-		std::string sqlString = "SELECT providerID  FROM Catalog WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
-		octetos::db::maria::Datresult dt;
-		bool flag = connector.select(sqlString,dt);
-		if(flag)
-		{
-			if(!dt.nextRow()) return false;
-			providerID = dt.getString(0);
-			return true;
-		}
-		return false;
-	}
-	bool Catalog::downRef1(octetos::db::maria::Connector& connector)
-	{
-		std::string sqlString = "SELECT ref1  FROM Catalog WHERE ";
+		std::string sqlString = "SELECT ref1  FROM CatalogClient WHERE ";
 		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
@@ -460,9 +373,9 @@ namespace muposysdb
 		}
 		return false;
 	}
-	bool Catalog::downType(octetos::db::maria::Connector& connector)
+	bool CatalogClient::downType(octetos::db::maria::Connector& connector)
 	{
-		std::string sqlString = "SELECT type  FROM Catalog WHERE ";
+		std::string sqlString = "SELECT type  FROM CatalogClient WHERE ";
 		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
@@ -476,9 +389,309 @@ namespace muposysdb
 	}
 
 
-	bool Catalog::remove(octetos::db::maria::Connector& connector)
+	bool CatalogClient::remove(octetos::db::maria::Connector& connector)
 	{
-		std::string sqlString = "DELETE FROM Catalog WHERE ";
+		std::string sqlString = "DELETE FROM CatalogClient WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.remove(sqlString,dt);
+	}
+
+
+
+
+	const std::string CatalogSupplier::TABLE_NAME = "`CatalogSupplier`";
+	CatalogSupplier::CatalogSupplier()
+	{
+		item = NULL;
+	}
+	CatalogSupplier::CatalogSupplier(int item)
+	{
+		this->item = new Entities(item);
+	}
+	CatalogSupplier::CatalogSupplier(const CatalogSupplier& obj)
+	{
+		this->brief = obj.brief;
+		this->factoryID = obj.factoryID;
+		this->item = obj.item;
+		this->number = obj.number;
+		this->providerID = obj.providerID;
+		this->ref1 = obj.ref1;
+		this->type = obj.type;
+	}
+	CatalogSupplier::~CatalogSupplier()
+	{
+		if(item != NULL)
+		{
+			delete item;
+			item = NULL;
+		}
+	}
+
+
+	const std::string& CatalogSupplier::getBrief() const
+	{
+		return brief;
+	}
+
+	const std::string& CatalogSupplier::getFactoryID() const
+	{
+		return factoryID;
+	}
+
+	Entities& CatalogSupplier::getItem() const
+	{
+		return *item;
+	}
+
+	const std::string& CatalogSupplier::getNumber() const
+	{
+		return number;
+	}
+
+	const std::string& CatalogSupplier::getProviderID() const
+	{
+		return providerID;
+	}
+
+	const std::string& CatalogSupplier::getRef1() const
+	{
+		return ref1;
+	}
+
+	const std::string& CatalogSupplier::getType() const
+	{
+		return type;
+	}
+
+	int CatalogSupplier::getItemValue() const
+	{
+		return (*item).getID();
+	}
+
+
+	bool CatalogSupplier::upBrief(octetos::db::maria::Connector& connector,const std::string& brief)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "brief = " + "'" + brief + "'";
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
+	bool CatalogSupplier::upFactoryID(octetos::db::maria::Connector& connector,const std::string& factoryID)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "factoryID = " + "'" + factoryID + "'";
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
+	bool CatalogSupplier::upNumber(octetos::db::maria::Connector& connector,const std::string& number)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "number = " + "'" + number + "'";
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
+	bool CatalogSupplier::upProviderID(octetos::db::maria::Connector& connector,const std::string& providerID)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "providerID = " + "'" + providerID + "'";
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
+	bool CatalogSupplier::upRef1(octetos::db::maria::Connector& connector,const std::string& ref1)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "ref1 = " + "'" + ref1 + "'";
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
+	bool CatalogSupplier::upType(octetos::db::maria::Connector& connector,const std::string& type)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "type = " + "'" + type + "'";
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
+
+
+	bool CatalogSupplier::insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& type,const std::string& brief)
+	{
+		this->item = new Entities();
+		if(this->item->insert(connector) == false) return false;
+		std::string sqlString = "";
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
+		sqlString = sqlString + "(item,number,type,brief)";
+		sqlString = sqlString + " VALUES(" + std::to_string((*item).getID()) + ","  +  "'"  + number + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
+		octetos::db::maria::Datresult dt;
+		if(connector.insert(sqlString,dt))
+		{
+			return true;
+		}
+		return false;
+	}
+	bool CatalogSupplier::insert(octetos::db::maria::Connector& connector,const Entities&  item,const std::string&  number,const std::string&  type,const std::string&  brief)
+	{
+		std::string sqlString = "";
+		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
+		sqlString = sqlString + "(item,number,type,brief)";
+		sqlString = sqlString + " VALUES(" + std::to_string(item.getID()) + ","  +  "'"  + number + "'" + ","  +  "'"  + type + "'" + ","  +  "'"  + brief + "'" +  ")";
+		octetos::db::maria::Datresult dt;
+		if(connector.insert(sqlString,dt))
+		{
+			this->item = new Entities(item);
+			return true;
+		}
+		return false;
+	}
+
+
+	std::vector<CatalogSupplier*>* CatalogSupplier::select(octetos::db::maria::Connector& connector, const std::string& where, int leng, char order)
+	{
+		std::string sqlString = "SELECT item FROM CatalogSupplier WHERE ";
+		sqlString += where;
+		if(order == 'a' || order == 'A')
+		{
+			sqlString = sqlString + " ORDER BY item ASC ";
+		}
+		else if(order == 'd' || order == 'D')
+		{
+			sqlString = sqlString + " ORDER BY item DESC ";
+		}
+		if(leng > 0)
+		{
+			sqlString += " LIMIT ";
+			sqlString += std::to_string(leng);
+		}
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			std::vector<CatalogSupplier*>* tmpVc = new std::vector<CatalogSupplier*>;
+			while(dt.nextRow())
+			{
+				CatalogSupplier* tmp = NULL;
+				tmp = new CatalogSupplier(dt.getint(0));
+				tmpVc->push_back(tmp);
+			}
+			return tmpVc;
+		}
+		return NULL;
+	}
+	bool CatalogSupplier::select(octetos::db::maria::Connector& connector,const Entities &item)
+	{
+		std::string sqlString = "SELECT  item";
+		sqlString = sqlString + " FROM " + TABLE_NAME + " WHERE " +  "item = " + std::to_string(item.getID());
+		octetos::db::maria::Datresult dat;
+		bool retflag = connector.select(sqlString,dat);
+		if(retflag)
+		{
+			this->item = new Entities(item);
+		}
+		return retflag;
+	}
+
+
+	bool CatalogSupplier::downBrief(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT brief  FROM CatalogSupplier WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			brief = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
+	bool CatalogSupplier::downFactoryID(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT factoryID  FROM CatalogSupplier WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			factoryID = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
+	bool CatalogSupplier::downNumber(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT number  FROM CatalogSupplier WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			number = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
+	bool CatalogSupplier::downProviderID(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT providerID  FROM CatalogSupplier WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			providerID = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
+	bool CatalogSupplier::downRef1(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT ref1  FROM CatalogSupplier WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			ref1 = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
+	bool CatalogSupplier::downType(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT type  FROM CatalogSupplier WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			type = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
+
+
+	bool CatalogSupplier::remove(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "DELETE FROM CatalogSupplier WHERE ";
 		sqlString = sqlString +  "item = " + std::to_string((*item).getID());
 		octetos::db::maria::Datresult dt;
 		return connector.remove(sqlString,dt);
@@ -669,7 +882,7 @@ namespace muposysdb
 		return *id;
 	}
 
-	Catalog& Movements::getItem() const
+	CatalogSupplier& Movements::getItem() const
 	{
 		return *item;
 	}
@@ -712,7 +925,7 @@ namespace muposysdb
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
-	bool Movements::upItem(octetos::db::maria::Connector& connector,const Catalog& item)
+	bool Movements::upItem(octetos::db::maria::Connector& connector,const CatalogSupplier& item)
 	{
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
@@ -732,12 +945,12 @@ namespace muposysdb
 	}
 
 
-	bool Movements::insert(octetos::db::maria::Connector& connector,int source,const std::string& itemNumber,const std::string& itemMode,const std::string& itemType,const std::string& itemBrief,int delta)
+	bool Movements::insert(octetos::db::maria::Connector& connector,int source,const std::string& itemNumber,const std::string& itemType,const std::string& itemBrief,int delta)
 	{
 		this->id = new Entities();
 		if(this->id->insert(connector) == false) return false;
-		this->item = new Catalog();
-		if(this->item->insert(connector,itemNumber,itemMode,itemType,itemBrief) == false) return false;
+		this->item = new CatalogSupplier();
+		if(this->item->insert(connector,itemNumber,itemType,itemBrief) == false) return false;
 		this->doc = new Entities();
 		if(this->doc->insert(connector) == false) return false;
 		std::string sqlString = "";
@@ -751,7 +964,7 @@ namespace muposysdb
 		}
 		return false;
 	}
-	bool Movements::insert(octetos::db::maria::Connector& connector,const Entities&  id,int source,const Catalog&  item,int delta,const Entities&  doc)
+	bool Movements::insert(octetos::db::maria::Connector& connector,const Entities&  id,int source,const CatalogSupplier&  item,int delta,const Entities&  doc)
 	{
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
@@ -1256,11 +1469,10 @@ namespace muposysdb
 	const std::string Stock::TABLE_NAME = "`Stock`";
 	Stock::Stock()
 	{
-		item = NULL;
 	}
 	Stock::Stock(int item)
 	{
-		this->item = new Catalog(item);
+		this->item = item;
 	}
 	Stock::Stock(const Stock& obj)
 	{
@@ -1272,17 +1484,12 @@ namespace muposysdb
 	}
 	Stock::~Stock()
 	{
-		if(item != NULL)
-		{
-			delete item;
-			item = NULL;
-		}
 	}
 
 
-	Catalog& Stock::getItem() const
+	int Stock::getItem() const
 	{
-		return *item;
+		return item;
 	}
 
 	const std::string& Stock::getNumber() const
@@ -1307,7 +1514,7 @@ namespace muposysdb
 
 	int Stock::getItemValue() const
 	{
-		return (*item).getItem().getID();
+		return item;
 	}
 
 
@@ -1316,7 +1523,7 @@ namespace muposysdb
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString +  " SET " +  "number = " + "'" + number + "'";
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
@@ -1325,7 +1532,7 @@ namespace muposysdb
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString +  " SET " +  "position = " + "'" + position + "'";
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
@@ -1334,7 +1541,7 @@ namespace muposysdb
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString +  " SET " +  "quantity = " + std::to_string(quantity);
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
@@ -1343,38 +1550,23 @@ namespace muposysdb
 		std::string sqlString  = "";
 		sqlString = "UPDATE " + TABLE_NAME;
 		sqlString = sqlString +  " SET " +  "warehouse = " + "'" + warehouse + "'";
-		sqlString = sqlString + " WHERE " +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString + " WHERE " +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		return connector.update(sqlString,dt);
 	}
 
 
-	bool Stock::insert(octetos::db::maria::Connector& connector,const std::string& itemNumber,const std::string& itemMode,const std::string& itemType,const std::string& itemBrief,const std::string& number)
-	{
-		this->item = new Catalog();
-		if(this->item->insert(connector,itemNumber,itemMode,itemType,itemBrief) == false) return false;
-		std::string sqlString = "";
-		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(item,number)";
-		sqlString = sqlString + " VALUES(" + std::to_string((*item).getItem().getID()) + ","  +  "'"  + number + "'" +  ")";
-		octetos::db::maria::Datresult dt;
-		if(connector.insert(sqlString,dt))
-		{
-			return true;
-		}
-		return false;
-	}
-	bool Stock::insert(octetos::db::maria::Connector& connector,const Catalog&  item,const std::string&  number)
+	bool Stock::insert(octetos::db::maria::Connector& connector,const std::string& number)
 	{
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
 		sqlString = sqlString + "(item,number)";
-		sqlString = sqlString + " VALUES(" + std::to_string(item.getItem().getID()) + ","  +  "'"  + number + "'" +  ")";
+		sqlString = sqlString + " VALUES(" + std::to_string(item) + ","  +  "'"  + number + "'" +  ")";
 		octetos::db::maria::Datresult dt;
 		if(connector.insert(sqlString,dt))
 		{
-			this->item = new Catalog(item);
-			return true;
+			item = connector.last_inserted_id();
+			if(item > 0) return true;
 		}
 		return false;
 	}
@@ -1412,24 +1604,38 @@ namespace muposysdb
 		}
 		return NULL;
 	}
-	bool Stock::select(octetos::db::maria::Connector& connector,const Catalog &item)
+	bool Stock::select(octetos::db::maria::Connector& connector,int item)
 	{
 		std::string sqlString = "SELECT  item";
-		sqlString = sqlString + " FROM " + TABLE_NAME + " WHERE " +  "item = " + std::to_string(item.getItem().getID());
+		sqlString = sqlString + " FROM " + TABLE_NAME + " WHERE " +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dat;
 		bool retflag = connector.select(sqlString,dat);
 		if(retflag)
 		{
-			this->item = new Catalog(item);
+			this->item = item;
 		}
 		return retflag;
 	}
 
 
+	bool Stock::downItem(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT item  FROM Stock WHERE ";
+		sqlString = sqlString +  "item = " + std::to_string(item);
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			item = dt.getint(0);
+			return true;
+		}
+		return false;
+	}
 	bool Stock::downNumber(octetos::db::maria::Connector& connector)
 	{
 		std::string sqlString = "SELECT number  FROM Stock WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
@@ -1443,7 +1649,7 @@ namespace muposysdb
 	bool Stock::downPosition(octetos::db::maria::Connector& connector)
 	{
 		std::string sqlString = "SELECT position  FROM Stock WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
@@ -1457,7 +1663,7 @@ namespace muposysdb
 	bool Stock::downQuantity(octetos::db::maria::Connector& connector)
 	{
 		std::string sqlString = "SELECT quantity  FROM Stock WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
@@ -1471,7 +1677,7 @@ namespace muposysdb
 	bool Stock::downWarehouse(octetos::db::maria::Connector& connector)
 	{
 		std::string sqlString = "SELECT warehouse  FROM Stock WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		bool flag = connector.select(sqlString,dt);
 		if(flag)
@@ -1487,7 +1693,7 @@ namespace muposysdb
 	bool Stock::remove(octetos::db::maria::Connector& connector)
 	{
 		std::string sqlString = "DELETE FROM Stock WHERE ";
-		sqlString = sqlString +  "item = " + std::to_string((*item).getItem().getID());
+		sqlString = sqlString +  "item = " + std::to_string(item);
 		octetos::db::maria::Datresult dt;
 		return connector.remove(sqlString,dt);
 	}

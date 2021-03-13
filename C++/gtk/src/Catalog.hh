@@ -11,10 +11,10 @@
 namespace muposys
 {
 
-class CatalogData : public Gtk::Window, public muposysdb::Catalog
+class CatalogSupplierData : public Gtk::Window, public muposysdb::CatalogSupplier
 {
 public:
-	CatalogData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	CatalogSupplierData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
 protected:
 	Glib::RefPtr<Gtk::Builder> builder;
 	Gtk::Entry* inNumber;

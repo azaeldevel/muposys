@@ -6,7 +6,8 @@
 namespace muposysdb
 {
 	class Buys;
-	class Catalog;
+	class CatalogClient;
+	class CatalogSupplier;
 	class Entities;
 	class Movements;
 	class Persons;
@@ -51,29 +52,68 @@ namespace muposysdb
 
 		bool remove(octetos::db::maria::Connector& connector);
 	};
-	class Catalog
+	class CatalogClient
+	{
+	private:
+		static const std::string TABLE_NAME;
+		std::string brief;
+		Entities* item;
+		std::string number;
+		std::string ref1;
+		std::string type;
+	public:
+		CatalogClient();
+		CatalogClient(const CatalogClient&);
+		CatalogClient(int item);
+		~CatalogClient();
+
+
+		const std::string& getBrief() const; 
+		Entities& getItem() const; 
+		const std::string& getNumber() const; 
+		const std::string& getRef1() const; 
+		const std::string& getType() const; 
+		int getItemValue() const; 
+
+		bool upBrief(octetos::db::maria::Connector& connector,const std::string& brief);
+		bool upNumber(octetos::db::maria::Connector& connector,const std::string& number);
+		bool upRef1(octetos::db::maria::Connector& connector,const std::string& ref1);
+		bool upType(octetos::db::maria::Connector& connector,const std::string& type);
+
+		bool insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& type,const std::string& brief);
+		bool insert(octetos::db::maria::Connector& connector,const Entities& item,const std::string& number,const std::string& type,const std::string& brief);
+
+		static std::vector<CatalogClient*>* select(octetos::db::maria::Connector& connector,const std::string& where, int leng = -1,char order = 0);
+		bool select(octetos::db::maria::Connector& connector,const Entities& item);
+
+		bool downBrief(octetos::db::maria::Connector& connector);
+		bool downNumber(octetos::db::maria::Connector& connector);
+		bool downRef1(octetos::db::maria::Connector& connector);
+		bool downType(octetos::db::maria::Connector& connector);
+
+		bool remove(octetos::db::maria::Connector& connector);
+	};
+	class CatalogSupplier
 	{
 	private:
 		static const std::string TABLE_NAME;
 		std::string brief;
 		std::string factoryID;
 		Entities* item;
-		std::string mode;
 		std::string number;
 		std::string providerID;
 		std::string ref1;
 		std::string type;
 	public:
-		Catalog();
-		Catalog(const Catalog&);
-		Catalog(int item);
-		~Catalog();
+		CatalogSupplier();
+		CatalogSupplier(const CatalogSupplier&);
+		CatalogSupplier(int item);
+		~CatalogSupplier();
 
 
 		const std::string& getBrief() const; 
 		const std::string& getFactoryID() const; 
 		Entities& getItem() const; 
-		const std::string& getMode() const; 
 		const std::string& getNumber() const; 
 		const std::string& getProviderID() const; 
 		const std::string& getRef1() const; 
@@ -82,21 +122,19 @@ namespace muposysdb
 
 		bool upBrief(octetos::db::maria::Connector& connector,const std::string& brief);
 		bool upFactoryID(octetos::db::maria::Connector& connector,const std::string& factoryID);
-		bool upMode(octetos::db::maria::Connector& connector,const std::string& mode);
 		bool upNumber(octetos::db::maria::Connector& connector,const std::string& number);
 		bool upProviderID(octetos::db::maria::Connector& connector,const std::string& providerID);
 		bool upRef1(octetos::db::maria::Connector& connector,const std::string& ref1);
 		bool upType(octetos::db::maria::Connector& connector,const std::string& type);
 
-		bool insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& mode,const std::string& type,const std::string& brief);
-		bool insert(octetos::db::maria::Connector& connector,const Entities& item,const std::string& number,const std::string& mode,const std::string& type,const std::string& brief);
+		bool insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& type,const std::string& brief);
+		bool insert(octetos::db::maria::Connector& connector,const Entities& item,const std::string& number,const std::string& type,const std::string& brief);
 
-		static std::vector<Catalog*>* select(octetos::db::maria::Connector& connector,const std::string& where, int leng = -1,char order = 0);
+		static std::vector<CatalogSupplier*>* select(octetos::db::maria::Connector& connector,const std::string& where, int leng = -1,char order = 0);
 		bool select(octetos::db::maria::Connector& connector,const Entities& item);
 
 		bool downBrief(octetos::db::maria::Connector& connector);
 		bool downFactoryID(octetos::db::maria::Connector& connector);
-		bool downMode(octetos::db::maria::Connector& connector);
 		bool downNumber(octetos::db::maria::Connector& connector);
 		bool downProviderID(octetos::db::maria::Connector& connector);
 		bool downRef1(octetos::db::maria::Connector& connector);
@@ -140,7 +178,7 @@ namespace muposysdb
 		std::string direction;
 		Entities* doc;
 		Entities* id;
-		Catalog* item;
+		CatalogSupplier* item;
 		int source;
 	public:
 		Movements();
@@ -153,18 +191,18 @@ namespace muposysdb
 		const std::string& getDirection() const; 
 		Entities& getDoc() const; 
 		Entities& getID() const; 
-		Catalog& getItem() const; 
+		CatalogSupplier& getItem() const; 
 		int getSource() const; 
 		int getIDValue() const; 
 
 		bool upDelta(octetos::db::maria::Connector& connector,int delta);
 		bool upDirection(octetos::db::maria::Connector& connector,const std::string& direction);
 		bool upDoc(octetos::db::maria::Connector& connector, const Entities& doc);
-		bool upItem(octetos::db::maria::Connector& connector, const Catalog& item);
+		bool upItem(octetos::db::maria::Connector& connector, const CatalogSupplier& item);
 		bool upSource(octetos::db::maria::Connector& connector,int source);
 
-		bool insert(octetos::db::maria::Connector& connector,int source,const std::string& itemNumber,const std::string& itemMode,const std::string& itemType,const std::string& itemBrief,int delta);
-		bool insert(octetos::db::maria::Connector& connector,const Entities& id,int source,const Catalog& item,int delta,const Entities& doc);
+		bool insert(octetos::db::maria::Connector& connector,int source,const std::string& itemNumber,const std::string& itemType,const std::string& itemBrief,int delta);
+		bool insert(octetos::db::maria::Connector& connector,const Entities& id,int source,const CatalogSupplier& item,int delta,const Entities& doc);
 
 		static std::vector<Movements*>* select(octetos::db::maria::Connector& connector,const std::string& where, int leng = -1,char order = 0);
 		bool select(octetos::db::maria::Connector& connector,const Entities& id);
@@ -237,7 +275,7 @@ namespace muposysdb
 	{
 	private:
 		static const std::string TABLE_NAME;
-		Catalog* item;
+		int item;
 		std::string number;
 		std::string position;
 		int quantity;
@@ -249,7 +287,7 @@ namespace muposysdb
 		~Stock();
 
 
-		Catalog& getItem() const; 
+		int getItem() const; 
 		const std::string& getNumber() const; 
 		const std::string& getPosition() const; 
 		int getQuantity() const; 
@@ -261,12 +299,12 @@ namespace muposysdb
 		bool upQuantity(octetos::db::maria::Connector& connector,int quantity);
 		bool upWarehouse(octetos::db::maria::Connector& connector,const std::string& warehouse);
 
-		bool insert(octetos::db::maria::Connector& connector,const std::string& itemNumber,const std::string& itemMode,const std::string& itemType,const std::string& itemBrief,const std::string& number);
-		bool insert(octetos::db::maria::Connector& connector,const Catalog& item,const std::string& number);
+		bool insert(octetos::db::maria::Connector& connector,const std::string& number);
 
 		static std::vector<Stock*>* select(octetos::db::maria::Connector& connector,const std::string& where, int leng = -1,char order = 0);
-		bool select(octetos::db::maria::Connector& connector,const Catalog& item);
+		bool select(octetos::db::maria::Connector& connector,int item);
 
+		bool downItem(octetos::db::maria::Connector& connector);
 		bool downNumber(octetos::db::maria::Connector& connector);
 		bool downPosition(octetos::db::maria::Connector& connector);
 		bool downQuantity(octetos::db::maria::Connector& connector);
