@@ -2,7 +2,7 @@
 
 CREATE TABLE CatalogSupplier(item INT NOT NULL);
 ALTER TABLE CatalogSupplier ADD number VARCHAR(30) NOT NULL;
-ALTER TABLE CatalogSupplier ADD type ENUM ('S', 'M') NOT NULL;
+ALTER TABLE CatalogSupplier ADD type ENUM ('service', 'item') NOT NULL;
 ALTER TABLE CatalogSupplier ADD brief VARCHAR(256) NOT NULL;
 ALTER TABLE CatalogSupplier ADD COLUMN factoryID VARCHAR(100);
 ALTER TABLE CatalogSupplier ADD COLUMN providerID VARCHAR(100);
@@ -14,7 +14,7 @@ ALTER TABLE CatalogSupplier ADD CONSTRAINT UNIQUE (number);
 
 CREATE TABLE CatalogClient(item INT NOT NULL);
 ALTER TABLE CatalogClient ADD number VARCHAR(30) NOT NULL;
-ALTER TABLE CatalogClient ADD type ENUM ('S', 'M') NOT NULL;
+ALTER TABLE CatalogClient ADD type ENUM ('service', 'item') NOT NULL;
 ALTER TABLE CatalogClient ADD brief VARCHAR(256) NOT NULL;
 ALTER TABLE CatalogClient ADD COLUMN ref1 VARCHAR(100);
 ALTER TABLE CatalogClient ADD CONSTRAINT FOREIGN KEY(item) REFERENCES Entities(id);

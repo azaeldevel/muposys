@@ -97,7 +97,7 @@ bool Main::on_windows_focus(void* user_data)
 }
 void Main::on_btStockCatalog_clicked()
 {
-	Catalog* wndCatalog = 0;
+	CatalogSupplier* wndCatalog = 0;
 	builder->get_widget_derived("wndCatalog", wndCatalog);
 	wndCatalog->show();
 }

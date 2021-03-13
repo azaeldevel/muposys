@@ -27,6 +27,7 @@ namespace muposysdb
 	Buys::Buys(const Buys& obj)
 	{
 		this->doc = obj.doc;
+		this->status = obj.status;
 		this->supplier = obj.supplier;
 	}
 	Buys::~Buys()
@@ -44,6 +45,11 @@ namespace muposysdb
 		return *doc;
 	}
 
+	const std::string& Buys::getStatus() const
+	{
+		return status;
+	}
+
 	Supplier& Buys::getSupplier() const
 	{
 		return *supplier;
@@ -55,6 +61,15 @@ namespace muposysdb
 	}
 
 
+	bool Buys::upStatus(octetos::db::maria::Connector& connector,const std::string& status)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "status = " + "'" + status + "'";
+		sqlString = sqlString + " WHERE " +  "doc = " + std::to_string((*doc).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
 	bool Buys::upSupplier(octetos::db::maria::Connector& connector,const Supplier& supplier)
 	{
 		std::string sqlString  = "";
@@ -66,7 +81,7 @@ namespace muposysdb
 	}
 
 
-	bool Buys::insert(octetos::db::maria::Connector& connector,int supplierNumber,const std::string& supplierNameShort)
+	bool Buys::insert(octetos::db::maria::Connector& connector,int supplierNumber,const std::string& supplierNameShort,const std::string& status)
 	{
 		this->doc = new Entities();
 		if(this->doc->insert(connector) == false) return false;
@@ -74,8 +89,8 @@ namespace muposysdb
 		if(this->supplier->insert(connector,supplierNumber,supplierNameShort) == false) return false;
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(doc,supplier)";
-		sqlString = sqlString + " VALUES(" + std::to_string((*doc).getID()) + ","  + std::to_string((*supplier).getSupplier().getID()) +  ")";
+		sqlString = sqlString + "(doc,supplier,status)";
+		sqlString = sqlString + " VALUES(" + std::to_string((*doc).getID()) + ","  + std::to_string((*supplier).getSupplier().getID()) + ","  +  "'"  + status + "'" +  ")";
 		octetos::db::maria::Datresult dt;
 		if(connector.insert(sqlString,dt))
 		{
@@ -83,12 +98,12 @@ namespace muposysdb
 		}
 		return false;
 	}
-	bool Buys::insert(octetos::db::maria::Connector& connector,const Entities&  doc,const Supplier&  supplier)
+	bool Buys::insert(octetos::db::maria::Connector& connector,const Entities&  doc,const Supplier&  supplier,const std::string&  status)
 	{
 		std::string sqlString = "";
 		sqlString = sqlString + "INSERT INTO "  + TABLE_NAME ; 
-		sqlString = sqlString + "(doc,supplier)";
-		sqlString = sqlString + " VALUES(" + std::to_string(doc.getID()) + ","  + std::to_string(supplier.getSupplier().getID()) +  ")";
+		sqlString = sqlString + "(doc,supplier,status)";
+		sqlString = sqlString + " VALUES(" + std::to_string(doc.getID()) + ","  + std::to_string(supplier.getSupplier().getID()) + ","  +  "'"  + status + "'" +  ")";
 		octetos::db::maria::Datresult dt;
 		if(connector.insert(sqlString,dt))
 		{
@@ -145,6 +160,20 @@ namespace muposysdb
 	}
 
 
+	bool Buys::downStatus(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT status  FROM Buys WHERE ";
+		sqlString = sqlString +  "doc = " + std::to_string((*doc).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			status = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
 
 
 	bool Buys::remove(octetos::db::maria::Connector& connector)

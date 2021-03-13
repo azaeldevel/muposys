@@ -32,19 +32,12 @@ private:
 };
 
 
-class Catalog : public Gtk::Window
+class CatalogSupplier : public Gtk::Window
 {
 public:
-	Catalog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Catalog();
-protected:
-	Glib::RefPtr<Gtk::Builder> builder;
-	Gtk::ToolButton* btCreateItem;
-	Gtk::SearchEntry* search;
+	CatalogSupplier(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~CatalogSupplier();
 
-	void on_btCatalogData_clicked();
-	bool on_search_KeyPress(GdkEventKey* event);
-private:
 
 	class ModelColumns : public Gtk::TreeModel::ColumnRecord
   	{
@@ -55,6 +48,15 @@ private:
 		Gtk::TreeModelColumn<Glib::ustring> number;
 		Gtk::TreeModelColumn<Glib::ustring> brief;
   	};
+protected:
+	Glib::RefPtr<Gtk::Builder> builder;
+	Gtk::ToolButton* btCreateItem;
+	Gtk::SearchEntry* search;
+
+	void on_btCatalogData_clicked();
+	bool on_search_KeyPress(GdkEventKey* event);
+private:
+
 
 	ModelColumns m_Columns;
  	Gtk::TreeView* treeData;

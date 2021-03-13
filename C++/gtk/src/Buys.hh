@@ -7,10 +7,52 @@
 
 
 #include "muposysdb.hpp"
-
+#include "Catalog.hh"
 
 namespace muposys
 {
+
+class SupplierData : public Gtk::Window, public muposysdb::Supplier
+{
+public:
+	SupplierData(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+protected:
+	Glib::RefPtr<Gtk::Builder> builder;
+	Gtk::Entry* inNumber;
+	Gtk::Entry* inNameShort;
+	Gtk::Button* btAccept;
+	Gtk::Button* btCancel;
+
+    void on_accept_button_clicked();
+    void on_cancel_button_clicked();
+private:
+	octetos::db::maria::Connector* connector;
+
+};
+
+class Movements : public Gtk::Window
+{
+public:
+	Movements(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~Movements();
+protected:
+	Glib::RefPtr<Gtk::Builder> builder;
+	Gtk::Entry* inSupplier;
+	Gtk::Label* lbSupplier;
+	Gtk::Entry* inItemNumber;
+	muposysdb::CatalogSupplier* item;
+
+	bool on_searchSupplier_KeyPress(GdkEventKey* event);
+	bool on_searchNumber_KeyPress(GdkEventKey* event);
+private:
+	octetos::db::maria::Connector* connector;
+	muposysdb::Supplier* supplier;
+	bool localconection;
+
+	//funtion
+	void cleanSupplier();
+	void cleanCatalogSupplier();
+};
 
 class Buys : public Gtk::Window
 {
@@ -19,10 +61,10 @@ public:
 	~Buys();
 protected:
 	Glib::RefPtr<Gtk::Builder> builder;
-	Gtk::ToolButton* btCreateItem;
+	Gtk::ToolButton* btNew;
 	Gtk::SearchEntry* search;
 
-	void on_btBuysData_clicked();
+	void on_btBuysCreateMov_clicked();
 	bool on_search_KeyPress(GdkEventKey* event);
 private:
 
@@ -35,6 +77,7 @@ private:
 		Gtk::TreeModelColumn<Glib::ustring> number;
 		Gtk::TreeModelColumn<Glib::ustring> nameShort;
   	};
+
 
 	ModelColumns m_Columns;
  	Gtk::TreeView* treeData;

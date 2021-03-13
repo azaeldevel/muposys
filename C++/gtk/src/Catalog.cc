@@ -5,7 +5,7 @@
 namespace muposys
 {
 	
-Catalog::Catalog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
+CatalogSupplier::CatalogSupplier(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
 {
 	set_size_request(400,200);
 
@@ -23,40 +23,32 @@ Catalog::Catalog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refG
 
 
 	builder->get_widget("search", search);
-	search->signal_key_release_event().connect(sigc::mem_fun(*this, &Catalog::on_search_KeyPress),false);
+	search->signal_key_release_event().connect(sigc::mem_fun(*this, &CatalogSupplier::on_search_KeyPress),false);
 	
 	builder->get_widget("btCreateItem", btCreateItem);
-	btCreateItem->signal_clicked().connect(sigc::mem_fun(*this,&Catalog::on_btCatalogData_clicked));
+	btCreateItem->signal_clicked().connect(sigc::mem_fun(*this,&CatalogSupplier::on_btCatalogData_clicked));
 
 	builder->get_widget("treeData", treeData);
 	//http://transit.iut2.upmf-grenoble.fr/doc/gtkmm-3.0/tutorial/html/sec-treeview-examples.html
 	//treeview
 	m_refTreeModel = Gtk::ListStore::create(m_Columns);
   	treeData->set_model(m_refTreeModel);
-	/*Gtk::TreeModel::Row row;		
-	row = *(m_refTreeModel->append());
-	row[m_Columns.id] = 1;
-  	row[m_Columns.number] = "item1";
-	row[m_Columns.brief] = "descripcion.....";
-	row = *(m_refTreeModel->append());
-	row[m_Columns.id] = 2;
-  	row[m_Columns.number] = "item2";
-	row[m_Columns.brief] = "descripcion.....";*/
 	treeData->append_column("Numero", m_Columns.number);
 	treeData->append_column("Descripcion", m_Columns.brief);
 }
-Catalog::~Catalog()
+CatalogSupplier::~CatalogSupplier()
 {
  	if(localconection) connector->close();
 }
 
-bool Catalog::on_search_KeyPress(GdkEventKey* event)
+bool CatalogSupplier::on_search_KeyPress(GdkEventKey* event)
 {
 	//std::cout << search->get_text() << "\n";
 	m_refTreeModel->clear();
 	std::string where = "number LIKE '";
 	where += search->get_text() + "%' OR brief LIKE '%" + search->get_text() + "%'";
 	std::vector<muposysdb::CatalogSupplier*>* lst = CatalogSupplierData::select(*connector,where);
+	if(lst->size() == 0) return false;
 	Gtk::TreeModel::Row row;
 	for(muposysdb::CatalogSupplier* c : *lst)
 	{
@@ -64,20 +56,20 @@ bool Catalog::on_search_KeyPress(GdkEventKey* event)
 		row[m_Columns.id] = c->getItemValue();
 		c->downNumber(*connector);
 	  	row[m_Columns.number] = c->getNumber();
-		c->downBrief (*connector);
+		c->downBrief(*connector);
 		row[m_Columns.brief] = c->getBrief();
 	}
 	
 	delete lst;
 	return false;
 }
-void Catalog::on_btCatalogData_clicked()
+void CatalogSupplier::on_btCatalogData_clicked()
 {
 	CatalogSupplierData* wndCatalogData = 0;
 	builder->get_widget_derived("wndCatalogData", wndCatalogData);
 	wndCatalogData->show();
 }
-Catalog::ModelColumns::ModelColumns()
+CatalogSupplier::ModelColumns::ModelColumns()
 {
 	add(number);
 	add(brief);
@@ -147,11 +139,11 @@ void CatalogSupplierData::on_accept_button_clicked()
 	std::string type;
 	if(opService->get_active())
 	{
-		type = "S";
+		type = "service";
 	}
 	else if(opItem->get_active())
 	{
-		type = "M";
+		type = "item";
 	}
 
 	//std::cout << "Step 4.\n";

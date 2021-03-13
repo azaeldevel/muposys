@@ -29,6 +29,7 @@ namespace muposysdb
 	private:
 		static const std::string TABLE_NAME;
 		Entities* doc;
+		std::string status;
 		Supplier* supplier;
 	public:
 		Buys();
@@ -38,17 +39,20 @@ namespace muposysdb
 
 
 		Entities& getDoc() const; 
+		const std::string& getStatus() const; 
 		Supplier& getSupplier() const; 
 		int getDocValue() const; 
 
+		bool upStatus(octetos::db::maria::Connector& connector,const std::string& status);
 		bool upSupplier(octetos::db::maria::Connector& connector, const Supplier& supplier);
 
-		bool insert(octetos::db::maria::Connector& connector,int supplierNumber,const std::string& supplierNameShort);
-		bool insert(octetos::db::maria::Connector& connector,const Entities& doc,const Supplier& supplier);
+		bool insert(octetos::db::maria::Connector& connector,int supplierNumber,const std::string& supplierNameShort,const std::string& status);
+		bool insert(octetos::db::maria::Connector& connector,const Entities& doc,const Supplier& supplier,const std::string& status);
 
 		static std::vector<Buys*>* select(octetos::db::maria::Connector& connector,const std::string& where, int leng = -1,char order = 0);
 		bool select(octetos::db::maria::Connector& connector,const Entities& doc);
 
+		bool downStatus(octetos::db::maria::Connector& connector);
 
 		bool remove(octetos::db::maria::Connector& connector);
 	};
