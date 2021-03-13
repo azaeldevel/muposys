@@ -25,7 +25,8 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
 
 
-
+AC_ARG_WITH([debian], AS_HELP_STRING([--with-debian], [Soporta para Debian.]))
+AM_CONDITIONAL(WITH_DEBIAN, test x"$with_debian" = "xyes")
 
 
 LT_INIT

@@ -13,8 +13,13 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
+
+muposysdb.cpp : $(top_srcdir)/src/muposys.apidb
+	$(top_srcdir)/src/building-apidb $(top_srcdir) 
+
+
 DBLIBS = 
-DEFINES = -DLINUX_DEBIAN
+DEFINES = 
 if WITH_MARIADB
 DBLIBS += $(OCTETOS_DB_MARIA_LIBS)
 DEFINES += $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
@@ -28,10 +33,13 @@ DBLIBS += $(OCTETOS_DB_POSTGRESQL_LIBS)
 DEFINES += $(OCTETOS_DB_POSTGRESQL_CFLAGS) -DPOSTGRESQL
 endif
 
+if WITH_DEBIAN
+DEFINES += -DLINUX_DEBIAN
+endif
 
 bin_PROGRAMS = muposys
 
-muposys_SOURCES = main.cc Login.cc muposysdb.cpp Main.cc
+muposys_SOURCES = muposysdb.cpp main.cc Login.cc Main.cc
 
 muposys_LDFLAGS = 
 muposys_CXXFLAGS = $(GTKMM_CFLAGS) $(OCTETOS_DB_MARIA_CFLAGS) $(DEFINES)
