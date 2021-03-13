@@ -25,6 +25,10 @@
 #include "Main.hh"
 #include "Login.hh"
 #include "constants.h"
+#include "Catalog.hh"
+
+
+
 namespace muposys
 {
 
@@ -43,13 +47,16 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) 
 	set_title(titleWindow());
 	builder->get_widget("tbrDocsSeller", tbrDocsSeller);
 	builder->get_widget("tbrAdmin", tbrAdmin);
-	builder->get_widget("btUser", btUser);
-	builder->get_widget("btQuotation", btQuotation);
+	//builder->get_widget("btUser", btUser);
+	//builder->get_widget("btQuotation", btQuotation);
 	builder->get_widget("lbUser", lbUser);
 	builder->get_widget("lbSystem", lbSystem);
 	lbSystem->set_text(systemName());
 	signal_focus_in_event().connect(sigc::mem_fun(*this, &Main::on_windows_focus));
-	
+	btStockCatalog = 0;
+	builder->get_widget("btStockCatalog", btStockCatalog);
+	btStockCatalog->signal_clicked().connect(sigc::mem_fun(*this,&Main::on_btStockCatalog_clicked));
+		
 	wndLogin = 0;
 	user = NULL;
 	builder->get_widget_derived("wndLogin", wndLogin);
@@ -68,9 +75,10 @@ const char* Main::systemName()const
 
 bool Main::on_button_press(GdkEventButton* event)
 {
-	//gtk_window_set_position ((GtkWindow*)GTK_WIDGET(event->window), GTK_WIN_POS_CENTER);
 	return true;
 }
+
+
 bool Main::on_windows_focus(void* user_data)
 {
 	if(user != NULL)
@@ -86,5 +94,11 @@ bool Main::on_windows_focus(void* user_data)
 	}
 	
 	return true;
+}
+void Main::on_btStockCatalog_clicked()
+{
+	Catalog* wndCatalog = 0;
+	builder->get_widget_derived("wndCatalog", wndCatalog);
+	wndCatalog->show();
 }
 }

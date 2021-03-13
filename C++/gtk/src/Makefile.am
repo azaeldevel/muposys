@@ -39,7 +39,7 @@ endif
 
 bin_PROGRAMS = muposys
 
-muposys_SOURCES = muposysdb.cpp main.cc Login.cc Main.cc
+muposys_SOURCES = muposysdb.cpp main.cc Login.cc Catalog.cc Main.cc 
 
 muposys_LDFLAGS = 
 muposys_CXXFLAGS = $(GTKMM_CFLAGS) $(OCTETOS_DB_MARIA_CFLAGS) $(DEFINES)

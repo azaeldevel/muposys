@@ -56,6 +56,7 @@ namespace muposys
 		
 	protected:
 		bool on_windows_focus(void* user_data);
+		void on_btStockCatalog_clicked();
 	private:
 		const Glib::RefPtr<Gtk::Builder> builder;
 		Login* wndLogin;
@@ -66,7 +67,8 @@ namespace muposys
 		Gtk::Label* lbUser;
 		Gtk::Label* lbSystem;
 		muposysdb::Users* user;
-		std::string struser;	
+		std::string struser;
+		Gtk::ToolButton* btStockCatalog;	
 	};
 
 }

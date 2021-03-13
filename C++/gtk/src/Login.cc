@@ -37,7 +37,6 @@ Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade
     
     btAccept->signal_clicked().connect(sigc::mem_fun(*this, &Login::on_accept_button_clicked));
     btCancel->signal_clicked().connect(sigc::mem_fun(*this, &Login::on_cancel_button_clicked));
-	//set_size_request(350,200);
 }
 
 void Login::linkUser(muposysdb::Users** u)

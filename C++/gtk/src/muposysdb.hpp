@@ -26,7 +26,15 @@ namespace muposysdb
 		static const std::string TABLE_NAME;
 		std::string brief;
 		Entities* ente;
+		std::string factoryID;
+		std::string mark;
+		std::string model;
 		std::string number;
+		std::string providerID;
+		std::string ref1;
+		std::string ref2;
+		std::string ref3;
+		std::string serie;
 		std::string type;
 	public:
 		Catalog();
@@ -37,12 +45,28 @@ namespace muposysdb
 
 		const std::string& getBrief() const; 
 		Entities& getEnte() const; 
+		const std::string& getFactoryID() const; 
+		const std::string& getMark() const; 
+		const std::string& getModel() const; 
 		const std::string& getNumber() const; 
+		const std::string& getProviderID() const; 
+		const std::string& getRef1() const; 
+		const std::string& getRef2() const; 
+		const std::string& getRef3() const; 
+		const std::string& getSerie() const; 
 		const std::string& getType() const; 
 		int getEnteValue() const; 
 
 		bool upBrief(octetos::db::maria::Connector& connector,const std::string& brief);
+		bool upFactoryID(octetos::db::maria::Connector& connector,const std::string& factoryID);
+		bool upMark(octetos::db::maria::Connector& connector,const std::string& mark);
+		bool upModel(octetos::db::maria::Connector& connector,const std::string& model);
 		bool upNumber(octetos::db::maria::Connector& connector,const std::string& number);
+		bool upProviderID(octetos::db::maria::Connector& connector,const std::string& providerID);
+		bool upRef1(octetos::db::maria::Connector& connector,const std::string& ref1);
+		bool upRef2(octetos::db::maria::Connector& connector,const std::string& ref2);
+		bool upRef3(octetos::db::maria::Connector& connector,const std::string& ref3);
+		bool upSerie(octetos::db::maria::Connector& connector,const std::string& serie);
 		bool upType(octetos::db::maria::Connector& connector,const std::string& type);
 
 		bool insert(octetos::db::maria::Connector& connector,const std::string& number,const std::string& type,const std::string& brief);
@@ -52,7 +76,15 @@ namespace muposysdb
 		bool select(octetos::db::maria::Connector& connector,const Entities& ente);
 
 		bool downBrief(octetos::db::maria::Connector& connector);
+		bool downFactoryID(octetos::db::maria::Connector& connector);
+		bool downMark(octetos::db::maria::Connector& connector);
+		bool downModel(octetos::db::maria::Connector& connector);
 		bool downNumber(octetos::db::maria::Connector& connector);
+		bool downProviderID(octetos::db::maria::Connector& connector);
+		bool downRef1(octetos::db::maria::Connector& connector);
+		bool downRef2(octetos::db::maria::Connector& connector);
+		bool downRef3(octetos::db::maria::Connector& connector);
+		bool downSerie(octetos::db::maria::Connector& connector);
 		bool downType(octetos::db::maria::Connector& connector);
 
 		bool remove(octetos::db::maria::Connector& connector);
