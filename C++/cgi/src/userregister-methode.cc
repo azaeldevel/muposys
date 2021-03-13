@@ -173,7 +173,12 @@ int main()
 	{
 		std::cout << "<h1>No se detecto la bandera de registro</h1>\n";
 	}
-	if(statuscode == SUCCEFULY) std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/index.html\"/>\n";
+	if(statuscode == SUCCEFULY) 
+	{
+		//enviar correo electronico de confirmacion
+		//ir a pagina de login
+		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/login.html\"/>\n";
+	}
 	
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";	

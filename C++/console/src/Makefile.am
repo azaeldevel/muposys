@@ -1,6 +1,3 @@
-## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
@@ -11,13 +8,26 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-bin_PROGRAMS = console
 
-console_SOURCES = \
-	main.cc
+DBLIBS= $(MARIADB_LIBS) $(OCTETOS_DB_ABSTRACT_LIBS)
+DEFINES = -DLINUX_DEBIAN $(MARIADB_CFLAGS) $(OCTETOS_DB_ABSTRACT_CFLAGS)
+if WITH_MARIADB
+DBLIBS += $(OCTETOS_DB_MARIA_LIBS)
+DEFINES += $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
+endif
 
-console_LDFLAGS = 
 
-console_LDADD = 
+$(top_srcdir)/src/muposysdb.cpp : $(top_srcdir)/src/muposys.apidb
+	$(top_srcdir)/src/building-apidb $(top_srcdir) 
 
+
+bin_PROGRAMS = muposys
+
+
+
+
+muposys_SOURCES = muposysdb.cpp main.cc commands.cc operations-db.cc
+muposys_LDFLAGS = 
+muposys_LDADD = $(DBLIBS)
+muposys_CXXFLAGS = $(DEFINES)
 

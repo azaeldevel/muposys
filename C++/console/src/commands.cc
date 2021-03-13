@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "commands.hh"
+#include "operations-db.hh"
 
 
 namespace muposys::commands
@@ -47,7 +48,30 @@ bool Muposys::catalog(int argc, const char* argv[])
 {
 	if(strcmp("add",argv[0]) == 0)
 	{
-		return catalog(argc-1,argv+1);
+#if defined MARIADB
+		octetos::db::maria::Connector conn;
+#elif defined MYSQL
+		octetos::db::mysql::Connector conn;
+#elif defined POSTGRESQL
+		octetos::db::postgresql::Connector conn;
+#else
+	#error "Base dedatos desconocida."
+#endif
+		if(!conn.connect(muposysdb::datconex))
+		{
+			std::cout << "fallo la conexion\n";
+		}
+
+		if(operations::addItemCatalogAdd(conn))
+		{
+			if(not conn.commit())
+			{
+				std::cout << "Fallo commit\n";
+			}
+			conn.close();
+			return true;
+		}
+		return false;
 	}
 	else
 	{

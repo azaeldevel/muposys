@@ -1,7 +1,10 @@
 
+#include "muposysdb.hpp"
+
+
 namespace muposys::operations
 {
 
-bool addItemCatalog();
+bool addItemCatalogAdd(octetos::db::maria::Connector& connector);
 
 } 

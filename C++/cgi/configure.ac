@@ -1,6 +1,6 @@
 
 
-AC_INIT(muposys-cgi, 0.7.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys-cgi, 0.8.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -19,7 +19,6 @@ PKG_CHECK_MODULES(SQLITE3, [sqlite3])
 
 PKG_CHECK_MODULES(OPENSSL, [openssl])
 
-PKG_CHECK_MODULES(LIBCURL, [libcurl])
 
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
 
