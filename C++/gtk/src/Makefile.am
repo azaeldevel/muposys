@@ -36,6 +36,9 @@ endif
 if WITH_DEBIAN
 DEFINES += -DLINUX_DEBIAN
 endif
+if WITH_ARCH
+DEFINES += -DLINUX_ARCH
+endif
 
 bin_PROGRAMS = muposys
 

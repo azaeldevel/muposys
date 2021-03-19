@@ -28,6 +28,10 @@ AM_GLIB_GNU_GETTEXT
 AC_ARG_WITH([debian], AS_HELP_STRING([--with-debian], [Soporta para Debian.]))
 AM_CONDITIONAL(WITH_DEBIAN, test x"$with_debian" = "xyes")
 
+AC_ARG_WITH([arch], AS_HELP_STRING([--with-arch], [Soporta para ArchLinux.]))
+AM_CONDITIONAL(WITH_ARCH, test x"$with_arch" = "xyes")
+
+
 
 LT_INIT
 
