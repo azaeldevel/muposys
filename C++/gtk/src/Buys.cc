@@ -85,8 +85,9 @@ bool Movements::on_searchNumber_KeyPress(GdkEventKey* event)
 		if(strcmp(i->getNumber().c_str(),inItemNumber->get_text().c_str()) == 0)
 		{
 			//std::cout << " item : " << i->getBrief() << "\n";
-			auto cobj = gobj();
-			item = new muposysdb::CatalogSupplier(*i);
+			BaseObjectType* cobj = gobj();
+			//gtk_label_set_markup (cobj, "<span foreground='#00FF00'>You Win!</span>");
+			//item = new muposysdb::CatalogSupplier(*i);
 			return true;
 		}
 		else
