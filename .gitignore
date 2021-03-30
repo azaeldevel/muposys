@@ -15,7 +15,6 @@ C++/apidb/CMakeLists.txt
 C++/apidb/config.h.in
 C++/gtk/.anjuta/
 C++/gtk/.anjuta_sym_db.db
-C++/gtk/Makefile.am
 C++/gtk/muposys.anjuta
 C++/gtk/Debug/
 C++/gtk/Makefile.in
