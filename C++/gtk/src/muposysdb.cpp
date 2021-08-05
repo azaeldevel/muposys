@@ -26,6 +26,7 @@ namespace muposysdb
 	}
 	Buys::Buys(const Buys& obj)
 	{
+		this->date = obj.date;
 		this->doc = obj.doc;
 		this->status = obj.status;
 		this->supplier = obj.supplier;
@@ -35,10 +36,14 @@ namespace muposysdb
 		if(doc != NULL)
 		{
 			delete doc;
-			doc = NULL;
 		}
 	}
 
+
+	const std::string& Buys::getDate() const
+	{
+		return date;
+	}
 
 	Entities& Buys::getDoc() const
 	{
@@ -61,6 +66,15 @@ namespace muposysdb
 	}
 
 
+	bool Buys::upDate(octetos::db::maria::Connector& connector,const std::string& date)
+	{
+		std::string sqlString  = "";
+		sqlString = "UPDATE " + TABLE_NAME;
+		sqlString = sqlString +  " SET " +  "date = " + "'" + date + "'";
+		sqlString = sqlString + " WHERE " +  "doc = " + std::to_string((*doc).getID());
+		octetos::db::maria::Datresult dt;
+		return connector.update(sqlString,dt);
+	}
 	bool Buys::upStatus(octetos::db::maria::Connector& connector,const std::string& status)
 	{
 		std::string sqlString  = "";
@@ -160,6 +174,20 @@ namespace muposysdb
 	}
 
 
+	bool Buys::downDate(octetos::db::maria::Connector& connector)
+	{
+		std::string sqlString = "SELECT date  FROM Buys WHERE ";
+		sqlString = sqlString +  "doc = " + std::to_string((*doc).getID());
+		octetos::db::maria::Datresult dt;
+		bool flag = connector.select(sqlString,dt);
+		if(flag)
+		{
+			if(!dt.nextRow()) return false;
+			date = dt.getString(0);
+			return true;
+		}
+		return false;
+	}
 	bool Buys::downStatus(octetos::db::maria::Connector& connector)
 	{
 		std::string sqlString = "SELECT status  FROM Buys WHERE ";
@@ -209,7 +237,6 @@ namespace muposysdb
 		if(item != NULL)
 		{
 			delete item;
-			item = NULL;
 		}
 	}
 
@@ -453,7 +480,6 @@ namespace muposysdb
 		if(item != NULL)
 		{
 			delete item;
-			item = NULL;
 		}
 	}
 
@@ -886,7 +912,6 @@ namespace muposysdb
 		if(id != NULL)
 		{
 			delete id;
-			id = NULL;
 		}
 	}
 
@@ -1136,7 +1161,6 @@ namespace muposysdb
 		if(ente != NULL)
 		{
 			delete ente;
-			ente = NULL;
 		}
 	}
 
@@ -1750,7 +1774,6 @@ namespace muposysdb
 		if(supplier != NULL)
 		{
 			delete supplier;
-			supplier = NULL;
 		}
 	}
 
@@ -1935,7 +1958,6 @@ namespace muposysdb
 		if(person != NULL)
 		{
 			delete person;
-			person = NULL;
 		}
 	}
 
@@ -2196,7 +2218,6 @@ namespace muposysdb
 		if(ente != NULL)
 		{
 			delete ente;
-			ente = NULL;
 		}
 	}
 

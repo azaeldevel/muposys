@@ -13,7 +13,6 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-
 muposysdb.cpp : $(top_srcdir)/src/muposys.apidb
 	$(top_srcdir)/src/building-apidb $(top_srcdir) 
 
