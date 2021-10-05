@@ -21,4 +21,5 @@ INSERT INTO Versions(ente,name,major,minor,patch) VALUES(2,'database',0,2,0);
 UPDATE Persons SET name1='Azael' WHERE ente = 1;
 UPDATE Persons SET name3='Reyes' WHERE ente = 1;
 
+-- is developoer, cambiar nombre de acuerdo al cliente
 INSERT INTO Supplier(supplier,number,nameShort) VALUES(3,'1001','Azael Reyes');

@@ -1,3 +1,5 @@
+source /home/azael/develop/octetos/muposys/db/alpha/mariadb/Entities.sql
+source /home/azael/develop/octetos/muposys/db/alpha/mariadb/Persons.sql
 
 INSERT INTO Entities(id) VALUES(1);
 INSERT INTO Entities(id) VALUES(2);
@@ -20,5 +22,3 @@ INSERT INTO Versions(ente,name,major,minor,patch) VALUES(2,'database',0,2,0);
 
 UPDATE Persons SET name1='Azael' WHERE ente = 1;
 UPDATE Persons SET name3='Reyes' WHERE ente = 1;
-
-INSERT INTO Supplier(supplier,number,nameShort) VALUES(3,'1001','Azael Reyes');
