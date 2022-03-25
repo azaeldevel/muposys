@@ -1,7 +1,5 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
 
-AC_INIT(muposys, 0.1.0-alpha)
+AC_INIT(muposys, 0.1.0-alpha,azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -54,11 +52,17 @@ LT_INIT([win32-dll])
 
 PKG_CHECK_MODULES(MUPOSYS, [gtkmm-3.0 ])
 
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))
+if test "x$with_tests" = "xyes"; then 
+	PKG_CHECK_MODULES(CUNIT,cunit)
+fi
 
 
 
 AC_OUTPUT([
 Makefile
 src/Makefile
+tests/Makefile
 po/Makefile.in
 ])

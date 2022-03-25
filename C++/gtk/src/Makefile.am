@@ -1,6 +1,3 @@
-## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
 
 
 uidir = $(pkgdatadir)/ui
@@ -21,9 +18,7 @@ bin_PROGRAMS = muposys
 
 muposys_SOURCES = \
 	main.cc
-
 muposys_LDFLAGS = 
-
 muposys_LDADD = $(MUPOSYS_LIBS)
 
 
