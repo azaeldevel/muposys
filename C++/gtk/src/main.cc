@@ -31,10 +31,15 @@
 /* #define UI_FILE PACKAGE_DATA_DIR"/ui/muposys.ui" */
 #define UI_FILE "src/muposys.ui"
 
+#include "muposys.hh"
    
 int
 main (int argc, char *argv[])
 {
+	bindtextdomain(GETTEXT_PACKAGE, PROGRAMNAME_LOCALEDIR);
+	bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+	textdomain(GETTEXT_PACKAGE);
+	
 	Gtk::Main kit(argc, argv);
 
 
@@ -49,8 +54,8 @@ main (int argc, char *argv[])
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-	Gtk::Window* wnd_Main = 0;
-	builder->get_widget("wnd_Main", wnd_Main);
+	mps::Muposys* wnd_Main = 0;
+	builder->get_widget_derived("wnd_Main", wnd_Main);
 
 
 	if (wnd_Main)
