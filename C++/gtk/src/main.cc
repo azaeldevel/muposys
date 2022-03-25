@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
 /*
  * main.cc
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
@@ -21,7 +20,6 @@
 #include <iostream>
 
 #include "config.h"
-
 
 #ifdef ENABLE_NLS
 #  include <libintl.h>
@@ -51,13 +49,13 @@ main (int argc, char *argv[])
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-	Gtk::Window* main_win = 0;
-	builder->get_widget("main_window", main_win);
+	Gtk::Window* wnd_Main = 0;
+	builder->get_widget("wnd_Main", wnd_Main);
 
 
-	if (main_win)
+	if (wnd_Main)
 	{
-		kit.run(*main_win);
+		kit.run(*wnd_Main);
 	}
 	return 0;
 }

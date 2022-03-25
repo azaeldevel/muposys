@@ -1,12 +1,83 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.38.2 -->
 <interface>
-  <!-- interface-naming-policy project-wide -->
-  <!-- interface-requires gtk+ 3.0 -->
-  <object class="GtkWindow" id="main_window">
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkHeaderBar" id="head_muposys">
     <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <child>
+      <object class="GtkBox" id="box_menu">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <child>
+          <object class="GtkBox" id="box_menu_left">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkButton" id="bt_admin">
+                <property name="label" translatable="yes">Administracion</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box_menu_center">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox" id="box_menu_rigth">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="baseline-position">top</property>
+            <child>
+              <placeholder/>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="pack-type">end</property>
+            <property name="position">2</property>
+          </packing>
+        </child>
+      </object>
+    </child>
+  </object>
+  <object class="GtkWindow" id="wnd_Main">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
     <property name="title" translatable="yes">Hello World!</property>
-    <property name="default_width">500</property>
-    <property name="default_height">400</property>
+    <property name="default-width">500</property>
+    <property name="default-height">400</property>
     <child>
       <placeholder/>
     </child>

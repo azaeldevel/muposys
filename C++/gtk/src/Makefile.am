@@ -16,12 +16,9 @@ AM_CFLAGS =\
 
 bin_PROGRAMS = muposys
 
-muposys_SOURCES = \
-	main.cc
+muposys_SOURCES = main.cc
 muposys_LDFLAGS = 
 muposys_LDADD = $(MUPOSYS_LIBS)
-
-
 if NATIVE_WIN32
 muposys_LDFLAGS += -mwindows
 endif
