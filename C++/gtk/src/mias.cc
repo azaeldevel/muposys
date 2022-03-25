@@ -13,13 +13,12 @@
 namespace mps::mias
 {
 
-Mias::Mias(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& glade) : mps::Muposys(cobject,glade), builder(glade)
+Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& glade) : mps::Pizza(cobject,glade)
 {
 	set_title(_("Mias Pizza & Pasta"));
 	
 }
-
-Mias::~Mias()
+Main::~Main()
 {
 }
 
@@ -55,7 +54,7 @@ int main (int argc, char *argv[])
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-	mps::Muposys* wnd_Main = 0;
+	mps::mias::Main* wnd_Main = 0;
 	builder->get_widget_derived("wnd_Main", wnd_Main);
 
 

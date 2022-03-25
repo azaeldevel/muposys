@@ -9,17 +9,17 @@
 namespace mps::mias
 {
 
-class Mias : public mps::Muposys
+class Main : public mps::Pizza
 {
 public:
 	/**
 	*
 	**/
-	Mias(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Mias();
+	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~Main();
 	
 private:
-	const Glib::RefPtr<Gtk::Builder>& builder;
+
 };
 
 }

@@ -8,19 +8,34 @@
 namespace mps
 {
 
-class Muposys : public Gtk::Window
+class Main : public Gtk::Window
 {
 public:
 /**
 *
 **/
-	Muposys(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Muposys();
+	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~Main();
+
+protected:
+	const Glib::RefPtr<Gtk::Builder>& builder;
 
 private:
-	const Glib::RefPtr<Gtk::Builder>& builder;
 };
 
+
+class Pizza : public Main
+{
+public:
+	/**
+	*
+	**/
+	Pizza(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~Pizza();
+	
+private:
+
+};
 
 }
 

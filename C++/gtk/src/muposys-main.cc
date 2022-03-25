@@ -31,7 +31,7 @@ int main (int argc, char *argv[])
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-	mps::Muposys* wnd_Main = 0;
+	mps::Main* wnd_Main = 0;
 	builder->get_widget_derived("wnd_Main", wnd_Main);
 
 
