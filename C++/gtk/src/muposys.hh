@@ -20,7 +20,12 @@ public:
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
 
+	void on_bt_close_clicked();
+
+
 private:
+	Gtk::HeaderBar* hb_muposys;
+	Gtk::Button* bt_close;
 };
 
 
