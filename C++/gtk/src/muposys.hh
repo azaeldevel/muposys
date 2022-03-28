@@ -28,8 +28,21 @@ private:
 	Gtk::Button* bt_close;
 };
 
+class Food : public Main
+{
+public:
+	/**
+	*
+	**/
+	Food(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~Food();
+	
+private:
 
-class Pizza : public Main
+};
+
+
+class Pizza : public Food
 {
 public:
 	/**

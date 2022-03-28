@@ -28,7 +28,31 @@ void Main::on_bt_close_clicked()
 }
 
 
-Pizza::Pizza(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& glade) : Main(cobject,glade)
+
+
+
+Food::Food(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& glade) : Main(cobject,glade)
+{
+	
+}
+
+Food::~Food()
+{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pizza::Pizza(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& glade) : Food(cobject,glade)
 {
 	
 }
