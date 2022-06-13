@@ -1,7 +1,5 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
 
-AC_INIT(mias, 0.1)
+AC_INIT(muposys-mias, 0.1.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -25,13 +23,21 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
 
 
+AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = "xyes")
+AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 
 
+LT_INIT([win32-dll])
 
-LT_INIT
+
+PKG_CHECK_MODULES(MUPOSYS, [gtkmm-3.0 ])
 
 
-PKG_CHECK_MODULES(MIAS, [gtkmm-3.0 ])
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))
+if test "x$with_tests" = "xyes"; then 
+	PKG_CHECK_MODULES(CUNIT,cunit)
+fi
 
 
 

@@ -1,31 +1,27 @@
-## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
 
 
 uidir = $(pkgdatadir)/ui
-ui_DATA = mias.ui
+ui_DATA = muposys.ui
 
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
 	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(MIAS_CFLAGS)
+	-DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
+	$(MUPOSYS_CFLAGS)
 
-AM_CFLAGS =\
-	 -Wall\
-	 -g
+AM_CFLAGS = -g -Wall
 
 bin_PROGRAMS = mias
 
-mias_SOURCES = \
-	main.cc
+resources.c : $(top_srcdir)/src/resources.xml $(top_srcdir)/src/muposys.ui
+	glib-compile-resources --target=resources.c --generate-source $(top_srcdir)/src/resources.xml --sourcedir $(top_srcdir)/src/
 
+
+mias_SOURCES = resources.c muposys.cc main-mias.cc
 mias_LDFLAGS = 
-
-mias_LDADD = $(MIAS_LIBS)
-
+mias_LDADD = $(MUPOSYS_LIBS)
 
 
 
