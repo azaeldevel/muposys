@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+includedir=@prefix@/include
+
+Name: muposys-core
+Description: C/C++ MUPOSYS core component
+Version: @VERSION@
+Requires: octetos-core
+Libs: -L${libdir} -lmuposys-core 
+Cflags: -I${includedir}

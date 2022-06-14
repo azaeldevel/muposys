@@ -31,3 +31,8 @@ uninstall-local:
 	-rm -r $(uidir)
 	-rm -r $(pkgdatadir)
 
+muposys_core_includedir = $(includedir)/octetos/muposys
+muposys_core_include_HEADERS = muposys.hh
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = muposys-core.pc

@@ -46,4 +46,5 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 po/Makefile.in
+src/muposys-core.pc
 ])
