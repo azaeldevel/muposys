@@ -30,7 +30,7 @@ AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 LT_INIT([win32-dll])
 
 
-PKG_CHECK_MODULES(MUPOSYS, [gtkmm-3.0 ])
+PKG_CHECK_MODULES(MUPOSYS, [gtkmm-3.0 muposys-core])
 
 
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
