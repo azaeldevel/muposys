@@ -3,7 +3,7 @@
 #ifndef MUPOSYS_MIAS_MAIN_HH
 #define MUPOSYS_MIAS_MAIN_HH
 
-#include "muposys.hh"
+#include <octetos/muposys/muposys.hh>
 
 
 namespace mps::mias

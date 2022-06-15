@@ -29,7 +29,7 @@
 
 /* For testing propose use the local (not installed) ui file */
 /* #define UI_FILE PACKAGE_DATA_DIR"/ui/muposys.ui" */
-#define UI_FILE "src/muposys.ui"
+//#define UI_FILE "src/muposys.ui"
 
 #include "mias.hh"
    
