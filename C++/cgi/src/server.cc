@@ -13,9 +13,10 @@ namespace muposys::server
 
 void Login::methode()
 {
-	std::cout << "Content-type:text/html\r\n\r\n";
+	std::cout << "Content-type:text/plain\n\n";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
+	std::cout << "<title>Using GET and POST Methods</title>\n";
 	
    	//std::cout << "Step 1 : \n<br>";
 	
@@ -27,7 +28,7 @@ void Login::methode()
 	}
 	else 
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
    	//std::cout << "Step 2 : \n<br>";
@@ -39,7 +40,7 @@ void Login::methode()
 	} 
 	else 
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
    	//std::cout << "Step 3 : \n<br>";
@@ -57,6 +58,7 @@ void Login::methode()
    	
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";
+	
    	std::cout << "</body>\n";
    	std::cout << "</html>\n";
 }
@@ -125,7 +127,7 @@ bool Login::check(const std::string& userstr,const std::string& password)
 			}
 			else
 			{
-				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			}
 			connhttp.close();
 			conn.close();

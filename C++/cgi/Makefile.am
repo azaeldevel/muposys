@@ -10,6 +10,3 @@ uninstall-local:
 databasedir = $(datarootdir)
 database_DATA = database
 
-install-data-hook:
-	chown apache:apache -R /var/www/localhost
-	chmod -R u+w /var/www/localhost

@@ -23,6 +23,11 @@ case $DISTRO in
     Ubuntu)
         
     ;;
+	ManjaroLinux)
+	WEBDIRECTORY="/srv/http"
+	
+	;;
+    
     *)
 esac
 

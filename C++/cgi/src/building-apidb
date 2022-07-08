@@ -5,4 +5,4 @@ SRCDIR=$1
 PFILE=$SRCDIR/src/muposys.apidb
 BUILDP=$SRCDIR/src
 
-/home/azael/develop/octetos/apidb.pub.src/build/src/apidb-build -p $PFILE -o $BUILDP
+apidb-build -p $PFILE -o $BUILDP

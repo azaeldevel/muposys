@@ -1,11 +1,11 @@
 
 noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la
 
-bin_PROGRAMS = login application logout userregister-methode
+bin_PROGRAMS = login.cgi application.cgi logout.cgi userregister-methode.cgi
 
 
 DBLIBS=
-DEFINES = -DLINUX_DEBIAN
+DEFINES = -DLINUX_ARCH
 if WITH_MARIADB
 DBLIBS += $(OCTETOS_DB_MARIA_LIBS)
 DEFINES += $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
@@ -37,21 +37,21 @@ libmuposys_server_la_LDFLAGS =
 libmuposys_server_la_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINES)
 libmuposys_server_la_LIBADD =  libmuposys-http.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
 
-login_SOURCES = login.cc muposysdb.cpp
-login_LDADD =  libmuposys-http.la libmuposys-server.la $(DBLIBS) 
-login_LDFLAGS = 
-login_CXXFLAGS = $(DEFINES)
+login_cgi_SOURCES = login.cc muposysdb.cpp
+login_cgi_LDADD =  libmuposys-http.la libmuposys-server.la $(DBLIBS) 
+login_cgi_LDFLAGS = 
+login_cgi_CXXFLAGS = $(DEFINES)
 
-application_SOURCES = application.cc application-server.cc 
-application_LDADD =   libmuposys-server.la $(DBLIBS)
+application_cgi_SOURCES = application.cc application-server.cc 
+application_cgi_LDADD =   libmuposys-server.la $(DBLIBS)
 
-logout_SOURCES = logout.cc  
-logout_LDADD =   $(CGICC_LIBS) libmuposys-server.la $(DBLIBS)
+logout_cgi_SOURCES = logout.cc  
+logout_cgi_LDADD =   $(CGICC_LIBS) libmuposys-server.la $(DBLIBS)
 
-userregister_methode_LDADD = $(CGICC_LIBS) $(DBLIBS) libmuposys-server.la 
-userregister_methode_LDFLAGS = 
-userregister_methode_CXXFLAGS = $(DEFINES)
-userregister_methode_SOURCES = userregister-methode.cc 
+userregister_methode_cgi_LDADD = $(CGICC_LIBS) $(DBLIBS) libmuposys-server.la 
+userregister_methode_cgi_LDFLAGS = 
+userregister_methode_cgi_CXXFLAGS = $(DEFINES)
+userregister_methode_cgi_SOURCES = userregister-methode.cc 
 
 
 
