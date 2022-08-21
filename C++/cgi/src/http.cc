@@ -63,7 +63,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
         //session = mdString;
         host = h;
         //
-        muposys::http::db::Conector conn("database");
+        muposys::http::db::Conector conn(muposys::http::db::database_file);
    		conn.begin();
    		
    		if(id.empty())

@@ -12,7 +12,7 @@ namespace db
 {
 	class Variable;
 
-
+	static const char* database_file = "/srv/cgi/database";
     class Conector
     {
     private:

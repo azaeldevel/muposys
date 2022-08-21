@@ -13,14 +13,14 @@ namespace muposys::server
 
 void Login::methode()
 {
-	std::cout << "Content-type:text/plain\n\n";
+	std::cout << "Content-type:text/html\n\r\n\r";
    	std::cout << "<html>\n";
    	std::cout << "<head>\n";
-	std::cout << "<title>Using GET and POST Methods</title>\n";
 	
    	//std::cout << "Step 1 : \n<br>";
 	
-   	cgicc::Cgicc formData;   	
+   	
+	cgicc::Cgicc formData;   	
 	cgicc::form_iterator itUser = formData.getElement("user"); 
 	if( !itUser->isEmpty() && itUser != (*formData).end()) 
 	{
@@ -55,6 +55,7 @@ void Login::methode()
 	{
 		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=" << strredirect << "\"\n";
 	}
+	
    	
    	std::cout << "</head>\n";
    	std::cout << "<body>\n";
@@ -119,7 +120,7 @@ bool Login::check(const std::string& userstr,const std::string& password)
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
-			muposys::http::db::Conector connhttp("database");
+			muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 			muposys::http::db::Variable var;
 			if(var.insert(connhttp,session->getSession(),"user",userbd->getName()))
 			{

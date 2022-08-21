@@ -13,6 +13,7 @@ AC_PROG_CXX
 
 LT_INIT
 
+
 PKG_CHECK_MODULES(CGICC, [cgicc])
 
 PKG_CHECK_MODULES(SQLITE3, [sqlite3])
@@ -22,6 +23,14 @@ PKG_CHECK_MODULES(OPENSSL, [openssl])
 PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
 
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
+
+
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))
+if test "x$with_tests" = "xyes"; then 
+	PKG_CHECK_MODULES(CUNIT,cunit)
+fi
+
 
 AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
 if test "x$with_mysql" = "xyes"; then 
@@ -42,9 +51,18 @@ if test "x$with_postgresql" = "xyes"; then
 fi
 AM_CONDITIONAL(WITH_POSTGRESQL, test x"$with_postgresql" = "xyes")
 
+AM_CONDITIONAL(WITH_MEDIUMWORD, test x"$with_mediumword" = "xyes")
+AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-mediumword], [Define el tamno de los datos usados.]))
+
+AM_CONDITIONAL(WITH_HIGHWORD, test x"$with_mediumword" = "xyes")
+AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-highword], [Define el tamno de los datos usados.]))
+
+AM_CONDITIONAL(WITH_LOWWORD, test x"$with_mediumword" = "xyes")
+AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-lowword], [Define el tamno de los datos usados.]))
+
 
 AC_OUTPUT([
 Makefile
 src/Makefile
-
+tests/Makefile
 ])
