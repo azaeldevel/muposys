@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include "Exception.hh"
+
 namespace muposys
 {
 namespace http
@@ -17,6 +19,7 @@ namespace db
     {
     private:
         void* serverConnector;
+		
     public:
 
 		/**

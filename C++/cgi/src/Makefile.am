@@ -35,7 +35,7 @@ $(top_srcdir)/src/muposysdb.cpp : $(top_srcdir)/src/muposys.apidb
 BUILT_SOURCES = $(top_srcdir)/src/muposysdb.cpp
 
 libmuposys_http_la_LDFLAGS = -static
-libmuposys_http_la_SOURCES = http.cc http-db.cc
+libmuposys_http_la_SOURCES = http.cc http-db.cc Exception.cc
 
 libmuposys_http_la_CXXFLAGS = $(DEFINESBD)
 libmuposys_http_la_LIBADD = $(DBLIBS)
