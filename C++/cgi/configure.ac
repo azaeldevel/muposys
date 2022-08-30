@@ -44,12 +44,12 @@ if test "x$with_mariadb" = "xyes"; then
 fi
 AM_CONDITIONAL(WITH_MARIADB, test x"$with_mariadb" = "xyes")
 
-
 AC_ARG_WITH([postgresql], AS_HELP_STRING([--with-postgresql], [Soporta para PostgreSQL.]))
 if test "x$with_postgresql" = "xyes"; then 
 	PKG_CHECK_MODULES(OCTETOS_DB_POSTGRESQL, [octetos-db-postgresql])
 fi
 AM_CONDITIONAL(WITH_POSTGRESQL, test x"$with_postgresql" = "xyes")
+
 
 AM_CONDITIONAL(WITH_MEDIUMWORD, test x"$with_mediumword" = "xyes")
 AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-mediumword], [Define el tamno de los datos usados.]))

@@ -8,7 +8,9 @@
 
 
 
+#include "../src/http.hh"
 #include "../src/http-db.hh"
+#include "../src/muposysdb.hpp"
 
 int v0_init(void);
 int v0_clean(void);

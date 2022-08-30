@@ -30,7 +30,7 @@
 int main ()
 {
 	muposys::server::Login login;
-	login.methode();
+	//login.methode();
 
 	//std::cout << "Content-type:text/plain\n\n";
 	//std::cout << "prueba..\n\n";

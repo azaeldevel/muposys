@@ -88,7 +88,7 @@ bool Login::check(const std::string& userstr,const std::string& password)
 #elif defined POSTGRESQL
 	octetos::db::postgresql::Connector conn;
 #else
-	#error "Base dedatos desconocida."
+	#error "Base de datos desconocida."
 #endif
 
 	conn.connect(muposysdb::datconex);

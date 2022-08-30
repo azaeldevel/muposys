@@ -30,6 +30,31 @@ void v0_develop()
 	session.insert(conn,hoststr,sessionstr,timestr);
 
 	
-	
+	octetos::db::maria::Connector connmaria;
+	bool flag = connmaria.connect(muposysdb::datconex);
+	if(flag)
+	{		
+		//if(verbose) std::cout << "Listando los que tiene 8 con 5 registro maximo." << std::endl;
+		std::vector<muposysdb::Persons*>* lst = muposysdb::Persons::select(connmaria,"name1 like 'n1-%8'");
+		if(lst != NULL)
+		{
+		    for(auto p : *lst)
+		    {
+				if(p->downName1(connmaria) and p->downName3(connmaria)) 
+				{
+					CU_ASSERT(true);
+					//std::cout << p->getName1() << " " << p->getName3() << std::endl;
+				}
+		    }
+			for(auto p : *lst)
+			{
+				delete p;
+			}
+		}
+		delete lst;
+	}
+
+	muposys::http::Session sessionHttp("",true);
+	//std::cout << "mdString 2 : " << sessionHttp.getSession().getSession()  << "\n";
 	
 }

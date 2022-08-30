@@ -20,11 +20,12 @@ private:
 	std::string host;
 	//std::string session;
 	muposys::http::db::Session session;
+	bool debug;
 	
 public:
 	const std::string& getSessionID() const;
 	const std::string& getHost() const;
-	Session(const std::string& id);	
+	Session(const std::string& id,bool debug = false);	
 	muposys::http::db::Session& getSession();
 };
 

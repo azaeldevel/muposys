@@ -3,6 +3,6 @@
 SRCDIR=$1
 
 PFILE=$SRCDIR/src/muposys.apidb
-BUILDP=$SRCDIR/src
+BUILDP=$2
 
 apidb-build -p $PFILE -o $BUILDP
