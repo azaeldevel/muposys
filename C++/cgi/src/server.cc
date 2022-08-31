@@ -46,7 +46,7 @@ void Login::methode()
    	//std::cout << "Step 3 : \n<br>";
 		   		   	
 	bool flagSession = check(**itUser,**itPassword);
-	std::string strredirect = "/cgi/application?session=";
+	std::string strredirect = "/application.cgi?session=";
 	strredirect += getSessionID();
 	
    	//std::cout << "Step 4 : \n<br>";
