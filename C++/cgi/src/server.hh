@@ -143,6 +143,7 @@ public:
 	void methode();
 	const std::string& getSessionID()const;
 	Login();
+	~Login();
 	Login(const std::string& sessionid);
 	muposys::http::Session& getSession();
 };

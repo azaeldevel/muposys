@@ -29,11 +29,9 @@
 
 int main ()
 {
+	std::cout << "Content-type: text/html\n\n";	
 	muposys::server::Login login;
-	//login.methode();
-
-	//std::cout << "Content-type:text/plain\n\n";
-	//std::cout << "prueba..\n\n";
+	login.methode();
 	
 	return 0;
 }

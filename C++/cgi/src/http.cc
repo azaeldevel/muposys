@@ -45,10 +45,16 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 	{
 		return host;
 	}
-	Session::Session(const std::string& id,bool d) : debug(d)
+	Session::Session(const std::string& id)
 	{
-		if(debug) host = "localhost";
-		else host = getenv("REMOTE_ADDR");
+		if(getenv("REMOTE_ADDR") == NULL)
+		{
+			host = "localhost";
+		}
+		else
+		{
+			host = getenv("REMOTE_ADDR");
+		}
 		
         //
         muposys::http::db::Conector conn(muposys::http::db::database_file);
@@ -66,7 +72,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		  		}
 		  		else
 		  		{
-		  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		  		}
 		   	}
 		   	else
@@ -102,12 +108,12 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 			  		}
 			  		else
 			  		{
-			  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			  		}
 		   		}
 		   		else
 		   		{
-		  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		  		}
 		   	}
 	   	}
@@ -122,12 +128,12 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 			  	}
 			  	else
 			  	{
-			  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			  	}
 	   		}
 	   		else
 	   		{
-	   			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+	   			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 	   		}
 	   	}
 	   	conn.commit();

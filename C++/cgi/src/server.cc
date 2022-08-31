@@ -1,6 +1,8 @@
 
 #include <muposysdb.hpp>
-
+#include "cgicc/Cgicc.h"
+#include "cgicc/HTTPHTMLHeader.h"
+#include "cgicc/HTMLClasses.h"
 
 #include "server.hh"
 
@@ -13,12 +15,10 @@ namespace muposys::server
 
 void Login::methode()
 {
-	std::cout << "Content-type:text/html\n\r\n\r";
-   	std::cout << "<html>\n";
-   	std::cout << "<head>\n";
-	
-   	//std::cout << "Step 1 : \n<br>";
-	
+	/*std::cout << cgicc::HTTPHTMLHeader() << "\n";*/
+	std::cout << cgicc::html() << cgicc::head(cgicc::title("Multi-Porpuse Software System")) << "\n";
+    std::cout << cgicc::body() << "\n";
+   	//std::cout << "Step 1 : \n<br>";	
    	
 	cgicc::Cgicc formData;   	
 	cgicc::form_iterator itUser = formData.getElement("user"); 
@@ -55,13 +55,12 @@ void Login::methode()
 	{
 		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=" << strredirect << "\"\n";
 	}
+	else
+	{
+		std::cout << "Error : Usuario/contraseña incorrecta.\n";
+	}
 	
-   	
-   	std::cout << "</head>\n";
-   	std::cout << "<body>\n";
-	
-   	std::cout << "</body>\n";
-   	std::cout << "</html>\n";
+   	std::cout << cgicc::body() << cgicc::html() << "\n";
 }
 muposys::http::Session& Login::getSession()
 {
@@ -74,6 +73,10 @@ Login::Login(const std::string& s)
 Login::Login()
 {
 	session = new muposys::http::Session("");
+}
+Login::~Login()
+{
+	if(session) delete session;
 }
 const std::string& Login::getSessionID()const
 {

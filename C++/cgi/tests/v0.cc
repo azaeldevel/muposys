@@ -20,7 +20,7 @@ void v0_develop()
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(1, 1000000);
 	
-	Conector conn("../../tests/database");
+	Conector conn(muposys::http::db::database_file);
 	CU_ASSERT(conn.getServerConnector() != NULL)
 	Session session;	
 	std::string hoststr,sessionstr,timestr;
@@ -54,7 +54,10 @@ void v0_develop()
 		delete lst;
 	}
 
-	muposys::http::Session sessionHttp("",true);
+	muposys::http::Session sessionHttp("");
 	//std::cout << "mdString 2 : " << sessionHttp.getSession().getSession()  << "\n";
+
+	muposys::server::Login login;
+	login.methode();
 	
 }

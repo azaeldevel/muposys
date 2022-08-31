@@ -10,3 +10,6 @@ uninstall-local:
 databasedir = $(datarootdir)
 database_DATA = database
 
+install-data-hook:
+	chmod a+w $(datarootdir)/database
+
