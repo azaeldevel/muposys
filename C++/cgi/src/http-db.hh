@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "Exception.hh"
+#include "config.h"
+
 
 namespace muposys
 {
@@ -13,8 +15,9 @@ namespace http
 namespace db
 {
 	class Variable;
-
-	static const char* database_file = "database";
+	
+	static const char* database_file = DATABASE;
+	
     class Conector
     {
     private:

@@ -4,7 +4,7 @@ AC_INIT(muposys-cgi, 0.8.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
-AM_INIT_AUTOMAKE([1.11])
+AM_INIT_AUTOMAKE([subdir-objects])
 
 AM_SILENT_RULES([yes])
 
@@ -23,6 +23,25 @@ PKG_CHECK_MODULES(OPENSSL, [openssl])
 PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
 
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
+
+
+AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
+	case $enableval in
+	  	archlinux)
+			AC_DEFINE([LINUX_ARCH], [], [Enable configuration for Arch-Linux])
+			AC_SUBST([DATABASE],["/srv/database"])
+			AC_DEFINE_UNQUOTED([DATABASE], ["$DATABASE"] ,[Full path for database file])
+		;;
+	  	debian) 
+			AC_DEFINE([LINUX_DEBIAN], [], [Enable configuration for Debian])
+		;;
+	  	*) 
+			AC_MSG_ERROR([unknown option '$enable_os' for --enable-os]) 
+
+		;;
+	esac
+
+
 
 
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")

@@ -12,4 +12,5 @@ database_DATA = database
 
 install-data-hook:
 	chmod a+w $(datarootdir)/database
+	mv $(datarootdir)/database $(DATABASE)
 
