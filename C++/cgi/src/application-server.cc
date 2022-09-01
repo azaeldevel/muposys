@@ -32,12 +32,11 @@ namespace muposys
 		{
 			std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=login.html\"\n";
 		}
-		conn.close();
 		
 		out << "<div id=\"menu\">";
 		
 		
-			out << "<div id=\"user\">";			
+			out << "<div id=\"panel\">";			
 				
 				out << "<div id=\"logout\"><a href=\"/logout.cgi\" > ";
 				
@@ -45,21 +44,18 @@ namespace muposys
 				out << "<div id=\"space\">";
 				
 				out << "</div></a>\n";
-				out << "<div id=\"photo\"><a href=\"#/user.html\" > ";
-				/*
-				sysapp::http::db::Conector connhttp(muposys::http::db::database_file);
-				sysapp::http::db::Variable var;
-				if(var.select(connhttp,login->getSession().getSession(),"user"))
-				{
-					out << var.getValue();				
-				}
-				else
-				{
-					flagserror = true;
-				}
-				connhttp.close();
-				*/
-				out << "</a></div>\n";
+
+				out << "<div id=\"user\">";
+					out << "<div id=\"photo\">"; //"</div>\n";
+						out << "<div id=\"name\">";						
+						muposys::http::db::Variable var;
+						if(var.select(conn,session,"user"))
+						{
+							out << var.getValue();				
+						}						
+						out << "</div>\n";
+					out << "</div>\n";
+				out << "</div>\n";
 				out << "<div id=\"system\"><a href=\"/system.html\" >";
 				
 				out << "</a></div>\n";			
@@ -67,6 +63,7 @@ namespace muposys
 			out << "</div>\n";
 		
 		out << "</div>\n";
+		conn.close();
 		
 		/*if(flagserror)
 		{

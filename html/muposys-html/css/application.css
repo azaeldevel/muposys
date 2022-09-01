@@ -18,13 +18,13 @@ body > #menu
 
 
 
-body > #menu > #user
+body > #menu > #panel
 {
 	float: right;
 	height: 100%;
 	min-width: 15%;
 }
-body > #menu > #user > #logout, body > #menu > #user > #system, body > #menu > #user > #photo
+body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu > #panel > #user
 {
 	float: right;
 	height: 100%;
@@ -33,14 +33,23 @@ body > #menu > #user > #logout, body > #menu > #user > #system, body > #menu > #
 	background-size : contain;
 	background-position: center;
 }
-body > #menu > #user > #logout > a, body > #menu > #user > #system > a, body > #menu > #user > #photo > a
+body > #menu > #panel > #user > #photo
+{
+	height: 50%;
+	text-align: center;
+}
+body > #menu > #panel > #user > #photo > #name
+{
+  	bottom: 0;
+}
+body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body > #menu > #panel > #user > #photo > a
 {	
     display: block;
     height: 100%;
     width: 100%;
     text-decoration: none;
 }
-body > #menu > #user > #space
+body > #menu > #panel > #space
 {
 	float: right;
 	height: 100%;
@@ -132,19 +141,19 @@ button:hover {
 
 @media screen and (max-width : 299px)
 {
-	body > #menu > #user
+	body > #menu > #panel
 	{
 		min-width: 30%;
 	}
-	body > #menu > #user > #system
+	body > #menu > #panel > #system
 	{
 		background-image: url(/theme/gnome-2.91/16x16/categories/preferences-desktop.png);
 	}
-	body > #menu > #user > #photo
+	body > #menu > #panel > #user > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/16x16/status/avatar-default.png);
 	}
-	body > #menu > #user > #logout
+	body > #menu > #panel > #logout
 	{
 		background-image: url(/theme/gnome-2.91/16x16/actions/application-exit.png);
 	}
@@ -154,19 +163,19 @@ button:hover {
 
 @media screen and (min-width: 300px) and (max-width : 599px)
 {
-	body > #menu > #user
+	body > #menu > #panel
 	{
 		min-width: 25%;
 	}
-	body > #menu > #user > #system
+	body > #menu > #panel > #system
 	{
 		background-image: url(/theme/gnome-2.91/22x22/categories/preferences-desktop.png);
 	}
-	body > #menu > #user > #photo
+	body > #menu > #panel > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/22x22/status/avatar-default.png);
 	}
-	body > #menu > #user > #logout
+	body > #menu > #panel > #logout
 	{
 		background-image: url(/theme/gnome-2.91/16x16/actions/application-exit.png);
 	}
@@ -174,15 +183,15 @@ button:hover {
 
 @media screen and (min-width: 600px) and (max-width : 899px)
 {
-	body > #menu > #user > #system
+	body > #menu > #panel > #system
 	{
 		background-image: url(/theme/gnome-2.91/32x32/categories/preferences-desktop.png);
 	}
-	body > #menu > #user > #photo
+	body > #menu > #panel > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/32x32/status/avatar-default.png);
 	}
-	body > #menu > #user > #logout
+	body > #menu > #panel > #logout
 	{
 		background-image: url(/theme/gnome-2.91/32x32/actions/application-exit.png);
 	}
@@ -190,15 +199,15 @@ button:hover {
 
 @media screen and (min-width: 900px) and (max-width : 1199px)
 {
-	body > #menu > #user > #system
+	body > #menu > #panel > #system
 	{
 		background-image: url(/theme/gnome-2.91/48x48/categories/preferences-desktop.png);
 	}
-	body > #menu > #user > #photo
+	body > #menu > #panel > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/48x48/status/avatar-default.png);
 	}
-	body > #menu > #user > #logout
+	body > #menu > #panel > #logout
 	{
 		background-image: url(/theme/gnome-2.91/48x48/actions/application-exit.png);
 	}
@@ -206,15 +215,15 @@ button:hover {
 
 @media screen and (min-width: 1200px)
 {
-	body > #menu > #user > #system
+	body > #menu > #panel > #system
 	{
 		background-image: url(/theme/gnome-2.91/48x48/categories/preferences-desktop.png);
 	}
-	body > #menu > #user > #photo
+	body > #menu > #panel > #user > #photo
 	{
 		background-image: url(/theme/gnome-2.91/256x256/status/avatar-default.png);
 	}
-	body > #menu > #user > #logout
+	body > #menu > #panel > #logout
 	{
 		background-image: url(/theme/gnome-2.91/48x48/actions/application-exit.png);
 	}
