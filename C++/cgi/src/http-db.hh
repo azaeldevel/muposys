@@ -82,6 +82,7 @@ namespace db
 		int getID()const;
 		bool updateSession(Conector& connect,const std::string& str);
 		bool remove(Conector& connect);
+		bool empty()const;
 		/**
 		*@brief Modifica el valor de la variable indicada
 		*@return true si existe y escribe el valor, falso en otro caso.

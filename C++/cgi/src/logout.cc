@@ -1,39 +1,21 @@
 
 #include <iostream>
 #include "server.hh"
-
+#include "cgicc/HTTPHTMLHeader.h"
 
 int main()
 {
-	std::cout << "Content-type:text/html\r\n\r\n";
-	std::cout << "<html>\n";
-	std::cout << "<head>\n";
-	std::cout << "<html>\n";
-	std::cout << "<head>\n";
-	std::cout << "<title>Terminado session</title>\n";
-	cgicc::Cgicc cgi;
-	cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
-	if(it != cgi.getElements().end())
+	std::cout << cgicc::HTTPHTMLHeader() << "\n";
+	muposys::http::db::Conector conn(muposys::http::db::database_file);
+	muposys::http::db::Session session;
+	conn.begin();
+	if(session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR"))) 
 	{
-		//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
-		muposys::http::db::Conector connhttp(muposys::http::db::database_file);
-		muposys::server::Login* login = new muposys::server::Login((*it).getValue());
-		if(login->getSession().getSession().remove(connhttp))
-		{
-			std::cout << "<meta http-equiv=\"Refresh\" content=\"0;url=/login.html\"\n";
-		   	
-			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";					
-		}
+		session.remove(conn);
+		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=login.html\"\n";
 	}
-	else
-	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-	}
-		
-	std::cout << "</head>\n";
-	std::cout << "<body>\n";
-	std::cout << "</body>\n";
-	std::cout << "</html>\n";
+	conn.commit();
+	conn.close();
 		   	
 	return 0;		
 }

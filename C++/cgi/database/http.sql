@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS "Variables" (
 CREATE TABLE IF NOT EXISTS "Session" (
 	"id"	INTEGER NOT NULL,
 	"remote_addr"	TEXT NOT NULL,
-	"port"	INTEGER NOT NULL,	
 	"session"	TEXT NOT NULL,
 	"lasttime"	TEXT NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)

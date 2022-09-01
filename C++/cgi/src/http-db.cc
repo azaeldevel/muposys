@@ -244,6 +244,12 @@ namespace db
         if(id < 0) return false;
         return true;
     }
+	bool Session::empty() const
+	{
+		if(id > 0) return true;
+		return false;
+	}
+
 	
 	std::string Session::TABLE_NAME = "Session";
 		

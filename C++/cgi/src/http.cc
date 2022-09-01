@@ -45,7 +45,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 	{
 		return host;
 	}
-	Session::Session(const std::string& id)
+	/*Session::Session(const std::string& id)
 	{
 		if(getenv("REMOTE_ADDR") == NULL)
 		{
@@ -77,10 +77,59 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		   	}
 		   	else
 		   	{
-				//session = id;
-				//std::cout << "Step 1\n";
-				unsigned char digest[MD5_DIGEST_LENGTH];
-				char mdString[33];
+				addregister(conn);
+		   	}
+	   	}
+	   	else
+	   	{
+	   		if(session.selectBySession(conn,id))
+	   		{
+	   			//std::cout << "Sesion : " << id << " encontrada <br>";
+		   		if(session.downloadIDs(conn))
+			  	{
+			  		//std::cout << "Sesion : " << session.getID() << " datos descargados <br>";
+			  	}
+			  	else
+			  	{
+			  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			  	}
+	   		}
+	   		else
+	   		{
+	   			addregister(conn);
+	   		}
+	   	}
+	   	conn.commit();
+	   	conn.close();
+	}*/
+	Session::Session()
+	{
+		if(getenv("REMOTE_ADDR") == NULL)
+		{
+			host = "localhost";
+		}
+		else
+		{
+			host = getenv("REMOTE_ADDR");
+		}
+		
+        //
+        muposys::http::db::Conector conn(muposys::http::db::database_file);
+		if(session.selectByRemoteAddr(conn,host))//existe?
+		{
+		  	if(session.downloadIDs(conn))
+		  	{
+		  		//std::cout << "Descargo : " << session.getRomoteAddress() << " - " << session.getSession()<< "\n";
+		  	}
+		}
+	}
+
+	bool Session::addregister(muposys::http::db::Conector& conn)
+	{
+		//session = id;
+		//std::cout << "Step 1\n";
+		unsigned char digest[MD5_DIGEST_LENGTH];
+		char mdString[33];
 				//std::cout << "Step 2\n";
 				//std::cout << "Step 3\n";
 				time_t now = time(0);
@@ -104,40 +153,20 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		   			//std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
 		   			if(session.downloadIDs(conn))
 			  		{
-			  			
+			  			return true;
 			  		}
 			  		else
 			  		{
 			  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+						 return false;
 			  		}
 		   		}
 		   		else
 		   		{
 		  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+					return false;
 		  		}
-		   	}
-	   	}
-	   	else
-	   	{
-	   		if(session.selectBySession(conn,id))
-	   		{
-	   			//std::cout << "Sesion : " << id << " encontrada <br>";
-		   		if(session.downloadIDs(conn))
-			  	{
-			  		//std::cout << "Sesion : " << session.getID() << " datos descargados <br>";
-			  	}
-			  	else
-			  	{
-			  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-			  	}
-	   		}
-	   		else
-	   		{
-	   			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-	   		}
-	   	}
-	   	conn.commit();
-	   	conn.close();
+
+		return true;
 	}
-	
 }

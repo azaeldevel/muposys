@@ -26,8 +26,13 @@ namespace muposys
 			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		}*/
 		
-		
-		
+		muposys::http::db::Conector conn(muposys::http::db::database_file);
+		muposys::http::db::Session session;
+		if(not session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR")))
+		{
+			std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=login.html\"\n";
+		}
+		conn.close();
 		
 		out << "<div id=\"menu\">";
 		

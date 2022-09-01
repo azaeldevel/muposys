@@ -28,19 +28,19 @@ void Login::methode()
 	}
 	else 
 	{
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
-   	//std::cout << "Step 2 : \n<br>";
+   	std::cout << "Step 2 : \n<br>";
 	
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
 	{
-		//std::cout << "Contraseña : " << **itPassword << "<br>"; 
+		//std::cout << "Contrasena : " << **itPassword << "<br>"; 
 	} 
 	else 
 	{
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
    	//std::cout << "Step 3 : \n<br>";
@@ -63,13 +63,13 @@ muposys::http::Session& Login::getSession()
 {
 	return *session;
 }
-Login::Login(const std::string& s)
+/*Login::Login(const std::string& s)
 {
 	session = new muposys::http::Session(s);
-}
+}*/
 Login::Login()
 {
-	session = new muposys::http::Session("");
+	session = new muposys::http::Session;
 }
 Login::~Login()
 {
@@ -91,6 +91,8 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	#error "Base de datos desconocida."
 #endif
 
+	//std::cout << "check : Step 1\n<br>";
+	
 	conn.connect(muposysdb::datconex);
 	
 	muposysdb::Users* userbd;
@@ -112,6 +114,7 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	{
 		userbd = usrlst->at(0);
 	}
+	//std::cout << "check : Step 2\n<br>";
 	if(userbd->checkpass(conn))
 	{
 		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
@@ -121,6 +124,10 @@ bool Login::check(const std::string& userstr,const std::string& password)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
 			muposys::http::db::Conector connhttp(muposys::http::db::database_file);
+			if(session->addregister(connhttp))
+			{
+				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			}
 			muposys::http::db::Variable var;
 			if(var.insert(connhttp,session->getSession(),"user",userbd->getName()))
 			{
@@ -128,7 +135,7 @@ bool Login::check(const std::string& userstr,const std::string& password)
 			}
 			else
 			{
-				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			}
 			connhttp.close();
 			conn.close();

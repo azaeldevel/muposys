@@ -144,7 +144,7 @@ public:
 	const std::string& getSessionID()const;
 	Login();
 	~Login();
-	Login(const std::string& sessionid);
+	[[deprecated("Use contructor vacio de preferencia.")]] Login(const std::string& sessionid);
 	muposys::http::Session& getSession();
 };
 
