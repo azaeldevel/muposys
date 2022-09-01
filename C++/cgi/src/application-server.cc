@@ -12,10 +12,10 @@ namespace muposys
 	}
 	bool Application::Body::print(std::ostream& out)
 	{		
-		muposys::server::Login* login;
+		//muposys::server::Login* login;
 		cgicc::Cgicc cgi;
 		//bool flagserror = false;
-		cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
+		/*cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
 		if(it != cgi.getElements().end())
 		{
 			//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
@@ -24,7 +24,7 @@ namespace muposys
 		else
 		{
 			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-		}
+		}*/
 		
 		
 		
@@ -34,7 +34,7 @@ namespace muposys
 		
 			out << "<div id=\"user\">";			
 				
-				out << "<div id=\"logout\"><a href=\"/cgi/logout?session=" << (*it).getValue() <<  "\" > ";
+				out << "<div id=\"logout\"><a href=\"/logout.cgi\" > ";
 				
 				out << "</a></div>\n";
 				out << "<div id=\"space\">";
@@ -42,7 +42,7 @@ namespace muposys
 				out << "</div></a>\n";
 				out << "<div id=\"photo\"><a href=\"#/user.html\" > ";
 				/*
-				sysapp::http::db::Conector connhttp("database");
+				sysapp::http::db::Conector connhttp(muposys::http::db::database_file);
 				sysapp::http::db::Variable var;
 				if(var.select(connhttp,login->getSession().getSession(),"user"))
 				{
@@ -68,7 +68,7 @@ namespace muposys
 			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		}*/
 					
-		delete login;
+		//delete login;
 		return true;
 	}
 

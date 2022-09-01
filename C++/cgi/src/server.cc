@@ -45,15 +45,12 @@ void Login::methode()
 	
    	//std::cout << "Step 3 : \n<br>";
 		   		   	
-	bool flagSession = check(**itUser,**itPassword);
-	std::string strredirect = "/application.cgi?session=";
-	strredirect += getSessionID();
-	
+	bool flagSession = check(**itUser,**itPassword);	
    	//std::cout << "Step 4 : \n<br>";
 		   	
 	if(flagSession)
 	{
-		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=" << strredirect << "\"\n";
+		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/application.cgi\"\n";
 	}
 	else
 	{

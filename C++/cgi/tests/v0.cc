@@ -15,6 +15,9 @@ using namespace muposys::http::db;
 void v0_develop()
 {
 	CU_ASSERT(true);
+	
+	std::cout << "database : " << muposys::http::db::database_file << "\n";
+
 
 	std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
@@ -54,10 +57,7 @@ void v0_develop()
 		delete lst;
 	}
 
-	muposys::http::Session sessionHttp("");
+	//muposys::http::Session sessionHttp("");
 	//std::cout << "mdString 2 : " << sessionHttp.getSession().getSession()  << "\n";
 
-	muposys::server::Login login;
-	login.methode();
-	
 }

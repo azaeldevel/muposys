@@ -7,10 +7,14 @@ SUBDIRS = src tests
 uninstall-local:
 	-rm -r $(docdir)
 
-databasedir = $(datarootdir)
-database_DATA = database
+databasedir=$(datarootdir)
+database_DATA=database/http
 
 install-data-hook:
-	chmod a+w $(datarootdir)/database
-	mv $(datarootdir)/database $(DATABASE)
+	chmod a+w $(DATABASE)
+	chown $(USER_GROUP) $(DATABASE)
+
+install-exec-hook:
+	chown $(USER_GROUP) $(bindir)/*.cgi
+	
 

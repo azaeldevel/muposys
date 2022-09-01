@@ -45,10 +45,10 @@ $(top_builddir)/src/muposysdb.cpp : Makefile.am
 	sed -i '1i #include "config.h" \n' $@
 
 $(top_builddir)/src/database : Makefile.am
-	cp $(top_srcdir)/database $@
+	cp $(top_srcdir)/database/http $@
 
 $(top_builddir)/tests/database : Makefile.am
-	cp $(top_srcdir)/database $(top_builddir)/tests/
+	cp $(top_srcdir)/database/http $(top_builddir)/tests/
 
 BUILT_SOURCES = $(top_builddir)/src/muposysdb.cpp $(top_builddir)/src/database $(top_builddir)/tests/database
 

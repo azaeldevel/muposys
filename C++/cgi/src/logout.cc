@@ -16,7 +16,7 @@ int main()
 	if(it != cgi.getElements().end())
 	{
 		//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
-		muposys::http::db::Conector connhttp("database");
+		muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 		muposys::server::Login* login = new muposys::server::Login((*it).getValue());
 		if(login->getSession().getSession().remove(connhttp))
 		{

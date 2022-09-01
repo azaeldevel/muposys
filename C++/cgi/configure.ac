@@ -29,7 +29,8 @@ AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for parti
 	case $enableval in
 	  	archlinux)
 			AC_DEFINE([LINUX_ARCH], [], [Enable configuration for Arch-Linux])
-			AC_SUBST([DATABASE],["/srv/database"])
+			AC_SUBST([DATABASE],[$datarootdir/http])
+			AC_SUBST([USER_GROUP],[http:http])
 			AC_DEFINE_UNQUOTED([DATABASE], ["$DATABASE"] ,[Full path for database file])
 		;;
 	  	debian) 

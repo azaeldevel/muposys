@@ -308,6 +308,7 @@ namespace db
         if( rc != SQLITE_OK ) 			
         {
         	std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
+			std::cout << "database : " << muposys::http::db::database_file << "<br>\n";
         	std::cout << getErrorMessage() << "<br>";
             return false;			
         } 
@@ -325,6 +326,7 @@ namespace db
         if( rc != SQLITE_OK )
         {
         	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			std::cout << "database : " << muposys::http::db::database_file << "\n";
             return false;			
         } 
         else 
@@ -351,7 +353,7 @@ namespace db
 		else if(rc != SQLITE_OK) 
         {
 			//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg((sqlite3*)serverConnector));
-			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			throw muposys::Exception(muposys::Exception::FAIL_OPEN_DATABASE,__FILE__,__LINE__);
 			//return(0);
         } 
