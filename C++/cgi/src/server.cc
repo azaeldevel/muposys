@@ -50,7 +50,7 @@ void Login::methode()
 		   	
 	if(flagSession)
 	{
-		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/application.cgi\"\n";
+		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/application.cgi\">\n";
 	}
 	else
 	{
