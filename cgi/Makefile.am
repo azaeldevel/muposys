@@ -40,17 +40,17 @@ DEFINESBD = -DOCTETOS_DB_LOWWORD
 endif
 
 
-$(top_builddir)/src/muposysdb.cpp : Makefile.am
-	$(top_srcdir)/src/building-apidb $(top_srcdir)  $(top_builddir)/src
+$(top_builddir)/cgi/muposysdb.cpp : Makefile.am
+	$(top_srcdir)/cgi/building-apidb $(top_srcdir)  $(top_builddir)/cgi
 	sed -i '1i #include "config.h" \n' $@
 
-$(top_builddir)/src/database : Makefile.am
-	cp $(top_srcdir)/database/http $@
+$(top_builddir)/cgi/http : Makefile.am
+	cp $(top_srcdir)/cgi/http $@
 
-$(top_builddir)/tests/database : Makefile.am
-	cp $(top_srcdir)/database/http $(top_builddir)/tests/
+$(top_builddir)/tests/http : Makefile.am
+	cp $(top_srcdir)/cgi/http $(top_builddir)/tests/
 
-BUILT_SOURCES = $(top_builddir)/src/muposysdb.cpp $(top_builddir)/src/database $(top_builddir)/tests/database
+BUILT_SOURCES = $(top_builddir)/cgi/muposysdb.cpp $(top_builddir)/cgi/http $(top_builddir)/tests/http
 
 
 libmuposys_http_la_LDFLAGS = -static
@@ -61,7 +61,7 @@ libmuposys_http_la_LIBADD = $(DBLIBS)
 
 libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINES) $(DEFINESBD)
 libmuposys_server_la_LDFLAGS = -static
-libmuposys_server_la_SOURCES = server.cc server-elements.cc $(top_builddir)/src/muposysdb.cpp
+libmuposys_server_la_SOURCES = server.cc server-elements.cc $(top_builddir)/cgi/muposysdb.cpp
 libmuposys_server_la_LIBADD =  libmuposys-http.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
 
 login_cgi_SOURCES = login.cc
