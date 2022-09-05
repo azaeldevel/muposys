@@ -1,12 +1,8 @@
 
 AC_INIT(muposys, 0.8.0-alpha, azael.devel@gmail.com)
-
 AC_CONFIG_HEADERS([config.h])
-
 AM_INIT_AUTOMAKE([1.11])
-
 AM_SILENT_RULES([yes])
-
 AC_PROG_CXX
 
 
@@ -15,12 +11,12 @@ AC_PROG_CXX
 dnl ***************************************************************************
 dnl Internationalization
 dnl ***************************************************************************
-IT_PROG_INTLTOOL([0.35.0])
+dnl IT_PROG_INTLTOOL([0.35.0])
 
-GETTEXT_PACKAGE=muposys
-AC_SUBST(GETTEXT_PACKAGE)
-AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
-AM_GLIB_GNU_GETTEXT
+dnl GETTEXT_PACKAGE=muposys
+dnl AC_SUBST(GETTEXT_PACKAGE)
+dnl AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
+dnl AM_GLIB_GNU_GETTEXT
 
 
 
@@ -52,14 +48,11 @@ LT_INIT([win32-dll])
 
 
 PKG_CHECK_MODULES(CGICC, [cgicc])
-
 PKG_CHECK_MODULES(SQLITE3, [sqlite3])
-
 PKG_CHECK_MODULES(OPENSSL, [openssl])
-
 PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
-
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
+dnl PKG_CHECK_MODULES(GLIB, [glibmm])
 
 
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
@@ -124,5 +117,4 @@ Makefile
 src/Makefile
 cgi/Makefile
 tests/Makefile
-po/Makefile.in
 ])
