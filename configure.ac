@@ -71,8 +71,8 @@ AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for parti
 		;;
 	esac
 
-
-
+AC_ARG_ENABLE([hole],[AS_HELP_STRING([--enable-hole],[Enable space for insert application trampoline])])
+AM_CONDITIONAL(ENABLE_HOLE, test x"$enable_hole" = "xyes")
 
 AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
 AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))

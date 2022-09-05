@@ -11,8 +11,13 @@ AM_CFLAGS =\
 
 noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la
 
-bin_PROGRAMS = login.cgi application.cgi logout.cgi userregister-methode.cgi
+if ENABLE_HOLE
+MODULES=login.cgi logout.cgi userregister-methode.cgi application.cgi
+else 
+MODULES=login.cgi logout.cgi userregister-methode.cgi
+endif
 
+bin_PROGRAMS = $(MODULES)
 
 
 if WITH_MARIADB
@@ -69,8 +74,10 @@ login_cgi_LDADD =  libmuposys-http.la libmuposys-server.la $(DBLIBS)
 login_cgi_LDFLAGS = 
 login_cgi_CXXFLAGS = $(DEFINES) $(DEFINESBD)
 
+if ENABLE_HOLE
 application_cgi_SOURCES = application.cc application-server.cc 
 application_cgi_LDADD =   libmuposys-server.la $(DBLIBS)
+endif
 
 logout_cgi_SOURCES = logout.cc  
 logout_cgi_LDADD =   $(CGICC_LIBS) libmuposys-server.la $(DBLIBS)
