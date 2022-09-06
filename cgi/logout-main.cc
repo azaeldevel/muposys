@@ -21,41 +21,11 @@
 #include "logout.hh"
 
 
-namespace muposys::server
+int main ()
 {
-
-Logout::Logout()
-{
+	muposys::server::Logout logout;
+	logout.main();
+	
+	return 0;
 }
-Logout::~Logout()
-{
-}
-bool Logout::check() const
-{
-	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::db::Session session;
-	conn.begin();
-	if(session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR"))) 
-	{
-		session.remove(conn);
-		conn.commit();
-		conn.close();
-		return true;
-	}
-	conn.close();
-	return false;
-}
-void Logout::print(std::ostream& out) const
-{
-	muposys::HTML::print(out);
-}
-void Logout::main()
-{
-	contenttype(std::cout,"text","html");
-	doctype(std::cout,"html");
-	head.redirect(0,"/login.html");
-	print(std::cout);
-}
-}
-
 
