@@ -23,35 +23,7 @@
 
 namespace muposys::server
 {
-bool Login::methode() const
-{  	
-	cgicc::Cgicc formData;   	
-	cgicc::form_iterator itUser = formData.getElement("user"); 
-	if( !itUser->isEmpty() && itUser != (*formData).end()) 
-	{
-		//std::cout << "Usuario : " << **itUser << "<br>";  
-	}
-	else 
-	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
-	}
-	
-   	//std::cout << "Step 2 : \n<br>";
-	
-	cgicc::form_iterator itPassword = formData.getElement("psw");  
-	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
-	{
-		//std::cout << "Contrasena : " << **itPassword << "<br>"; 
-	} 
-	else 
-	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
-	}
-	
-   	//std::cout << "Step 3 : \n<br>";
-		   		   	
-	return check(**itUser,**itPassword);   	 	
-}
+
 muposys::http::Session& Login::getSession()
 {
 	return *session;
@@ -72,8 +44,34 @@ const std::string& Login::getSessionID()const
 {
 	return session->getSessionID();
 }
-bool Login::check(const std::string& userstr,const std::string& password) const
+bool Login::check() const
 {
+	cgicc::Cgicc formData;   	
+	std::string userstr, password;
+	cgicc::form_iterator itUser = formData.getElement("user"); 
+	if( !itUser->isEmpty() && itUser != (*formData).end()) 
+	{
+		//std::cout << "Usuario : " << **itUser << "<br>"; 
+		userstr = **itUser;
+	}
+	else 
+	{
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+	}
+	
+   	//std::cout << "Step 2 : \n<br>";
+	
+	cgicc::form_iterator itPassword = formData.getElement("psw");  
+	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
+	{
+		//std::cout << "Contrasena : " << **itPassword << "<br>"; 
+		password = **itPassword;
+	} 
+	else 
+	{
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+	}
+	
 #if defined MARIADB
 	octetos::db::maria::Connector conn;
 #elif defined MYSQL
@@ -154,9 +152,13 @@ void Login::main()
 {
 	contenttype(std::cout,"text","html");
 	doctype(std::cout,"html");
-	if(methode())
+	if(check())
 	{
 		head.redirect(0,"/application.cgi");
+	}
+	else
+	{
+		std::cout << "Usuario/Contraseña incorrecto, intente de nuevo.";
 	}
 	print(std::cout);
 }
