@@ -57,7 +57,7 @@ void v0_develop()
 		delete lst;
 	}
 
-	//muposys::http::Session sessionHttp("");
-	//std::cout << "mdString 2 : " << sessionHttp.getSession().getSession()  << "\n";
+	muposys::server::Login2 login;
+	login.main();
 
 }

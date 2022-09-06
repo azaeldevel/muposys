@@ -9,7 +9,7 @@ AM_CFLAGS =\
 	 -g
 
 
-noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la
+noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la libmuposys-html.la
 
 if ENABLE_HOLE
 MODULES=login.cgi logout.cgi userregister-methode.cgi application.cgi
@@ -60,7 +60,6 @@ BUILT_SOURCES = $(top_builddir)/cgi/muposysdb.cpp $(top_builddir)/cgi/http $(top
 
 libmuposys_http_la_LDFLAGS = -static
 libmuposys_http_la_SOURCES = http.cc http-db.cc Exception.cc
-
 libmuposys_http_la_CXXFLAGS = $(DEFINESBD)
 libmuposys_http_la_LIBADD = $(DBLIBS)
 
@@ -69,8 +68,13 @@ libmuposys_server_la_LDFLAGS = -static
 libmuposys_server_la_SOURCES = server.cc server-elements.cc $(top_builddir)/cgi/muposysdb.cpp
 libmuposys_server_la_LIBADD =  libmuposys-http.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
 
+libmuposys_html_la_LDFLAGS = -static
+libmuposys_html_la_SOURCES = html.cc
+libmuposys_html_la_CXXFLAGS = $(DEFINESBD)
+libmuposys_html_la_LIBADD = $(DBLIBS)
+
 login_cgi_SOURCES = login.cc
-login_cgi_LDADD =  libmuposys-http.la libmuposys-server.la $(DBLIBS) 
+login_cgi_LDADD =  libmuposys-http.la libmuposys-server.la libmuposys-html.la $(DBLIBS) 
 login_cgi_LDFLAGS = 
 login_cgi_CXXFLAGS = $(DEFINES) $(DEFINESBD)
 

@@ -233,4 +233,13 @@ bool Head::addMetaCharset(const std::string& charset)
 	return true;
 }
 
+
+void taggin(std::ostream& out,const char* tag, const char* content)
+{
+	out << "<" << tag << ">";
+		out << content;
+	out << "</" << tag << ">";
+}
+
+
 }

@@ -6,12 +6,14 @@
 
 
 #include "http.hh"
+#include "html.hh"
 
 namespace muposys::server
 {
 
 namespace elements
 {
+	void taggin(std::ostream& out,const char* tag, const char* content);
 
 	/**
 	*@brief Todo elemento html, secarateriza por no tener variable output,
@@ -23,8 +25,14 @@ namespace elements
 		virtual bool print(std::ostream& out) = 0;
 	};
 
+	class Redirect : public Element
+	{
+	public:
+		virtual bool print(std::ostream& out);
+	};
+
 	/**
-	*@brief Secarateriza por tener variable output,
+	*@brief Se carateriza por tener variable output,
 	*       por no tener etiqueta de apertura y cerradura en metodo print
 	*/
 	class Container
@@ -148,7 +156,28 @@ public:
 	muposys::http::Session& getSession();
 };
 
+class Login2 : public muposys::HTML
+{
+private:	
+	muposys::http::Session* session;
+	
+	bool check(const std::string&,const std::string&)const;
 
+public:
+	Login2();
+	Login2(const muposys::Body&);
+	~Login2();
+	
+	/**
+	*\brief html reponse methed in server side for logit.html
+	*/
+	bool methode()const;
+	const std::string& getSessionID()const;
+	muposys::http::Session& getSession();
+
+	virtual void print(std::ostream& out) const;
+	virtual void main();
+};
 
 }
 

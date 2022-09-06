@@ -24,16 +24,17 @@
 
 int main ()
 {
-	std::cout << cgicc::HTTPHTMLHeader() << "\n";
+	//std::cout << cgicc::HTTPHTMLHeader() << "\n";
+	/*
 	muposys::http::db::Conector conn(muposys::http::db::database_file);
 	muposys::http::db::Session session;
 	conn.begin();
 	if(session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR"))) session.remove(conn);
 	conn.commit();
 	conn.close();
-	
-	muposys::server::Login login;
-	login.methode();
+	*/
+	muposys::server::Login2 login;
+	login.main();
 	
 	return 0;
 }
