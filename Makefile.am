@@ -1,6 +1,6 @@
 
 
-SUBDIRS = src cgi tests
+SUBDIRS = apidb src cgi tests
 
 dist_doc_DATA = \
 	README \

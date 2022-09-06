@@ -114,6 +114,7 @@ AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-lowword], [Define el tamno de l
 
 AC_OUTPUT([
 Makefile
+apidb/Makefile
 src/Makefile
 cgi/Makefile
 tests/Makefile
