@@ -26,14 +26,8 @@ void BodyApplication::print(std::ostream& out)const
 				out << "</div></a>\n";
 
 				out << "<div id=\"user\">";
-					out << "<div id=\"photo\">"; //"</div>\n";
-						out << "<div id=\"name\">";						
-						muposys::http::db::Variable var;
-						if(var.select(conn,session,"user"))
-						{
-							out << var.getValue();				
-						}						
-						out << "</div>\n";
+					out << "<div id=\"photo\">";
+						
 					out << "</div>\n";
 				out << "</div>\n";
 				out << "<div id=\"system\"><a href=\"/system.html\" >";

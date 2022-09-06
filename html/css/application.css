@@ -33,15 +33,6 @@ body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu >
 	background-size : contain;
 	background-position: center;
 }
-body > #menu > #panel > #user > #photo
-{
-	height: 50%;
-	text-align: center;
-}
-body > #menu > #panel > #user > #photo > #name
-{
-  	bottom: 0;
-}
 body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body > #menu > #panel > #user > #photo > a
 {	
     display: block;
@@ -149,7 +140,7 @@ button:hover {
 	{
 		background-image: url(/theme/gnome-2/16x16/categories/preferences-desktop.png);
 	}
-	body > #menu > #panel > #user > #user > #photo
+	body > #menu > #panel > #user > #user
 	{
 		background-image: url(/theme/gnome-2/16x16/status/avatar-default.png);
 	}
@@ -171,7 +162,7 @@ button:hover {
 	{
 		background-image: url(/theme/gnome-2/22x22/categories/preferences-desktop.png);
 	}
-	body > #menu > #panel > #user > #photo
+	body > #menu > #panel > #user
 	{
 		background-image: url(/theme/gnome-2/22x22/status/avatar-default.png);
 	}
@@ -187,7 +178,7 @@ button:hover {
 	{
 		background-image: url(/theme/gnome-2/32x32/categories/preferences-desktop.png);
 	}
-	body > #menu > #panel > #user > #photo
+	body > #menu > #panel > #user
 	{
 		background-image: url(/theme/gnome-2/32x32/status/avatar-default.png);
 	}
@@ -203,7 +194,7 @@ button:hover {
 	{
 		background-image: url(/theme/gnome-2/48x48/categories/preferences-desktop.png);
 	}
-	body > #menu > #panel > #user > #photo
+	body > #menu > #panel > #user
 	{
 		background-image: url(/theme/gnome-2/48x48/status/avatar-default.png);
 	}
@@ -219,7 +210,7 @@ button:hover {
 	{
 		background-image: url(/theme/gnome-2/48x48/categories/preferences-desktop.png);
 	}
-	body > #menu > #panel > #user > #photo
+	body > #menu > #panel > #user 
 	{
 		background-image: url(/theme/gnome-2/256x256/status/avatar-default.png);
 	}
