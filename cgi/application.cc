@@ -10,20 +10,34 @@ namespace muposys
 
 void BodyApplication::options(std::ostream& out)const
 {		
+	out << "<div id=\"menu\">\n";
+		out << "<div id=\"options\">\n";
+		
+		out << "</div>\n";
 	
+		out << "<div id=\"panel\">\n";				
+				out << "<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
+	
+				out << "<div id=\"space\"></div>\n";
+
+				out << "<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
+		out << "</div>\n";
+		
+	out << "</div>\n";
 }
 void BodyApplication::print(std::ostream& out)const
 {		
 	out << "<div id=\"menu\">\n";
 		out << "<div id=\"options\">\n";
-
+		this->options(out);
 		out << "</div>\n";
 	
 		out << "<div id=\"panel\">\n";				
-				out << "<div id=\"logout\"><a href=\"/logout.cgi\" ></a></div>\n";
+				out << "<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
+	
 				out << "<div id=\"space\"></div>\n";
 
-				out << "<div id=\"user\"></div>\n";
+				out << "<div id=\"user\"><a href=\"/user-admin.html\"></a></div>\n";
 				out << "<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
 		out << "</div>\n";
 		

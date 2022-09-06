@@ -12,9 +12,9 @@ AM_CFLAGS =\
 noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la libmuposys-html.la
 
 if ENABLE_HOLE
-MODULES=login.cgi logout.cgi userregister-methode.cgi application.cgi
+MODULES=login.cgi logout.cgi user-register.cgi application.cgi
 else 
-MODULES=login.cgi logout.cgi userregister-methode.cgi
+MODULES=login.cgi logout.cgi user-register.cgi
 endif
 
 bin_PROGRAMS = $(MODULES)
@@ -84,10 +84,10 @@ logout_cgi_SOURCES = logout-main.cc
 logout_cgi_LDADD =   libmuposys-http.la libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS)
 logout_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
 
-userregister_methode_cgi_LDADD = $(SQLITE3_LIBS) $(CGICC_LIBS) $(DBLIBS) libmuposys-http.la $(top_builddir)/apidb/libmuposys-db.la 
-userregister_methode_cgi_LDFLAGS = 
-userregister_methode_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(DEFINES) $(DEFINESBD)
-userregister_methode_cgi_SOURCES = userregister-methode.cc 
+user_register_cgi_LDADD = $(SQLITE3_LIBS) $(CGICC_LIBS) $(DBLIBS) libmuposys-http.la $(top_builddir)/apidb/libmuposys-db.la 
+user_register_cgi_LDFLAGS = 
+user_register_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(DEFINES) $(DEFINESBD)
+user_register_cgi_SOURCES = user-register.cc 
 
 
 

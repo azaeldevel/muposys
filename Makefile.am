@@ -32,7 +32,7 @@ cgidir=$(datarootdir)
 cgi_DATA=cgi/http
 
 htmldir=$(bindir)
-html_DATA=html/login.html html/userregister.html html/index.html
+html_DATA=html/login.html html/user-register.html html/index.html  html/user-admin.html
 
 cssdir=$(bindir)/css
 css_DATA=html/css/application.css html/css/login.css html/css/theme.css
