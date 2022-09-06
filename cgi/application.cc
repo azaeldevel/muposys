@@ -8,36 +8,26 @@
 namespace muposys
 {
 
+void BodyApplication::options(std::ostream& out)const
+{		
+	
+}
 void BodyApplication::print(std::ostream& out)const
 {		
-	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::db::Session session;
-		
-	out << "<div id=\"menu\">";
-		
-		
-			out << "<div id=\"panel\">";			
-				
-				out << "<div id=\"logout\"><a href=\"/logout.cgi\" > ";
-				
-				out << "</a></div>\n";
-				out << "<div id=\"space\">";
-				
-				out << "</div></a>\n";
+	out << "<div id=\"menu\">\n";
+		out << "<div id=\"options\">\n";
 
-				out << "<div id=\"user\">";
-					out << "<div id=\"photo\">";
-						
-					out << "</div>\n";
-				out << "</div>\n";
-				out << "<div id=\"system\"><a href=\"/system.html\" >";
-				
-				out << "</a></div>\n";			
-			
-			out << "</div>\n";
+		out << "</div>\n";
+	
+		out << "<div id=\"panel\">\n";				
+				out << "<div id=\"logout\"><a href=\"/logout.cgi\" ></a></div>\n";
+				out << "<div id=\"space\"></div>\n";
+
+				out << "<div id=\"user\"></div>\n";
+				out << "<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
+		out << "</div>\n";
 		
 	out << "</div>\n";
-	conn.close();
 }
 Application2::~Application2()
 {

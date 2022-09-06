@@ -10,9 +10,10 @@ namespace muposys
 class BodyApplication : public muposys::Body
 {
 private:
-
+	
 public:
-	virtual void print(std::ostream& out) const;	
+	virtual void print(std::ostream& out) const;
+	virtual void options(std::ostream& out) const;	
 };
 class Application2 : public muposys::HTML
 {	
