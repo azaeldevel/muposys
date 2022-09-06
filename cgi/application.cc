@@ -10,38 +10,24 @@ namespace muposys
 
 void BodyApplication::options(std::ostream& out)const
 {		
-	out << "<div id=\"menu\">\n";
-		out << "<div id=\"options\">\n";
-		
-		out << "</div>\n";
-	
-		out << "<div id=\"panel\">\n";				
-				out << "<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
-	
-				out << "<div id=\"space\"></div>\n";
-
-				out << "<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
-		out << "</div>\n";
-		
-	out << "</div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";	
 }
 void BodyApplication::print(std::ostream& out)const
 {		
-	out << "<div id=\"menu\">\n";
-		out << "<div id=\"options\">\n";
-		this->options(out);
-		out << "</div>\n";
+	out << "\t<div id=\"menu\">\n";
+		out << "\t\t<div id=\"options\">\n";
+			this->options(out);
+		out << "\t\t</div>\n";
 	
-		out << "<div id=\"panel\">\n";				
-				out << "<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
+		out << "\t\t<div id=\"panel\">\n";				
+			out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
 	
-				out << "<div id=\"space\"></div>\n";
+			out << "\t\t\t<div id=\"space\"></div>\n";
 
-				out << "<div id=\"user\"><a href=\"/user-admin.html\"></a></div>\n";
-				out << "<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
-		out << "</div>\n";
-		
-	out << "</div>\n";
+			out << "\t\t\t<div id=\"user\"><a href=\"/user-admin.html\"></a></div>\n";
+			out << "\t\t\t<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
+		out << "\t\t</div>\n";		
+	out << "\t</div>\n";
 }
 Application2::~Application2()
 {

@@ -33,7 +33,7 @@ body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu >
 	background-size : contain;
 	background-position: center;
 }
-body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body > #menu > #panel > #user > #photo > a
+body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body > #menu > #panel > #user > a
 {	
     display: block;
     height: 100%;

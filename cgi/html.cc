@@ -15,22 +15,22 @@ void doctype(std::ostream& out,const char * type)
 	
 void meta::print(std::ostream& out) const
 {
-	out << "<meta";
+	out << "\t<meta";
 	if(not charset.empty())
 	{
-		out << " charset = \"" + charset + "\"";
+		out << " charset=\"" + charset + "\"";
 	}
 	if(not content.empty())
 	{
-		out << " content = \"" + content + "\"";
+		out << " content=\"" + content + "\"";
 	}
 	if(not http_equiv.empty())
 	{
-		out << " http-equiv = \"" + http_equiv + "\"";
+		out << " http-equiv=\"" + http_equiv + "\"";
 	}
 	if(not name.empty())
 	{
-		out << " name = \"" + name + "\"";
+		out << " name=\"" + name + "\"";
 	}
 	out << ">\n";
 }
@@ -38,42 +38,42 @@ void meta::print(std::ostream& out) const
 
 void link::print(std::ostream& out) const
 {
-	out << "<link";
+	out << "\t<link";
 	if(not crossorigin.empty())
 	{
 		out << " crossorigin = \"" + crossorigin + "\" ";
 	}
 	if(not href.empty())
 	{
-		out << " href = \"" + href + "\"";
+		out << " href=\"" + href + "\"";
 	}
 	if(not hreflang.empty())
 	{
-		out << " hreflang = \"" + hreflang + "\"";
+		out << " hreflang=\"" + hreflang + "\"";
 	}
 	if(not media.empty())
 	{
-		out << " media = \"" + media + "\"";
+		out << " media=\"" + media + "\"";
 	}
 	if(not referrerpolicy.empty())
 	{
-		out << " referrerpolicy = \"" + referrerpolicy + "\" ";
+		out << " referrerpolicy=\"" + referrerpolicy + "\" ";
 	}
 	if(not rel.empty())
 	{
-		out << " rel = \"" + rel + "\"";
+		out << " rel=\"" + rel + "\"";
 	}
 	if(not sizes.empty())
 	{
-		out << " sizes = \"" + sizes + "\"";
+		out << " sizes=\"" + sizes + "\"";
 	}
 	if(not title.empty())
 	{
-		out << " title = \"" + title + "\"";
+		out << " title=\"" + title + "\"";
 	}
 	if(not type.empty())
 	{
-		out << " type = \"" + type + "\"";
+		out << " type=\"" + type + "\"";
 	}
 	out << ">\n";
 }
@@ -83,10 +83,6 @@ void link::print(std::ostream& out) const
 void Head::print(std::ostream& out) const
 {
 	out << "<head>\n";
-	if(not title.empty())
-	{
-		out << "<title>" << title << "</title>\n";
-	}
 	for(const meta& m : metas)
 	{
 		m.print(out);
@@ -94,6 +90,14 @@ void Head::print(std::ostream& out) const
 	for(const link& l : links)
 	{
 		l.print(out);
+	}
+	if(not title.empty())
+	{
+		out << "\t<title>Multi-porpuse Software System</title>\n";
+	}
+	else
+	{
+		out << "\t<title>" << title << "</title>\n";
 	}
 	out << "</head>\n";
 }
