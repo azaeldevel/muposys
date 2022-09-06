@@ -61,8 +61,8 @@ libmuposys_http_la_LIBADD = $(DBLIBS)
 
 libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINES) $(DEFINESBD)
 libmuposys_server_la_LDFLAGS = -static
-libmuposys_server_la_SOURCES = server.cc server-elements.cc 
-libmuposys_server_la_LIBADD =  libmuposys-http.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
+libmuposys_server_la_SOURCES = login.cc application.cc 
+libmuposys_server_la_LIBADD =  libmuposys-http.la  libmuposys-html.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
 
 
 libmuposys_html_la_LDFLAGS = -static
@@ -71,12 +71,13 @@ libmuposys_html_la_CXXFLAGS = $(DEFINESBD)
 libmuposys_html_la_LIBADD = $(DBLIBS)
 
 login_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
-login_cgi_LDADD =  libmuposys-http.la libmuposys-html.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS) 
-login_cgi_SOURCES = login.cc 
+login_cgi_LDADD =  libmuposys-http.la libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS) 
+login_cgi_SOURCES = login-main.cc 
 
 if ENABLE_HOLE
-application_cgi_SOURCES = application.cc application-server.cc 
-application_cgi_LDADD =   libmuposys-server.la $(DBLIBS)
+application_cgi_SOURCES = application-main.cc
+application_cgi_LDADD = libmuposys-html.la libmuposys-http.la libmuposys-server.la $(DBLIBS)  $(SQLITE3_LIBS)  $(CGICC_LIBS) 
+application_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
 endif
 
 logout_cgi_SOURCES = logout.cc  

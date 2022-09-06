@@ -57,7 +57,5 @@ void v0_develop()
 		delete lst;
 	}
 
-	muposys::server::Login2 login;
-	login.main();
 
 }

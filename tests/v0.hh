@@ -10,8 +10,8 @@
 
 #include "../cgi/http.hh"
 #include "../cgi/http-db.hh"
-#include "../cgi/muposysdb.hpp"
-#include "../cgi/server.hh"
+#include "../apidb/muposysdb.hpp"
+#include "../cgi/application.hh"
 
 int v0_init(void);
 int v0_clean(void);

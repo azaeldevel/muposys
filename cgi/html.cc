@@ -15,44 +15,115 @@ void doctype(std::ostream& out,const char * type)
 	
 void meta::print(std::ostream& out) const
 {
-	out << "<meta ";
+	out << "<meta";
 	if(not charset.empty())
 	{
-		out << "charset = \"" + charset + "\" ";
+		out << " charset = \"" + charset + "\"";
 	}
 	if(not content.empty())
 	{
-		out << "content = \"" + content + "\" ";
+		out << " content = \"" + content + "\"";
 	}
 	if(not http_equiv.empty())
 	{
-		out << "http-equiv = \"" + http_equiv + "\" ";
+		out << " http-equiv = \"" + http_equiv + "\"";
 	}
 	if(not name.empty())
 	{
-		out << "name = \"" + name + "\" ";
+		out << " name = \"" + name + "\"";
 	}
 	out << ">\n";
 }
 
 
+void link::print(std::ostream& out) const
+{
+	out << "<link";
+	if(not crossorigin.empty())
+	{
+		out << " crossorigin = \"" + crossorigin + "\" ";
+	}
+	if(not href.empty())
+	{
+		out << " href = \"" + href + "\"";
+	}
+	if(not hreflang.empty())
+	{
+		out << " hreflang = \"" + hreflang + "\"";
+	}
+	if(not media.empty())
+	{
+		out << " media = \"" + media + "\"";
+	}
+	if(not referrerpolicy.empty())
+	{
+		out << " referrerpolicy = \"" + referrerpolicy + "\" ";
+	}
+	if(not rel.empty())
+	{
+		out << " rel = \"" + rel + "\"";
+	}
+	if(not sizes.empty())
+	{
+		out << " sizes = \"" + sizes + "\"";
+	}
+	if(not title.empty())
+	{
+		out << " title = \"" + title + "\"";
+	}
+	if(not type.empty())
+	{
+		out << " type = \"" + type + "\"";
+	}
+	out << ">\n";
+}
+
+
+
 void Head::print(std::ostream& out) const
 {
 	out << "<head>\n";
+	if(not title.empty())
+	{
+		out << "<title>" << title << "</title>\n";
+	}
 	for(const meta& m : metas)
 	{
 		m.print(out);
-		out << "\n";
+	}
+	for(const link& l : links)
+	{
+		l.print(out);
 	}
 	out << "</head>\n";
 }
-void Head::redirect(unsigned short time,const std::string& url)
+void Head::redirect(unsigned short time,const char* url)
 {
-	metas.resize(metas.size() + 1);
-	metas.resize(1);//crea uno objeto con el contructor por defualt
+	metas.push_back(meta());//crea uno objeto con el contructor por defualt
 	metas.back().content = std::to_string(time) + "; url = '" + url + "'";
 	metas.back().http_equiv = "refresh";	
 }
+void Head::charset(const char* cs)
+{
+	metas.push_back(meta());//crea uno objeto con el contructor por defualt
+	metas.back().charset = cs;
+}
+void Head::responsive(const char* name,const char* content)
+{
+	metas.push_back(meta());//crea uno objeto con el contructor por defualt
+	metas.back().name = name;
+	metas.back().content = content;
+}
+void Head::css(const char* file)
+{
+	links.push_back(link());//crea uno objeto con el contructor por defualt
+	links.back().rel = "stylesheet";
+	links.back().href =  file;
+}
+
+
+
+
 
 
 HTML::HTML() : body(NULL)
