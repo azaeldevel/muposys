@@ -40,6 +40,8 @@ css_DATA=html/css/application.css html/css/login.css html/css/theme.css
 jsdir=$(bindir)/js
 js_DATA=html/js/login.js html/js/sysapp.js
 
+themedir=$(bindir)/js
+theme_DATA=html/js/login.js html/js/sysapp.js
 
 install-data-hook:
 	chmod a+w $(DATABASE)
@@ -50,6 +52,12 @@ install-data-hook:
 	chown $(USER_GROUP) $(bindir)/*.html
 	chown $(USER_GROUP) -R $(bindir)/css
 	chown $(USER_GROUP) -R $(bindir)/js
+	mkdir -p $(datarootdir)/theme/gnome-2
+	mkdir -p $(bindir)/theme/gnome-2
+	tar -xjf $(top_srcdir)/html/gnome-icon-theme-2.91.93.tar.bz2 -C $(datarootdir)/theme/gnome-2 --strip-components=1
+	cp -r $(datarootdir)/theme/gnome-2/gnome/* $(bindir)/theme/gnome-2
+	chown $(USER_GROUP) -R $(bindir)/theme/gnome-2
+	rm -r $(datarootdir)/theme/gnome-2
 
 install-exec-hook:
 	chown $(USER_GROUP) $(bindir)/*.cgi

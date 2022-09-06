@@ -147,15 +147,15 @@ button:hover {
 	}
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/gnome-2.91/16x16/categories/preferences-desktop.png);
+		background-image: url(/theme/gnome-2/16x16/categories/preferences-desktop.png);
 	}
 	body > #menu > #panel > #user > #user > #photo
 	{
-		background-image: url(/theme/gnome-2.91/16x16/status/avatar-default.png);
+		background-image: url(/theme/gnome-2/16x16/status/avatar-default.png);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/gnome-2.91/16x16/actions/application-exit.png);
+		background-image: url(/theme/gnome-2/16x16/actions/application-exit.png);
 	}
 }
 
@@ -169,15 +169,15 @@ button:hover {
 	}
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/gnome-2.91/22x22/categories/preferences-desktop.png);
+		background-image: url(/theme/gnome-2/22x22/categories/preferences-desktop.png);
 	}
 	body > #menu > #panel > #user > #photo
 	{
-		background-image: url(/theme/gnome-2.91/22x22/status/avatar-default.png);
+		background-image: url(/theme/gnome-2/22x22/status/avatar-default.png);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/gnome-2.91/16x16/actions/application-exit.png);
+		background-image: url(/theme/gnome-2/16x16/actions/application-exit.png);
 	}
 }
 
@@ -185,15 +185,15 @@ button:hover {
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/gnome-2.91/32x32/categories/preferences-desktop.png);
+		background-image: url(/theme/gnome-2/32x32/categories/preferences-desktop.png);
 	}
 	body > #menu > #panel > #user > #photo
 	{
-		background-image: url(/theme/gnome-2.91/32x32/status/avatar-default.png);
+		background-image: url(/theme/gnome-2/32x32/status/avatar-default.png);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/gnome-2.91/32x32/actions/application-exit.png);
+		background-image: url(/theme/gnome-2/32x32/actions/application-exit.png);
 	}
 }
 
@@ -201,15 +201,15 @@ button:hover {
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/gnome-2.91/48x48/categories/preferences-desktop.png);
+		background-image: url(/theme/gnome-2/48x48/categories/preferences-desktop.png);
 	}
 	body > #menu > #panel > #user > #photo
 	{
-		background-image: url(/theme/gnome-2.91/48x48/status/avatar-default.png);
+		background-image: url(/theme/gnome-2/48x48/status/avatar-default.png);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/gnome-2.91/48x48/actions/application-exit.png);
+		background-image: url(/theme/gnome-2/48x48/actions/application-exit.png);
 	}
 }
 
@@ -217,14 +217,14 @@ button:hover {
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/gnome-2.91/48x48/categories/preferences-desktop.png);
+		background-image: url(/theme/gnome-2/48x48/categories/preferences-desktop.png);
 	}
 	body > #menu > #panel > #user > #photo
 	{
-		background-image: url(/theme/gnome-2.91/256x256/status/avatar-default.png);
+		background-image: url(/theme/gnome-2/256x256/status/avatar-default.png);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/gnome-2.91/48x48/actions/application-exit.png);
+		background-image: url(/theme/gnome-2/48x48/actions/application-exit.png);
 	}
 }

@@ -33,7 +33,7 @@ int main ()
 	conn.commit();
 	conn.close();
 	*/
-	muposys::server::Login2 login;
+	muposys::server::Login login;
 	login.main();
 	
 	return 0;

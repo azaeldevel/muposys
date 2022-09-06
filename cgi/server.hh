@@ -137,26 +137,8 @@ namespace elements
 }
 
 
-class Login
-{
-private:	
-	muposys::http::Session* session;
-	
-	bool check(const std::string&,const std::string&);
 
-public:
-	/**
-	*\brief html reponse methed in server side for logit.html
-	*/
-	void methode();
-	const std::string& getSessionID()const;
-	Login();
-	~Login();
-	[[deprecated("Use contructor vacio de preferencia.")]] Login(const std::string& sessionid);
-	muposys::http::Session& getSession();
-};
-
-class Login2 : public muposys::HTML
+class Login : public muposys::HTML
 {
 private:	
 	muposys::http::Session* session;
@@ -164,9 +146,9 @@ private:
 	bool check(const std::string&,const std::string&)const;
 
 public:
-	Login2();
-	Login2(const muposys::Body&);
-	~Login2();
+	Login();
+	Login(const muposys::Body&);
+	~Login();
 	
 	/**
 	*\brief html reponse methed in server side for logit.html
