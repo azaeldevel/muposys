@@ -140,5 +140,9 @@ intltool-merge.in
 intltool-update.in
 ltmain.sh
 missing
+html/gnome-icon-theme-2.91.93
+html/*.tar.xz
 
 db/alpha/mariadb/old/*
+html/Sevi-blue-dark
+html/Mkos-Big*

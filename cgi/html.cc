@@ -140,8 +140,8 @@ HTML::HTML(const Body& b) : body(&b)
 void HTML::print(std::ostream& out) const
 {
 	out << "<html>\n";
-	head.print(out);
-	if(body) body->print(out);
+		head.print(out);
+		if(body) body->print(out);
 	out << "</html>\n";
 }
 

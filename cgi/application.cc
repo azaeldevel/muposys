@@ -38,6 +38,7 @@ Application2::Application2(const BodyApplication& b) : muposys::HTML(b)
 	head.charset("UTF-8");
 	head.responsive("viewport","width=device-width, initial-scale=1");
 	head.css("/css/application.css");
+	head.css("/css/Mkos-Big-Sur.css");
 }
 	
 void Application2::print(std::ostream& out) const

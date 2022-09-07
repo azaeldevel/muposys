@@ -17,13 +17,31 @@ body > #menu
 }
 
 
+body > #menu
+{
+	float : inline-block;
+}
 
 body > #menu > #panel
 {
+	float : right;
+	height : 100%;
+	min-width : 15%;
+}
+body > #menu > #programs
+{
+	float : left;
+	height : 100%;
+}
+body > #menu > #programs > #permission, body > #menu > #programs > #user_permission, body > #menu > #programs > #disable_user, body > #menu > #programs > #remove_user
+{
 	float: right;
 	height: 100%;
-	min-width: 15%;
+	background-repeat : no-repeat;
+	background-size : contain;
+	background-position: center;
 }
+
 body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu > #panel > #user
 {
 	float: right;
@@ -40,7 +58,7 @@ body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body >
     width: 100%;
     text-decoration: none;
 }
-body > #menu > #panel > #space
+.space
 {
 	float: right;
 	height: 100%;
@@ -138,84 +156,17 @@ button:hover {
 	}
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/gnome-2/16x16/categories/preferences-desktop.png);
+		background-image: url(/theme/Mkos-Big-Sur/16x16/actions/run-build-configure.svg);
 	}
 	body > #menu > #panel > #user > #user
 	{
-		background-image: url(/theme/gnome-2/16x16/status/avatar-default.png);
+		background-image: url(/theme/Mkos-Big-Sur/16x16/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/gnome-2/16x16/actions/application-exit.png);
+		background-image: url(/theme/Mkos-Big-Sur/16x16/actions/application-exit.svg);
 	}
 }
 
 
 
-@media screen and (min-width: 300px) and (max-width : 599px)
-{
-	body > #menu > #panel
-	{
-		min-width: 25%;
-	}
-	body > #menu > #panel > #system
-	{
-		background-image: url(/theme/gnome-2/22x22/categories/preferences-desktop.png);
-	}
-	body > #menu > #panel > #user
-	{
-		background-image: url(/theme/gnome-2/22x22/status/avatar-default.png);
-	}
-	body > #menu > #panel > #logout
-	{
-		background-image: url(/theme/gnome-2/16x16/actions/application-exit.png);
-	}
-}
-
-@media screen and (min-width: 600px) and (max-width : 899px)
-{
-	body > #menu > #panel > #system
-	{
-		background-image: url(/theme/gnome-2/32x32/categories/preferences-desktop.png);
-	}
-	body > #menu > #panel > #user
-	{
-		background-image: url(/theme/gnome-2/32x32/status/avatar-default.png);
-	}
-	body > #menu > #panel > #logout
-	{
-		background-image: url(/theme/gnome-2/32x32/actions/application-exit.png);
-	}
-}
-
-@media screen and (min-width: 900px) and (max-width : 1199px)
-{
-	body > #menu > #panel > #system
-	{
-		background-image: url(/theme/gnome-2/48x48/categories/preferences-desktop.png);
-	}
-	body > #menu > #panel > #user
-	{
-		background-image: url(/theme/gnome-2/48x48/status/avatar-default.png);
-	}
-	body > #menu > #panel > #logout
-	{
-		background-image: url(/theme/gnome-2/48x48/actions/application-exit.png);
-	}
-}
-
-@media screen and (min-width: 1200px)
-{
-	body > #menu > #panel > #system
-	{
-		background-image: url(/theme/gnome-2/48x48/categories/preferences-desktop.png);
-	}
-	body > #menu > #panel > #user 
-	{
-		background-image: url(/theme/gnome-2/256x256/status/avatar-default.png);
-	}
-	body > #menu > #panel > #logout
-	{
-		background-image: url(/theme/gnome-2/48x48/actions/application-exit.png);
-	}
-}
