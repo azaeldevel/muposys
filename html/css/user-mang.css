@@ -1,6 +1,6 @@
 
 
-body > #menu > #programs > #permission_add, body > #menu > #programs > #user_permission_add
+body > #menu > #programs > div
 {
 	float: left;
 	height: 100%;
@@ -9,7 +9,7 @@ body > #menu > #programs > #permission_add, body > #menu > #programs > #user_per
 	background-size : contain;
 	background-position: center;
 }
-body > #menu > #programs > #permission_add > a, body > #menu > #programs > #user_permission_add > a
+body > #menu > #programs > div > a
 {	
     display: block;
     height: 100%;

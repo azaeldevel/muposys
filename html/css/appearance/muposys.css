@@ -34,17 +34,17 @@ body > #menu > #programs
 }
 
 
-body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu > #panel > #user
+body > #menu > #panel > div
 {
 	float: right;
 	height: 100%;
-	width: 30%;
+	min-width: 25%;
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
 }
 
-body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body > #menu > #panel > #user > a
+body > #menu > #panel > div > a
 {	
     display: block;
     height: 100%;

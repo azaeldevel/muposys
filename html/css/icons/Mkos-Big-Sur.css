@@ -102,36 +102,36 @@ body
 
 @media screen and (max-width : 299px)
 {
-	body > #menu > #programs > #permission
+	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/sort-presence.svg);
+		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 }
 @media screen and (min-width: 300px) and (max-width : 599px)
 {
-	body > #menu > #programs > #permission
+	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/sort-presence.svg);
+		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 }
 @media screen and (min-width: 600px) and (max-width : 899px)
 {
 	body > #menu > #programs > #system
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/sort-presence.svg);
+		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 }
 @media screen and (min-width: 900px) and (max-width : 1199px)
 {
-	body > #menu > #programs > #system
+	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/sort-presence.svg);
+		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 }
 @media screen and (min-width: 1200px)
 {
-	body > #menu > #programs > #system
+	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/sort-presence.svg);
+		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 }
