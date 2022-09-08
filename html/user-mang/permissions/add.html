@@ -5,7 +5,7 @@
 	<meta content = "width=device-width, initial-scale=1" name = "viewport">
 	<link href = "/css/appearance/muposys.css" rel = "stylesheet">
 	<link href="/css/icons/Mkos-Big-Sur.css" rel="stylesheet">
-	<title>muposys - X</title>
+	<title>muposys - Agregar Permiso de Usuario</title>
 </head>
 
 <body>
@@ -20,6 +20,20 @@
 	<div id="options">
 	</div>
 </div>
+
+	<form id="frmLogin" class="modal-content animate" action="permission.cgi" method="post">
+    	<div class="container">
+			
+			<label for="user"><b>Usuario:</b></label>
+		  	<input type="text" placeholder="Usuario" name="user" required>
+
+		  	<label for="permissions"><b>Permiso:</b></label>
+		  	<input type="text" placeholder="Permiso" name="permissions" required>
+		  	
+		  	<button type="submit">Agregar</button>
+
+		</div>
+	</form>
 
 </body>
 </html>

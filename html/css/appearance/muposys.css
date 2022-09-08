@@ -142,6 +142,40 @@ button:hover {
   to {transform: scale(1)}
 }
 
-
+@media screen and (max-width : 299px)
+{
+	form
+	{
+		width: 80%;	
+	}
+}
+@media screen and (min-width: 300px) and (max-width : 599px)
+{
+	form
+	{
+		width: 80%;	
+	}	
+}
+@media screen and (min-width: 600px) and (max-width : 899px)
+{
+	form
+	{
+		width: 40%;	
+	}
+}
+@media screen and (min-width: 900px) and (max-width : 1199px)
+{
+	form
+	{
+		width: 40%;	
+	}	
+}
+@media screen and (min-width: 1200px)
+{
+	form
+	{
+		width: 40%;	
+	}	
+}
 
 

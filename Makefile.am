@@ -34,8 +34,17 @@ cgi_DATA=cgi/http
 htmldir=$(bindir)
 html_DATA=html/login.html html/user-register.html html/index.html  html/user-mang.html
 
+html_user_mang_permissionsdir=$(bindir)/user-mang/permissions
+html_user_mang_permissions_DATA=html/user-mang/permissions/add.html
+
 cssdir=$(bindir)/css
-css_DATA=html/css/application.css html/css/login.css html/css/Mkos-Big-Sur.css html/css/user-mang.css
+css_DATA=html/css/login.css html/css/user-mang.css
+
+css_appearancedir=$(bindir)/css/appearance
+css_appearance_DATA=html/css/appearance/muposys.css
+
+css_iconsdir=$(bindir)/css/icons
+css_icons_DATA=html/css/icons/Mkos-Big-Sur.css
 
 jsdir=$(bindir)/js
 js_DATA=html/js/login.js html/js/sysapp.js
@@ -52,6 +61,7 @@ install-data-hook:
 	chown $(USER_GROUP) $(bindir)/*.html
 	chown $(USER_GROUP) -R $(bindir)/css
 	chown $(USER_GROUP) -R $(bindir)/js
+	mkdir -p $(bindir)/theme
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Night
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Panel-white
