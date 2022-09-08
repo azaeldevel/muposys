@@ -21,7 +21,7 @@ void BodyApplication::print(std::ostream& out)const
 	
 			out << "\t\t\t<div class=\"space\"></div>\n";
 
-			out << "\t\t\t<div id=\"user\"><a href=\"/user-admin.html\"></a></div>\n";
+			out << "\t\t\t<div id=\"user\"><a href=\"/user-mang.html\"></a></div>\n";
 			out << "\t\t\t<div id=\"system\"><a href=\"/system.html\"></a></div>\n";			
 		out << "\t\t</div>\n";	
 
