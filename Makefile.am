@@ -35,7 +35,7 @@ htmldir=$(bindir)
 html_DATA=html/login.html html/user-register.html html/index.html  html/user-mang.html
 
 cssdir=$(bindir)/css
-css_DATA=html/css/application.css html/css/login.css html/css/Mkos-Big-Sur.css
+css_DATA=html/css/application.css html/css/login.css html/css/Mkos-Big-Sur.css html/css/user-mang.css
 
 jsdir=$(bindir)/js
 js_DATA=html/js/login.js html/js/sysapp.js

@@ -30,15 +30,9 @@ body > #menu > #programs
 {
 	float : left;
 	height : 100%;
+	min-width : 50%;
 }
-body > #menu > #programs > #permission, body > #menu > #programs > #user_permission, body > #menu > #programs > #disable_user, body > #menu > #programs > #remove_user
-{
-	float: right;
-	height: 100%;
-	background-repeat : no-repeat;
-	background-size : contain;
-	background-position: center;
-}
+
 
 body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu > #panel > #user
 {
@@ -49,6 +43,7 @@ body > #menu > #panel > #logout, body > #menu > #panel > #system, body > #menu >
 	background-size : contain;
 	background-position: center;
 }
+
 body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body > #menu > #panel > #user > a
 {	
     display: block;
@@ -56,13 +51,7 @@ body > #menu > #panel > #logout > a, body > #menu > #panel > #system > a, body >
     width: 100%;
     text-decoration: none;
 }
-body > #menu > #programs > #permission > a, body > #menu > #programs > #user_permission > a, body > #menu > #programs > #disable_user > a, body > #menu > #programs > #remove_user > a
-{	
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
-}
+
 .space
 {
 	float: right;
