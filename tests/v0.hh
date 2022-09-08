@@ -15,6 +15,7 @@
 
 int v0_init(void);
 int v0_clean(void);
+void v0_apidb();
 void v0_develop();
 
 #endif

@@ -1,6 +1,9 @@
 
 #include "v0.hh"
 
+
+using namespace muposys::http::db;
+
 int v0_init(void)
 {
 	return 0;
@@ -10,29 +13,8 @@ int v0_clean(void)
 	return 0;
 }
 
-using namespace muposys::http::db;
-
-void v0_develop()
+void v0_apidb()
 {
-	CU_ASSERT(true);
-	
-	std::cout << "database : " << muposys::http::db::database_file << "\n";
-
-
-	std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> distrib(1, 1000000);
-	
-	Conector conn(muposys::http::db::database_file);
-	CU_ASSERT(conn.getServerConnector() != NULL)
-	Session session;	
-	std::string hoststr,sessionstr,timestr;
-	hoststr = std::to_string(distrib(gen));
-	sessionstr = std::to_string(distrib(gen));
-	timestr = std::to_string(distrib(gen));
-	session.insert(conn,hoststr,sessionstr,timestr);
-
-	
 	octetos::db::maria::Connector connmaria;
 	bool flag = connmaria.connect(muposysdb::datconex);
 	if(flag)
@@ -55,7 +37,35 @@ void v0_develop()
 			}
 		}
 		delete lst;
+
+
+		//std::vector<muposysdb::Users*>* userlst = muposysdb::Users::select(connmaria,0,'D');
 	}
+
+	
+}
+
+
+void v0_develop()
+{
+	CU_ASSERT(true);
+	
+	std::cout << "database : " << muposys::http::db::database_file << "\n";
+
+
+	std::random_device rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> distrib(1, 1000000);
+	
+	Conector conn(muposys::http::db::database_file);
+	CU_ASSERT(conn.getServerConnector() != NULL)
+	Session session;	
+	std::string hoststr,sessionstr,timestr;
+	hoststr = std::to_string(distrib(gen));
+	sessionstr = std::to_string(distrib(gen));
+	timestr = std::to_string(distrib(gen));
+	session.insert(conn,hoststr,sessionstr,timestr);
+
 
 
 }
