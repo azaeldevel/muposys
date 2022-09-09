@@ -57,10 +57,12 @@ install-data-hook:
 	chmod a+w $(bindir)/*.html
 	chmod a+w -R $(bindir)/css
 	chmod a+w -R $(bindir)/js
+	chmod a+w -R $(bindir)/user-mang
 	chown $(USER_GROUP) $(DATABASE)
 	chown $(USER_GROUP) $(bindir)/*.html
 	chown $(USER_GROUP) -R $(bindir)/css
 	chown $(USER_GROUP) -R $(bindir)/js
+	chown $(USER_GROUP) -R $(bindir)/user-mang
 	mkdir -p $(bindir)/theme
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Night

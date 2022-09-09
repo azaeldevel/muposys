@@ -117,5 +117,7 @@ Makefile
 apidb/Makefile
 src/Makefile
 cgi/Makefile
+cgi/user-mang/Makefile
+cgi/user-mang/permissions/Makefile
 tests/Makefile
 ])

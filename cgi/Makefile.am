@@ -1,4 +1,6 @@
 
+SUBDIRS = . user-mang 
+
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
@@ -9,12 +11,12 @@ AM_CFLAGS =\
 	 -g
 
 
-noinst_LTLIBRARIES = libmuposys-http.la libmuposys-server.la libmuposys-html.la
+lib_LTLIBRARIES = libmuposys-http.la libmuposys-server.la libmuposys-html.la
 
 if ENABLE_HOLE
 MODULES=login.cgi logout.cgi user-register.cgi application.cgi
 else 
-MODULES=login.cgi logout.cgi user-register.cgi
+MODULES=login.cgi logout.cgi user-register.cgi 
 endif
 
 bin_PROGRAMS = $(MODULES)
@@ -63,7 +65,6 @@ libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(SQLITE
 libmuposys_server_la_LDFLAGS = -static
 libmuposys_server_la_SOURCES = login.cc application.cc logout.cc
 libmuposys_server_la_LIBADD =  libmuposys-http.la  libmuposys-html.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
-
 
 libmuposys_html_la_LDFLAGS = -static
 libmuposys_html_la_SOURCES = html.cc
