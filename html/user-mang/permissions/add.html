@@ -33,15 +33,8 @@
 		</div>
 	</form>
 </body>
+	<script type="text/javascript" src="/js/muposys.js"></script>
 	<script>
-	const params = new URLSearchParams(window.location.search)
-	if(params.has('success')) 
-	{
-		alert("Operación exitosa");
-	}	
-	else if(params.has('failure')) 
-	{
-		alert("La operación falló");
-	}
+	confirmation();
 	</script>
 </html>
