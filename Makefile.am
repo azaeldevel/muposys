@@ -47,10 +47,10 @@ css_iconsdir=$(bindir)/css/icons
 css_icons_DATA=html/css/icons/Mkos-Big-Sur.css
 
 jsdir=$(bindir)/js
-js_DATA=html/js/login.js html/js/sysapp.js
+js_DATA=html/js/login.js html/js/muposys.js
 
 themedir=$(bindir)/js
-theme_DATA=html/js/login.js html/js/sysapp.js
+theme_DATA=html/js/login.js
 
 install-data-hook:
 	chmod a+w $(DATABASE)
@@ -68,7 +68,7 @@ install-data-hook:
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Night
 	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Panel-white
 	chown $(USER_GROUP) -R $(bindir)/theme
-	
+	mv $(bindir)/add.cgi $(bindir)/user-mang/permissions/
 
 install-exec-hook:
 	chown $(USER_GROUP) $(bindir)/*.cgi

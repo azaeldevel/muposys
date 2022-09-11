@@ -59,8 +59,26 @@ namespace muposys
 		void css(const char*);
 		
 	};
+	struct script
+	{
+		std::string async;
+		std::string crossorigin;
+		std::string defer;
+		std::string integrity;
+		std::string nomodule;
+		std::string referrerpolicy;
+		std::string src;
+		std::string type;
+		std::string content;
+
+		virtual void print(std::ostream& out) const;
+		
+		void source(const char*);
+	};
 	struct Body : public Tag
 	{
+		std::vector<script> scripts;
+		 
 	};
 	
 		

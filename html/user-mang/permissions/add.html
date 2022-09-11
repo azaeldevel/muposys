@@ -9,19 +9,17 @@
 </head>
 
 <body>
-
-<div id="menu">
-	<div id="panel">
-		<div id="logout"><a href="/logout.cgi"></a></div>
+	<div id="menu">
+		<div id="panel">
+			<div id="logout"><a href="/logout.cgi"></a></div>
+			<div class="space"></div>
+			<div id="system"><a href="/system.html"></a></div>
+		</div>
 		<div class="space"></div>
-		<div id="system"><a href="/system.html"></a></div>
+		<div id="options">
+		</div>
 	</div>
-	<div class="space"></div>
-	<div id="options">
-	</div>
-</div>
-
-	<form id="add" class="modal-content animate" action="user-mang/permission/add.cgi" method="post">
+	<form id="add" class="modal-content animate" action="add.cgi" method="post">
     	<div class="container">
 			
 			<label for="name"><b>Nombre:</b></label>
@@ -29,11 +27,21 @@
 
 		  	<label for="brief"><b>Descripción:</b></label>
 		  	<input type="text" placeholder="Descripción breve" name="brief" required>
-		  	
+
 		  	<button type="submit">Agregar</button>
 
 		</div>
 	</form>
-
 </body>
+	<script>
+	const params = new URLSearchParams(window.location.search)
+	if(params.has('sucesse')) 
+	{
+		alert("Operación exitosa");
+	}	
+	else if(params.has('fail')) 
+	{
+		alert("La operación falló");
+	}
+	</script>
 </html>
