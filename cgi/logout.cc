@@ -49,7 +49,7 @@ void Logout::print(std::ostream& out) const
 {
 	muposys::HTML::print(out);
 }
-int Logout::main()
+int Logout::main(std::ostream& out)
 {
 	contenttype(std::cout,"text","html");
 	doctype(std::cout,"html");

@@ -50,7 +50,7 @@ void Application2::print(std::ostream& out) const
 {
 	muposys::HTML::print(out);
 }
-int Application2::main()
+int Application2::main(std::ostream& out)
 {
 	contenttype(std::cout,"text","html");
 	doctype(std::cout,"html");

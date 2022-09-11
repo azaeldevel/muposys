@@ -91,7 +91,7 @@ namespace muposys
 		
 		
 		virtual void print(std::ostream& out) const;
-		virtual int main()  = 0;
+		virtual int main(std::ostream& out)  = 0;
 	private:
 		const Body* body; 
 	protected:
