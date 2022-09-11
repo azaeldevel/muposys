@@ -63,7 +63,7 @@ libmuposys_http_la_LIBADD = $(DBLIBS)
 
 libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINES) $(DEFINESBD)
 libmuposys_server_la_LDFLAGS = -static
-libmuposys_server_la_SOURCES = login.cc application.cc logout.cc
+libmuposys_server_la_SOURCES = login.cc application.cc logout.cc user-mang/permissions/Add.cc
 libmuposys_server_la_LIBADD =  libmuposys-http.la  libmuposys-html.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
 
 libmuposys_html_la_LDFLAGS = -static

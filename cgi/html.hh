@@ -89,14 +89,25 @@ namespace muposys
 		HTML(const Body&);
 
 		
-		Head head;
 		
 		virtual void print(std::ostream& out) const;
 		virtual void main()  = 0;
 	private:
 		const Body* body; 
+	protected:
+		Head head;
 	};
 	
+	class CGI
+	{
+	public:
+		virtual int main(std::ostream& out)  = 0;
+
+	private:
+		
+	protected:
+		Head head;
+	};
 }
 
 
