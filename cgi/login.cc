@@ -46,7 +46,7 @@ const std::string& Login::getSessionID()const
 }
 bool Login::check() const
 {
-	std::cout << "Step 1\n<br>";
+	//std::cout << "Step 1\n<br>";
 	cgicc::Cgicc formData;   	
 	std::string userstr, password;
 	cgicc::form_iterator itUser = formData.getElement("user"); 
@@ -60,7 +60,7 @@ bool Login::check() const
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
-   	std::cout << "Step 2\n<br>";
+   	//std::cout << "Step 2\n<br>";
 	
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
@@ -83,7 +83,7 @@ bool Login::check() const
 	#error "Base de datos desconocida."
 #endif
 
-	std::cout << "Step 3\n<br>";
+	//std::cout << "Step 3\n<br>";
 	
 	conn.connect(muposysdb::datconex);
 	
@@ -125,7 +125,7 @@ bool Login::check() const
 			{
 				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			}
-			std::cout << "Step login\n<br>";
+			//std::cout << "Step login\n<br>";
 			connhttp.close();
 			conn.close();
 			delete usrlst->front();
