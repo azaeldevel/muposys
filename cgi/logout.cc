@@ -49,12 +49,14 @@ void Logout::print(std::ostream& out) const
 {
 	muposys::HTML::print(out);
 }
-void Logout::main()
+int Logout::main()
 {
 	contenttype(std::cout,"text","html");
 	doctype(std::cout,"html");
 	head.redirect(0,"/login.html");
 	print(std::cout);
+
+	return EXIT_SUCCESS;
 }
 }
 

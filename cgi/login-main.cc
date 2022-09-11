@@ -32,8 +32,6 @@ int main ()
 	conn.close();
 	*/
 	muposys::server::Login login;
-	login.main();
-	
-	return 0;
+	return login.main();
 }
 

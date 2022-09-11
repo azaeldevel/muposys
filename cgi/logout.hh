@@ -21,7 +21,7 @@ public:
 	
 
 	virtual void print(std::ostream& out) const;
-	virtual void main();
+	virtual int main();
 };
 
 

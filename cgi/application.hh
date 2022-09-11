@@ -19,7 +19,7 @@ class Application2 : public muposys::HTML
 {	
 public:
 	virtual void print(std::ostream& out) const;
-	virtual void main();
+	virtual int main();
 	
 	Application2(const BodyApplication& );
 	~Application2();

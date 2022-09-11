@@ -32,7 +32,7 @@ Login::Login()
 {
 	session = new muposys::http::Session;
 }
-Login::Login(const muposys::Body& b) : muposys::HTML(b)
+Login::Login(const muposys::Body& b)
 {
 	session = new muposys::http::Session;
 }
@@ -46,6 +46,7 @@ const std::string& Login::getSessionID()const
 }
 bool Login::check() const
 {
+	std::cout << "Step 1\n<br>";
 	cgicc::Cgicc formData;   	
 	std::string userstr, password;
 	cgicc::form_iterator itUser = formData.getElement("user"); 
@@ -59,7 +60,7 @@ bool Login::check() const
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
-   	//std::cout << "Step 2 : \n<br>";
+   	std::cout << "Step 2\n<br>";
 	
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
@@ -82,7 +83,7 @@ bool Login::check() const
 	#error "Base de datos desconocida."
 #endif
 
-	//std::cout << "check : Step 1\n<br>";
+	std::cout << "Step 3\n<br>";
 	
 	conn.connect(muposysdb::datconex);
 	
@@ -115,40 +116,44 @@ bool Login::check() const
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
 			muposys::http::db::Conector connhttp(muposys::http::db::database_file);
-			if(session->addregister(connhttp))
+			if(not session->addregister(connhttp))
 			{
 				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			}
 			muposys::http::db::Variable var;
-			if(var.insert(connhttp,session->getSession(),"user",userbd->getName()))
-			{
-				
-			}
-			else
+			if(not var.insert(connhttp,session->getSession(),"user",userbd->getName()))
 			{
 				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			}
+			std::cout << "Step login\n<br>";
 			connhttp.close();
 			conn.close();
+			delete usrlst->front();
+			delete usrlst;
 			return true;
 		}
 		else
 		{
 			conn.close();
+			delete usrlst->front();
+			delete usrlst;
 			return false;
 		}
 	}
 	else
 	{
 		conn.close();
+		delete usrlst->front();
+		delete usrlst;
 		return false;
 	}
+
+	delete usrlst->front();
+	delete usrlst;
+	return false;
 }
-void Login::print(std::ostream& out) const
-{
-	muposys::HTML::print(out);
-}
-void Login::main()
+
+int Login::main(std::ostream& out)
 {
 	contenttype(std::cout,"text","html");
 	doctype(std::cout,"html");
@@ -160,7 +165,10 @@ void Login::main()
 	{
 		std::cout << "Usuario/Contraseña incorrecto, intente de nuevo.";
 	}
-	print(std::cout);
+	
+	head.print(out);
+
+	return EXIT_SUCCESS;
 }
 }
 

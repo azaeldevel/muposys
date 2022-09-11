@@ -9,8 +9,7 @@
 namespace muposys::server
 {
 
-
-class Login : public muposys::HTML
+class Login : public muposys::CGI
 {
 private:	
 	muposys::http::Session* session;
@@ -25,10 +24,8 @@ public:
 	const std::string& getSessionID()const;
 	muposys::http::Session& getSession();
 
-	virtual void print(std::ostream& out) const;
-	virtual void main();
+	virtual int main(std::ostream& out = std::cout);
 };
-
 
 }
 
