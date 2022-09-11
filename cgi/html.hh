@@ -102,6 +102,8 @@ namespace muposys
 	{
 	public:
 		virtual int main(std::ostream& out)  = 0;
+		
+		bool check_session() const;
 
 	private:
 		

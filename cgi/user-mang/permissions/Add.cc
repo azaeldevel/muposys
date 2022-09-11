@@ -11,6 +11,13 @@ int Add::main(std::ostream& out)
 	out << "<html>\n";
 		head.print(out);
 
+	if(not check_session()) 
+	{
+		head.redirect(0,"/login.html");
+		head.print(out);
+		return EXIT_FAILURE;
+	}
+
 	cgicc::Cgicc formData;   	
 	std::string name, brief;
 	cgicc::form_iterator itName = formData.getElement("name"); 

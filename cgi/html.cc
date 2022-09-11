@@ -1,5 +1,6 @@
 
 #include "html.hh"
+#include "http.hh"
 
 namespace muposys
 {
@@ -188,7 +189,18 @@ void HTML::print(std::ostream& out) const
 }
 
 
+bool CGI::check_session() const
+{
+	muposys::http::db::Conector conn(muposys::http::db::database_file);
+	muposys::http::db::Session session;
+	
+	if(not session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR")))
+	{
+		return false;
+	}
 
+	return true;
+}
 
 
 }
