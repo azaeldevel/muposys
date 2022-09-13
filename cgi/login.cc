@@ -18,6 +18,8 @@
  */
 
 
+
+
 #include "login.hh"
 
 
@@ -35,7 +37,7 @@ Login::~Login()
 {
 }
 
-bool Login::check() const
+bool Login::check()
 {
 	//std::cout << "Step 1\n<br>";
 	cgicc::Cgicc formData;   	
@@ -108,9 +110,9 @@ bool Login::check() const
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
-			muposys::http::db::Conector connhttp(muposys::http::db::database_file);
-			muposys::http::Session session;
-			if(session.load(connhttp))
+			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
+			//muposys::http::Session session;
+			if(CGI::check())
 			{//ya esta registrado
 				delete usrlst->front();
 				delete usrlst;
@@ -118,20 +120,20 @@ bool Login::check() const
 				return true;
 			}
 			
-			if(not session.addregister(connhttp))
+			if(not session.addregister(CGI::conn))
 			{
 				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 				return false;
 			}
 			//std::cout << "Usuario registrado<br>";
 			muposys::http::db::Variable var;
-			if(not var.insert(connhttp,session.getSession(),"user",userbd->getName()))
+			if(not var.insert(CGI::conn,session.getSession(),"user",userbd->getName()))
 			{
 				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 				return false;
 			}
 			//std::cout << "Step login\n<br>";
-			connhttp.close();
+			//connhttp.close();
 			conn.close();
 
 			
@@ -148,19 +150,19 @@ bool Login::check() const
 
 int Login::main(std::ostream& out)
 {
-	contenttype(std::cout,"text","html");
-	doctype(std::cout,"html");
+	muposys::contenttype(out,"text","html");
 	if(check())
 	{
+		//out << "Location:/application.cgi\n\n";
 		head.redirect(0,"/application.cgi");
 	}
 	else
 	{
+		//out << "Location:/login.html?failure\n\n";
 		head.redirect(0,"/login.html?failure");
 	}
-	
 	head.print(out);
-
+	
 	return EXIT_SUCCESS;
 }
 }

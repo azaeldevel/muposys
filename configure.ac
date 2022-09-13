@@ -80,6 +80,11 @@ if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
 
+AC_ARG_ENABLE([devel], AS_HELP_STRING([--enable-devel], [Soport de desarrollador activo]))
+if test "x$enable_devel" = "xyes"; then 
+	dnl AC_SUBST([ENABLE_DEVEL],[true])
+	AC_DEFINE_UNQUOTED([ENABLE_DEVEL], [], [Soporte de desarrollador activo])
+fi
 
 AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
 if test "x$with_mysql" = "xyes"; then 

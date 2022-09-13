@@ -13,7 +13,65 @@ void doctype(std::ostream& out,const char * type)
 	out << "<!DOCTYPE " << type << ">\n";
 }
 
-	
+
+
+/*ContentType::ContentType() : content(NULL),type(NULL)
+{
+}
+void ContentType::print(std::ostream& out) const
+{
+	if(content and type) out << "Content-Type: " << content << "/" << type << "\n";
+}
+
+
+
+Status::Status() : code(0),brief(NULL)
+{
+}
+Status::Status(unsigned short c) : code(c)
+{
+	message();
+}
+//https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+void Status::message()
+{
+	switch(code)
+	{
+		case 200: brief = "Ok";
+		case 301: brief = "Mover Permanentemente";
+
+		default: brief = "Unknow status";
+	}
+}
+void Status::print(std::ostream& out) const
+{
+	if(code > 0 and brief) out << "Status : " << code << " " << brief << "\n";
+}
+void status(std::ostream& out,const Status& st)
+{
+	out << "Status : " << st.code << " " << st.brief << "\n\n";
+}
+
+
+void Header::redirect(const std::string& url)
+{
+	location = url;
+	status.code = 301;
+	status.message();
+}
+void Header::print(std::ostream& out) const
+{
+	contenttype.print(out);
+	status.print(out);
+	out << "Location : " << location << "\n";
+	out << "\n";
+}
+void Header::print_redirect(std::ostream& out) const
+{
+	status.print(out);
+	out << "Location : " << location << "\n";
+}
+	*/
 void meta::print(std::ostream& out) const
 {
 	out << "\t<meta";
@@ -92,11 +150,7 @@ void Head::print(std::ostream& out) const
 	{
 		l.print(out);
 	}
-	if(title.empty())
-	{
-		out << "\t<title>Multi-porpuse Software System</title>\n";
-	}
-	else
+	if(not title.empty())
 	{
 		out << "\t<title>" << title << "</title>\n";
 	}
@@ -188,18 +242,16 @@ void HTML::print(std::ostream& out) const
 	out << "</html>\n";
 }
 
-
-bool CGI::check_session() const
+CGI::CGI() : conn(muposys::http::db::database_file)
 {
-	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::db::Session session;
-	
-	if(not session.selectByRemote(conn,getenv("REMOTE_ADDR")))
-	{
-		return false;
-	}
-
-	return true;
+}
+CGI::~CGI()
+{
+	conn.close();
+}
+bool CGI::check()
+{
+	return session.load(conn);
 }
 
 

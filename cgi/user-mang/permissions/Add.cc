@@ -5,13 +5,13 @@ namespace muposys::server
 {
 
 int Add::main(std::ostream& out)
-{
-	muposys::contenttype(std::cout,"text","html");
+{	
+	cgicc::HTTPContentHeader header("text/html");
 	
 	out << "<html>\n";
 		head.print(out);
 
-	if(not check_session()) 
+	if(not check()) 
 	{
 		head.redirect(0,"/login.html");
 		head.print(out);

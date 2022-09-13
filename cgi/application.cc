@@ -51,16 +51,17 @@ void Application2::print(std::ostream& out) const
 	muposys::HTML::print(out);
 }
 int Application2::main(std::ostream& out)
-{
-	contenttype(std::cout,"text","html");
-	doctype(std::cout,"html");
+{	
+	cgicc::HTTPContentHeader header("text/html");
+	header.render(out);
 	
 	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::Session session;
-	
+	muposys::http::Session session;	
 	if(not session.load(conn))
 	{
-		head.redirect(0,"/login.html?failure");
+		cgicc::HTTPRedirectHeader headerRedirect("/login.html?failure");
+		headerRedirect.render(out);
+		return EXIT_SUCCESS;
 	}
 	
 	print(std::cout);

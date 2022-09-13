@@ -250,7 +250,7 @@ namespace db
     {
         Session* p = (Session*)obj;	
         p->id = std::atoi(argv[0]);	        
-        std::cout << "id : " << p->id << "\n";
+        //std::cout << "id : " << p->id << "\n";
         return 0;
     }
 	bool Session::empty() const

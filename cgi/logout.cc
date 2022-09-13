@@ -33,11 +33,11 @@ Logout::~Logout()
 bool Logout::check() const
 {
 	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::db::Session session;
+	muposys::http::Session session;
 	conn.begin();
-	if(session.selectByRemote(conn,getenv("REMOTE_ADDR"))) 
+	if(session.load(conn)) 
 	{
-		session.remove(conn);
+		session.getSession().remove(conn);
 		conn.commit();
 		conn.close();
 		return true;
@@ -50,12 +50,12 @@ void Logout::print(std::ostream& out) const
 	muposys::HTML::print(out);
 }
 int Logout::main(std::ostream& out)
-{
-	contenttype(std::cout,"text","html");
-	doctype(std::cout,"html");
-	if(check()) head.redirect(0,"/login.html");
-	print(std::cout);
-
+{	
+	muposys::contenttype(out,"text","html");
+	check();
+	head.redirect(0,"/login.html");
+	head.print(out);
+	
 	return EXIT_SUCCESS;
 }
 }

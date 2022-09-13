@@ -3,7 +3,15 @@
 
 #include <iostream>
 #include <vector>
+#include <cgicc/HTTPContentHeader.h>
+#include <cgicc/HTTPRedirectHeader.h>
+#include <cgicc/HTTPHTMLHeader.h>
+#include <cgicc/HTTPResponseHeader.h>
+#include <cgicc/HTTPStatusHeader.h>
 
+
+#include "config.h"
+#include "http.hh"
 
 namespace muposys
 {
@@ -11,7 +19,39 @@ namespace muposys
 	
 	void doctype(std::ostream& out,const char * type);	
 
+	/*struct ContentType
+	{
+		const char* content;
+		const char* type;
 
+		ContentType();
+		virtual void print(std::ostream& out) const;
+	};
+	struct Status
+	{
+		unsigned short code;
+		const char* brief;
+	
+		Status();
+		Status(unsigned short);
+		
+		void message();
+		virtual void print(std::ostream& out) const;
+	};
+	void status(std::ostream& out,const Status&);
+
+	//https://www.httpdebugger.com/http/http_header.html#:~:text=The%20general%20HTTP%20header%20format,the%20end%20of%20the%20header.
+	struct Header
+	{
+		ContentType contenttype;
+		Status status;
+		std::string location;
+
+		virtual void print(std::ostream& out) const;
+		virtual void print_redirect(std::ostream& out) const;
+
+		void redirect(const std::string&);
+	};*/
 
 	struct Tag
 	{
@@ -101,14 +141,18 @@ namespace muposys
 	class CGI
 	{
 	public:
+		CGI();
+		~CGI();
 		virtual int main(std::ostream& out)  = 0;
 		
-		bool check_session() const;
+		bool check();
 
 	private:
 		
 	protected:
 		Head head;
+		muposys::http::db::Conector conn;
+		muposys::http::Session session;
 	};
 }
 

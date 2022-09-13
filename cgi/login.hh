@@ -13,7 +13,7 @@ class Login : public muposys::CGI
 {
 private:
 	
-	bool check()const;
+	bool check();
 
 public:
 	Login();
