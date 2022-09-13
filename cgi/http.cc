@@ -104,7 +104,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 	}*/
 	Session::Session()
 	{
-		if(getenv("REMOTE_ADDR") == NULL)
+		/*if(getenv("REMOTE_ADDR") == NULL)
 		{
 			host = "localhost";
 		}
@@ -115,15 +115,29 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		
         //
         muposys::http::db::Conector conn(muposys::http::db::database_file);
-		if(session.selectByRemoteAddr(conn,host))//existe?
+		if(session.selectByRemote(conn,host))//existe?
 		{
 		  	if(session.downloadIDs(conn))
 		  	{
 		  		//std::cout << "Descargo : " << session.getRomoteAddress() << " - " << session.getSession()<< "\n";
 		  	}
-		}
+		}*/
 	}
 
+	bool Session::load(muposys::http::db::Conector& conn)
+	{
+		host = getenv("REMOTE_ADDR");
+		//std::cout << "host : " << host << "\n";
+        //
+		if(session.selectByRemote(conn,host))//existe?
+		{
+		  	return !session.empty();
+		}
+		else
+		{
+			return false;
+		}
+	}
 	bool Session::addregister(muposys::http::db::Conector& conn)
 	{
 		//session = id;
@@ -150,7 +164,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		   		//std::cout << "Inserted : (" << host << ") - (" << mdString << ")<br>";
 		   		if(session.insert(conn,host,mdString,std::to_string(timeSinceEpochMillisec())))
 		   		{
-		   			//std::cout << "Inserted addr: (" << host << ") - (" << user.getID() << ")<br>";
+		   			//std::cout << "Inserted addr: (" << host << ") <br>";
 		   			if(session.downloadIDs(conn))
 			  		{
 			  			return true;

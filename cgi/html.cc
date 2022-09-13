@@ -92,7 +92,7 @@ void Head::print(std::ostream& out) const
 	{
 		l.print(out);
 	}
-	if(not title.empty())
+	if(title.empty())
 	{
 		out << "\t<title>Multi-porpuse Software System</title>\n";
 	}
@@ -194,7 +194,7 @@ bool CGI::check_session() const
 	muposys::http::db::Conector conn(muposys::http::db::database_file);
 	muposys::http::db::Session session;
 	
-	if(not session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR")))
+	if(not session.selectByRemote(conn,getenv("REMOTE_ADDR")))
 	{
 		return false;
 	}

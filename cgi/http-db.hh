@@ -66,11 +66,11 @@ namespace db
 		std::string session;
         
         static int callbackBySession(void *data, int argc, char **argv, char **azColName);
-        static int callbackByRemoteAddr(void *data, int argc, char **argv, char **azColName);
+        static int callbackByRemote(void *data, int argc, char **argv, char **azColName);
 		static int callbackIDs(void *data, int argc, char **argv, char **azColName);
 			
     public:
-        bool selectByRemoteAddr(Conector& conect, const std::string&);
+        bool selectByRemote(Conector& conect, const std::string&);
 		bool selectBySession(Conector& conect, const std::string&);
         static bool selectAll(Conector& conect, std::vector<Session*>& vec);
 		bool downloadIDs(Conector& conect);

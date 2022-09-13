@@ -56,11 +56,11 @@ int Application2::main(std::ostream& out)
 	doctype(std::cout,"html");
 	
 	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::db::Session session;
+	muposys::http::Session session;
 	
-	if(not session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR")))
+	if(not session.load(conn))
 	{
-		head.redirect(0,"login.html");
+		head.redirect(0,"/login.html?failure");
 	}
 	
 	print(std::cout);

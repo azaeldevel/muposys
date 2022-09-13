@@ -24,26 +24,17 @@
 namespace muposys::server
 {
 
-muposys::http::Session& Login::getSession()
-{
-	return *session;
-}
+
 Login::Login()
 {
-	session = new muposys::http::Session;
 }
 Login::Login(const muposys::Body& b)
 {
-	session = new muposys::http::Session;
 }
 Login::~Login()
 {
-	if(session) delete session;
 }
-const std::string& Login::getSessionID()const
-{
-	return session->getSessionID();
-}
+
 bool Login::check() const
 {
 	//std::cout << "Step 1\n<br>";
@@ -57,7 +48,8 @@ bool Login::check() const
 	}
 	else 
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
+		return false;
 	}
 	
    	//std::cout << "Step 2\n<br>";
@@ -70,7 +62,8 @@ bool Login::check() const
 	} 
 	else 
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		return false;
 	}
 	
 #if defined MARIADB
@@ -114,38 +107,38 @@ bool Login::check() const
 		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
-			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
+			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			muposys::http::db::Conector connhttp(muposys::http::db::database_file);
-			if(not session->addregister(connhttp))
-			{
-				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			muposys::http::Session session;
+			if(session.load(connhttp))
+			{//ya esta registrado
+				delete usrlst->front();
+				delete usrlst;
+				//std::cout << "Ya existe el cliente<br>\n";
+				return true;
 			}
-			muposys::http::db::Variable var;
-			if(not var.insert(connhttp,session->getSession(),"user",userbd->getName()))
+			
+			if(not session.addregister(connhttp))
 			{
-				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				return false;
+			}
+			//std::cout << "Usuario registrado<br>";
+			muposys::http::db::Variable var;
+			if(not var.insert(connhttp,session.getSession(),"user",userbd->getName()))
+			{
+				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				return false;
 			}
 			//std::cout << "Step login\n<br>";
 			connhttp.close();
 			conn.close();
+
+			
 			delete usrlst->front();
 			delete usrlst;
 			return true;
 		}
-		else
-		{
-			conn.close();
-			delete usrlst->front();
-			delete usrlst;
-			return false;
-		}
-	}
-	else
-	{
-		conn.close();
-		delete usrlst->front();
-		delete usrlst;
-		return false;
 	}
 
 	delete usrlst->front();
@@ -163,7 +156,7 @@ int Login::main(std::ostream& out)
 	}
 	else
 	{
-		std::cout << "Usuario/Contraseña incorrecto, intente de nuevo.";
+		head.redirect(0,"/login.html?failure");
 	}
 	
 	head.print(out);

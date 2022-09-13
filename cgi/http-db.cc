@@ -116,6 +116,10 @@ namespace db
 
 
 
+	Session::Session()
+	{
+		id = -1;
+	}
 	bool Session::remove(Conector& connect)
 	{
 		if(not Variable::remove(connect,*this))
@@ -133,7 +137,7 @@ namespace db
             return true;
         }
 				
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		return false;
 	}
 	bool Session::insert(Conector& connect,const std::string& r,const std::string& s,const std::string& t)
@@ -148,7 +152,7 @@ namespace db
             return true;
         }
 		
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
 	bool Session::updateSession(Conector& connect,const std::string& str)
@@ -156,7 +160,7 @@ namespace db
 		std::string sql = "UPDATE  ";
         sql += TABLE_NAME + " SET session = '";
         sql += str + "' WHERE id = " + std::to_string(id) + ";";
-        std::cout << sql << "<br>";
+        //std::cout << sql << "<br>";
         return connect.query(str);
 	}
 	const std::string& Session::getRomoteAddress()const
@@ -171,10 +175,6 @@ namespace db
 	{
 		return id;
 	}
-	Session::Session()
-	{
-		id = -1;
-	}
 	bool Session::inserteRemoteAddr(Conector& connect,const std::string& str)
 	{
 		std::string sql = "INSERT INTO  ";
@@ -186,7 +186,7 @@ namespace db
             return true;
         }
 		
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
    	int Session::callbackIDs(void *obj, int argc, char **argv, char **azColName)
@@ -203,7 +203,7 @@ namespace db
     	std::string sql = "SELECT remote_addr,session FROM  ";
         sql += TABLE_NAME + " WHERE id = ";
         sql += std::to_string(id) ;
-        //std::cout << sql << "\n";
+        
         return connect.query(sql,callbackIDs,this);
     }
    	int Session::callbackBySession(void *obj, int argc, char **argv, char **azColName)
@@ -213,6 +213,13 @@ namespace db
         
         return 0;
     }
+   	/*int Session::callbackBySession(void *obj, int argc, char **argv, char **azColName)
+    {
+        Session* p = (Session*)obj;	
+        p->id = std::atoi(argv[0]);	
+        
+        return 0;
+    }*/
     bool Session::selectBySession(Conector& connect, const std::string& r)
     {
         std::string sql = "SELECT id FROM  ";
@@ -223,30 +230,32 @@ namespace db
             return true;
         }
 		
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
     }
-    int Session::callbackByRemoteAddr(void *obj, int argc, char **argv, char **azColName)
+    bool Session::selectByRemote(Conector& connect, const std::string& r)
+    {
+        std::string sql = "SELECT id FROM  ";
+        sql += TABLE_NAME + " WHERE remote_addr = '";
+        sql += r + "'";
+		//std::cout << "Session::selectByRemote : " << sql << "\n";
+        if(connect.query(sql,callbackByRemote,this))
+        {
+            return true;
+        }
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+    }
+    int Session::callbackByRemote(void *obj, int argc, char **argv, char **azColName)
     {
         Session* p = (Session*)obj;	
         p->id = std::atoi(argv[0]);	        
-        //std::cout << "id : " << p->id << "\n";
+        std::cout << "id : " << p->id << "\n";
         return 0;
-    }
-    bool Session::selectByRemoteAddr(Conector& connect, const std::string& r)
-    {
-        std::string sql = "SELECT id FROM ";
-        sql += TABLE_NAME + " WHERE remote_addr = '";
-        sql += r + "'";
-        bool ret =  connect.query(sql,callbackByRemoteAddr,this);
-        if(ret == false) return false;
-        
-        if(id < 0) return false;
-        return true;
     }
 	bool Session::empty() const
 	{
-		if(id > 0) return true;
+		if(id <= 0) return true;
 		return false;
 	}
 
@@ -313,9 +322,9 @@ namespace db
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), 0, 0, NULL);
         if( rc != SQLITE_OK ) 			
         {
-        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
-			std::cout << "database : " << muposys::http::db::database_file << "<br>\n";
-        	std::cout << getErrorMessage() << "<br>";
+        	//std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
+			//std::cout << "database : " << muposys::http::db::database_file << "<br>\n";
+        	//std::cout << getErrorMessage() << "<br>";
             return false;			
         } 
         else 
@@ -331,8 +340,8 @@ namespace db
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), callback, obj, NULL);
         if( rc != SQLITE_OK )
         {
-        	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-			std::cout << "database : " << muposys::http::db::database_file << "\n";
+        	//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			//std::cout << "database : " << muposys::http::db::database_file << "\n";
             return false;			
         } 
         else 
@@ -359,7 +368,7 @@ namespace db
 		else if(rc != SQLITE_OK) 
         {
 			//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg((sqlite3*)serverConnector));
-			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			throw muposys::Exception(muposys::Exception::FAIL_OPEN_DATABASE,__FILE__,__LINE__);
 			//return(0);
         } 

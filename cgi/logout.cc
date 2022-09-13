@@ -35,7 +35,7 @@ bool Logout::check() const
 	muposys::http::db::Conector conn(muposys::http::db::database_file);
 	muposys::http::db::Session session;
 	conn.begin();
-	if(session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR"))) 
+	if(session.selectByRemote(conn,getenv("REMOTE_ADDR"))) 
 	{
 		session.remove(conn);
 		conn.commit();
@@ -53,7 +53,7 @@ int Logout::main(std::ostream& out)
 {
 	contenttype(std::cout,"text","html");
 	doctype(std::cout,"html");
-	head.redirect(0,"/login.html");
+	if(check()) head.redirect(0,"/login.html");
 	print(std::cout);
 
 	return EXIT_SUCCESS;

@@ -11,8 +11,7 @@ namespace muposys::server
 
 class Login : public muposys::CGI
 {
-private:	
-	muposys::http::Session* session;
+private:
 	
 	bool check()const;
 
@@ -21,9 +20,6 @@ public:
 	Login(const muposys::Body&);
 	~Login();
 	
-	const std::string& getSessionID()const;
-	muposys::http::Session& getSession();
-
 	virtual int main(std::ostream& out = std::cout);
 };
 
