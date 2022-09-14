@@ -8,6 +8,10 @@
 namespace muposys
 {
 
+BodyUserPermission::BodyUserPermission()
+{
+	user_mang = false;
+}
 
 
 UserPermission::~UserPermission()
@@ -24,8 +28,8 @@ int UserPermission::main(std::ostream& out)
 		
 	if(not session.load(conn))
 	{
-		cgicc::HTTPRedirectHeader headerRedirect("/login.html?failure");
-		headerRedirect.render(out);
+		head.redirect(0,"/login.html?failure");
+		head.print(out);
 		return EXIT_SUCCESS;
 	}
 	
@@ -33,4 +37,5 @@ int UserPermission::main(std::ostream& out)
 
 	return EXIT_SUCCESS;
 }
+
 }

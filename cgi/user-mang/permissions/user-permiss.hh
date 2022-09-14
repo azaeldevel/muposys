@@ -12,6 +12,8 @@ class BodyUserPermission : public BodyApplication
 {
 private:	
 public:
+	BodyUserPermission();
+
 };
 
 class UserPermission : public Application

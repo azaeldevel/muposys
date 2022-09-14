@@ -12,8 +12,13 @@ class BodyApplication : public muposys::Body
 private:
 	
 public:
+	BodyApplication();
+
 	virtual void print(std::ostream& out) const;
-	virtual void options(std::ostream& out) const;	
+	virtual void options(std::ostream& out) const;
+
+protected:
+	bool user_mang;	
 };
 class Application : public muposys::HTML
 {	
@@ -26,6 +31,7 @@ public:
 
 private:	
 	
+protected:
 };
 
 }
