@@ -5,8 +5,8 @@
 
 int main()
 {	
-	muposys::BodyApplication body;
-	muposys::Application app(body);
+	muposys::BodyUserPermission body;
+	muposys::UserPermission app(body);
 	app.main();
 	
 	return 0;

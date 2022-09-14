@@ -10,20 +10,18 @@ namespace muposys
 
 class BodyUserPermission : public BodyApplication
 {
-private:
-	
+private:	
 public:
-	virtual void print(std::ostream& out) const;
-	virtual void options(std::ostream& out) const;	
 };
 
 class UserPermission : public Application
 {	
-public:
-	
+public:	
 	UserPermission(const BodyUserPermission& );
 	~UserPermission();
 
+	virtual int main(std::ostream& out = std::cout);
+	
 private:	
 	
 };

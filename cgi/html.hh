@@ -136,6 +136,8 @@ namespace muposys
 		const Body* body; 
 	protected:
 		Head head;
+		muposys::http::db::Conector conn;
+		muposys::http::Session session;
 	};
 	
 	class CGI

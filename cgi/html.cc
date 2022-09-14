@@ -227,13 +227,14 @@ void script::source(const char* s)
 
 
 
-HTML::HTML() : body(NULL)
+HTML::HTML() : body(NULL), conn(muposys::http::db::database_file)
 {
 }
-HTML::HTML(const Body& b) : body(&b)
-{
 
+HTML::HTML(const Body& b) : body(&b), conn(muposys::http::db::database_file)
+{
 }
+
 void HTML::print(std::ostream& out) const
 {
 	out << "<html>\n";

@@ -10,7 +10,7 @@ int Add::main(std::ostream& out)
 	
 	out << "<html>\n";
 	head.print(out);
-
+	
 	if(not CGI::check()) 
 	{
 		head.redirect(0,"/login.html?failure");
