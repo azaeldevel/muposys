@@ -1,19 +1,19 @@
 
-#include "Add.hh"
+#include "add.hh"
 
 namespace muposys::server
 {
 
 int Add::main(std::ostream& out)
 {	
-	cgicc::HTTPContentHeader header("text/html");
+	muposys::contenttype(out,"text","html");
 	
 	out << "<html>\n";
-		head.print(out);
+	head.print(out);
 
-	if(not check()) 
+	if(not CGI::check()) 
 	{
-		head.redirect(0,"/login.html");
+		head.redirect(0,"/login.html?failure");
 		head.print(out);
 		return EXIT_FAILURE;
 	}
@@ -29,7 +29,8 @@ int Add::main(std::ostream& out)
 	else 
 	{
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";   
-		head.redirect(0,"add.html?failure");
+		head.redirect(0,"add.html?batdata");
+		head.print(out);
 		return EXIT_FAILURE;
 	}
 	
@@ -43,16 +44,27 @@ int Add::main(std::ostream& out)
 	} 
 	else 
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-		head.redirect(0,"add.html?failure"); 
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
+		head.redirect(0,"add.html?batdata");
+		head.print(out);
 		return EXIT_FAILURE; 
 	}
 
 	octetos::db::maria::Connector connmaria;
-	if(not connmaria.connect(muposysdb::datconex)) std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+	if(not connmaria.connect(muposysdb::datconex)) 
+	{
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		head.redirect(0,"add.html?failureconection");
+		head.print(out);
+	}
 		
 	muposysdb::Permissions permss;
-	if(not permss.insert(connmaria,name,brief)) std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+	if(not permss.insert(connmaria,name,brief)) 
+	{
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		head.redirect(0,"add.html?failuredinsert");
+		head.print(out);
+	}
 
 	connmaria.commit();
 	connmaria.close();

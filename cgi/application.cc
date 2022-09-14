@@ -34,10 +34,10 @@ void BodyApplication::print(std::ostream& out)const
 	
 	out << "\t</div>\n";
 }
-Application2::~Application2()
+Application::~Application()
 {
 }
-Application2::Application2(const BodyApplication& b) : muposys::HTML(b)
+Application::Application(const BodyApplication& b) : muposys::HTML(b)
 {
 	head.title = "Multi-Porpuse Software System";
 	head.charset("UTF-8");
@@ -46,11 +46,11 @@ Application2::Application2(const BodyApplication& b) : muposys::HTML(b)
 	head.css("/css/icons/Mkos-Big-Sur.css");
 }
 	
-void Application2::print(std::ostream& out) const
+void Application::print(std::ostream& out) const
 {
 	muposys::HTML::print(out);
 }
-int Application2::main(std::ostream& out)
+int Application::main(std::ostream& out)
 {	
 	cgicc::HTTPContentHeader header("text/html");
 	header.render(out);

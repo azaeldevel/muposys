@@ -67,10 +67,10 @@ void v0_apidb()
 
 		muposysdb::Permissions permss;
 		int randNumber = randInt(generator);
-		std::string name_perss = "permss-" + std::to_string (randNumber);
-		std::string brief_perss = "Prueba from muposys " + std::to_string (randNumber);
+		std::string name_perss = "permss-" + std::to_string (number);
+		std::string brief_perss = "Prueba de muposys " + std::to_string (number);
 		CU_ASSERT(permss.insert(connmaria,name_perss,brief_perss));
-
+		
 		muposysdb::Users root(1);
 		muposysdb::User_Permission usr_permss;
 		CU_ASSERT(usr_permss.insert(connmaria,1,permss));

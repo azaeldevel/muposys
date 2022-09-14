@@ -9,6 +9,8 @@
 
 #include "../../http.hh"
 #include "../../html.hh"
+#include "config.h"
+
 
 namespace muposys::server
 {
@@ -17,7 +19,6 @@ namespace muposys::server
 class Add : public muposys::CGI
 {
 private:
-
 public:
 	
 	virtual int main(std::ostream& out = std::cout);

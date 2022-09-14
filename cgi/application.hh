@@ -15,14 +15,14 @@ public:
 	virtual void print(std::ostream& out) const;
 	virtual void options(std::ostream& out) const;	
 };
-class Application2 : public muposys::HTML
+class Application : public muposys::HTML
 {	
 public:
 	virtual void print(std::ostream& out) const;
 	virtual int main(std::ostream& out = std::cout);
 	
-	Application2(const BodyApplication& );
-	~Application2();
+	Application(const BodyApplication& );
+	~Application();
 
 private:	
 	

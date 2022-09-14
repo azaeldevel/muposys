@@ -10,7 +10,7 @@ AM_CFLAGS =\
 
 
 
-bin_PROGRAMS = add.cgi
+bin_PROGRAMS = add.cgi user-permiss.cgi
 
 if WITH_MARIADB
 DBLIBS = $(OCTETOS_DB_MARIA_LIBS)
@@ -39,3 +39,12 @@ endif
 add_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
 add_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-http.la $(top_builddir)/cgi/libmuposys-html.la $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS) 
 add_cgi_SOURCES = add-main.cc 
+
+
+user_permiss_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
+user_permiss_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-http.la $(top_builddir)/cgi/libmuposys-html.la $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS) 
+user_permiss_cgi_SOURCES = user-permiss-main.cc 
+
+
+
+
