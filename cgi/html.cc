@@ -239,7 +239,12 @@ void HTML::print(std::ostream& out) const
 {
 	out << "<html>\n";
 		head.print(out);
-		if(body) body->print(out);
+		if(body) 
+		{
+			out << "<body>\n";
+			body->print(out);
+			out << "</body>\n";
+		}
 	out << "</html>\n";
 }
 

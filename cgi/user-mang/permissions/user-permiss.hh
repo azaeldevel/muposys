@@ -14,6 +14,8 @@ private:
 public:
 	BodyUserPermission();
 
+	virtual void print(std::ostream& out) const;
+
 };
 
 class UserPermission : public Application
@@ -25,7 +27,8 @@ public:
 	virtual int main(std::ostream& out = std::cout);
 	
 private:	
-	
+	cgicc::Cgicc formData;
+	bool cgi;
 };
 
 }
