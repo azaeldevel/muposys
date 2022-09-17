@@ -133,8 +133,8 @@ namespace muposys
 		virtual void print(std::ostream& out) const;
 		virtual int main(std::ostream& out)  = 0;
 	private:
-		const Body* body; 
 	protected:
+		const Body* body; 
 		Head head;
 		muposys::http::db::Conector conn;
 		muposys::http::Session session;

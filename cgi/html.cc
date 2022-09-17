@@ -193,27 +193,27 @@ void script::print(std::ostream& out) const
 	}
 	if(not crossorigin.empty())
 	{
-		out << " crossorigin = \"" + crossorigin + "\" ";
+		out << "crossorigin =\"" + crossorigin + "\" ";
 	}
 	if(not defer.empty())
 	{
-		out << " defer = \"" + defer + "\" ";
+		out << "defer = \"" + defer + "\" ";
 	}
 	if(not integrity.empty())
 	{
-		out << " integrity = \"" + integrity + "\" ";
+		out << "integrity =\"" + integrity + "\" ";
 	}
 	if(not referrerpolicy.empty())
 	{
-		out << " referrerpolicy = \"" + referrerpolicy + "\" ";
+		out << "referrerpolicy =\"" + referrerpolicy + "\" ";
 	}
 	if(not src.empty())
 	{
-		out << " src = \"" + src + "\" ";
+		out << "src = \"" + src + "\" ";
 	}
 	if(not type.empty())
 	{
-		out << " type = \"" + type + "\" ";
+		out << "type =\"" + type + "\" ";
 	}
 	out << ">";
 	if(not content.empty()) out << content << "<br>\n\t"; 
@@ -231,7 +231,7 @@ HTML::HTML() : body(NULL), conn(muposys::http::db::database_file)
 {
 }
 
-HTML::HTML(const Body& b) : body(&b), conn(muposys::http::db::database_file)
+HTML::HTML(const  Body& b) : body(&b), conn(muposys::http::db::database_file)
 {
 }
 
