@@ -37,14 +37,26 @@ private:
 class UserPermission : public Application
 {	
 public:	
-	UserPermission(const BodyUserPermission& );
+	UserPermission(BodyUserPermission& );
 	~UserPermission();
 
 	virtual int main(std::ostream& out = std::cout);
 	
 private:	
 	cgicc::Cgicc formData;
+#if defined MARIADB
+	octetos::db::maria::Connector connDB;
+#elif defined MYSQL
+	octetos::db::mysql::Connector connDB;
+#elif defined POSTGRESQL
+	octetos::db::postgresql::Connector connDB;
+#else
+	#error "Base de datos desconocida."
+#endif
+	//std::vector<muposysdb::Permissions*>* permisslst;
+	std::vector<muposysdb::Users*>* userlst;
 
+	bool methode(std::ostream& out);
 
 };
 

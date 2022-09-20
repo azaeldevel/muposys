@@ -14,13 +14,13 @@ BodyUserPermission::BodyUserPermission()
 	user_mang = false;
 	conn.connect(muposysdb::datconex);
 	
-	userlst = muposysdb::Users::select(conn,"",0,'D');
+	userlst = muposysdb::Users::select(conn,"",0);
 	for(auto u : *userlst)
 	{
 		if(u->downName(conn) and u->getPerson().downName1(conn)) u->getPerson().downName3(conn);
 	}
 	
-	permisslst = muposysdb::Permissions::select(conn,"",0,'D');
+	permisslst = muposysdb::Permissions::select(conn,"",50);
 	for(auto p : *permisslst)
 	{
 		p->downName(conn);
@@ -35,11 +35,12 @@ BodyUserPermission::~BodyUserPermission()
 	}	
 	delete userlst;
 	
-	/*for(auto p : *permisslst)
+	for(auto p : *permisslst)
 	{
 		delete p;
 	}
-	delete permisslst;*/
+	delete permisslst;
+	conn.close();
 }
 void BodyUserPermission::print(std::ostream& out)const
 {
@@ -65,6 +66,7 @@ void BodyUserPermission::print(std::ostream& out)const
 	out << "\t\t<form id=\"add\" class=\"modal-content animate\" action=\"user-permiss.cgi\" method=\"post\">\n";
 
 		out << "\t\t<div class=\"container\">\n";
+			out << "\t\t\t<input style=\"visibility:hidden\" type=\"checkbox\" id=\"cgi\" name=\"cgi\" value=\"cgi\" checked></br>";
 			out << "\t\t\t<label for=\"user\"><b>Usuario:</b></label>\n";
 			out << "\t\t\t<select name=\"user\" id=\"user\">\n";
 				std::string name;
@@ -105,16 +107,25 @@ void BodyUserPermission::print(std::ostream& out)const
 		out << "\t\t</br></br>\n";
 	
 		out << "\t\t<button type=\"submit\">Agregar</button>\n";
+	
 		out << "\t\t</div>\n";
 
 	out << "\t\t</form>";
 }
 
+
+UserPermission::UserPermission(BodyUserPermission& b) : Application(b)
+{	
+	connDB.connect(muposysdb::datconex);
+}
 UserPermission::~UserPermission()
 {
-}
-UserPermission::UserPermission(const BodyUserPermission& b) : Application(b)
-{
+	connDB.close();	
+	for(auto u : *userlst)
+	{
+		delete u;
+	}	
+	delete userlst;
 }
 	
 
@@ -134,14 +145,76 @@ int UserPermission::main(std::ostream& out)
 	cgicc::form_iterator itCGI = formData.getElement("cgi"); 
 	if( !itCGI->isEmpty() && itCGI != (*formData).end()) 
 	{
+		out << "Running ..\n";
+		if(methode(out))
+		{
+			head.redirect(0,"/user-mang/permissions/user-permiss.cgi");
+		}
+		else
+		{
+			//head.redirect(0,"/user-mang/permissions/user-permiss.cgi?failure");
+		}
+		head.print(out);
+	}
+	else 
+	{
+		print(out);
+	}
+
+	return EXIT_SUCCESS;
+}
+bool UserPermission::methode(std::ostream& out)
+{
+	cgicc::form_iterator itUser = formData.getElement("user"); 
+	if( !itUser->isEmpty() && itUser != (*formData).end()) 
+	{
 		
 	}
 	else 
 	{
-		print(std::cout);
-	}	
+		return false;
+	}
+	
+	cgicc::form_iterator itPermss = formData.getElement("permissions"); 
+	if( !itPermss->isEmpty() && itPermss != (*formData).end()) 
+	{
+		
+	}
+	else 
+	{
+		return false;
+	}
 
-	return EXIT_SUCCESS;
+	//out << **itUser << " -- "  << **itPermss << "\n";
+	try
+	{
+		std::string strsql = "name = '" + **itUser + "'";
+		userlst = muposysdb::Users::select(connDB,strsql,0,'D');
+		if(userlst != NULL)
+		{
+			for(auto u : *userlst)
+			{
+				if(u->downName(connDB) and u->getPerson().downName1(connDB)) u->getPerson().downName3(connDB);
+			}
+		}
+		else
+		{
+			return false;
+		}
+		if(userlst->size() != 1) return false;
+		
+		muposysdb::User_Permission up;
+		if(not up.insert(connDB,userlst->front()->getPerson().getEnte().getID(),**itPermss)) return false;
+		
+		connDB.commit();
+	}
+	catch(std::exception& e)
+	{
+		out << "Error : " << e.what() << "</br>\n";
+		return false;
+	}
+	
+	return true;
 }
 
 }

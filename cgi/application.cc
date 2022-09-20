@@ -43,7 +43,7 @@ void BodyApplication::print(std::ostream& out)const
 Application::~Application()
 {
 }
-Application::Application(const BodyApplication& b) : muposys::HTML(b)
+Application::Application(BodyApplication& b) : muposys::HTML(b)
 {
 	head.title = "Multi-Porpuse Software System";
 	head.charset("UTF-8");

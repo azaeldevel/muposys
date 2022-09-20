@@ -24,7 +24,7 @@ void v0_apidb()
 	octetos::db::maria::Connector connmaria;
 	bool flag = connmaria.connect(muposysdb::datconex);
 	if(flag)
-	{		
+	{
 		CU_ASSERT(flag);
 		
 		//if(verbose) std::cout << "Listando los que tiene 8 con 5 registro maximo." << std::endl;
@@ -63,8 +63,9 @@ void v0_apidb()
 				delete u;
 			}
 		}
-		delete lst;
+		delete userlst;
 
+		/*
 		std::vector<muposysdb::Permissions*>* permisslst = muposysdb::Permissions::select(connmaria,"",0,'D');
 		if(permisslst != NULL)
 		{
@@ -82,26 +83,38 @@ void v0_apidb()
 			}
 		}
 		delete permisslst;
-
+		*/
 		
 		muposysdb::Permissions permss;
 		int randNumber = randInt(generator);
-		std::string name_perss = "permss-" + std::to_string (randNumber);
-		std::string brief_perss = "Prueba de muposys " + std::to_string (randNumber);
+		std::string name_perss = "permss-" + std::to_string(randNumber);
+		std::string brief_perss = "Prueba de muposys " + std::to_string(randNumber);
 		CU_ASSERT(permss.insert(connmaria,name_perss,brief_perss));
-
 		
-		muposysdb::Users root(1);
+		randNumber = randInt(generator);
+		muposysdb::Entities ente;
+		ente.insert(connmaria);
+		
+		muposysdb::Persons person;
+		std::string name_person = "person-" + std::to_string(randNumber);
+		CU_ASSERT(person.insert(connmaria,ente,name_person));
+		name_person = "ap-" + std::to_string(randNumber);
+		CU_ASSERT(person.upName3(connmaria,name_person));
+		
+		muposysdb::Users user;
+		randNumber = randInt(generator);
+		std::cout << "Person : " << person.getEnte().getID() << "\n";
+		std::string name_user = "user-" + std::to_string(randNumber);
+		CU_ASSERT(user.insert(connmaria,person,name_user));
 		muposysdb::User_Permission usr_permss;
-		CU_ASSERT(usr_permss.insert(connmaria,1,permss));
-
+		CU_ASSERT(usr_permss.insert(connmaria,user.getPerson().getEnte().getID(),permss));
 		
-		
+		std::cout << "Finally operation 1\n";
 		connmaria.commit();
 		connmaria.close();
+		std::cout << "Finally operation 2\n";
 	}
-	
-	
+	std::cout << "Finally operation 3\n";	
 }
 
 
