@@ -140,29 +140,20 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 	}
 	bool Session::addregister(muposys::http::db::Conector& conn)
 	{
-		//session = id;
-		//std::cout << "Step 1\n";
-		unsigned char digest[MD5_DIGEST_LENGTH];
+		/*unsigned char digest[MD5_DIGEST_LENGTH];
 		char mdString[33];
-				//std::cout << "Step 2\n";
-				//std::cout << "Step 3\n";
 				time_t now = time(0);
 				char* dt = ctime(&now);
-				//std::cout << "Step 4\n";
 				std::string md5semilla = host + "-";
-				//std::cout << "Step 5\n";
 				md5semilla += dt;
-				//std::cout << "Step 6\n";
 				MD5((unsigned char*)md5semilla.c_str(), strlen(md5semilla.c_str()), (unsigned char*)&digest);
 				for(int i = 0; i < 16; i++)
 				{
 					sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
 				}
-				//std::cout << "mdString : " << mdString << "\n";
-				//session = mdString;
-				   
+				   */
 		   		//std::cout << "Inserted : (" << host << ") - (" << mdString << ")<br>";
-		   		if(session.insert(conn,host,mdString,std::to_string(timeSinceEpochMillisec())))
+		   		if(session.insert(conn,host,"---",std::to_string(timeSinceEpochMillisec())))
 		   		{
 		   			//std::cout << "Inserted addr: (" << host << ") <br>";
 		   			if(session.downloadIDs(conn))

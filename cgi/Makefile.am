@@ -11,7 +11,7 @@ AM_CFLAGS =\
 	 -g
 
 
-lib_LTLIBRARIES = libmuposys-http.la libmuposys-server.la libmuposys-html.la
+lib_LTLIBRARIES = libmuposys-server.la libmuposys-html.la
 
 if ENABLE_HOLE
 MODULES=login.cgi logout.cgi user-register.cgi application.cgi
@@ -24,15 +24,15 @@ bin_PROGRAMS = $(MODULES)
 
 if WITH_MARIADB
 DBLIBS = $(OCTETOS_DB_MARIA_LIBS)
-DEFINES = $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
+DBFLAGS = $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
 endif
 if WITH_MYSQL
 DBLIBS = $(OCTETOS_DB_MYSQL_LIBS)
-DEFINES = $(OCTETOS_DB_MYSQL_CFLAGS) -DMYSQL
+DBFLAGS = $(OCTETOS_DB_MYSQL_CFLAGS) -DMYSQL
 endif
 if WITH_POSTGRESQL
 DBLIBS = $(OCTETOS_DB_POSTGRESQL_LIBS)
-DEFINES = $(OCTETOS_DB_POSTGRESQL_CFLAGS) -DPOSTGRESQL
+DBFLAGS = $(OCTETOS_DB_POSTGRESQL_CFLAGS) -DPOSTGRESQL
 endif
 
 
@@ -46,6 +46,8 @@ if WITH_LOWWORD
 DEFINESBD = -DOCTETOS_DB_LOWWORD
 endif
 
+LIB = $(DBLIBS) $(SQLITE3_LIBS) $(CGICC_LIBS)
+FLAGS = $(DBFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINESBD)
 
 $(top_builddir)/cgi/http : Makefile.am
 	cp $(top_srcdir)/cgi/http $@
@@ -56,38 +58,33 @@ $(top_builddir)/tests/http : Makefile.am
 BUILT_SOURCES = $(top_builddir)/cgi/http $(top_builddir)/tests/http
 
 
-libmuposys_http_la_LDFLAGS = 
-libmuposys_http_la_SOURCES = http.cc http-db.cc Exception.cc
-libmuposys_http_la_CXXFLAGS = $(DEFINESBD)
-libmuposys_http_la_LIBADD = $(DBLIBS)
-
-libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINES) $(DEFINESBD)
+libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(FLAGS) 
 libmuposys_server_la_LDFLAGS = 
-libmuposys_server_la_SOURCES = login.cc application.cc logout.cc user-mang/permissions/add.cc user-mang/permissions/user-permiss.cc
-libmuposys_server_la_LIBADD =  libmuposys-http.la  libmuposys-html.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
+libmuposys_server_la_SOURCES = http.cc http-db.cc Exception.cc login.cc application.cc logout.cc user-mang/permissions/add.cc user-mang/permissions/user-permiss.cc
+libmuposys_server_la_LIBADD =  libmuposys-html.la  $(LIB)
 
 libmuposys_html_la_LDFLAGS = 
 libmuposys_html_la_SOURCES = html.cc
-libmuposys_html_la_CXXFLAGS = $(DEFINESBD)
-libmuposys_html_la_LIBADD = $(DBLIBS)
+libmuposys_html_la_CXXFLAGS = $(FLAGS)
+libmuposys_html_la_LIBADD = $(LIB)
 
-login_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
-login_cgi_LDADD =  libmuposys-http.la libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS) 
+login_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir) 
+login_cgi_LDADD =  libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB) 
 login_cgi_SOURCES = login-main.cc 
 
 if ENABLE_HOLE
 application_cgi_SOURCES = application-main.cc
-application_cgi_LDADD = libmuposys-html.la libmuposys-http.la libmuposys-server.la $(DBLIBS)  $(SQLITE3_LIBS)  $(CGICC_LIBS) 
-application_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
+application_cgi_LDADD = libmuposys-html.la libmuposys-server.la $(LIB)
+application_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
 endif
 
 logout_cgi_SOURCES = logout-main.cc  
-logout_cgi_LDADD =   libmuposys-http.la libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(SQLITE3_LIBS)  $(CGICC_LIBS) $(DBLIBS)
-logout_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINES) $(DEFINESBD)  -I$(top_builddir)
+logout_cgi_LDADD = libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
+logout_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
 
-user_register_cgi_LDADD = $(SQLITE3_LIBS) $(CGICC_LIBS) $(DBLIBS) libmuposys-http.la $(top_builddir)/apidb/libmuposys-db.la 
+user_register_cgi_LDADD = $(LIB) libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la 
 user_register_cgi_LDFLAGS = 
-user_register_cgi_CXXFLAGS = $(SQLITE3_CFLAGS) $(DEFINES) $(DEFINESBD)
+user_register_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS)
 user_register_cgi_SOURCES = user-register.cc 
 
 

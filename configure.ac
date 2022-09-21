@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.8.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.9.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
@@ -50,7 +50,7 @@ LT_INIT([win32-dll])
 PKG_CHECK_MODULES(CGICC, [cgicc])
 PKG_CHECK_MODULES(SQLITE3, [sqlite3])
 PKG_CHECK_MODULES(OPENSSL, [openssl])
-PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
+dnl PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
 dnl PKG_CHECK_MODULES(GLIB, [glibmm])
 
@@ -113,6 +113,7 @@ AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-highword], [Define el tamno de 
 
 AM_CONDITIONAL(WITH_LOWWORD, test x"$with_mediumword" = "xyes")
 AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-lowword], [Define el tamno de los datos usados.]))
+
 
 
 
