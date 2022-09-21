@@ -68,7 +68,7 @@ void BodyUserPermission::print(std::ostream& out)const
 	out << "\t\t<form id=\"add\" class=\"modal-content animate\" action=\"user-permiss.cgi\" method=\"post\">\n";
 
 		out << "\t\t<div class=\"container\">\n";
-			out << "\t\t\t<input style=\"visibility:hidden\" type=\"checkbox\" id=\"cgi\" name=\"cgi\" value=\"cgi\" checked></br>";
+			out << "\t\t\t<input style=\"visibility:hidden\" type=\"checkbox\" id=\"cgi\" name=\"cgi\" value=\"cgi\" checked></br>\n";
 			out << "\t\t\t<label for=\"user\"><b>Usuario:</b></label>\n";
 			out << "\t\t\t<select name=\"user\" id=\"user\">\n";
 				std::string name;
@@ -93,8 +93,7 @@ void BodyUserPermission::print(std::ostream& out)const
 			out << "\t\t\t<label for=\"permissions\"><b>Permisos:</b></label>\n";
 			out << "\t\t\t<select name=\"permissions\" id=\"permissions\">\n";
 			try
-			{				
-
+			{
 				if(permisslst != NULL)
 				{
 					for(auto p : *permisslst)

@@ -56,17 +56,17 @@ $(top_builddir)/tests/http : Makefile.am
 BUILT_SOURCES = $(top_builddir)/cgi/http $(top_builddir)/tests/http
 
 
-libmuposys_http_la_LDFLAGS = -static
+libmuposys_http_la_LDFLAGS = 
 libmuposys_http_la_SOURCES = http.cc http-db.cc Exception.cc
 libmuposys_http_la_CXXFLAGS = $(DEFINESBD)
 libmuposys_http_la_LIBADD = $(DBLIBS)
 
 libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINES) $(DEFINESBD)
-libmuposys_server_la_LDFLAGS = -static
+libmuposys_server_la_LDFLAGS = 
 libmuposys_server_la_SOURCES = login.cc application.cc logout.cc user-mang/permissions/add.cc user-mang/permissions/user-permiss.cc
 libmuposys_server_la_LIBADD =  libmuposys-http.la  libmuposys-html.la  $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(DBLIBS) 
 
-libmuposys_html_la_LDFLAGS = -static
+libmuposys_html_la_LDFLAGS = 
 libmuposys_html_la_SOURCES = html.cc
 libmuposys_html_la_CXXFLAGS = $(DEFINESBD)
 libmuposys_html_la_LIBADD = $(DBLIBS)
