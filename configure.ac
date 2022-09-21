@@ -5,7 +5,7 @@ AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
 AC_PROG_CXX
 
-
+LT_INIT
 
 
 dnl ***************************************************************************
