@@ -88,4 +88,8 @@ user_register_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS)
 user_register_cgi_SOURCES = user-register.cc 
 
 
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = muposys.pc
+
+EXTRA_DIST = muposys.pc.in
 
