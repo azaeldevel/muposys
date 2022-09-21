@@ -121,10 +121,10 @@ AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-lowword], [Define el tamno de l
 AC_OUTPUT([
 Makefile
 apidb/Makefile
-cgi/muposys.pc
 src/Makefile
 cgi/Makefile
 cgi/user-mang/Makefile
 cgi/user-mang/permissions/Makefile
+cgi/muposys.pc
 tests/Makefile
 ])
