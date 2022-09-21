@@ -27,6 +27,7 @@ public:
 	virtual int main(std::ostream& out = std::cout);
 	
 	Application(BodyApplication&);
+	Application(const BodyApplication&);
 	~Application();
 
 private:	

@@ -231,7 +231,8 @@ HTML::HTML() : body(NULL), conn(muposys::http::db::database_file)
 {
 }
 
-HTML::HTML(Body& b) : body(&b), conn(muposys::http::db::database_file)
+
+HTML::HTML(const Body& b) : body(&b), conn(muposys::http::db::database_file)
 {
 }
 

@@ -63,13 +63,42 @@ void v0_apidb()
 				delete u;
 			}
 		}
+<<<<<<< HEAD
 		delete userlst;
 		
 		muposysdb::Permissions permss;
 		int randNumber = randInt(generator);
 		std::string name_perss = "permss-" + std::to_string(randNumber);
 		std::string brief_perss = "Prueba de muposys " + std::to_string(randNumber);
+=======
+		delete lst;
+
+		std::vector<muposysdb::Permissions*>* permisslst = muposysdb::Permissions::select(connmaria,"",0,'D');
+		if(permisslst != NULL)
+		{
+		    for(auto p : *permisslst)
+		    {
+				if(p->downBrief(connmaria)) 
+				{
+					CU_ASSERT(true);
+					std::cout << p->getName() << " | " << p->getBrief() << "\n";
+				}
+		    }
+			for(auto p : *permisslst)
+			{
+				delete p;
+			}
+		}
+		delete permisslst;
+
+		
+		muposysdb::Permissions permss;
+		int randNumber = randInt(generator);
+		std::string name_perss = "permss-" + std::to_string (randNumber);
+		std::string brief_perss = "Prueba de muposys " + std::to_string (randNumber);
+>>>>>>> e215d7f8f6384cebc3a5031bcb5d589ac09e3779
 		CU_ASSERT(permss.insert(connmaria,name_perss,brief_perss));
+
 		
 		randNumber = randInt(generator);
 		muposysdb::Entities ente;

@@ -88,14 +88,13 @@ void BodyUserPermission::print(std::ostream& out)const
 					}
 				}
 			out << "\t\t\t</select>\n";
-
-			out << "\t\t\t</br></br>\n";
-			
+			out << "\t\t\t</br></br>\n";			
 			std::cout << "count : " << permisslst->size() << "</br>\n";
 			out << "\t\t\t<label for=\"permissions\"><b>Permisos:</b></label>\n";
 			out << "\t\t\t<select name=\"permissions\" id=\"permissions\">\n";
 			try
 			{				
+
 				if(permisslst != NULL)
 				{
 					for(auto p : *permisslst)
@@ -123,7 +122,7 @@ void BodyUserPermission::print(std::ostream& out)const
 		out << "\t\t</br></br>\n";
 	
 		out << "\t\t<button type=\"submit\">Agregar</button>\n";
-	
+
 		out << "\t\t</div>\n";
 
 	out << "\t\t</form>";

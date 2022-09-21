@@ -126,7 +126,7 @@ namespace muposys
 	{
 	public:
 		HTML();
-		HTML(Body&);
+		HTML(const Body&);
 
 		
 		
@@ -134,7 +134,7 @@ namespace muposys
 		virtual int main(std::ostream& out)  = 0;
 	private:
 	protected:
-		Body* body; 
+		const Body* body; 
 		Head head;
 		muposys::http::db::Conector conn;
 		muposys::http::Session session;
