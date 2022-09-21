@@ -17,7 +17,9 @@ BodyUserPermission::BodyUserPermission()
 	userlst = muposysdb::Users::select(conn,"",0);
 	for(auto u : *userlst)
 	{
-		if(u->downName(conn) and u->getPerson().downName1(conn)) u->getPerson().downName3(conn);
+		u->downName(conn);
+		u->getPerson().downName1(conn);
+		u->getPerson().downName3(conn);
 	}
 	
 	permisslst = muposysdb::Permissions::select(conn,"",50);
@@ -89,8 +91,11 @@ void BodyUserPermission::print(std::ostream& out)const
 
 			out << "\t\t\t</br></br>\n";
 			
+			std::cout << "count : " << permisslst->size() << "</br>\n";
 			out << "\t\t\t<label for=\"permissions\"><b>Permisos:</b></label>\n";
 			out << "\t\t\t<select name=\"permissions\" id=\"permissions\">\n";
+			try
+			{				
 				if(permisslst != NULL)
 				{
 					for(auto p : *permisslst)
@@ -102,6 +107,17 @@ void BodyUserPermission::print(std::ostream& out)const
 						out << "</option>\n";
 					}
 				}
+			}
+			catch(const std::exception& e)
+			{
+				out << "Error : " << e.what() << "\n";	
+				return;
+			}
+			catch(...)
+			{
+				out << "Error : Desconocido\n";	
+				return;
+			}
 			out << "\t\t\t</select>\n";
 	
 		out << "\t\t</br></br>\n";
@@ -112,6 +128,12 @@ void BodyUserPermission::print(std::ostream& out)const
 
 	out << "\t\t</form>";
 }
+
+
+
+
+
+
 
 
 UserPermission::UserPermission(BodyUserPermission& b) : Application(b)
@@ -145,20 +167,48 @@ int UserPermission::main(std::ostream& out)
 	cgicc::form_iterator itCGI = formData.getElement("cgi"); 
 	if( !itCGI->isEmpty() && itCGI != (*formData).end()) 
 	{
-		out << "Running ..\n";
-		if(methode(out))
+		//out << "Running ..\n";
+		bool flag;
+		try
+		{
+			flag = methode(out);
+		}
+		catch(const std::exception& e)
+		{
+			out << "Error : " << e.what() << "\n";	
+			return false;
+		}
+		catch(...)
+		{
+			out << "Error : Desconocido\n";	
+			return false;
+		}
+		if(flag)
 		{
 			head.redirect(0,"/user-mang/permissions/user-permiss.cgi");
 		}
 		else
 		{
-			//head.redirect(0,"/user-mang/permissions/user-permiss.cgi?failure");
+			head.redirect(0,"/user-mang/permissions/user-permiss.cgi?failure");
 		}
 		head.print(out);
 	}
 	else 
-	{
-		print(out);
+	{		
+		try
+		{
+			print(out);
+		}
+		catch(const std::exception& e)
+		{
+			out << "Error : " << e.what() << "\n";	
+			return false;
+		}
+		catch(...)
+		{
+			out << "Error : Desconocido\n";	
+			return false;
+		}
 	}
 
 	return EXIT_SUCCESS;
@@ -190,21 +240,20 @@ bool UserPermission::methode(std::ostream& out)
 	{
 		std::string strsql = "name = '" + **itUser + "'";
 		userlst = muposysdb::Users::select(connDB,strsql,0,'D');
-		if(userlst != NULL)
+		if(not userlst->size()) return false;
+		if(userlst->size() != 1) return false;
+		muposysdb::Users* user = userlst->front();
+		if(user->downName(connDB) and user->getPerson().downName1(connDB)) 
 		{
-			for(auto u : *userlst)
-			{
-				if(u->downName(connDB) and u->getPerson().downName1(connDB)) u->getPerson().downName3(connDB);
-			}
+			user->getPerson().downName3(connDB);
 		}
 		else
 		{
 			return false;
 		}
-		if(userlst->size() != 1) return false;
 		
 		muposysdb::User_Permission up;
-		if(not up.insert(connDB,userlst->front()->getPerson().getEnte().getID(),**itPermss)) return false;
+		if(not up.insert(connDB,user->getPerson().getEnte().getID(),**itPermss)) return false;
 		
 		connDB.commit();
 	}
