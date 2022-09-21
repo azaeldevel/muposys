@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+includedir=@prefix@/include
+
+Name: muposys
+Description: Multi-Porpuse Software System
+Version: @VERSION@
+Requires: libconfig++
+Libs: -L${libdir} -loctetos-core -loctetos-db-abstract
+Cflags: -I${includedir}
