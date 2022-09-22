@@ -76,5 +76,6 @@ install-data-hook:
 install-exec-hook:
 	echo $(bindir)
 	chown $(USER_GROUP) $(bindir)/*.cgi
+
 endif
 
