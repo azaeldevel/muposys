@@ -73,6 +73,7 @@ install-data-hook:
 	mv $(bindir)/user-permiss.cgi $(bindir)/user-mang/permissions/
 
 install-exec-hook:
+	echo $(bindir)
 	chown $(USER_GROUP) $(bindir)/*.cgi
 
 
