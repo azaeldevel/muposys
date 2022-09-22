@@ -13,7 +13,7 @@ AM_CFLAGS =\
 
 lib_LTLIBRARIES = libmuposys-server.la
 
-if ENABLE_HOLE
+if ENABLE_DEVEL
 MODULES=login.cgi logout.cgi user-register.cgi application.cgi
 else 
 MODULES=login.cgi logout.cgi user-register.cgi 
@@ -68,7 +68,7 @@ login_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
 login_cgi_LDADD =  libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB) 
 login_cgi_SOURCES = login-main.cc 
 
-if ENABLE_HOLE
+if ENABLE_DEVEL
 application_cgi_SOURCES = application-main.cc
 application_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
 application_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)

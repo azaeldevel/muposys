@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.22.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.23.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
@@ -85,6 +85,8 @@ if test "x$enable_devel" = "xyes"; then
 	dnl AC_SUBST([ENABLE_DEVEL],[true])
 	AC_DEFINE_UNQUOTED([ENABLE_DEVEL], [], [Soporte de desarrollador activo])
 	AM_CONDITIONAL(ENABLE_DEVEL, test x"$enable_devel" = "xyes")
+else
+	AM_CONDITIONAL(ENABLE_DEVEL, test x"$enable_devel" = "xno")
 fi
 
 AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
