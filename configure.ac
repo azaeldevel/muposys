@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.24.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.25.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
@@ -124,10 +124,11 @@ AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-lowword], [Define el tamno de l
 AC_OUTPUT([
 Makefile
 apidb/Makefile
+apidb/muposys-apidb.pc
 src/Makefile
 cgi/Makefile
 cgi/user-mang/Makefile
 cgi/user-mang/permissions/Makefile
-cgi/muposys.pc
+cgi/muposys-cgi.pc
 tests/Makefile
 ])

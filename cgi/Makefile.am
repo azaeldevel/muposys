@@ -85,7 +85,7 @@ user_register_cgi_SOURCES = user-register.cc
 
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = muposys.pc
+pkgconfig_DATA = muposys-cgi.pc
 
-EXTRA_DIST = muposys.pc.in
+EXTRA_DIST = muposys-cgi.pc.in
 

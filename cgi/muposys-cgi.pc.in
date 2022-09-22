@@ -3,11 +3,11 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 datarootdir=@datarootdir@
 datadir=@datadir@
-includedir=@prefix@/include
+includedir=@includedir@
 
-Name: muposys
-Description: Multi-Porpuse Software System
+Name: muposys-cgi
+Description: Multi-Porpuse Software System CGI modules
 Version: @VERSION@
 Requires: libconfig++
-Libs: -L${libdir} -loctetos-core -loctetos-db-abstract
+Libs: -L${libdir} -cgicc -lsqlite3
 Cflags: -I${includedir}

@@ -9,21 +9,21 @@ AM_CFLAGS =\
 	 -g
 
 
-noinst_LTLIBRARIES = libmuposys-db.la
+noinst_LTLIBRARIES = libmuposys-apidb.la
 
 
 
 if WITH_MARIADB
 DBLIBS = $(OCTETOS_DB_MARIA_LIBS)
-DEFINES = $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
+DBFLAGS = $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
 endif
 if WITH_MYSQL
 DBLIBS = $(OCTETOS_DB_MYSQL_LIBS)
-DEFINES = $(OCTETOS_DB_MYSQL_CFLAGS) -DMYSQL
+DBFLAGS = $(OCTETOS_DB_MYSQL_CFLAGS) -DMYSQL
 endif
 if WITH_POSTGRESQL
 DBLIBS = $(OCTETOS_DB_POSTGRESQL_LIBS)
-DEFINES = $(OCTETOS_DB_POSTGRESQL_CFLAGS) -DPOSTGRESQL
+DBFLAGS = $(OCTETOS_DB_POSTGRESQL_CFLAGS) -DPOSTGRESQL
 endif
 
 
@@ -37,6 +37,8 @@ if WITH_LOWWORD
 DEFINESBD = -DOCTETOS_DB_LOWWORD
 endif
 
+LIB = $(DBLIBS) $(SQLITE3_LIBS) $(CGICC_LIBS)
+FLAGS = $(DBFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINESBD)
 
 $(top_builddir)/apidb/muposysdb.cpp : Makefile.am
 	$(top_srcdir)/apidb/building-apidb $(top_srcdir)  $(top_builddir)/apidb
@@ -45,11 +47,15 @@ $(top_builddir)/apidb/muposysdb.cpp : Makefile.am
 
 BUILT_SOURCES = $(top_builddir)/apidb/muposysdb.cpp 
 
-libmuposys_db_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(OPENSSL_CFLAGS) $(DEFINES) $(DEFINESBD)
-libmuposys_db_la_LDFLAGS = -static
-libmuposys_db_la_SOURCES = $(top_builddir)/apidb/muposysdb.cpp 
-libmuposys_db_la_LIBADD =  $(OPENSSL_LIBS) $(DBLIBS) 
+libmuposys_apidb_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(FLAGS)
+libmuposys_apidb_la_SOURCES = $(top_builddir)/apidb/muposysdb.cpp 
+libmuposys_apidb_la_LIBADD =  $(LIB)
 
+
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = muposys-apidb.pc
+
+EXTRA_DIST = muposys-apidb.pc.in
 
 
 
