@@ -89,3 +89,7 @@ pkgconfig_DATA = muposys-cgi.pc
 
 EXTRA_DIST = muposys-cgi.pc.in
 
+muposys_includedir = $(includedir)/muposys
+muposys_include_HEADERS = Exception.hh http.hh http-db.hh html.hh login.hh application.hh logout.hh
+
+
