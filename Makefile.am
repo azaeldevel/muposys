@@ -64,9 +64,7 @@ install-data-hook:
 	chown $(USER_GROUP) -R $(bindir)/js
 	chown $(USER_GROUP) -R $(bindir)/user-mang
 	mkdir -p $(bindir)/theme
-	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur
-	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Night
-	cd $(bindir)/theme && tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz Mkos-Big-Sur-Panel-white
+	tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz -C $(bindir)/theme
 	chown $(USER_GROUP) -R $(bindir)/theme
 	mv $(bindir)/add.cgi $(bindir)/user-mang/permissions/
 	mv $(bindir)/user-permiss.cgi $(bindir)/user-mang/permissions/
