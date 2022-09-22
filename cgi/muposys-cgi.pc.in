@@ -9,5 +9,5 @@ Name: muposys-cgi
 Description: Multi-Porpuse Software System CGI modules
 Version: @VERSION@
 Requires: libconfig++
-Libs: -L${libdir} -cgicc -lsqlite3
+Libs: -L${libdir} -lcgicc -lsqlite3
 Cflags: -I${includedir}
