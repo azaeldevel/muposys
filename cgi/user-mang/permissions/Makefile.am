@@ -40,11 +40,11 @@ LIB = $(DBLIBS) $(SQLITE3_LIBS) $(CGICC_LIBS)
 FLAGS = $(DBFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(DEFINESBD)
 
 add_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
-add_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB) 
+add_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB) 
 add_cgi_SOURCES = add-main.cc 
 
 user_permiss_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
-user_permiss_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la 
+user_permiss_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la 
 user_permiss_cgi_SOURCES = user-permiss-main.cc 
 
 

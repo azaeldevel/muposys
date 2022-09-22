@@ -30,7 +30,7 @@ LIB = $(DBLIBS) $(SQLITE3_LIBS) $(CGICC_LIBS) $(CUNIT_LIBS)
 FLAGS = $(DBFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(CUNIT_CFLAGS) $(DEFINESBD)
 
 v0_LDFLAGS =
-v0_LDADD = $(LIB) $(top_builddir)/apidb/libmuposys-db.la $(top_builddir)/cgi/libmuposys-server.la
+v0_LDADD = $(LIB) $(top_builddir)/apidb/libmuposys-apidb.la $(top_builddir)/cgi/libmuposys-server.la
 v0_CPPFLAGS = $(FLAGS) -DOCTETOS_CORE_V0 -I$(top_srcdir)/src
 v0_SOURCES = main.cc v0.cc
 		 

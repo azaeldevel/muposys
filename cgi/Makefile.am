@@ -65,20 +65,20 @@ libmuposys_server_la_LIBADD =  $(LIB)
 
 
 login_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir) 
-login_cgi_LDADD =  libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB) 
+login_cgi_LDADD =  libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB) 
 login_cgi_SOURCES = login-main.cc 
 
 if ENABLE_DEVEL
 application_cgi_SOURCES = application-main.cc
-application_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
+application_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB)
 application_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
 endif
 
 logout_cgi_SOURCES = logout-main.cc  
-logout_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
+logout_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB)
 logout_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
 
-user_register_cgi_LDADD = $(LIB) libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la 
+user_register_cgi_LDADD = $(LIB) libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la 
 user_register_cgi_LDFLAGS = 
 user_register_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS)
 user_register_cgi_SOURCES = user-register.cc 
