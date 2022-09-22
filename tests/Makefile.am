@@ -2,6 +2,20 @@
 check_PROGRAMS = v0
 TESTS= $(check_PROGRAMS)
 
+if WITH_MARIADB
+DBLIBS = $(OCTETOS_DB_MARIA_LIBS)
+DBFLAGS = $(OCTETOS_DB_MARIA_CFLAGS) -DMARIADB
+endif
+if WITH_MYSQL
+DBLIBS = $(OCTETOS_DB_MYSQL_LIBS)
+DBFLAGS = $(OCTETOS_DB_MYSQL_CFLAGS) -DMYSQL
+endif
+if WITH_POSTGRESQL
+DBLIBS = $(OCTETOS_DB_POSTGRESQL_LIBS)
+DBFLAGS = $(OCTETOS_DB_POSTGRESQL_CFLAGS) -DPOSTGRESQL
+endif
+
+
 if WITH_MEDIUMWORD
 DEFINESBD = -DOCTETOS_DB_MEDIUMWORD
 endif
@@ -12,9 +26,11 @@ if WITH_LOWWORD
 DEFINESBD = -DOCTETOS_DB_LOWWORD
 endif
 
+LIB = $(DBLIBS) $(SQLITE3_LIBS) $(CGICC_LIBS) $(CUNIT_LIBS)
+FLAGS = $(DBFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(CUNIT_CFLAGS) $(DEFINESBD)
 
 v0_LDFLAGS =
-v0_LDADD = $(CUNIT_LIBS) $(LIBCONFIG_LIBS) $(SQLITE3_LIBS)  $(CGICC_LIBS) $(OPENSSL_LIBS) $(top_builddir)/cgi/libmuposys-http.la $(top_builddir)/apidb/libmuposys-db.la $(top_builddir)/cgi/libmuposys-html.la  $(top_builddir)/cgi/libmuposys-server.la
-v0_CPPFLAGS = $(CUNIT_CFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS) $(OPENSSL_CFLAGS) $(DEFINESBD) -DOCTETOS_CORE_V0 -I$(top_srcdir)/src
+v0_LDADD = $(LIB) $(top_builddir)/apidb/libmuposys-db.la $(top_builddir)/cgi/libmuposys-server.la
+v0_CPPFLAGS = $(FLAGS) -DOCTETOS_CORE_V0 -I$(top_srcdir)/src
 v0_SOURCES = main.cc v0.cc
 		 

@@ -11,7 +11,7 @@ AM_CFLAGS =\
 	 -g
 
 
-lib_LTLIBRARIES = libmuposys-server.la libmuposys-html.la
+lib_LTLIBRARIES = libmuposys-server.la
 
 if ENABLE_HOLE
 MODULES=login.cgi logout.cgi user-register.cgi application.cgi
@@ -60,29 +60,25 @@ BUILT_SOURCES = $(top_builddir)/cgi/http $(top_builddir)/tests/http
 
 libmuposys_server_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(FLAGS) 
 libmuposys_server_la_LDFLAGS = 
-libmuposys_server_la_SOURCES = http.cc http-db.cc Exception.cc login.cc application.cc logout.cc user-mang/permissions/add.cc user-mang/permissions/user-permiss.cc
-libmuposys_server_la_LIBADD =  libmuposys-html.la  $(LIB)
+libmuposys_server_la_SOURCES = html.cc http.cc http-db.cc Exception.cc login.cc application.cc logout.cc user-mang/permissions/add.cc user-mang/permissions/user-permiss.cc
+libmuposys_server_la_LIBADD =  $(LIB)
 
-libmuposys_html_la_LDFLAGS = 
-libmuposys_html_la_SOURCES = html.cc
-libmuposys_html_la_CXXFLAGS = $(FLAGS)
-libmuposys_html_la_LIBADD = $(LIB)
 
 login_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir) 
-login_cgi_LDADD =  libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB) 
+login_cgi_LDADD =  libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB) 
 login_cgi_SOURCES = login-main.cc 
 
 if ENABLE_HOLE
 application_cgi_SOURCES = application-main.cc
-application_cgi_LDADD = libmuposys-html.la libmuposys-server.la $(LIB)
+application_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
 application_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
 endif
 
 logout_cgi_SOURCES = logout-main.cc  
-logout_cgi_LDADD = libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
+logout_cgi_LDADD = libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la $(LIB)
 logout_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
 
-user_register_cgi_LDADD = $(LIB) libmuposys-html.la libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la 
+user_register_cgi_LDADD = $(LIB) libmuposys-server.la $(top_builddir)/apidb/libmuposys-db.la 
 user_register_cgi_LDFLAGS = 
 user_register_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS)
 user_register_cgi_SOURCES = user-register.cc 
