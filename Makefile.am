@@ -52,6 +52,7 @@ js_DATA=html/js/login.js html/js/muposys.js
 themedir=$(bindir)/js
 theme_DATA=html/js/login.js
 
+if ENABLE_DEVEL
 install-data-hook:
 	chmod a+w $(DATABASE)
 	chmod a+w $(bindir)/*.html
@@ -75,6 +76,5 @@ install-data-hook:
 install-exec-hook:
 	echo $(bindir)
 	chown $(USER_GROUP) $(bindir)/*.cgi
-
-
+endif
 
