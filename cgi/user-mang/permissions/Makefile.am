@@ -17,11 +17,11 @@ FLAGS = $(OCTETOS_DB_FLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS)
 
 
 add_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
-add_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB) 
+add_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-cgi.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB) 
 add_cgi_SOURCES = add-main.cc 
 
 user_permiss_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
-user_permiss_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-server.la $(top_builddir)/apidb/libmuposys-apidb.la 
+user_permiss_cgi_LDADD =  $(top_builddir)/cgi/libmuposys-cgi.la $(top_builddir)/apidb/libmuposys-apidb.la 
 user_permiss_cgi_SOURCES = user-permiss-main.cc 
 
 

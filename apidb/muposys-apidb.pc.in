@@ -8,6 +8,6 @@ includedir=@includedir@
 Name: muposys-apidb
 Description: Multi-Porpuse Software System for connecting to DB
 Version: @VERSION@
-Requires: libconfig++
-Libs: -L${libdir} -loctetos-db-maria
+Requires: -loctetos-db-abstract 
+Libs: -L${libdir} -lmuposys-apidb
 Cflags: -I${includedir}

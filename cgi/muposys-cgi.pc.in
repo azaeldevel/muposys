@@ -8,6 +8,6 @@ includedir=@includedir@
 Name: muposys-cgi
 Description: Multi-Porpuse Software System CGI modules
 Version: @VERSION@
-Requires: libconfig++
-Libs: -L${libdir} -lcgicc -lsqlite3
+Requires: -lcgicc -lsqlite3 
+Libs: -L${libdir} -lmuposys-cgi
 Cflags: -I${includedir}

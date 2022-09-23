@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.27.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.28.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
@@ -49,7 +49,7 @@ LT_INIT([win32-dll])
 
 PKG_CHECK_MODULES(CGICC, [cgicc])
 PKG_CHECK_MODULES(SQLITE3, [sqlite3])
-PKG_CHECK_MODULES(OPENSSL, [openssl])
+dnl PKG_CHECK_MODULES(OPENSSL, [openssl])
 dnl PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
 dnl PKG_CHECK_MODULES(GLIB, [glibmm])

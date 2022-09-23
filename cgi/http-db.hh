@@ -22,7 +22,7 @@ namespace muposys
 #elif defined DATABASE_ENGINE_POSTGRESQL
 	typedef octetos::db::postgresql::Connector Connector;
 #else
-	#error "Base de datos desconocida."
+	typedef octetos::db::Connector Connector;
 #endif
 
 namespace http
