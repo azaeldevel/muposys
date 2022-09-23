@@ -53,20 +53,19 @@ themedir=$(bindir)/js
 theme_DATA=html/js/login.js
 
 if ENABLE_DEVEL
+
 install-data-hook:
-	chmod a+w $(DATABASE)
 	chmod a+w $(bindir)/*.html
 	chmod a+w -R $(bindir)/css
 	chmod a+w -R $(bindir)/js
 	chmod a+w -R $(bindir)/user-mang
-	chown $(USER_GROUP) $(DATABASE)
+	chown $(USER_GROUP) $(DATABASE_DIR)
+	chown $(USER_GROUP) $(DATABASE_DIR)/$(DATABASE_FN)
+	chmod a+w $(DATABASE_DIR)/$(DATABASE_FN)
 	chown $(USER_GROUP) $(bindir)/*.html
 	chown $(USER_GROUP) -R $(bindir)/css
 	chown $(USER_GROUP) -R $(bindir)/js
 	chown $(USER_GROUP) -R $(bindir)/user-mang
-	pwd
-	echo $(top_srcdir)
-	echo $(bindir)
 	mkdir -p $(bindir)/theme
 	tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz -C $(bindir)/theme
 	chown $(USER_GROUP) -R $(bindir)/theme
@@ -74,7 +73,6 @@ install-data-hook:
 	mv $(bindir)/user-permiss.cgi $(bindir)/user-mang/permissions/
 
 install-exec-hook:
-	echo $(bindir)
 	chown $(USER_GROUP) $(bindir)/*.cgi
 
 endif

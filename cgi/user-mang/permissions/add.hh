@@ -2,14 +2,15 @@
 #ifndef MUPOSYS_PERMISSIONS_ADD_HH
 #define MUPOSYS_PERMISSIONS_ADD_HH
 
+
+
+
 #include <cstdlib>
 #include <iostream>
-#include <apidb/muposysdb.hpp>
 #include "cgicc/HTTPHTMLHeader.h"
 
 #include "../../http.hh"
 #include "../../html.hh"
-#include "config.h"
 
 
 namespace muposys::server

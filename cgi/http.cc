@@ -162,13 +162,13 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 			  		}
 			  		else
 			  		{
-			  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 						 return false;
 			  		}
 		   		}
 		   		else
 		   		{
-		  			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 					return false;
 		  		}
 

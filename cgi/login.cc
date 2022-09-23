@@ -53,9 +53,7 @@ bool Login::check()
 		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
 		return false;
 	}
-	
-   	//std::cout << "Step 2\n<br>";
-	
+		
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
 	{
@@ -68,18 +66,7 @@ bool Login::check()
 		return false;
 	}
 	
-#if defined MARIADB
-	octetos::db::maria::Connector conn;
-#elif defined MYSQL
-	octetos::db::mysql::Connector conn;
-#elif defined POSTGRESQL
-	octetos::db::postgresql::Connector conn;
-#else
-	#error "Base de datos desconocida."
-#endif
-
-	//std::cout << "Step 3\n<br>";
-	
+	Connector conn;	
 	conn.connect(muposysdb::datconex);
 	
 	muposysdb::Users* userbd;
@@ -105,10 +92,13 @@ bool Login::check()
 	if(userbd->checkpass(conn))
 	{
 		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
+		//std::cout << "check : Step 2.1\n<br>";
 		//std::cout << "userbd name : " << userbd->getName () << "<br>";
 		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
+			//std::cout << "check : Step 2.2\n<br>";
+			//std::cout << "password valided\n<br>";
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 			//muposys::http::Session session;
@@ -119,10 +109,10 @@ bool Login::check()
 				//std::cout << "Ya existe el cliente<br>\n";
 				return true;
 			}
-			
+			//std::cout << "check : Step 2.3\n<br>";
 			if(not session.addregister(CGI::conn))
 			{
-				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 				return false;
 			}
 			//std::cout << "Usuario registrado<br>";
@@ -141,6 +131,12 @@ bool Login::check()
 			delete usrlst;
 			return true;
 		}
+		else
+		{
+			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";			
+			if(userstr.compare(userbd->getName()) != 0) std::cout << userstr << " != " << userbd->getName () << "<br>";
+			if(password.compare(userbd->getPwdtxt()) != 0)std::cout << password << " != " << userbd->getPwdtxt () << "<br>";
+		}
 	}
 
 	delete usrlst->front();
@@ -151,17 +147,27 @@ bool Login::check()
 int Login::main(std::ostream& out)
 {
 	muposys::contenttype(out,"text","html");
-	if(check())
+	try
 	{
-		//out << "Location:/application.cgi\n\n";
-		head.redirect(0,"/application.cgi");
+		if(check())
+		{
+			//out << "Location:/application.cgi\n\n";
+			head.redirect(0,"/application.cgi");
+		}
+		else
+		{
+			//out << "Location:/login.html?failure\n\n";
+			head.redirect(0,"/login.html?failure");
+		}
+		head.print(out);
 	}
-	else
+	catch(const std::exception& e)
 	{
-		//out << "Location:/login.html?failure\n\n";
-		head.redirect(0,"/login.html?failure");
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";	
+		//out << "Error : " << e.what() << "<br>\n";
+		head.redirect(0,"/login.html?error");
+		head.print(out);
 	}
-	head.print(out);
 	
 	return EXIT_SUCCESS;
 }

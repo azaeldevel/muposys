@@ -227,13 +227,17 @@ void script::source(const char* s)
 
 
 
-HTML::HTML() : body(NULL), conn(muposys::http::db::database_file)
+HTML::HTML() : body(NULL), conn(muposys::http::db::Conector::database_file)
 {
 }
 
 
-HTML::HTML(const Body& b) : body(&b), conn(muposys::http::db::database_file)
+HTML::HTML(Body& b) : body(&b), conn(muposys::http::db::Conector::database_file)
 {
+}
+HTML::HTML(Body& b,const std::string t) : body(&b), conn(muposys::http::db::Conector::database_file)
+{
+	head.title = t;
 }
 
 void HTML::print(std::ostream& out) const
@@ -249,7 +253,7 @@ void HTML::print(std::ostream& out) const
 	out << "</html>\n";
 }
 
-CGI::CGI() : conn(muposys::http::db::database_file)
+CGI::CGI() : conn(muposys::http::db::Conector::database_file)
 {
 }
 CGI::~CGI()

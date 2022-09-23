@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.26.2-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.27.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
@@ -59,9 +59,12 @@ AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for parti
 	case $enableval in
 	  	archlinux)
 			AC_DEFINE([LINUX_ARCH], [], [Enable configuration for Arch-Linux])
-			AC_SUBST([DATABASE],[$datarootdir/http])
+			AC_SUBST([DATABASE_DIR],[$datarootdir])
+			AC_SUBST([DATABASE_FN],[http])
 			AC_SUBST([USER_GROUP],[http:http])
-			AC_DEFINE_UNQUOTED([DATABASE], ["$DATABASE"] ,[Full path for database file])
+			AC_DEFINE_UNQUOTED([DATABASE_DIR], ["$DATABASE_DIR"] ,[Full path for database file])
+			AC_DEFINE_UNQUOTED([DATABASE_FN], ["$DATABASE_FN"] ,[Full path for database file])
+			AC_DEFINE_UNQUOTED([DATABASE], ["$DATABASE_DIR/$DATABASE_FN"] ,[Full path for database file])
 		;;
 	  	debian) 
 			AC_DEFINE([LINUX_DEBIAN], [], [Enable configuration for Debian])
@@ -89,36 +92,37 @@ else
 	AM_CONDITIONAL(ENABLE_DEVEL, false)
 fi
 
-AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
-if test "x$with_mysql" = "xyes"; then 
-	PKG_CHECK_MODULES(OCTETOS_DB_MYSQL, [octetos-db-mysql])
-fi
-AM_CONDITIONAL(WITH_MYSQL, test x"$with_mysql" = "xyes")
 
-AC_ARG_WITH([mariadb], AS_HELP_STRING([--with-mariadb], [Soporta para MariDB.]))
-if test "x$with_mariadb" = "xyes"; then 
-	PKG_CHECK_MODULES(OCTETOS_DB_MARIA, [octetos-db-maria])
-fi
-AM_CONDITIONAL(WITH_MARIADB, test x"$with_mariadb" = "xyes")
-
-AC_ARG_WITH([postgresql], AS_HELP_STRING([--with-postgresql], [Soporta para PostgreSQL.]))
-if test "x$with_postgresql" = "xyes"; then 
-	PKG_CHECK_MODULES(OCTETOS_DB_POSTGRESQL, [octetos-db-postgresql])
-fi
-AM_CONDITIONAL(WITH_POSTGRESQL, test x"$with_postgresql" = "xyes")
-
-
-AM_CONDITIONAL(WITH_MEDIUMWORD, test x"$with_mediumword" = "xyes")
-AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-mediumword], [Define el tamno de los datos usados.]))
-
-AM_CONDITIONAL(WITH_HIGHWORD, test x"$with_mediumword" = "xyes")
-AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-highword], [Define el tamno de los datos usados.]))
-
-AM_CONDITIONAL(WITH_LOWWORD, test x"$with_mediumword" = "xyes")
-AC_ARG_WITH([mediumword], AS_HELP_STRING([--with-lowword], [Define el tamno de los datos usados.]))
-
-
-
+AC_ARG_ENABLE([database],[AS_HELP_STRING([--enable-database],[Enabling sopport for Database])])
+case $enableval in
+	maria)
+		PKG_CHECK_MODULES(OCTETOS_DB, [octetos-db-maria])
+		AM_CONDITIONAL(WITH_MARIADB,true)
+		AM_CONDITIONAL(WITH_MYSQL,false)
+		AM_CONDITIONAL(WITH_POSTGRESQL,false)
+		AC_DEFINE_UNQUOTED([DATABASE_ENGINE_MARIA], [], [Enabling Database Server MariaDB])
+		AC_DEFINE_UNQUOTED([OCTETOS_DB_MEDIUMWORD], [], [Enabling medium word size for database])
+	;;
+	mysql) 
+		PKG_CHECK_MODULES(OCTETOS_DB, [octetos-db-mysql])
+		AM_CONDITIONAL(WITH_MARIADB,false)
+		AM_CONDITIONAL(WITH_MYSQL,true)
+		AM_CONDITIONAL(WITH_POSTGRESQL,false)
+		AC_DEFINE_UNQUOTED([DATABASE_ENGINE_MYSQL], [], [Enabling Database Server MySQL])
+		AC_DEFINE_UNQUOTED([OCTETOS_DB_MEDIUMWORD], [], [Enabling medium word size for database])
+	;;
+	postgresql) 
+		PKG_CHECK_MODULES(OCTETOS_DB, [octetos-db-postgresql])
+		AM_CONDITIONAL(WITH_MARIADB,false)
+		AM_CONDITIONAL(WITH_MYSQL,false)
+		AM_CONDITIONAL(WITH_POSTGRESQL,true)
+		AC_DEFINE_UNQUOTED([DATABASE_ENGINE_POSTGRESQL], [], [Enabling Database Server PostgreSQL])
+		AC_DEFINE_UNQUOTED([OCTETOS_DB_MEDIUMWORD], [], [Enabling medium word size for database])
+	;;
+	*)
+		AC_MSG_ERROR([unknown option '$enable_database' for --enable-database])
+	;;
+esac
 
 
 AC_OUTPUT([

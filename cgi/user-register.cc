@@ -1,4 +1,7 @@
 
+
+#include "config.h"
+
 #include <apidb/muposysdb.hpp>
 
 #include "http.hh"
@@ -32,15 +35,9 @@ int validRegister(cgicc::Cgicc& cgi)
 	//verificar si existe usuario
 	it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"user");
 	std::string username = (*it).getValue();
-#if defined MARIADB
-	octetos::db::maria::Connector conn;
-#elif defined MYSQL
-	octetos::db::mysql::Connector conn;
-#elif defined POSTGRESQL
-	octetos::db::postgresql::Connector conn;
-#else
-	#error "Base dedatos desconocida."
-#endif
+
+	muposys::Connector conn;
+	
 	if(!conn.connect(muposysdb::datconex))
 	{
 		std::cout << "<h1>fallo la conexion</h1>\n";

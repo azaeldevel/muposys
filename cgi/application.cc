@@ -51,6 +51,13 @@ Application::Application(BodyApplication& b) : muposys::HTML(b)
 	head.css("/css/appearance/muposys.css");
 	head.css("/css/icons/Mkos-Big-Sur.css");
 }
+Application::Application(BodyApplication& b,const std::string t) : muposys::HTML(b,t)
+{
+	head.charset("UTF-8");
+	head.responsive("viewport","width=device-width, initial-scale=1");
+	head.css("/css/appearance/muposys.css");
+	head.css("/css/icons/Mkos-Big-Sur.css");
+}
 	
 void Application::print(std::ostream& out) const
 {

@@ -1,22 +1,37 @@
 #ifndef SYSAPP_DB_SQLITE_HH
 #define SYSAPP_DB_SQLITE_HH
 
+
+#include "config.h"
+
 #include <string>
 #include <vector>
+#include <filesystem>
+#include <apidb/muposysdb.hpp>
 
 #include "Exception.hh"
-#include "config.h"
 
 
 namespace muposys
 {
+
+#if defined DATABASE_ENGINE_MARIA
+	typedef octetos::db::maria::Connector Connector;
+#elif defined DATABASE_ENGINE_MYSQL
+	typedef octetos::db::mysql::Connector Connector;
+#elif defined DATABASE_ENGINE_POSTGRESQL
+	typedef octetos::db::postgresql::Connector Connector;
+#else
+	#error "Base de datos desconocida."
+#endif
+
 namespace http
 {
 namespace db
 {
 	class Variable;
 	
-	static const char* database_file = DATABASE;
+	
 	
     class Conector
     {
@@ -29,7 +44,7 @@ namespace db
 		*@brief Crean una conexion a la base de dato indicada
 		*@param filename Nombre de archivo de la base de datos.
 		*/
-        Conector(const std::string& filename);
+        Conector(const std::filesystem::path& filename);
         ~Conector();
 
 		/**
@@ -51,6 +66,9 @@ namespace db
 		bool begin();
 		bool commit();
 		bool rollback();
+
+
+		static std::filesystem::path database_file;
     };
     
 	/**

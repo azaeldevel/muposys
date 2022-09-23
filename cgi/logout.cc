@@ -32,7 +32,7 @@ Logout::~Logout()
 }
 bool Logout::check() const
 {
-	muposys::http::db::Conector conn(muposys::http::db::database_file);
+	muposys::http::db::Conector conn(muposys::http::db::Conector::database_file);
 	muposys::http::Session session;
 	conn.begin();
 	if(session.load(conn)) 

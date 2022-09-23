@@ -97,7 +97,7 @@ namespace db
         sql += TABLE_NAME + "(session,name,value) VALUES('";
         sql += std::to_string(s.getID()) + "','";
         sql += n + "','" + v + "')";
-        //std::cout << sql << "<br>";
+        std::cout << sql << "<br>";
         if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
@@ -145,14 +145,14 @@ namespace db
 		std::string sql = "INSERT INTO ";
         sql += TABLE_NAME + "(remote_addr,session,lasttime) VALUES('";
         sql += r + "','" + s + "','" + t + "')";
-        //std::cout << sql << "<br>";
+        std::cout << sql << "<br>";
         if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
         }
 		
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
 	bool Session::updateSession(Conector& connect,const std::string& str)
@@ -269,8 +269,8 @@ namespace db
 		
 		
 		
-		
-		
+	
+	std::filesystem::path Conector::database_file = DATABASE;
 		
 	
 	bool Conector::begin()
@@ -323,8 +323,8 @@ namespace db
         if( rc != SQLITE_OK ) 			
         {
         	//std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
-			//std::cout << "database : " << muposys::http::db::database_file << "<br>\n";
-        	//std::cout << getErrorMessage() << "<br>";
+			//std::cout << "database : " << muposys::http::db::Conector::database_file << "<br>\n";
+        	//std::cout << getErrorMessage() << "<br>\n";
             return false;			
         } 
         else 
@@ -357,7 +357,7 @@ namespace db
     {
         close();
     }
-    Conector::Conector(const std::string& dbname)
+    Conector::Conector(const std::filesystem::path& dbname)
     {
         serverConnector = NULL;
         int rc = sqlite3_open_v2(dbname.c_str(), (sqlite3**)&serverConnector,SQLITE_OPEN_READWRITE,NULL);
