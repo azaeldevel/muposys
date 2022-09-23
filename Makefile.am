@@ -75,5 +75,9 @@ install-data-hook:
 install-exec-hook:
 	chown $(USER_GROUP) $(bindir)/*.cgi
 
+uninstall-hook:
+	rm -r $(bindir)/*
+	rm -r $(DATABASE_DIR)
+
 endif
 
