@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.28.4-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.28.5-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])
@@ -54,6 +54,7 @@ dnl PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
 dnl PKG_CHECK_MODULES(GLIB, [glibmm])
 
+AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])
 
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
 	case $enableval in

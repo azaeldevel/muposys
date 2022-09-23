@@ -7,7 +7,11 @@
 #include <string>
 #include <vector>
 #include <filesystem>
-#include <apidb/muposysdb.hpp>
+#ifdef MUPOSYS
+	#include <apidb/muposysdb.hpp>
+#else
+	#include <muposys/muposysdb.hpp>
+#endif
 
 #include "Exception.hh"
 
