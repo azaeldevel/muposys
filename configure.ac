@@ -1,5 +1,5 @@
 
-AC_INIT(muposys, 0.28.1-alpha, azael.devel@gmail.com)
+AC_INIT(muposys, 0.28.3-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects])
 AM_SILENT_RULES([yes])

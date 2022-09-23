@@ -9,7 +9,7 @@ AM_CFLAGS =\
 	 -g
 
 
-noinst_LTLIBRARIES = libmuposys-apidb.la
+lib_LTLIBRARIES = libmuposys-apidb.la
 
 
 LIB = $(OCTETOS_DB_LIBS) $(SQLITE3_LIBS) $(CGICC_LIBS)
@@ -33,5 +33,7 @@ pkgconfig_DATA = muposys-apidb.pc
 
 EXTRA_DIST = muposys-apidb.pc.in
 
+muposys_includedir = $(includedir)/muposys
+muposys_include_HEADERS = $(top_builddir)/apidb/muposysdb.hpp
 
 
