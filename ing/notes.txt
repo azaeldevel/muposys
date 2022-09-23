@@ -4,6 +4,6 @@ https://www.gnome-look.org/p/1832892
 
 
 parametor de guion de configure
---disable-shared --enable-devel --enable-hole --enable-os=archlinux --with-tests --with-mediumword --with-mariadb 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0' --prefix=/srv --bindir=/srv/http --datarootdir=/srv/data --libdir=/etc/lib 
+--enable-static --disable-shared --enable-devel --enable-hole --enable-os=archlinux --with-tests --with-mediumword --with-mariadb 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0' --prefix=/srv --bindir=/srv/http --datarootdir=/srv/data --libdir=/etc/lib 
 
 --prefix=/srv --bindir=/srv/http --datarootdir=/srv/data --libdir=/usr/lib --includedir=/usr/include 

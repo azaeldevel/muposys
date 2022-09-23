@@ -33,7 +33,7 @@ pkgconfig_DATA = muposys-apidb.pc
 
 EXTRA_DIST = muposys-apidb.pc.in
 
-muposys_includedir = $(includedir)/muposys
+muposys_includedir = $(includedir)/muposys/apidb
 muposys_include_HEADERS = $(top_builddir)/apidb/muposysdb.hpp
 
 
