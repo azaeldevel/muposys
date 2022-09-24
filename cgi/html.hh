@@ -121,8 +121,23 @@ namespace muposys
 		 
 	};
 	
+	class Service
+	{
+	public:	
+		Service();
+					
+	private:
+		muposys::http::db::Conector connHttp;
+		muposys::http::Session session;
+		bool is_open_db;
 		
-	class HTML : public Tag
+	protected:
+		bool create_session();
+		bool has_session();
+		bool add(const char* varible,const char* value);
+		bool add(const std::string& varible,const std::string& value);
+	};
+	class HTML : public Tag, public Service
 	{
 	public:
 		HTML();
@@ -137,25 +152,19 @@ namespace muposys
 	protected:
 		Body* body; 
 		Head head;
-		muposys::http::db::Conector conn;
-		muposys::http::Session session;
 	};
 	
-	class CGI
+	class CGI : public Service
 	{
 	public:
 		CGI();
 		~CGI();
 		virtual int main(std::ostream& out)  = 0;
 		
-		bool check();
-
 	private:
 		
 	protected:
 		Head head;
-		muposys::http::db::Conector conn;
-		muposys::http::Session session;
 	};
 }
 

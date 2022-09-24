@@ -11,7 +11,7 @@ int Add::main(std::ostream& out)
 	out << "<html>\n";
 	head.print(out);
 	
-	if(not CGI::check()) 
+	if(not has_session()) 
 	{
 		head.redirect(0,"/login.html?failure");
 		head.print(out);

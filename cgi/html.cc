@@ -225,17 +225,50 @@ void script::source(const char* s)
 	src = s;
 }
 
+Service::Service() : is_open_db(false)
+{
+}
+bool Service::create_session()
+{
+	connHttp.open(muposys::http::db::Conector::database_file);
+	bool res = session.addregister(connHttp);
+	connHttp.close();
+	return res;
+}
+bool Service::has_session()
+{
+	connHttp.open(muposys::http::db::Conector::database_file);
+	bool res = session.load(connHttp);
+	connHttp.close();
+	return res;
+}
+bool Service::add(const char* varible,const char* value)
+{
+	connHttp.open(muposys::http::db::Conector::database_file);
+	muposys::http::db::Variable var;
+	bool res =  var.insert(connHttp,session.getSession(),varible,value);
+	connHttp.close();
+	return res;
+}
+bool Service::add(const std::string& varible,const std::string& value)
+{
+	connHttp.open(muposys::http::db::Conector::database_file);
+	muposys::http::db::Variable var;
+	bool res =  var.insert(connHttp,session.getSession(),varible.c_str(),value.c_str());
+	connHttp.close();
+	return res;
+}
 
 
-HTML::HTML() : body(NULL), conn(muposys::http::db::Conector::database_file)
+HTML::HTML() : body(NULL)
 {
 }
 
 
-HTML::HTML(Body& b) : body(&b), conn(muposys::http::db::Conector::database_file)
+HTML::HTML(Body& b) : body(&b)
 {
 }
-HTML::HTML(Body& b,const std::string t) : body(&b), conn(muposys::http::db::Conector::database_file)
+HTML::HTML(Body& b,const std::string t) : body(&b)
 {
 	head.title = t;
 }
@@ -253,17 +286,13 @@ void HTML::print(std::ostream& out) const
 	out << "</html>\n";
 }
 
-CGI::CGI() : conn(muposys::http::db::Conector::database_file)
+CGI::CGI() 
 {
 }
 CGI::~CGI()
 {
-	conn.close();
 }
-bool CGI::check()
-{
-	return session.load(conn);
-}
+
 
 
 }

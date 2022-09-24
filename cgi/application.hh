@@ -13,9 +13,11 @@ private:
 	
 public:
 	BodyApplication();
+	BodyApplication(bool);
 
 	virtual void print(std::ostream& out) const;
-	virtual void options(std::ostream& out) const;
+	virtual void programs(std::ostream& out) const;
+	virtual void panel(std::ostream& out) const;
 
 protected:
 	bool user_mang;	

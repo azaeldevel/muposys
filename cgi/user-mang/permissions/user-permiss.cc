@@ -155,7 +155,7 @@ int UserPermission::main(std::ostream& out)
 {
 	muposys::contenttype(out,"text","html");	
 		
-	if(not session.load(conn))
+	if(not has_session())
 	{
 		head.redirect(0,"/login.html?failure");
 		head.print(out);

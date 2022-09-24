@@ -40,14 +40,14 @@ html_DATA=html/login.html html/user-register.html html/index.html  html/user-man
 html_user_mang_permissionsdir=$(bindir)/user-mang/permissions
 html_user_mang_permissions_DATA=html/user-mang/permissions/add.html
 
-cssdir=$(bindir)/css
-css_DATA=html/css/login.css html/css/user-mang.css
+cssdir=$(bindir)/css/Mkos-Big-Sur
+css_DATA=html/css/Mkos-Big-Sur/login.css
 
-css_appearancedir=$(bindir)/css/appearance
-css_appearance_DATA=html/css/appearance/muposys.css
+css_appearancedir=$(bindir)/css/Mkos-Big-Sur/appearance
+css_appearance_DATA=html/css/Mkos-Big-Sur/appearance/muposys.css
 
-css_iconsdir=$(bindir)/css/icons
-css_icons_DATA=html/css/icons/Mkos-Big-Sur.css
+css_iconsdir=$(bindir)/css/Mkos-Big-Sur/icons
+css_icons_DATA=html/css/Mkos-Big-Sur/icons/application.css
 
 jsdir=$(bindir)/js
 js_DATA=html/js/login.js html/js/muposys.js

@@ -37,6 +37,7 @@ Login::~Login()
 {
 }
 
+
 bool Login::check()
 {
 	//std::cout << "Step 1\n<br>";
@@ -102,7 +103,7 @@ bool Login::check()
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 			//muposys::http::Session session;
-			if(CGI::check())
+			if(has_session())
 			{//ya esta registrado
 				delete usrlst->front();
 				delete usrlst;
@@ -110,21 +111,20 @@ bool Login::check()
 				return true;
 			}
 			//std::cout << "check : Step 2.3\n<br>";
-			if(not session.addregister(CGI::conn))
+			if(not create_session())
 			{
 				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 				return false;
 			}
 			//std::cout << "Usuario registrado<br>";
-			muposys::http::db::Variable var;
-			if(not var.insert(CGI::conn,session.getSession(),"user",userbd->getName()))
+			if(not add("user",userbd->getName()))
 			{
 				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 				return false;
 			}
 			//std::cout << "Step login\n<br>";
 			//connhttp.close();
-			conn.close();
+			//conn.close();
 
 			
 			delete usrlst->front();

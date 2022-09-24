@@ -273,6 +273,21 @@ namespace db
 	std::filesystem::path Conector::database_file = DATABASE;
 		
 	
+    Conector::Conector() : serverConnector(NULL)
+    {
+    }
+    Conector::Conector(const std::filesystem::path& dbname) : serverConnector(NULL)
+    {
+        open(dbname); 
+    }
+    Conector::~Conector()
+    {
+        close();
+    }
+
+
+
+	
 	bool Conector::begin()
 	{
 		return query("BEGIN TRANSACTION;",NULL,NULL);
@@ -353,13 +368,8 @@ namespace db
     {
         return serverConnector;
     }
-    Conector::~Conector()
+    bool Conector::open(const std::filesystem::path& dbname)
     {
-        close();
-    }
-    Conector::Conector(const std::filesystem::path& dbname)
-    {
-        serverConnector = NULL;
         int rc = sqlite3_open_v2(dbname.c_str(), (sqlite3**)&serverConnector,SQLITE_OPEN_READWRITE,NULL);
         if(SQLITE_NOTFOUND == rc)
 		{
@@ -372,6 +382,8 @@ namespace db
 			throw muposys::Exception(muposys::Exception::FAIL_OPEN_DATABASE,__FILE__,__LINE__);
 			//return(0);
         } 
+
+		return true;
     }
 }
 }

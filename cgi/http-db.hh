@@ -44,6 +44,7 @@ namespace db
 		
     public:
 
+        Conector();
 		/**
 		*@brief Crean una conexion a la base de dato indicada
 		*@param filename Nombre de archivo de la base de datos.
@@ -70,6 +71,7 @@ namespace db
 		bool begin();
 		bool commit();
 		bool rollback();
+		bool open(const std::filesystem::path& filename);
 
 
 		static std::filesystem::path database_file;
