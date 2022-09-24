@@ -1,6 +1,9 @@
 
+SUBDIRS = apidb cgi
+if ENABLE_TDD
+SUBDIRS += tests
+endif
 
-SUBDIRS = apidb cgi tests
 
 dist_doc_DATA = \
 	README \

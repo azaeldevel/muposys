@@ -13,16 +13,15 @@ AM_CFLAGS =\
 
 lib_LTLIBRARIES = libmuposys-cgi.la
 
-if ENABLE_DEVEL
-MODULES=login.cgi logout.cgi user-register.cgi application.cgi
-else 
-MODULES=login.cgi logout.cgi user-register.cgi 
+if ENABLE_STICK
+bin_PROGRAMS = login.cgi logout.cgi user-register.cgi application.cgi
+else
+bin_PROGRAMS = login.cgi logout.cgi user-register.cgi 
 endif
 
-bin_PROGRAMS = $(MODULES)
 
 LIB = $(OCTETOS_DB_LIBS) $(SQLITE3_LIBS) $(CGICC_LIBS)
-FLAGS = $(OCTETOS_DB_FLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS)
+FLAGS = $(OCTETOS_DB_CFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS)
 
 $(top_builddir)/cgi/http : Makefile.am
 	cp $(top_srcdir)/cgi/http $@
@@ -43,10 +42,12 @@ login_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
 login_cgi_LDADD =  libmuposys-cgi.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB) 
 login_cgi_SOURCES = login-main.cc 
 
-if ENABLE_DEVEL
+if ENABLE_STICK
+
 application_cgi_SOURCES = application-main.cc
 application_cgi_LDADD = libmuposys-cgi.la $(top_builddir)/apidb/libmuposys-apidb.la $(LIB)
 application_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
+
 endif
 
 logout_cgi_SOURCES = logout-main.cc  
