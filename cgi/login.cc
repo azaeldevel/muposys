@@ -67,22 +67,24 @@ bool Login::check()
 		return false;
 	}
 	
-	Connector conn;	
-	conn.connect(muposysdb::datconex);
-	
+	//Connector conn;	
+	connDB.connect(muposysdb::datconex);
+		
 	muposysdb::Users* userbd;
 	std::string strwhere = "name = ";
 	strwhere += "'" + userstr + "' and status = 'A'";
-	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::select(conn,strwhere);
+	std::vector<muposysdb::Users*>* usrlst = muposysdb::Users::select(connDB,strwhere);
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
+		connDB.close();
 		return false;
 	}
 	else if(usrlst->size() > 1) 
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de 
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
+		connDB.close();
 		return false;
 	}
 	else
@@ -90,7 +92,7 @@ bool Login::check()
 		userbd = usrlst->at(0);
 	}
 	//std::cout << "check : Step 2\n<br>";
-	if(userbd->checkpass(conn))
+	if(userbd->checkpass(connDB))
 	{
 		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
 		//std::cout << "check : Step 2.1\n<br>";
@@ -108,18 +110,21 @@ bool Login::check()
 				delete usrlst->front();
 				delete usrlst;
 				//std::cout << "Ya existe el cliente<br>\n";
+				connDB.close();
 				return true;
 			}
 			//std::cout << "check : Step 2.3\n<br>";
 			if(not create_session())
 			{
-				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				connDB.close();
 				return false;
 			}
 			//std::cout << "Usuario registrado<br>";
 			if(not add("user",userbd->getName()))
 			{
 				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				connDB.close();
 				return false;
 			}
 			//std::cout << "Step login\n<br>";
@@ -129,6 +134,8 @@ bool Login::check()
 			
 			delete usrlst->front();
 			delete usrlst;
+			connDB.close();
+			
 			return true;
 		}
 		else
@@ -139,6 +146,7 @@ bool Login::check()
 		}
 	}
 
+	connDB.close();
 	delete usrlst->front();
 	delete usrlst;
 	return false;

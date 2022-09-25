@@ -140,20 +140,11 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 	}
 	bool Session::addregister(muposys::http::db::Conector& conn)
 	{
-		/*unsigned char digest[MD5_DIGEST_LENGTH];
-		char mdString[33];
-				time_t now = time(0);
-				char* dt = ctime(&now);
-				std::string md5semilla = host + "-";
-				md5semilla += dt;
-				MD5((unsigned char*)md5semilla.c_str(), strlen(md5semilla.c_str()), (unsigned char*)&digest);
-				for(int i = 0; i < 16; i++)
-				{
-					sprintf(&mdString[i*2], "%02x", (unsigned int)digest[i]);
-				}
-				   */
-		   		//std::cout << "Inserted : (" << host << ") - (" << mdString << ")<br>";
-		   		if(session.insert(conn,host,"---",std::to_string(timeSinceEpochMillisec())))
+		host = getenv("REMOTE_ADDR");
+		
+		//std::cout << "addregister :  " << host << "\n";
+		
+		   		if(session.insert(conn,host))
 		   		{
 		   			//std::cout << "Inserted addr: (" << host << ") <br>";
 		   			if(session.downloadIDs(conn))
@@ -173,5 +164,10 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		  		}
 
 		return true;
+	}
+
+	bool Session::remove(muposys::http::db::Conector& conn)
+	{
+		return session.remove(conn);
 	}
 }

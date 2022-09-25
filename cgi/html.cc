@@ -225,7 +225,7 @@ void script::source(const char* s)
 	src = s;
 }
 
-Service::Service() : is_open_db(false)
+Service::Service()
 {
 }
 bool Service::create_session()
@@ -235,6 +235,10 @@ bool Service::create_session()
 	connHttp.close();
 	return res;
 }
+bool Service::create_session(muposys::http::db::Conector& connHttp)
+{
+	return session.addregister(connHttp);
+}
 bool Service::has_session()
 {
 	connHttp.open(muposys::http::db::Conector::database_file);
@@ -242,11 +246,15 @@ bool Service::has_session()
 	connHttp.close();
 	return res;
 }
+bool Service::has_session(muposys::http::db::Conector& connHttp)
+{
+	return session.load(connHttp);
+}
 bool Service::add(const char* varible,const char* value)
 {
 	connHttp.open(muposys::http::db::Conector::database_file);
 	muposys::http::db::Variable var;
-	bool res =  var.insert(connHttp,session.getSession(),varible,value);
+	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible,value);
 	connHttp.close();
 	return res;
 }
@@ -254,9 +262,49 @@ bool Service::add(const std::string& varible,const std::string& value)
 {
 	connHttp.open(muposys::http::db::Conector::database_file);
 	muposys::http::db::Variable var;
-	bool res =  var.insert(connHttp,session.getSession(),varible.c_str(),value.c_str());
+	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible.c_str(),value.c_str());
 	connHttp.close();
 	return res;
+}
+bool Service::permission(const char* p)
+{
+	//std::cout << "permission : Step 1\n<br>";
+	connHttp.open(muposys::http::db::Conector::database_file);
+	if(not has_session(connHttp)) return false;
+	
+	//std::cout << "permission : Step 2\n<br>";
+	http::db::Variable var;
+	if(not var.select(connHttp,getenv("REMOTE_ADDR"),"user")) return false;
+	if(var.getValue().empty()) return false;
+	
+	//std::cout << "permission : Step 3\n<br>";
+	std::string findUserpermission = "user = '" + var.getValue() + "' and permission = '" + p + "'";
+	std::vector<muposysdb::Permissions*>* permisslst = muposysdb::Permissions::select(connDB,findUserpermission,0);
+	if(permisslst->size() == 0 or permisslst->size() > 1)//no tine permiso o tien mas de un permiso
+	{
+		if(permisslst != NULL)
+		{
+			for(auto p : *permisslst)
+			{
+				delete p;
+			}
+		}
+		delete permisslst;
+		return false;
+	}
+
+	//std::cout << "permission : Step 4\n<br>";
+	if(permisslst != NULL)
+	{
+		for(auto p : *permisslst)
+		{
+			delete p;
+		}
+	}
+	delete permisslst;
+	
+	//std::cout << "permission : Step 5\n<br>";
+	return true;	
 }
 
 

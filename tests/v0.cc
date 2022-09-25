@@ -1,14 +1,19 @@
 
-#include <filesystem>
-#include <random>
+
+
 
 #include "v0.hh"
 
 
 using namespace muposys::http::db;
 
+
+
 int v0_init(void)
 {
+	if(getenv("REMOTE_ADDR") == NULL) return 1;//no se ha asignado la vriablde entorno
+
+	
 	return 0;
 }
 int v0_clean(void)
@@ -74,7 +79,7 @@ void v0_apidb()
 				if(p->downBrief(connmaria)) 
 				{
 					CU_ASSERT(true);
-					std::cout << p->getName() << " | " << p->getBrief() << "\n";
+					//std::cout << p->getName() << " | " << p->getBrief() << "\n";
 				}
 		    }
 			for(auto p : *permisslst)
@@ -104,7 +109,7 @@ void v0_apidb()
 		
 		muposysdb::Users user;
 		randNumber = randInt(generator);
-		std::cout << "Person : " << person.getEnte().getID() << "\n";
+		//std::cout << "Person : " << person.getEnte().getID() << "\n";
 		std::string name_user = "user-" + std::to_string(randNumber);
 		CU_ASSERT(user.insert(connmaria,person,name_user));
 		
@@ -116,28 +121,31 @@ void v0_apidb()
 	}
 }
 
+void v0_httpdb()
+{
+	muposys::http::db::Conector connHttp(database_file);
 
+	muposys::http::Session session;
+	CU_ASSERT(session.addregister(connHttp));
+	
+	muposys::http::db::Variable var1;
+	CU_ASSERT(var1.insert(connHttp,getenv("REMOTE_ADDR"),"user","root"));
+
+	muposys::http::db::Variable var2;
+	CU_ASSERT(var2.select(connHttp,getenv("REMOTE_ADDR"),"user"));
+	
+	
+	CU_ASSERT(session.remove(connHttp));
+	
+
+}
 void v0_develop()
 {
-	CU_ASSERT(true);
-
-	std::string database_file = "http";
-
 	CU_ASSERT(std::filesystem::exists(database_file));
 	
 	std::random_device rd;  //Will be used to obtain a seed for the random number engine
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> distrib(1, 1000000);
 	
-	Conector conn(database_file);
-	CU_ASSERT(conn.getServerConnector() != NULL);
-	Session session;	
-	std::string hoststr,sessionstr,timestr;
-	hoststr = std::to_string(distrib(gen));
-	sessionstr = std::to_string(distrib(gen));
-	timestr = std::to_string(distrib(gen));
-	session.insert(conn,hoststr,sessionstr,timestr);
-
-
-
+	
 }

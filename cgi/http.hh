@@ -29,6 +29,7 @@ public:
 	muposys::http::db::Session& getSession();
 	bool addregister(muposys::http::db::Conector&);
 	bool load(muposys::http::db::Conector&);
+	bool remove(muposys::http::db::Conector&);
 };
 
 }

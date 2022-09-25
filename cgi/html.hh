@@ -125,17 +125,23 @@ namespace muposys
 	{
 	public:	
 		Service();
-					
-	private:
-		muposys::http::db::Conector connHttp;
-		muposys::http::Session session;
-		bool is_open_db;
 		
-	protected:
+		bool has_session(muposys::http::db::Conector& );
+		bool create_session(muposys::http::db::Conector& );
 		bool create_session();
 		bool has_session();
 		bool add(const char* varible,const char* value);
 		bool add(const std::string& varible,const std::string& value);
+		bool permission(const char*);
+	private:
+		muposys::http::db::Conector connHttp;
+		muposys::http::Session session;
+		
+		
+		
+	protected:
+
+		Connector connDB;
 	};
 	class HTML : public Tag, public Service
 	{

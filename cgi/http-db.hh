@@ -35,7 +35,7 @@ namespace db
 {
 	class Variable;
 	
-	
+	std::string remote_host();
 	
     class Conector
     {
@@ -98,8 +98,8 @@ namespace db
 		bool selectBySession(Conector& conect, const std::string&);
         static bool selectAll(Conector& conect, std::vector<Session*>& vec);
 		bool downloadIDs(Conector& conect);
-		bool inserteRemoteAddr(Conector& conect,const std::string&);
-		bool insert(Conector& conect,const std::string& remote_addr,const std::string& session,const std::string& lasttime);
+		bool insert(Conector& conect,const std::string&);
+		[[deprecated]] bool insert(Conector& conect,const std::string& remote_addr,const std::string& session,const std::string& lasttime);
 		Session();
 		const std::string& getRomoteAddress()const;
 		const std::string& getSession()const;
@@ -142,14 +142,18 @@ namespace db
 		static int callbackID(void *data, int argc, char **argv, char **azColName);
     public:
 		int getID() const;
-		bool insert(Conector& conect,const Session& session,const std::string& name,const std::string& value);
-		bool select(Conector& conect,const Session& session, const std::string& name);
+		[[deprecated]] bool insert(Conector& conect,const Session& session,const std::string& name,const std::string& value);
+		[[deprecated]] bool select(Conector& conect,const Session& session, const std::string& name);
 		const std::string& getName()const;
 		const std::string& getValue()const;
 		bool remove(Conector& connect);
-		static bool select(Conector& conect,const Session& session, std::vector<Variable*>& vec);
-		static bool remove(Conector& connect,const Session& session);
+		[[deprecated]] static bool select(Conector& conect,const Session& session, std::vector<Variable*>& vec);
+		static bool remove(Conector& connect,const std::string& session);
 		bool updateValue(Conector& connect,const Session& session,const std::string& name,const std::string& value);
+
+
+		bool insert(Conector& conect,const std::string& session,const std::string& name,const std::string& value);
+		bool select(Conector& conect,const std::string& host,const std::string& name);
 	};    
 }
 }

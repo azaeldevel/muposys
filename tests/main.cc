@@ -25,6 +25,12 @@ int main(int argc, char *argv[])
 		return CU_get_error();
 	}
 
+	if (NULL == CU_add_test(pSuite_v0, "HTTP Database ..", v0_httpdb))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+
 	if (NULL == CU_add_test(pSuite_v0, "Developing..", v0_develop))
 	{
 		CU_cleanup_registry();

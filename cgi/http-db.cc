@@ -11,18 +11,17 @@ namespace http
 {
 namespace db
 {
-	bool Variable::remove(Conector& connect,const Session& session)
+	bool Variable::remove(Conector& connect,const std::string& session)
     {
         std::string sql = "DELETE FROM  ";
-        sql += TABLE_NAME + " WHERE session = ";
-        sql += std::to_string(session.getID());
+        sql += TABLE_NAME + " WHERE session = '" + session + "'";
         //std::cout << "SQL: " << sql << "<br>\n";
         if(connect.query(sql))
         {
             return true;
         }
 		
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
     }
 	bool Variable::remove(Conector& connect)
@@ -36,7 +35,7 @@ namespace db
             return true;
         }
 		
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
     }
    	int Variable::callbackID(void *obj, int argc, char **argv, char **azColName)
@@ -107,6 +106,39 @@ namespace db
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
+
+	
+	bool Variable::insert(Conector& connect,const std::string& host,const std::string& n,const std::string& v)
+	{
+		std::string sql = "INSERT INTO ";
+        sql += TABLE_NAME + "(session,name,value) VALUES('";
+        sql += host + "','";
+        sql += n + "','" + v + "')";
+        //std::cout << sql << "<br>";
+        if(connect.query(sql))
+        {
+        	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
+            return true;
+        }
+		
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+	}
+    bool Variable::select(Conector& connect,const std::string& host,const std::string&)
+    {
+        std::string sql = "SELECT id,name,value FROM ";
+        sql += TABLE_NAME + " WHERE session = '";
+        sql += host + "'";
+        //std::cout << "SQL: " << sql << "<br>\n";
+        if(connect.query(sql,callbackBySession,this))
+        {
+            return true;
+        }
+		
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+        return false;
+    }
+	
 	std::string Variable::TABLE_NAME = "Variables";
 
 
@@ -122,7 +154,7 @@ namespace db
 	}
 	bool Session::remove(Conector& connect)
 	{
-		if(not Variable::remove(connect,*this))
+		if(not Variable::remove(connect,remote_addr))
 		{
 			return false;
 		}
@@ -145,14 +177,14 @@ namespace db
 		std::string sql = "INSERT INTO ";
         sql += TABLE_NAME + "(remote_addr,session,lasttime) VALUES('";
         sql += r + "','" + s + "','" + t + "')";
-        std::cout << sql << "<br>";
+        //std::cout << sql << "<br>";
         if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
             return true;
         }
 		
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
 	}
 	bool Session::updateSession(Conector& connect,const std::string& str)
@@ -175,11 +207,12 @@ namespace db
 	{
 		return id;
 	}
-	bool Session::inserteRemoteAddr(Conector& connect,const std::string& str)
+	bool Session::insert(Conector& connect,const std::string& str)
 	{
 		std::string sql = "INSERT INTO  ";
-        sql += TABLE_NAME + "(remote_addr) VALUES('";
-        sql += str + "')";
+        sql += TABLE_NAME + "(remote_addr,session,lasttime) VALUES('";
+        sql += str + "','DEPRECATED','DEPRECATED')";
+		//std::cout << "SQL : " << sql << "\n";
         if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
@@ -282,7 +315,7 @@ namespace db
     }
     Conector::~Conector()
     {
-        close();
+        if(serverConnector) close();
     }
 
 
