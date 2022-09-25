@@ -225,16 +225,28 @@ void script::source(const char* s)
 	src = s;
 }
 
-Service::Service()
+Service::Service() : is_open_http(false),is_open_DB(false)
 {
 }
-Service::Service(const std::filesystem::path& db,const octetos::db::maria::Datconnect& dat) :connHttp(db),is_open_http(true)
+Service::Service(const std::filesystem::path& db) : connHttp(db),is_open_http(true),is_open_DB(false)
+{
+}
+Service::Service(const Datconnect& dat) : is_open_DB(true)
+{
+	connDB.connect(dat);
+}
+Service::Service(const std::filesystem::path& db,const Datconnect& dat) : connHttp(db),is_open_http(true),is_open_DB(true)
 {
 	connDB.connect(dat);
 }
 Service::~Service()
 {
-	if(is_open_http) session.remove(connHttp);
+	if(is_open_http) 
+	{
+		//session.remove(connHttp);
+		connHttp.close();
+	}
+	if(is_open_DB) connDB.close();
 }
 bool Service::create_session()
 {
@@ -346,6 +358,32 @@ HTML::HTML(Body& b,const std::string t) : body(&b)
 	head.title = t;
 }
 
+HTML::HTML(Body& b,const std::filesystem::path& db) : body(&b), Service(db)
+{
+
+}
+HTML::HTML(Body& b,const Datconnect& dat) : body(&b), Service(dat)
+{
+
+}
+HTML::HTML(Body& b,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
+{
+
+}
+
+HTML::HTML(Body& b,const std::string& t,const std::filesystem::path& db) : body(&b), Service(db)
+{
+	head.title = t;
+}
+HTML::HTML(Body& b,const std::string& t,const Datconnect& dat) : body(&b), Service(dat)
+{
+	head.title = t;
+}
+HTML::HTML(Body& b,const std::string& t,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
+{
+	head.title = t;
+}
+
 void HTML::print(std::ostream& out) const
 {
 	out << "<html>\n";
@@ -362,6 +400,21 @@ void HTML::print(std::ostream& out) const
 CGI::CGI() 
 {
 }
+
+CGI::CGI(const std::filesystem::path& db) : Service(db)
+{
+
+}
+CGI::CGI(const Datconnect& dat) : Service(dat)
+{
+
+}
+CGI::CGI(const std::filesystem::path& db,const Datconnect& dat) : Service(db,dat)
+{
+
+}
+
+
 CGI::~CGI()
 {
 }

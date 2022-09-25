@@ -27,10 +27,7 @@ namespace muposys::server
 {
 
 
-Login::Login()
-{
-}
-Login::Login(const muposys::Body& b)
+Login::Login() : CGI(http::db::Conector::database_file,muposysdb::datconex)
 {
 }
 Login::~Login()
@@ -77,14 +74,12 @@ bool Login::check()
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
-		connDB.close();
 		return false;
 	}
 	else if(usrlst->size() > 1) 
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de 
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
-		connDB.close();
 		return false;
 	}
 	else
@@ -100,7 +95,6 @@ bool Login::check()
 		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
-			open(http::db::Conector::database_file);
 			//std::cout << "check : Step 2.2\n<br>";
 			//std::cout << "password valided\n<br>";
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
@@ -114,7 +108,6 @@ bool Login::check()
 					delete usrlst->front();
 					delete usrlst;
 					//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-					connDB.close();
 					return false;
 				}
 			}
@@ -122,7 +115,6 @@ bool Login::check()
 			if(not add("user",userbd->getName()))
 			{
 				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-				connDB.close();
 				return false;
 			}
 			//std::cout << "Step login\n<br>";
@@ -132,17 +124,13 @@ bool Login::check()
 				delete usrlst->front();
 				delete usrlst;
 				//std::cout << "Ya existe el cliente<br>\n";
-				connDB.close();
 				return false;
 			}
 			//std::cout << "Step permission\n<br>";
 			
 			delete usrlst->front();
 			delete usrlst;
-
-			
-			connDB.close();
-			
+						
 			return true;
 		}
 		else
@@ -153,7 +141,6 @@ bool Login::check()
 		}
 	}
 
-	connDB.close();
 	delete usrlst->front();
 	delete usrlst;
 	return false;

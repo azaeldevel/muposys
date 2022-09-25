@@ -125,7 +125,9 @@ namespace muposys
 	{
 	public:	
 		Service();
-		Service(const std::filesystem::path&,const octetos::db::maria::Datconnect&);
+		Service(const std::filesystem::path&);		
+		Service(const Datconnect&);
+		Service(const std::filesystem::path&,const Datconnect&);
 
 		~Service();
 		
@@ -139,7 +141,7 @@ namespace muposys
 		muposys::http::db::Conector connHttp;
 		muposys::http::Session session;
 		bool is_open_http;
-		
+		bool is_open_DB;
 		
 	protected:
 
@@ -151,6 +153,14 @@ namespace muposys
 		HTML();
 		HTML(Body&);
 		HTML(Body&,const std::string title);
+
+		HTML(Body&,const std::filesystem::path&);		
+		HTML(Body&,const Datconnect&);
+		HTML(Body&,const std::filesystem::path&,const Datconnect&);
+
+		HTML(Body&,const std::string& title,const std::filesystem::path&);		
+		HTML(Body&,const std::string& title,const Datconnect&);
+		HTML(Body&,const std::string& title,const std::filesystem::path&,const Datconnect&);
 
 		
 		
@@ -166,7 +176,13 @@ namespace muposys
 	{
 	public:
 		CGI();
+
+		CGI(const std::filesystem::path&);		
+		CGI(const Datconnect&);
+		CGI(const std::filesystem::path&,const Datconnect&);
+
 		~CGI();
+		
 		virtual int main(std::ostream& out)  = 0;
 		
 	private:

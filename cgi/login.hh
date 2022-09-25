@@ -17,7 +17,6 @@ private:
 
 public:
 	Login();
-	Login(const muposys::Body&);
 	~Login();
 	
 	virtual int main(std::ostream& out = std::cout);
