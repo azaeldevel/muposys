@@ -124,7 +124,11 @@ void v0_apidb()
 void v0_httpdb()
 {
 	muposys::http::db::Conector connHttp(database_file);
+	
+	muposys::Service service(database_file,muposysdb::datconex);
 
+	CU_ASSERT(not service.has_session());
+	
 	muposys::http::Session session;
 	CU_ASSERT(session.addregister(connHttp));
 	
@@ -133,7 +137,12 @@ void v0_httpdb()
 
 	muposys::http::db::Variable var2;
 	CU_ASSERT(var2.select(connHttp,getenv("REMOTE_ADDR"),"user"));
+
+
+	CU_ASSERT(service.has_session());
 	
+	CU_ASSERT(service.permission("login"));
+	CU_ASSERT(not service.permission("login-test"));
 	
 	CU_ASSERT(session.remove(connHttp));
 	

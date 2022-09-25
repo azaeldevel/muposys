@@ -372,7 +372,7 @@ namespace db
         {
         	//std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
 			//std::cout << "database : " << muposys::http::db::Conector::database_file << "<br>\n";
-        	//std::cout << getErrorMessage() << "<br>\n";
+        	std::cout << "Error SQL : " << getErrorMessage() << "<br>\n";
             return false;			
         } 
         else 
@@ -390,6 +390,7 @@ namespace db
         {
         	//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 			//std::cout << "database : " << muposys::http::db::database_file << "\n";
+			std::cout << "Error SQL : " << getErrorMessage() << "<br>\n";
             return false;			
         } 
         else 

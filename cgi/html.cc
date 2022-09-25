@@ -228,83 +228,108 @@ void script::source(const char* s)
 Service::Service()
 {
 }
-bool Service::create_session()
+Service::Service(const std::filesystem::path& db,const octetos::db::maria::Datconnect& dat) :connHttp(db),is_open_http(true)
 {
-	connHttp.open(muposys::http::db::Conector::database_file);
-	bool res = session.addregister(connHttp);
-	connHttp.close();
-	return res;
+	connDB.connect(dat);
 }
-bool Service::create_session(muposys::http::db::Conector& connHttp)
+Service::~Service()
+{
+	if(is_open_http) session.remove(connHttp);
+}
+bool Service::create_session()
 {
 	return session.addregister(connHttp);
 }
 bool Service::has_session()
 {
-	connHttp.open(muposys::http::db::Conector::database_file);
-	bool res = session.load(connHttp);
-	connHttp.close();
-	return res;
-}
-bool Service::has_session(muposys::http::db::Conector& connHttp)
-{
 	return session.load(connHttp);
 }
 bool Service::add(const char* varible,const char* value)
 {
-	connHttp.open(muposys::http::db::Conector::database_file);
 	muposys::http::db::Variable var;
 	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible,value);
-	connHttp.close();
 	return res;
 }
 bool Service::add(const std::string& varible,const std::string& value)
 {
-	connHttp.open(muposys::http::db::Conector::database_file);
 	muposys::http::db::Variable var;
 	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible.c_str(),value.c_str());
-	connHttp.close();
 	return res;
 }
 bool Service::permission(const char* p)
 {
 	//std::cout << "permission : Step 1\n<br>";
-	connHttp.open(muposys::http::db::Conector::database_file);
-	if(not has_session(connHttp)) return false;
+	if(not has_session()) return false;
 	
 	//std::cout << "permission : Step 2\n<br>";
 	http::db::Variable var;
 	if(not var.select(connHttp,getenv("REMOTE_ADDR"),"user")) return false;
 	if(var.getValue().empty()) return false;
+
+	unsigned int userid = 0;
+	std::string findUser = "name = '" + var.getValue() + "'";
+	std::vector<muposysdb::Users*>* userlst = muposysdb::Users::select(connDB,findUser,0);
+	if(userlst->size() == 0 or userlst->size() > 1)
+	{
+		for(auto u : *userlst)
+		{
+			delete u;
+		}
+		return false;
+	}
+	if(userlst->size() == 1)
+	{
+		userid = userlst->front()->getPerson().getEnte().getID();
+	}
+	if(userlst != NULL)
+	{
+		for(auto u : *userlst)
+		{
+			delete u;
+		}
+	}
+	delete userlst;
 	
 	//std::cout << "permission : Step 3\n<br>";
-	std::string findUserpermission = "user = '" + var.getValue() + "' and permission = '" + p + "'";
-	std::vector<muposysdb::Permissions*>* permisslst = muposysdb::Permissions::select(connDB,findUserpermission,0);
-	if(permisslst->size() == 0 or permisslst->size() > 1)//no tine permiso o tien mas de un permiso
+	std::string findUserpermission = "user = " + std::to_string(userid) + " and permission = '" + p + "'";
+	//std::cout << "SQL where : " << findUserpermission << "\n";
+	std::vector<muposysdb::User_Permission*>* usrpermiss = muposysdb::User_Permission::select(connDB,findUserpermission,0);
+	//std::cout << "size : " << usrpermiss->size() << "\n";
+	//std::cout << "Query done.\n";
+	if(usrpermiss->size() == 0 or usrpermiss->size() > 1)//no tine permiso o tien mas de un permiso
 	{
-		if(permisslst != NULL)
+		//std::cout << "permission : Step 3\n<br>";
+		if(usrpermiss != NULL)
 		{
-			for(auto p : *permisslst)
+			for(auto p : *usrpermiss)
 			{
 				delete p;
 			}
 		}
-		delete permisslst;
+		delete usrpermiss;
+		//std::cout << "permission : do not has\n<br>";
 		return false;
 	}
 
 	//std::cout << "permission : Step 4\n<br>";
-	if(permisslst != NULL)
+	if(usrpermiss != NULL)
 	{
-		for(auto p : *permisslst)
+		for(auto p : *usrpermiss)
 		{
 			delete p;
 		}
 	}
-	delete permisslst;
+	delete usrpermiss;
 	
 	//std::cout << "permission : Step 5\n<br>";
 	return true;	
+}
+bool Service::open(const std::filesystem::path& fn)
+{
+	connHttp.open(fn);
+	is_open_http = true;
+	
+	return true;
 }
 
 

@@ -94,13 +94,15 @@ namespace db
 		static int callbackIDs(void *data, int argc, char **argv, char **azColName);
 			
     public:
+		Session();
+
         bool selectByRemote(Conector& conect, const std::string&);
 		bool selectBySession(Conector& conect, const std::string&);
         static bool selectAll(Conector& conect, std::vector<Session*>& vec);
 		bool downloadIDs(Conector& conect);
 		bool insert(Conector& conect,const std::string&);
 		[[deprecated]] bool insert(Conector& conect,const std::string& remote_addr,const std::string& session,const std::string& lasttime);
-		Session();
+
 		const std::string& getRomoteAddress()const;
 		const std::string& getSession()const;
 		int getID()const;

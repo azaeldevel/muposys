@@ -125,18 +125,20 @@ namespace muposys
 	{
 	public:	
 		Service();
+		Service(const std::filesystem::path&,const octetos::db::maria::Datconnect&);
+
+		~Service();
 		
-		bool has_session(muposys::http::db::Conector& );
-		bool create_session(muposys::http::db::Conector& );
 		bool create_session();
 		bool has_session();
 		bool add(const char* varible,const char* value);
 		bool add(const std::string& varible,const std::string& value);
 		bool permission(const char*);
+		bool open(const std::filesystem::path& );
 	private:
 		muposys::http::db::Conector connHttp;
 		muposys::http::Session session;
-		
+		bool is_open_http;
 		
 		
 	protected:

@@ -100,25 +100,23 @@ bool Login::check()
 		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
+			open(http::db::Conector::database_file);
 			//std::cout << "check : Step 2.2\n<br>";
 			//std::cout << "password valided\n<br>";
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 			//muposys::http::Session session;
-			if(has_session())
-			{//ya esta registrado
-				delete usrlst->front();
-				delete usrlst;
-				//std::cout << "Ya existe el cliente<br>\n";
-				connDB.close();
-				return true;
-			}
-			//std::cout << "check : Step 2.3\n<br>";
-			if(not create_session())
-			{
-				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-				connDB.close();
-				return false;
+			if(not has_session())
+			{//ya esta registrado				
+				//std::cout << "check : Step 2.3\n<br>";
+				if(not create_session())
+				{
+					delete usrlst->front();
+					delete usrlst;
+					//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+					connDB.close();
+					return false;
+				}
 			}
 			//std::cout << "Usuario registrado<br>";
 			if(not add("user",userbd->getName()))
@@ -128,12 +126,21 @@ bool Login::check()
 				return false;
 			}
 			//std::cout << "Step login\n<br>";
-			//connhttp.close();
-			//conn.close();
-
+						
+			if(not permission("login"))
+			{
+				delete usrlst->front();
+				delete usrlst;
+				//std::cout << "Ya existe el cliente<br>\n";
+				connDB.close();
+				return false;
+			}
+			//std::cout << "Step permission\n<br>";
 			
 			delete usrlst->front();
 			delete usrlst;
+
+			
 			connDB.close();
 			
 			return true;

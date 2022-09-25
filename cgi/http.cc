@@ -131,7 +131,7 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
         //
 		if(session.selectByRemote(conn,host))//existe?
 		{
-		  	return !session.empty();
+		  	return not session.empty();
 		}
 		else
 		{
