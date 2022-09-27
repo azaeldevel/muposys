@@ -132,35 +132,36 @@ namespace muposys
 		~Service();
 		
 		bool create_session();
+		bool remove_session();
 		bool has_session();
 		bool add(const char* varible,const char* value);
 		bool add(const std::string& varible,const std::string& value);
 		bool permission(const char*);
 		bool open(const std::filesystem::path& );
+		bool register_session(const char*);
 	private:
-		muposys::http::db::Conector connHttp;
-		muposys::http::Session session;
 		bool is_open_http;
 		bool is_open_DB;
 		
 	protected:
-
+		muposys::http::db::Conector connHttp;
+		muposys::http::Session session;
 		Connector connDB;
 	};
-	class HTML : public Tag, public Service
+	class Page : public Tag, public Service
 	{
 	public:
-		HTML();
-		HTML(Body&);
-		HTML(Body&,const std::string title);
+		Page();
+		Page(Body&);
+		Page(Body&,const std::string title);
 
-		HTML(Body&,const std::filesystem::path&);		
-		HTML(Body&,const Datconnect&);
-		HTML(Body&,const std::filesystem::path&,const Datconnect&);
+		Page(Body&,const std::filesystem::path&);		
+		Page(Body&,const Datconnect&);
+		Page(Body&,const std::filesystem::path&,const Datconnect&);
 
-		HTML(Body&,const std::string& title,const std::filesystem::path&);		
-		HTML(Body&,const std::string& title,const Datconnect&);
-		HTML(Body&,const std::string& title,const std::filesystem::path&,const Datconnect&);
+		Page(Body&,const std::string& title,const std::filesystem::path&);		
+		Page(Body&,const std::string& title,const Datconnect&);
+		Page(Body&,const std::string& title,const std::filesystem::path&,const Datconnect&);
 
 		
 		

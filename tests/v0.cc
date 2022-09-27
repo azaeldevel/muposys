@@ -137,17 +137,20 @@ void v0_httpdb()
 
 	muposys::http::db::Variable var2;
 	CU_ASSERT(var2.select(connHttp,getenv("REMOTE_ADDR"),"user"));
-
-
+	
 	CU_ASSERT(service.has_session());
 	
 	CU_ASSERT(service.permission("login"));
 	CU_ASSERT(not service.permission("login-test"));
 	
 	CU_ASSERT(session.remove(connHttp));
-	
 
+	CU_ASSERT(service.register_session("root"));
+
+	CU_ASSERT(service.remove_session());
 }
+
+
 void v0_develop()
 {
 	CU_ASSERT(std::filesystem::exists(database_file));

@@ -37,6 +37,15 @@ Login::~Login()
 
 bool Login::check()
 {
+	
+	if(has_session()) 
+	{
+		connHttp.begin();
+		remove_session();
+		connHttp.commit();
+	}
+
+	
 	//std::cout << "Step 1\n<br>";
 	cgicc::Cgicc formData;   	
 	std::string userstr, password;
@@ -95,38 +104,25 @@ bool Login::check()
 		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
-			//std::cout << "check : Step 2.2\n<br>";
+			std::cout << "check : Step\n<br>";
 			//std::cout << "password valided\n<br>";
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 			//muposys::http::Session session;
-			if(not has_session())
-			{//ya esta registrado				
-				//std::cout << "check : Step 2.3\n<br>";
-				if(not create_session())
-				{
-					delete usrlst->front();
-					delete usrlst;
-					//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-					return false;
-				}
-			}
-			//std::cout << "Usuario registrado<br>";
-			if(not add("user",userbd->getName()))
+			if(not register_session(userbd->getName().c_str()))
 			{
-				//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 				return false;
 			}
-			//std::cout << "Step login\n<br>";
+			std::cout << "Step login\n<br>";
 						
 			if(not permission("login"))
 			{
 				delete usrlst->front();
 				delete usrlst;
-				//std::cout << "Ya existe el cliente<br>\n";
+				//std::cout << "NO tinen permiso<br>\n";
 				return false;
 			}
-			//std::cout << "Step permission\n<br>";
+			std::cout << "Step permission\n<br>";
 			
 			delete usrlst->front();
 			delete usrlst;
@@ -169,6 +165,7 @@ int Login::main(std::ostream& out)
 		//out << "Error : " << e.what() << "<br>\n";
 		head.redirect(0,"/login.html?error");
 		head.print(out);
+		return EXIT_FAILURE;
 	}
 	
 	return EXIT_SUCCESS;

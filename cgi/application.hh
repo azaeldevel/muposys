@@ -22,7 +22,7 @@ public:
 protected:
 	bool user_mang;	
 };
-class Application : public muposys::HTML
+class Application : public muposys::Page
 {	
 public:
 	virtual void print(std::ostream& out) const;

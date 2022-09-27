@@ -10,17 +10,13 @@ namespace muposys::server
 {
 
 
-class Logout : public muposys::HTML
+class Logout : public muposys::CGI
 {
 private:	
-	bool check()const;
-
 public:
 	Logout();
 	virtual ~Logout();
 	
-
-	virtual void print(std::ostream& out) const;
 	virtual int main(std::ostream& out = std::cout);
 };
 

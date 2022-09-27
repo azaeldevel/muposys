@@ -1,5 +1,5 @@
 
-SUBDIRS = apidb cgi
+SUBDIRS = apidb cgi desk 
 if ENABLE_TDD
 SUBDIRS += tests
 endif
@@ -26,8 +26,6 @@ DISTCLEANFILES = intltool-extract \
 	intltool-update \
 	po/.intltool-merge-cache
 
-
-# Remove doc directory on uninstall
 uninstall-local:
 	-rm -r $(docdir)
 

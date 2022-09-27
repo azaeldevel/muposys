@@ -96,7 +96,7 @@ namespace db
         sql += TABLE_NAME + "(session,name,value) VALUES('";
         sql += std::to_string(s.getID()) + "','";
         sql += n + "','" + v + "')";
-        std::cout << sql << "<br>";
+        //std::cout << sql << "<br>";
         if(connect.query(sql))
         {
         	id = sqlite3_last_insert_rowid((sqlite3*)connect.getServerConnector());
@@ -163,7 +163,7 @@ namespace db
         std::string sql = "DELETE FROM  ";
         sql += TABLE_NAME + " WHERE id = ";
         sql += std::to_string(id);
-        //std::cout << "SQL: " << sql << "<br>\n";
+        std::cout << "SQL: " << sql << "<br>\n";
         if(connect.query(sql))
         {
             return true;
@@ -272,10 +272,13 @@ namespace db
         sql += TABLE_NAME + " WHERE remote_addr = '";
         sql += r + "'";
 		//std::cout << "Session::selectByRemote : " << sql << "\n";
+		id = -1;
         if(connect.query(sql,callbackByRemote,this))
         {
+			std::cout << "query true " << id << "\n";
             return true;
         }
+		//std::cout << "id  : " << id << "</br>\n";
 		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
         return false;
     }
@@ -283,7 +286,7 @@ namespace db
     {
         Session* p = (Session*)obj;	
         p->id = std::atoi(argv[0]);	        
-        //std::cout << "id : " << p->id << "\n";
+        std::cout << "\nid : " << p->id << "\n";
         return 0;
     }
 	bool Session::empty() const

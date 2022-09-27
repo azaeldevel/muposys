@@ -24,37 +24,33 @@
 namespace muposys::server
 {
 
-Logout::Logout()
+Logout::Logout(): CGI(http::db::Conector::database_file)
 {
 }
 Logout::~Logout()
 {
 }
-bool Logout::check() const
-{
-	muposys::http::db::Conector conn(muposys::http::db::Conector::database_file);
-	muposys::http::Session session;
-	conn.begin();
-	if(session.load(conn)) 
-	{
-		session.getSession().remove(conn);
-		conn.commit();
-		conn.close();
-		return true;
-	}
-	conn.close();
-	return false;
-}
-void Logout::print(std::ostream& out) const
-{
-	muposys::HTML::print(out);
-}
+
+
 int Logout::main(std::ostream& out)
 {	
 	muposys::contenttype(out,"text","html");
-	check();
-	head.redirect(0,"/login.html");
-	head.print(out);
+	out << "Logout testing..\n";
+	try
+	{
+		//if(has_session()) 
+		{
+			//remove_session();
+		}
+		//head.redirect(0,"/login.html");
+		head.print(out);
+	}
+	catch(const std::exception& e)
+	{
+		head.redirect(0,"/login.html?error");
+		head.print(out);
+		return EXIT_FAILURE;
+	}
 	
 	return EXIT_SUCCESS;
 }

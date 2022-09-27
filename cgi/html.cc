@@ -252,6 +252,10 @@ bool Service::create_session()
 {
 	return session.addregister(connHttp);
 }
+bool Service::remove_session()
+{
+	return session.remove(connHttp);
+}
 bool Service::has_session()
 {
 	return session.load(connHttp);
@@ -276,6 +280,8 @@ bool Service::permission(const char* p)
 	//std::cout << "permission : Step 2\n<br>";
 	http::db::Variable var;
 	if(not var.select(connHttp,getenv("REMOTE_ADDR"),"user")) return false;
+
+	//
 	if(var.getValue().empty()) return false;
 
 	unsigned int userid = 0;
@@ -343,48 +349,106 @@ bool Service::open(const std::filesystem::path& fn)
 	
 	return true;
 }
+bool Service::register_session(const char* user)
+{
+	//std::cout << "register_session : 1\n<br>";
+	if(not has_session())
+	{
+		//std::cout << "register_session : 1.2\n<br>";
+		connHttp.begin();
+		if(create_session())
+		{
+			//std::cout << "register_session : 1.2.1\n<br>";
+			if(add("user",user))
+			{
+				//std::cout << "register_session : 1.2.1.1\n<br>";
+				connHttp.commit();
+				return true;
+			}
+			else
+			{
+				//std::cout << "register_session : 1.2.1.2\n<br>";
+				connHttp.rollback();
+				return false;
+			}
+		}
+		else
+		{
+			//std::cout << "register_session : 1.2.2\n<br>";
+			return false;
+		}
+	}
+	else
+	{
+		//std::cout << "register_session : 1.3\n<br>";
+		connHttp.begin();
+		if(create_session())
+		{
+			//std::cout << "register_session : 1.3.1\n<br>";
+			if(add("user",user))
+			{
+				//std::cout << "register_session : 1.3.1.1\n<br>";
+				connHttp.commit();
+				return true;
+			}
+			else
+			{
+				//std::cout << "register_session : 1.3.1.2\n<br>";
+				connHttp.rollback();
+				return false;
+			}
+		}
+		else
+		{
+			//std::cout << "register_session : 1.3.2\n<br>";
+			return false;
+		}
+	}
 
+	//std::cout << "register_session : 2\n<br>";
+	return true;
+}
 
-HTML::HTML() : body(NULL)
+Page::Page() : body(NULL)
 {
 }
 
 
-HTML::HTML(Body& b) : body(&b)
+Page::Page(Body& b) : body(&b)
 {
 }
-HTML::HTML(Body& b,const std::string t) : body(&b)
+Page::Page(Body& b,const std::string t) : body(&b)
 {
 	head.title = t;
 }
 
-HTML::HTML(Body& b,const std::filesystem::path& db) : body(&b), Service(db)
+Page::Page(Body& b,const std::filesystem::path& db) : body(&b), Service(db)
 {
 
 }
-HTML::HTML(Body& b,const Datconnect& dat) : body(&b), Service(dat)
+Page::Page(Body& b,const Datconnect& dat) : body(&b), Service(dat)
 {
 
 }
-HTML::HTML(Body& b,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
+Page::Page(Body& b,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
 {
 
 }
 
-HTML::HTML(Body& b,const std::string& t,const std::filesystem::path& db) : body(&b), Service(db)
+Page::Page(Body& b,const std::string& t,const std::filesystem::path& db) : body(&b), Service(db)
 {
 	head.title = t;
 }
-HTML::HTML(Body& b,const std::string& t,const Datconnect& dat) : body(&b), Service(dat)
+Page::Page(Body& b,const std::string& t,const Datconnect& dat) : body(&b), Service(dat)
 {
 	head.title = t;
 }
-HTML::HTML(Body& b,const std::string& t,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
+Page::Page(Body& b,const std::string& t,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
 {
 	head.title = t;
 }
 
-void HTML::print(std::ostream& out) const
+void Page::print(std::ostream& out) const
 {
 	out << "<html>\n";
 		head.print(out);

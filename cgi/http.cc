@@ -144,24 +144,24 @@ cgicc::const_form_iterator search(cgicc::const_form_iterator first, cgicc::const
 		
 		//std::cout << "addregister :  " << host << "\n";
 		
-		   		if(session.insert(conn,host))
-		   		{
-		   			//std::cout << "Inserted addr: (" << host << ") <br>";
-		   			if(session.downloadIDs(conn))
-			  		{
-			  			return true;
-			  		}
-			  		else
-			  		{
-			  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-						 return false;
-			  		}
-		   		}
-		   		else
-		   		{
-		  			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-					return false;
-		  		}
+		if(session.insert(conn,host))
+		{
+		   //std::cout << "Inserted addr: (" << host << ") <br>";
+		   if(session.downloadIDs(conn))
+			{
+				return true;
+			}
+			else
+			{
+				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+				return false;
+			}
+		}
+		else
+		{
+			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			return false;
+		}
 
 		return true;
 	}

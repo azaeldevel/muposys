@@ -23,7 +23,7 @@ dnl AM_GLIB_GNU_GETTEXT
 dnl ***************************************************************************
 dnl Check for Windows
 dnl ***************************************************************************
-AC_CANONICAL_HOST
+dnl AC_CANONICAL_HOST
 
 case $host_os in
   *mingw*)
@@ -49,10 +49,8 @@ LT_INIT([win32-dll])
 
 PKG_CHECK_MODULES(CGICC, [cgicc])
 PKG_CHECK_MODULES(SQLITE3, [sqlite3])
-dnl PKG_CHECK_MODULES(OPENSSL, [openssl])
-dnl PKG_CHECK_MODULES(OCTETOS_CORE, [octetos-core])
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
-dnl PKG_CHECK_MODULES(GLIB, [glibmm])
+PKG_CHECK_MODULES(GTK, [gtkmm-3.0])
 
 AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])
 
@@ -140,5 +138,6 @@ cgi/Makefile
 cgi/user-mang/Makefile
 cgi/user-mang/permissions/Makefile
 cgi/muposys-cgi.pc
+desk/Makefile
 tests/Makefile
 ])
