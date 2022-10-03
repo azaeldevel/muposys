@@ -8,18 +8,40 @@
 namespace mps
 {
 
+class Login : public Gtk::Dialog
+{
+public:
+	Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	~Login();
+	
+	int run();
+	
+protected:
+	const Glib::RefPtr<Gtk::Builder>& builder;
+	Gtk::Label* lbmsg;
+	void on_bt_ok_clicked();
+	void on_bt_cancel_clicked();
+	
+private:
+	int retcode;
+	Gtk::Button* btOK;
+	Gtk::Button* btCancel;
+};
+
+
 class Main : public Gtk::Window
 {
 public:
-/**
-*
-**/
+	/**
+	*
+	**/
 	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
 	~Main();
-
+	
+	void check();
+	
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
-
 	void on_bt_close_clicked();
 
 
@@ -28,32 +50,6 @@ private:
 	Gtk::Button* bt_close;
 };
 
-class Food : public Main
-{
-public:
-	/**
-	*
-	**/
-	Food(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Food();
-	
-private:
-
-};
-
-
-class Pizza : public Food
-{
-public:
-	/**
-	*
-	**/
-	Pizza(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Pizza();
-	
-private:
-
-};
 
 }
 

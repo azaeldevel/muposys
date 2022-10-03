@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   	<gresource prefix="mps">
-  		<file preprocess="xml-stripblanks">muposys.ui</file>
+  		<file preprocess="xml-stripblanks">desk.ui</file>
 	</gresource>
 </gresources>

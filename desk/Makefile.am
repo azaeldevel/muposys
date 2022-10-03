@@ -1,8 +1,7 @@
 
 
 uidir = $(pkgdatadir)/ui
-ui_DATA = muposys.ui
-
+ui_DATA = desk.ui
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
@@ -15,7 +14,7 @@ AM_CFLAGS = -g -Wall
 
 bin_PROGRAMS = desk 
 
-resources.c : $(top_srcdir)/desk/resources.xml $(top_srcdir)/desk/muposys.ui
+resources.c : $(top_srcdir)/desk/resources.xml $(top_srcdir)/desk/desk.ui
 	glib-compile-resources --target=resources.c --generate-source $(top_srcdir)/desk/resources.xml --sourcedir $(top_srcdir)/desk/
 
 desk_LDADD = $(GTK_LIBS)
