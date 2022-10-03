@@ -72,7 +72,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="inUser">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>
@@ -106,7 +106,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkEntry">
+                  <object class="GtkEntry" id="inPwd">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                   </object>

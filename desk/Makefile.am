@@ -14,11 +14,14 @@ AM_CFLAGS = -g -Wall
 
 bin_PROGRAMS = desk 
 
+LIBS = $(OCTETOS_DB_LIBS) $(GTK_LIBS) $(top_builddir)/apidb/libmuposys-apidb.la
+FLAGS = $(OCTETOS_DB_CFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS)
+
 resources.c : $(top_srcdir)/desk/resources.xml $(top_srcdir)/desk/desk.ui
 	glib-compile-resources --target=resources.c --generate-source $(top_srcdir)/desk/resources.xml --sourcedir $(top_srcdir)/desk/
 
-desk_LDADD = $(GTK_LIBS)
-desk_CXXFLAGS = $(GTK_CFLAGS)
+desk_LDADD = $(LIBS)
+desk_CXXFLAGS = $(FLAGS)
 desk_SOURCES = resources.c desk.cc desk.hh desk-main.cc
 
 EXTRA_DIST = $(ui_DATA)

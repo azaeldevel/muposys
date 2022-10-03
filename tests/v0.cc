@@ -68,8 +68,7 @@ void v0_apidb()
 				delete u;
 			}
 		}
-
-		delete lst;
+		delete userlst;
 
 		std::vector<muposysdb::Permissions*>* permisslst = muposysdb::Permissions::select(connmaria,"",0,'D');
 		if(permisslst != NULL)

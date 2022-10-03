@@ -1,5 +1,6 @@
 
 #include "desk.hh"
+#include "../apidb/muposysdb.hpp"
 
 namespace mps
 {
@@ -14,7 +15,7 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) 
 	builder->get_widget("hb_muposys", hb_muposys);	
 	hb_muposys->set_subtitle(_("Multi-Porpuse Software System"));
 		
-	signal_show().connect(sigc::mem_fun(*this,&Main::check));
+	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 	show();
 }
 
@@ -27,11 +28,10 @@ void Main::on_bt_close_clicked()
 	close();
 }
 
-void Main::check()
+void Main::check_session()
 {
-	mps::Login* login = 0;
 	builder->get_widget_derived("Login", login);
-	
+	login->set_transient_for((Gtk::Window&)*this);
 	int res = Gtk::RESPONSE_NONE;
 	/*do
 	{*/
@@ -50,6 +50,18 @@ void Main::check()
 		}
 	}
 	while(res != Gtk::RESPONSE_OK);*/
+	
+	
+	if(login->get_credential().valid)
+	{	
+		std::cout << "User valid " << login->get_credential().user << "..\n";
+		credential = login->get_credential();
+	}
+	else
+	{		
+		std::cout << "User not valid..\n";
+	}
+	login->close();
 }
 
 
@@ -66,6 +78,13 @@ Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade
 	btCancel = 0;
 	builder->get_widget("btCancel", btCancel);
 	btCancel->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
+		
+	inPwd = 0;
+	builder->get_widget("inPwd", inPwd);
+	
+	inUser = 0;
+	builder->get_widget("inUser", inUser);
+	
 	
 	set_default_size(230,120);
 	set_modal(true);
@@ -91,9 +110,66 @@ void Login::on_bt_cancel_clicked()
 void Login::on_bt_ok_clicked()
 {
 	retcode = Gtk::RESPONSE_OK;
+	check_user();
 	close();	
 }
 
 
+void Login::check_user()
+{
+	Connector connDB;
+	bool flag = connDB.connect(muposysdb::datconex);
+	
+	credential.valid = true;
+	
+	std::string strwhere = "name = ";
+	strwhere += "'" + inUser->get_text() + "' and pwdtxt = '" + inPwd->get_text() + "' and status = 'A'";
+	std::vector<muposysdb::Users*>* userlst = muposysdb::Users::select(connDB,strwhere);
+	
+	//std::cout << "SQL str : " << strwhere << "\n";
+	
+	if(userlst == NULL) 
+	{
+		credential.valid = false;
+		//std::cout << "No hay resultado de la consulta\n";
+	}
+	if(userlst->size() == 0) 
+	{		
+		credential.valid = false;
+		//std::cout << "Hay 0 resultados de la consulta\n";
+	}
+	if(userlst->size() > 1) 
+	{
+		credential.valid = false;
+		//std::cout << "Hay " <<  userlst->size() << " resultados de la consulta\n";
+	}	
+	
+	if(not credential.valid)//si no es valido el usario liberar memorio y salir
+	{
+		for(auto u : *userlst)
+		{
+			if(u->getPerson().downName1(connDB))
+			{
+				if(u->getPerson().downName3(connDB))
+				{
+					credential.name = u->getPerson().getName1() + " " + u->getPerson().getName3();
+				}
+			}
+			else
+			{
+				credential.name = u->getPerson().getName1();
+			}
+			delete u;
+		}
+		delete userlst;		
+		return;
+	}
+	//std::cout << "Usuario aceptado\n";
+	credential.user = inUser->get_text();
+}
+const Login::Credential& Login::get_credential() const
+{
+	return credential;
+}
 }
 
