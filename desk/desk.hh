@@ -50,6 +50,8 @@ protected:
 	Gtk::Label* lbmsg;
 	void on_bt_ok_clicked();
 	void on_bt_cancel_clicked();
+	void on_in_user_clean();
+	bool on_in_user_enter(GdkEventKey* );
 	
 private:
 	int retcode;
@@ -76,14 +78,12 @@ public:
 	
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
-	void on_bt_close_clicked();
-
 
 private:
 	Gtk::HeaderBar* hb_muposys;
-	Gtk::Button* bt_close;
 	mps::Login* login;
 	Login::Credential credential;
+	Gtk::Label* lbUser;
 };
 
 

@@ -1,4 +1,6 @@
 
+#include <gtkmm/application.h>
+
 #include "desk.hh"
 #include "../apidb/muposysdb.hpp"
 
@@ -6,14 +8,13 @@ namespace mps
 {
 
 Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
-{
-	bt_close = 0;
-	builder->get_widget("bt_close", bt_close);
-	bt_close->signal_clicked().connect(sigc::mem_fun(*this,&Main::on_bt_close_clicked));
-	
+{	
 	hb_muposys = 0;
 	builder->get_widget("hb_muposys", hb_muposys);	
-	hb_muposys->set_subtitle(_("Multi-Porpuse Software System"));
+	//hb_muposys->set_subtitle(_("Multi-Porpuse Software System"));
+	
+	lbUser = 0;
+	builder->get_widget("lbUser", lbUser);
 		
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 	show();
@@ -23,43 +24,36 @@ Main::~Main()
 {
 }
 
-void Main::on_bt_close_clicked()
-{
-	close();
-}
-
 void Main::check_session()
 {
 	builder->get_widget_derived("Login", login);
 	login->set_transient_for((Gtk::Window&)*this);
 	int res = Gtk::RESPONSE_NONE;
-	/*do
-	{*/
+	do
+	{
 		if (login)
 		{
 			res = login->run();
 		}	
-		/*switch(res)
+		switch(res)
 		{
 		case Gtk::RESPONSE_OK:
 			break;	
 		case Gtk::RESPONSE_CANCEL:
-			return EXIT_FAILURE;	
+			login->close();
+			return;	
 		case Gtk::RESPONSE_NONE:
 			break;			
 		}
 	}
-	while(res != Gtk::RESPONSE_OK);*/
+	while(not login->get_credential().valid);
 	
 	
 	if(login->get_credential().valid)
 	{	
-		std::cout << "User valid " << login->get_credential().user << "..\n";
+		//std::cout << "User valid " << login->get_credential().user << "..\n";
 		credential = login->get_credential();
-	}
-	else
-	{		
-		std::cout << "User not valid..\n";
+		lbUser->set_text(credential.user);
 	}
 	login->close();
 }
@@ -69,7 +63,6 @@ Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade
 {
 	lbmsg = 0;
 	builder->get_widget("msg", lbmsg);
-	lbmsg->set_text("Tests...");
 	
 	btOK = 0;
 	builder->get_widget("btOK", btOK);
@@ -84,9 +77,9 @@ Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade
 	
 	inUser = 0;
 	builder->get_widget("inUser", inUser);
+	//inUser->signal_key_press_event().connect(sigc::mem_fun(*this,&Login::on_in_user_enter));
 	
-	
-	set_default_size(230,120);
+	set_default_size(250,150);
 	set_modal(true);
 }
 
@@ -114,6 +107,17 @@ void Login::on_bt_ok_clicked()
 	close();	
 }
 
+bool Login::on_in_user_enter(GdkEventKey* e)
+{
+	//if(e->keyval == GDK_KEY_KP_Enter)
+	{
+		std::cout << "Enter detected\n";
+		inPwd->set_text("");
+		inPwd->grab_focus();
+	}
+	
+	return false;
+}
 
 void Login::check_user()
 {
@@ -146,6 +150,7 @@ void Login::check_user()
 	
 	if(not credential.valid)//si no es valido el usario liberar memorio y salir
 	{
+		lbmsg->set_text("Usuario/Contraseña incorrectos.");
 		for(auto u : *userlst)
 		{
 			if(u->getPerson().downName1(connDB))

@@ -128,6 +128,10 @@
                 <property name="name">msg</property>
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <attributes>
+                  <attribute name="foreground" value="#c0c01c1c2828"/>
+                  <attribute name="background" value="#ffffffffffff"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -147,8 +151,8 @@
   </object>
   <object class="GtkWindow" id="wnd_Main">
     <property name="can-focus">False</property>
-    <property name="default-width">500</property>
-    <property name="default-height">400</property>
+    <property name="default-width">800</property>
+    <property name="default-height">640</property>
     <child>
       <placeholder/>
     </child>
@@ -156,9 +160,9 @@
       <object class="GtkHeaderBar" id="hb_muposys">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <property name="title" translatable="yes">muposys</property>
-        <property name="subtitle" translatable="yes">system</property>
-        <property name="spacing">3</property>
+        <property name="title" translatable="yes">Multi-porpuse Software System</property>
+        <property name="subtitle" translatable="yes">muposys</property>
+        <property name="show-close-button">True</property>
         <child>
           <object class="GtkBox" id="box_menu">
             <property name="visible">True</property>
@@ -170,6 +174,7 @@
                 <child>
                   <object class="GtkButton" id="bt_config">
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">COnfiguracion de aplicacion</property>
@@ -177,7 +182,7 @@
                       <object class="GtkImage">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="stock">gtk-preferences</property>
+                        <property name="icon-name">gtk-preferences</property>
                       </object>
                     </child>
                   </object>
@@ -189,11 +194,18 @@
                 </child>
                 <child>
                   <object class="GtkButton" id="bt_admin">
-                    <property name="label" translatable="yes">Administracion</property>
                     <property name="visible">True</property>
+                    <property name="sensitive">False</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">True</property>
                     <property name="tooltip-text" translatable="yes">Administracion, datos de empresa, opciones que afectan el comportamientos de los modulos.</property>
+                    <child>
+                      <object class="GtkImage">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="icon-name">contact-new-symbolic</property>
+                      </object>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -244,16 +256,26 @@
           </object>
         </child>
         <child>
-          <object class="GtkButton" id="bt_close">
+          <object class="GtkBox">
             <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="receives-default">True</property>
+            <property name="can-focus">False</property>
             <child>
-              <object class="GtkImage">
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <object class="GtkLabel" id="lbUser">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="icon-name">emblem-unreadable</property>
+                <property name="label" translatable="yes">Unknow</property>
               </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
             </child>
           </object>
           <packing>

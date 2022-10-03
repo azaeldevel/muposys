@@ -141,7 +141,7 @@ intltool-update.in
 ltmain.sh
 missing
 html/gnome-icon-theme-2.91.93
-
+html/Mkos-Big-Sur/*
 db/alpha/mariadb/old/*
 html/Sevi-blue-dark
 
