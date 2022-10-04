@@ -1,8 +1,4 @@
 
-
-
-
-
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
@@ -35,7 +31,7 @@ libmuposys_desk_la_SOURCES = desk.cc desk.hh
 libmuposys_desk_la_LIBADD =  $(LIBS)
 
 muposysdir = $(datadir)/muposys/desk
-muposys_DATA = desk.ui
+muposys_DATA = muposys-desk.ui
 muposys_includedir = $(includedir)/muposys/desk
 muposys_include_HEADERS = desk.hh
 pkgconfigdir = $(libdir)/pkgconfig
