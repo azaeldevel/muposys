@@ -7,11 +7,8 @@
 
 #include "config.h"
 
-#ifdef MUPOSYS
-	#include <apidb/muposysdb.hpp>
-#else
-	#include <muposys/muposysdb.hpp>
-#endif
+#include <muposys/muposysdb.hpp>
+
 
 
 namespace mps

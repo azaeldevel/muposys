@@ -1,5 +1,6 @@
 
 
+
 uidir = $(pkgdatadir)/ui
 ui_DATA = desk.ui
 
@@ -16,11 +17,13 @@ bin_PROGRAMS = desk
 
 lib_LTLIBRARIES = libmuposys-desk.la
 
-LIBS = $(OCTETOS_DB_LIBS) $(GTK_LIBS) $(top_builddir)/apidb/libmuposys-apidb.la
-FLAGS = $(OCTETOS_DB_CFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS)
 
-resources.c : $(top_srcdir)/desk/resources.xml $(top_srcdir)/desk/desk.ui
-	glib-compile-resources --c-name rc_xml_muposys --target=resources.c --generate-source $(top_srcdir)/desk/resources.xml --sourcedir $(top_srcdir)/desk/
+LIBS = $(OCTETOS_DB_LIBS) $(GTK_LIBS) $(APIDB_LIBS)
+FLAGS = $(OCTETOS_DB_CFLAGS)  $(GTK_CFLAGS) $(APIDB_CFLAGS)
+
+
+resources.c : $(top_srcdir)/resources.xml $(top_srcdir)/desk.ui
+	glib-compile-resources --c-name rc_xml_muposys --target=resources.c --generate-source $(top_srcdir)/resources.xml --sourcedir $(top_srcdir)/
 
 desk_LDADD = $(LIBS)
 desk_CXXFLAGS = $(FLAGS)

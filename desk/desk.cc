@@ -2,7 +2,6 @@
 #include <gtkmm/application.h>
 
 #include "desk.hh"
-#include "../apidb/muposysdb.hpp"
 
 namespace mps
 {

@@ -1,4 +1,3 @@
-
 Debug
 *~
 .anjuta/
@@ -30,6 +29,31 @@ bin/
 *.layout
 .objs
 
+*/Debug
+*/*~
+*/.anjuta/
+*/*.anjuta
+*/.anjuta_sym_db.db
+*/aclocal.m4
+*/autom4te.cache/
+*/compile
+*/config.guess
+*/config.h.in
+*/config.sub
+*/configure
+*/depcomp
+*/install-sh
+*/intltool-extract.in
+*/intltool-merge.in
+*/intltool-update.in
+*/ltmain.sh
+*/missing
+*/Makefile.in
+*/src/Makefile.in
+*/test-driver
+*/examples/Makefile.in
+*/tests/Makefile.in
+*/doc/Makefile.in
 
 java/octetos-db/target
 /java/muposys/target/
@@ -145,3 +169,5 @@ html/Mkos-Big-Sur/*
 db/alpha/mariadb/old/*
 html/Sevi-blue-dark
 
+html/Sevi.tar.xz
+html/Sevi-*.tar.xz

@@ -2,7 +2,7 @@
 
 SRCDIR=$1
 
-PFILE=$SRCDIR/apidb/muposys.apidb
+PFILE=$SRCDIR/muposys.apidb
 BUILDP=$2
 
 apidb-build -p $PFILE -o $BUILDP
