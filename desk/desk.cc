@@ -6,7 +6,21 @@
 namespace mps
 {
 
-Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
+Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade), devel(false)
+{	
+	init();
+		
+	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
+	show();
+}
+Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool d) : Gtk::Window(cobject), builder(refGlade),devel(d)
+{	
+	init();
+			
+	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
+	show();
+}
+void Main::init()
 {	
 	hb_muposys = 0;
 	builder->get_widget("hb_muposys", hb_muposys);	
@@ -14,11 +28,7 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) 
 	
 	lbUser = 0;
 	builder->get_widget("lbUser", lbUser);
-		
-	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-	show();
 }
-
 Main::~Main()
 {
 }
@@ -26,7 +36,8 @@ Main::~Main()
 void Main::check_session()
 {
 	builder->get_widget_derived("Login", login);
-	login->set_transient_for((Gtk::Window&)*this);
+	login->set_transient_for((Gtk::Window&)*this);	
+	if(devel) login->set_session("root","123456");
 	int res = Gtk::RESPONSE_NONE;
 	do
 	{
@@ -187,6 +198,11 @@ const Login::Credential& Login::get_credential() const
 {
 	return credential;
 }
+void Login::set_session(const char* u,const char* p)
+{	
+	inUser->set_text(u);
+	inPwd->set_text(p);	
+}
 
 
 
@@ -196,7 +212,9 @@ const Login::Credential& Login::get_credential() const
 Restaurant::Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Main(cobject,refGlade)
 {
 }
-
+Restaurant::Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool d) : Main(cobject,refGlade,d)
+{
+}
 Restaurant::~Restaurant()
 {
 }

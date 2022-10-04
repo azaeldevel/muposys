@@ -42,7 +42,7 @@ int main (int argc, char *argv[])
 	}
 	
 	mps::Main* wnd_Main = 0;
-	builder->get_widget_derived("wnd_Main", wnd_Main);
+	builder->get_widget_derived("Main", wnd_Main);
 	if (wnd_Main) kit.run(*wnd_Main);
 	
 	return EXIT_SUCCESS;

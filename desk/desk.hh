@@ -41,6 +41,7 @@ public:
 	
 	int run();
 	const Credential& get_credential() const;
+	void set_session(const char*,const char*);
 	
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
@@ -69,18 +70,21 @@ public:
 	*
 	**/
 	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
+	void init();
 	virtual ~Main();
 	
 	void check_session();
 	
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
+	mps::Login* login;
 
 private:
 	Gtk::HeaderBar* hb_muposys;
-	mps::Login* login;
 	Login::Credential credential;
 	Gtk::Label* lbUser;
+	bool devel;
 };
 
 class Restaurant : public Main
@@ -90,6 +94,7 @@ public:
 	*
 	**/
 	Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
 	virtual ~Restaurant();
 		
 protected:

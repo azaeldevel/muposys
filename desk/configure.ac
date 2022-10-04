@@ -52,7 +52,7 @@ if test "x$enable_devel" = "xyes"; then
 	dnl AC_SUBST([ENABLE_DEVEL],[true])
 	AC_DEFINE_UNQUOTED([ENABLE_DEVEL], [true], [Soporte de desarrollador activo])
 	AM_CONDITIONAL(ENABLE_DEVEL, true)
-else 
+else
 	AM_CONDITIONAL(ENABLE_DEVEL, false)
 fi
 
