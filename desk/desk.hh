@@ -37,7 +37,7 @@ public:
 		std::string name;
 	};
 	Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Login();
+	virtual ~Login();
 	
 	int run();
 	const Credential& get_credential() const;
@@ -69,7 +69,7 @@ public:
 	*
 	**/
 	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	~Main();
+	virtual ~Main();
 	
 	void check_session();
 	
@@ -83,6 +83,20 @@ private:
 	Gtk::Label* lbUser;
 };
 
+class Restaurant : public Main
+{
+public:
+	/**
+	*
+	**/
+	Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	virtual ~Restaurant();
+		
+protected:
+	
+private:
+	
+};
 
 }
 

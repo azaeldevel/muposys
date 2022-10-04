@@ -187,5 +187,20 @@ const Login::Credential& Login::get_credential() const
 {
 	return credential;
 }
+
+
+
+
+
+
+Restaurant::Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Main(cobject,refGlade)
+{
+}
+
+Restaurant::~Restaurant()
+{
+}
+
+
 }
 

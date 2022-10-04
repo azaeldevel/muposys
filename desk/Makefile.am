@@ -1,8 +1,8 @@
 
 
 
-uidir = $(pkgdatadir)/ui
-ui_DATA = desk.ui
+muposysdir = $(datadir)/muposys/desk
+muposys_DATA = desk.ui
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
@@ -35,9 +35,8 @@ libmuposys_desk_la_SOURCES = desk.cc desk.hh
 libmuposys_desk_la_LIBADD =  $(LIBS)
 
 
-EXTRA_DIST = $(ui_DATA)
+EXTRA_DIST = $(muposys_DATA)
 
 uninstall-local:
-	-rm -r $(uidir)
-	-rm -r $(pkgdatadir)
+	-rm -r $(muposysdir)
 
