@@ -122,7 +122,19 @@ bool Login::on_in_user_enter(GdkEventKey* e)
 void Login::check_user()
 {
 	Connector connDB;
-	bool flag = connDB.connect(muposysdb::datconex);
+	bool flag = false;
+	int res = 0;
+	try
+	{
+		flag = connDB.connect(muposysdb::datconex);
+	}
+	catch(const std::exception& e)
+	{
+		Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
+		dlg.set_secondary_text(e.what());
+		res = dlg.run();
+		return;		
+	}
 	
 	credential.valid = true;
 	

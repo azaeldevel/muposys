@@ -25,19 +25,18 @@ int main (int argc, char *argv[])
 	Glib::RefPtr<Gtk::Builder> builder;
 	try
 	{
-		builder = Gtk::Builder::create_from_resource("/mps/desk.ui");
+		builder = Gtk::Builder::create();
+		builder->add_from_resource("/mps/desk.ui");
 	}
 	catch (const Glib::FileError & ex)
 	{
 		std::cerr << ex.what() << std::endl;
 		return 1;
 	}
-			
+	
 	mps::Main* wnd_Main = 0;
 	builder->get_widget_derived("wnd_Main", wnd_Main);
-	if (wnd_Main)
-	{
-		kit.run(*wnd_Main);
-	}
+	if (wnd_Main) kit.run(*wnd_Main);
+	
 	return EXIT_SUCCESS;
 }
