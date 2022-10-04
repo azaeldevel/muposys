@@ -30,6 +30,7 @@ bin/
 .objs
 
 */Debug
+*/Optimized
 */*~
 */.anjuta/
 */*.anjuta

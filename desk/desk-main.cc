@@ -26,7 +26,14 @@ int main (int argc, char *argv[])
 	try
 	{
 		builder = Gtk::Builder::create();
-		builder->add_from_resource("/mps/desk.ui");
+		std::string fileui;
+#ifdef ENABLE_DEVEL
+		fileui = PACKAGE_SRC_DIR;
+#else
+		fileui = PACKAGE_DATA_DIR;
+#endif
+		fileui += "/desk.ui";
+		builder->add_from_file(fileui);
 	}
 	catch (const Glib::FileError & ex)
 	{
