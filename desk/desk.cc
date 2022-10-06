@@ -22,6 +22,8 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,b
 }
 void Main::init()
 {	
+	if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
+	
 	hb_muposys = 0;
 	builder->get_widget("hb_muposys", hb_muposys);	
 	//hb_muposys->set_subtitle(_("Multi-Porpuse Software System"));
@@ -68,6 +70,14 @@ void Main::check_session()
 	login->close();
 }
 
+/*void Main::set_title(const char* )
+{
+	
+}
+void Main::set_subtitle(const char* )
+{
+	
+}*/
 
 Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Dialog(cobject), builder(refGlade), retcode(Gtk::RESPONSE_NONE)
 {
@@ -89,7 +99,7 @@ Login::Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade
 	builder->get_widget("inUser", inUser);
 	//inUser->signal_key_press_event().connect(sigc::mem_fun(*this,&Login::on_in_user_enter));
 	
-	set_default_size(250,150);
+	//set_default_size(250,150);
 	set_modal(true);
 }
 

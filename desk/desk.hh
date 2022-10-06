@@ -9,7 +9,7 @@
 
 #include <muposys/muposysdb.hpp>
 
-
+#include "Exception.hh"
 
 namespace mps
 {
@@ -79,9 +79,11 @@ public:
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
 	mps::Login* login;
+	Gtk::HeaderBar* hb_muposys;
+	//void set_title(const char* );
+	//void set_subtitle(const char* );
 
 private:
-	Gtk::HeaderBar* hb_muposys;
 	Login::Credential credential;
 	Gtk::Label* lbUser;
 	bool devel;

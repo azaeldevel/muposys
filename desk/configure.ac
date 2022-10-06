@@ -8,7 +8,7 @@ LT_INIT
 
 
 PKG_CHECK_MODULES(GTK, [gtkmm-3.0])
-
+PKG_CHECK_MODULES(OCTETOS, [octetos-core])
 PKG_CHECK_MODULES(APIDB, [muposys-apidb])
 
 AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])

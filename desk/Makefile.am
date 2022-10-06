@@ -13,27 +13,29 @@ bin_PROGRAMS = muposys-desk
 lib_LTLIBRARIES = libmuposys-desk.la
 
 
-LIBS = $(OCTETOS_DB_LIBS) $(GTK_LIBS) $(APIDB_LIBS)
-FLAGS = $(OCTETOS_DB_CFLAGS)  $(GTK_CFLAGS) $(APIDB_CFLAGS)
+LIBS = $(OCTETOS_DB_LIBS) $(GTK_LIBS) $(APIDB_LIBS) $(OCTETOS_LIBS)
+FLAGS = $(OCTETOS_DB_CFLAGS)  $(GTK_CFLAGS) $(APIDB_CFLAGS) $(OCTETOS_CFLAGS)
 
 
 resources.c : $(top_srcdir)/resources.xml $(top_srcdir)/desk.ui
 	glib-compile-resources -C g++ --generate-header --c-name rc_xml_muposys --target=muposys-xml.hh   --sourcedir=$(top_srcdir) $(top_srcdir)/resources.xml
 	glib-compile-resources --generate-source --c-name rc_xml_muposys --target=resources.c   --sourcedir=$(top_srcdir) $(top_srcdir)/resources.xml
 
-muposys_desk_LDADD = $(LIBS)
-muposys_desk_CXXFLAGS = $(FLAGS)
-muposys_desk_SOURCES = desk.cc desk.hh desk-main.cc
 
 libmuposys_desk_la_CXXFLAGS = $(FLAGS) 
 libmuposys_desk_la_LDFLAGS = 
-libmuposys_desk_la_SOURCES = desk.cc desk.hh
+libmuposys_desk_la_SOURCES = desk.cc desk.hh Exception.cc
 libmuposys_desk_la_LIBADD =  $(LIBS)
+
+muposys_desk_LDADD = $(LIBS) libmuposys-desk.la
+muposys_desk_CXXFLAGS = $(FLAGS)
+muposys_desk_SOURCES = desk.cc desk.hh desk-main.cc 
+
 
 muposysdir = $(datadir)/muposys/desk
 muposys_DATA = muposys-desk.ui
 muposys_includedir = $(includedir)/muposys/desk
-muposys_include_HEADERS = desk.hh
+muposys_include_HEADERS = desk.hh Exception.hh
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = muposys-desk.pc
 
