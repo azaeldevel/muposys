@@ -12,8 +12,8 @@ ALTER TABLE Cataloging ADD CONSTRAINT Cataloging_number_unique UNIQUE (catalog,n
 ALTER TABLE Cataloging ADD COLUMN active ENUM('Y','N');
 ALTER TABLE Cataloging ADD CONSTRAINT Cataloging_Entity_id FOREIGN KEY(id) REFERENCES Entities(id) ;
 ALTER TABLE Cataloging ADD COLUMN value FLOAT;
-ALTER TABLE Cataloging ADD COLUMN listprice INT DEFAULT 16 ;
-ALTER TABLE Cataloging ADD CONSTRAINT Cataloging_ListPrices FOREIGN KEY(listprice) REFERENCES Entities(id) ;
+ALTER TABLE Cataloging ADD COLUMN presentation VARCHAR(5);
+
 
 CREATE TABLE Stock (stock INT PRIMARY KEY NOT NULL,name VARCHAR(60),FOREIGN KEY(stock) REFERENCES ListPrices(list));
 ALTER TABLE Stock ADD COLUMN label VARCHAR(50);
