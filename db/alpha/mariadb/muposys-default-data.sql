@@ -13,8 +13,8 @@ INSERT INTO Entities(id) VALUES(10);
 INSERT INTO Persons(ente,name1) VALUES(1,'root');
 
 INSERT INTO Users(user,person,name) VALUES(2,1,'root');
-UPDATE Users SET pwdtxt='123456' WHERE person = 2;
-UPDATE Users SET status='A' WHERE person = 2;
+UPDATE Users SET pwdtxt='123456' WHERE user = 2;
+UPDATE Users SET status='A' WHERE user = 2;
 
 INSERT INTO Versions(ente,name,major,minor,patch) VALUES(3,'database',0,2,0);
 

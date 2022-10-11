@@ -167,17 +167,17 @@ void Login::check_user()
 	if(userlst == NULL) 
 	{
 		credential.valid = false;
-		//std::cout << "No hay resultado de la consulta\n";
+		std::cout << "No hay resultado de la consulta\n";
 	}
 	if(userlst->size() == 0) 
 	{		
 		credential.valid = false;
-		//std::cout << "Hay 0 resultados de la consulta\n";
+		std::cout << "Hay 0 resultados de la consulta\n";
 	}
 	if(userlst->size() > 1) 
 	{
 		credential.valid = false;
-		//std::cout << "Hay " <<  userlst->size() << " resultados de la consulta\n";
+		std::cout << "Hay " <<  userlst->size() << " resultados de la consulta\n";
 	}	
 	
 	if(not credential.valid)//si no es valido el usario liberar memorio y salir

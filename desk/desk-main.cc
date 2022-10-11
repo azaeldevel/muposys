@@ -41,9 +41,13 @@ int main (int argc, char *argv[])
 		return 1;
 	}
 	
-	mps::Main* wnd_Main = 0;
-	builder->get_widget_derived("Main", wnd_Main);
-	if (wnd_Main) kit.run(*wnd_Main);
+	mps::Main* Main = 0;
+#ifdef ENABLE_DEVEL
+		builder->get_widget_derived("Main", Main,true);
+#else
+		builder->get_widget_derived("Main", Main);
+#endif	
+	if (Main) kit.run(*Main);
 	
 	return EXIT_SUCCESS;
 }
