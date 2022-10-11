@@ -1,5 +1,5 @@
 
-AC_INIT(muposys_apidb, 0.1.0-alpha)
+AC_INIT(muposys_apidb, 0.2.0-alpha)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -12,7 +12,7 @@ AC_PROG_CXX
 LT_INIT
 
 
-PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
+PKG_CHECK_MODULES(OCTETOS, [octetos-core])
 
 AC_DEFINE_UNQUOTED([MUPOSYS_APIDB], [true] ,[Signal for local compilation])
 
@@ -45,7 +45,7 @@ fi
 AC_ARG_ENABLE([tdd],[AS_HELP_STRING([--enable-tdd],[Enable Test-Drive Developing mode)])])
 if test "x$enable_tdd" = "xyes"; then 
 	AM_CONDITIONAL(ENABLE_TDD, true)
-	PKG_CHECK_MODULES(CUNIT, [cunit])
+	PKG_CHECK_MODULES(TDD, [cunit])
 else
 	AM_CONDITIONAL(ENABLE_TDD, false)
 fi
@@ -59,6 +59,8 @@ else
 	AM_CONDITIONAL(ENABLE_DEVEL, false)
 fi
 
+
+AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,false)
 AC_ARG_ENABLE([database],[AS_HELP_STRING([--enable-database],[Enabling sopport for Database])])
 case $enableval in
 	maria)
@@ -66,6 +68,7 @@ case $enableval in
 		AM_CONDITIONAL(WITH_MARIADB,true)
 		AM_CONDITIONAL(WITH_MYSQL,false)
 		AM_CONDITIONAL(WITH_POSTGRESQL,false)
+		AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,true)
 		AC_DEFINE_UNQUOTED([DATABASE_ENGINE_MARIA], [], [Enabling Database Server MariaDB])
 		AC_DEFINE_UNQUOTED([OCTETOS_DB_MEDIUMWORD], [], [Enabling medium word size for database])
 	;;
@@ -74,6 +77,7 @@ case $enableval in
 		AM_CONDITIONAL(WITH_MARIADB,false)
 		AM_CONDITIONAL(WITH_MYSQL,true)
 		AM_CONDITIONAL(WITH_POSTGRESQL,false)
+		AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,true)
 		AC_DEFINE_UNQUOTED([DATABASE_ENGINE_MYSQL], [], [Enabling Database Server MySQL])
 		AC_DEFINE_UNQUOTED([OCTETOS_DB_MEDIUMWORD], [], [Enabling medium word size for database])
 	;;
@@ -82,6 +86,7 @@ case $enableval in
 		AM_CONDITIONAL(WITH_MARIADB,false)
 		AM_CONDITIONAL(WITH_MYSQL,false)
 		AM_CONDITIONAL(WITH_POSTGRESQL,true)
+		AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,true)
 		AC_DEFINE_UNQUOTED([DATABASE_ENGINE_POSTGRESQL], [], [Enabling Database Server PostgreSQL])
 		AC_DEFINE_UNQUOTED([OCTETOS_DB_MEDIUMWORD], [], [Enabling medium word size for database])
 	;;
@@ -93,5 +98,7 @@ esac
 
 AC_OUTPUT([
 Makefile
-muposys-apidb.pc
+src/Makefile
+src/muposys-apidb.pc
+tests/Makefile
 ])
