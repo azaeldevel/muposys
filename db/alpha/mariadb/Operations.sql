@@ -7,8 +7,8 @@ CREATE TABLE Catalogs(catalog INT PRIMARY KEY NOT NULL,name VARCHAR(60) NOT NULL
 ALTER TABLE Catalogs ADD COLUMN label VARCHAR(50);
 
 
-CREATE TABLE Catalog_Items(id INT  PRIMARY KEY NOT NULL,catalog INT NOT NULL,number_id VARCHAR(60) NOT NULL,name VARCHAR(60) NOT NULL,FOREIGN KEY(catalog) REFERENCES Catalogs(catalog));
-ALTER TABLE Catalog_Items ADD CONSTRAINT Cataloging_number_unique UNIQUE (catalog,number_id);
+CREATE TABLE Catalog_Items(id INT  PRIMARY KEY NOT NULL,catalog INT NOT NULL,number VARCHAR(60) NOT NULL,name VARCHAR(60) NOT NULL,FOREIGN KEY(catalog) REFERENCES Catalogs(catalog));
+ALTER TABLE Catalog_Items ADD CONSTRAINT Cataloging_number_unique UNIQUE (catalog,number);
 ALTER TABLE Catalog_Items ADD COLUMN active ENUM('Y','N');
 ALTER TABLE Catalog_Items ADD CONSTRAINT Cataloging_Entity_id FOREIGN KEY(id) REFERENCES Entities(id) ;
 ALTER TABLE Catalog_Items ADD COLUMN value FLOAT;

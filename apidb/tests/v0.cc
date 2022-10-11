@@ -122,7 +122,29 @@ void v0_apidb()
     std::string item_number2 = "item-" + std::to_string(randNumber);
     std::string item_name2 = "name-" + std::to_string(randNumber);
     CU_ASSERT(catItems2.insert(connector,ente_cataloging2,catalog1,item_number2,item_name2));
-    
+
+	std::vector<muposysdb::Catalog_Items*>* lstCatItems = muposysdb::Catalog_Items::select(connector,"");
+    CU_ASSERT(lstCatItems != NULL);
+	/*
+	if(lstCatItems)
+	{
+		for(auto p : *lstCatItems)
+	   	{
+		 	if(p->downNumber(connector))
+		   	{
+		    	std::cout << ""<< p->getNumber() << std::endl;
+		  	}
+	  	}
+	   	for(auto p : *lstCatItems)
+	  	{
+		        delete p;
+	   	}
+		
+	}
+	*/
+	if(lstCatItems) delete lstCatItems;
+
+	
     connector.commit();
 	connector.close();
 		
