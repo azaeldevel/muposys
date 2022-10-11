@@ -11,14 +11,12 @@ ALTER TABLE Persons MODIFY COLUMN canyonLength FLOAT;
 ALTER TABLE Persons ADD CONSTRAINT ente_primary PRIMARY KEY (ente);
 ALTER TABLE Persons MODIFY COLUMN canyonLength FLOAT;
 
-CREATE TABLE Users ( person INT NOT NULL, name VARCHAR(20) NOT NULL,pwdtxt VARCHAR(12), FOREIGN KEY(person) REFERENCES Persons(ente));
+CREATE TABLE Users (user INT NOT NULL PRIMARY KEY,person INT NOT NULL, name VARCHAR(20) NOT NULL,pwdtxt VARCHAR(12), FOREIGN KEY(person) REFERENCES Persons(ente), FOREIGN KEY(user) REFERENCES Entities(id));
 ALTER TABLE Users ADD CONSTRAINT users_unique UNIQUE (person,name);
 -- R: Registrado, P:Autorizacion Pendiente, A:Autorizado
 ALTER TABLE Users ADD COLUMN status ENUM('R','P','A');
 
+CREATE TABLE Permissions(permission INT PRIMARY KEY NOT NULL,name VARCHAR(20) NOT NULL,brief VARCHAR(256) NOT NULL,FOREIGN KEY(permission) REFERENCES Entities(id));
 
-
-CREATE TABLE Permissions(name VARCHAR(20) NOT NULL PRIMARY KEY,brief VARCHAR(256) NOT NULL);
-
-CREATE TABLE User_Permission(user INT NOT NULL,permission VARCHAR(20) NOT NULL,FOREIGN KEY(permission) REFERENCES Permissions(name));
+CREATE TABLE User_Permission(up INT NOT NULL PRIMARY KEY,user INT NOT NULL,permission INT NOT NULL,FOREIGN KEY(permission) REFERENCES Permissions(permission),FOREIGN KEY(user) REFERENCES Users(user), FOREIGN KEY(up) REFERENCES Entities(id));
 
