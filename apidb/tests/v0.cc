@@ -143,8 +143,7 @@ void v0_apidb()
 	}
 	*/
 	if(lstCatItems) delete lstCatItems;
-
-	
+		
     connector.commit();
 	connector.close();
 		
