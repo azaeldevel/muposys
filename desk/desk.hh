@@ -27,6 +27,58 @@ namespace mps
 	typedef octetos::db::Connector Connector;
 #endif
 
+	
+class TableSaling : public Gtk::Box
+{	
+public:
+	TableSaling();	
+	void init();
+	virtual ~TableSaling();
+	
+protected:
+	
+	void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
+	
+	void treeviewcolumn_validated_on_cell_data_number(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
+	void cellrenderer_validated_on_editing_started_number(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
+	void cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text);
+	
+	void treeviewcolumn_validated_on_cell_data_quantity(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
+	void cellrenderer_validated_on_editing_started_quantity(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
+	void cellrenderer_validated_on_edited_quantity(const Glib::ustring& path_string, const Glib::ustring& new_text);
+	
+	float total()const;
+	
+	void newrow();
+	
+private:
+	
+	class ModelColumns : public Gtk::TreeModel::ColumnRecord
+	{
+	public:
+		ModelColumns();
+		Gtk::TreeModelColumn<unsigned int> id;		
+		Gtk::TreeModelColumn<unsigned int> item;
+		Gtk::TreeModelColumn<unsigned int> quantity;
+		Gtk::TreeModelColumn<bool> quantity_valid;
+		Gtk::TreeModelColumn<Glib::ustring> presentation;
+		Gtk::TreeModelColumn<Glib::ustring> number;
+		Gtk::TreeModelColumn<bool> number_validated;
+		Gtk::TreeModelColumn<Glib::ustring> name;
+		Gtk::TreeModelColumn<float> cost;
+		Gtk::TreeModelColumn<bool> cost_valid;
+	};
+	
+	ModelColumns columns;
+	Glib::RefPtr<Gtk::ListStore> tree_model;
+	Gtk::TreeView table;
+	Gtk::Button btSave;
+	Gtk::Label lbTotal,lbTotalAmount;
+	Gtk::Box boxTotal;
+};
+
+
+
 class Login : public Gtk::Dialog
 {
 public:
@@ -74,7 +126,8 @@ public:
 	void init();
 	virtual ~Main();
 	
-	void check_session();
+	void check_session();	
+	void add_activity(Gtk::Widget&);
 	
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
@@ -87,6 +140,12 @@ private:
 	Login::Credential credential;
 	Gtk::Label* lbUser;
 	bool devel;
+	Gtk::Box* boxSlices;
+	Gtk::Notebook* nbMain;
+	
+#ifdef ENABLE_DEVEL
+	TableSaling sales;
+#endif
 };
 
 class Restaurant : public Main

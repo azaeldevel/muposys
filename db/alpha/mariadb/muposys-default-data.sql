@@ -7,8 +7,8 @@ INSERT INTO Entities(id) VALUES(5);
 INSERT INTO Entities(id) VALUES(6);
 INSERT INTO Entities(id) VALUES(7);
 INSERT INTO Entities(id) VALUES(8);
-INSERT INTO Entities(id) VALUES(9);-- <<<--- last use
-INSERT INTO Entities(id) VALUES(10);
+INSERT INTO Entities(id) VALUES(9);
+INSERT INTO Entities(id) VALUES(10);-- <<<--- last use
 
 INSERT INTO Persons(ente,name1) VALUES(1,'root');
 
@@ -37,5 +37,4 @@ UPDATE Catalogs SET label = 'Oferta' WHERE catalog = 7 and name = 'offers';
 INSERT INTO Stock(stock,name,label) VALUES(8,'main','Principal');
 
 INSERT INTO Stock(stock,name,label) VALUES(9,'production','Producción');
-
 
