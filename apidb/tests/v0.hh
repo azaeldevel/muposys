@@ -9,7 +9,7 @@
 
 
 
-#include <muposysdb.hpp>
+#include <muposys-apidb.hh>
 
 int v0_init(void);
 int v0_clean(void);

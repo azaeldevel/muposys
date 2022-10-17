@@ -35,19 +35,38 @@ int main (int argc, char *argv[])
 		fileui += "/muposys-desk.ui";
 		builder->add_from_file(fileui);
 	}
-	catch (const Glib::FileError & ex)
+	catch (const Glib::FileError& e)
 	{
-		std::cerr << ex.what() << std::endl;
-		return 1;
+		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
+		dlg.set_secondary_text(e.what());
+		dlg.run();
+		return EXIT_FAILURE;
+	}
+	catch (const std::exception& e)
+	{
+		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
+		dlg.set_secondary_text(e.what());
+		dlg.run();
+		return EXIT_FAILURE;		
 	}
 	
 	mps::Main* Main = 0;
+	try
+	{
 #ifdef ENABLE_DEVEL
 		builder->get_widget_derived("Main", Main,true);
 #else
 		builder->get_widget_derived("Main", Main);
 #endif	
-	if (Main) kit.run(*Main);
+		if (Main) kit.run(*Main);
+	}
+	catch (const std::exception& e)
+	{
+		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
+		dlg.set_secondary_text(e.what());
+		dlg.run();
+		return EXIT_FAILURE;		
+	}
 	
 	return EXIT_SUCCESS;
 }

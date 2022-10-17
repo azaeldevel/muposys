@@ -7,9 +7,11 @@ FLAGS = $(OCTETOS_CFLAGS) $(OCTETOS_DB_CFLAGS) $(TDD_CFLAGS)
 if OCTETOS_DB_MEDIUMWORD
 FLAGS += -DOCTETOS_DB_MEDIUMWORD
 endif
-
+if DATABASE_ENGINE_MARIA
+FLAGS += -DDATABASE_ENGINE_MARIA
+endif
 
 v0_LDFLAGS =
 v0_LDADD = $(LIB) $(top_builddir)/src/libmuposys-apidb.la
-v0_CXXFLAGS = $(FLAGS) -DMUPOSYS_APIDB_V0 -I$(top_builddir)/src
+v0_CXXFLAGS = $(FLAGS) -DMUPOSYS_APIDB_V0 -I$(top_builddir)/src -I$(top_srcdir)/src
 v0_SOURCES = main.cc v0.cc

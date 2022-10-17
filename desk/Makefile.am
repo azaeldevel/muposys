@@ -25,17 +25,17 @@ muposys-glade.c : $(top_srcdir)/resources.xml $(top_srcdir)/desk.ui
 	
 libmuposys_desk_la_CXXFLAGS = $(FLAGS) 
 libmuposys_desk_la_LDFLAGS = 
-libmuposys_desk_la_SOURCES = desk.cc desk.hh Exception.cc
+libmuposys_desk_la_SOURCES = desk.cc desk.hh Exception.cc desk-TableSaling.cc
 libmuposys_desk_la_LIBADD =  $(LIBS)
 
 muposys_desk_LDADD = $(LIBS) libmuposys-desk.la
 muposys_desk_CXXFLAGS = $(FLAGS)
-muposys_desk_SOURCES = desk.cc desk.hh desk-main.cc 
+muposys_desk_SOURCES = desk-main.cc 
 
 muposysdir = $(datadir)/muposys/desk
 muposys_DATA = muposys-desk.ui
 muposys_includedir = $(includedir)/muposys/desk
-muposys_include_HEADERS = desk.hh Exception.hh
+muposys_include_HEADERS = desk.hh Exception.hh 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = muposys-desk.pc
 

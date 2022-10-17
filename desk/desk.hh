@@ -8,6 +8,7 @@
 #include "config.h"
 
 #include <muposys/muposysdb.hpp>
+#include <gtkmm.h>
 
 #include "Exception.hh"
 
@@ -47,6 +48,9 @@ protected:
 	void cellrenderer_validated_on_editing_started_quantity(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
 	void cellrenderer_validated_on_edited_quantity(const Glib::ustring& path_string, const Glib::ustring& new_text);
 	
+	bool on_key_press_event(GdkEventKey* key_event);
+	bool on_quantity_key_press_event(GdkEventKey* key_event);
+	
 	float total()const;
 	
 	void newrow();
@@ -57,16 +61,17 @@ private:
 	{
 	public:
 		ModelColumns();
-		Gtk::TreeModelColumn<unsigned int> id;		
-		Gtk::TreeModelColumn<unsigned int> item;
+		//Gtk::TreeModelColumn<unsigned int> id;		
+		//Gtk::TreeModelColumn<unsigned int> item;
 		Gtk::TreeModelColumn<unsigned int> quantity;
-		Gtk::TreeModelColumn<bool> quantity_valid;
+		//Gtk::TreeModelColumn<bool> quantity_valid;
 		Gtk::TreeModelColumn<Glib::ustring> presentation;
 		Gtk::TreeModelColumn<Glib::ustring> number;
-		Gtk::TreeModelColumn<bool> number_validated;
+		//Gtk::TreeModelColumn<bool> number_validated;
 		Gtk::TreeModelColumn<Glib::ustring> name;
-		Gtk::TreeModelColumn<float> cost;
-		Gtk::TreeModelColumn<bool> cost_valid;
+		Gtk::TreeModelColumn<float> cost_unit;
+		Gtk::TreeModelColumn<float> amount;
+		//Gtk::TreeModelColumn<bool> amount_valid;
 	};
 	
 	ModelColumns columns;
@@ -75,6 +80,7 @@ private:
 	Gtk::Button btSave;
 	Gtk::Label lbTotal,lbTotalAmount;
 	Gtk::Box boxTotal;
+	Gtk::Box boxFloor;
 };
 
 
@@ -136,6 +142,11 @@ protected:
 	//void set_title(const char* );
 	//void set_subtitle(const char* );
 
+#ifdef ENABLE_DEVEL
+	//bool on_key_press_event(GdkEventKey* key_event) override;
+	
+#endif
+	
 private:
 	Login::Credential credential;
 	Gtk::Label* lbUser;
@@ -145,6 +156,8 @@ private:
 	
 #ifdef ENABLE_DEVEL
 	TableSaling sales;
+	Gtk::Toolbar* tbMain;
+	Gtk::ToolButton btSales;
 #endif
 };
 

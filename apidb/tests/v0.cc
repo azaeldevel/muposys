@@ -19,7 +19,7 @@ void v0_apidb()
 	std::random_device generator;
   	std::uniform_int_distribution<int> randInt(1,INT_MAX);
 	
-	octetos::db::maria::Connector connector;
+	mps::Connector connector;
 	bool flag = connector.connect(muposysdb::datconex);
     CU_ASSERT(flag);    
 		
