@@ -10,6 +10,9 @@ endif
 if DATABASE_ENGINE_MARIA
 FLAGS += -DDATABASE_ENGINE_MARIA
 endif
+if MUPOSYS_APIDB_ENABLE_TDD
+FLAGS += -DMUPOSYS_APIDB_ENABLE_TDD
+endif
 
 v0_LDFLAGS =
 v0_LDADD = $(LIB) $(top_builddir)/src/libmuposys-apidb.la

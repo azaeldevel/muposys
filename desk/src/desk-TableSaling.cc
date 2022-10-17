@@ -7,12 +7,24 @@ namespace mps
 {
 
 
-TableSaling::TableSaling() : Gtk::Box(Gtk::ORIENTATION_VERTICAL),btSave(Gtk::Stock::SAVE),boxFloor(Gtk::ORIENTATION_VERTICAL)
+TableSaling::TableSaling() : Gtk::Box(Gtk::ORIENTATION_VERTICAL),btSave(Gtk::Stock::SAVE),boxFloor(Gtk::ORIENTATION_VERTICAL),connDB_flag(false)
 {
 	init();	
 }
 void TableSaling::init()
 {
+	try
+	{
+		connDB.connect(muposysdb::datconex);
+	}
+	catch(const std::exception& e)
+	{
+		Gtk::MessageDialog dlg("Error detectado durante conexion a BD",true,Gtk::MESSAGE_ERROR);
+		dlg.set_secondary_text(e.what());
+		dlg.run();
+		return;
+	}
+	
 	//set_valign(Gtk::ALIGN_CENTER);
 	table.add_events(Gdk::KEY_PRESS_MASK);
 	//table.signal_key_press_event().connect(sigc::mem_fun(*this, &TableSaling::on_key_press_event));
@@ -68,9 +80,13 @@ void TableSaling::init()
 		btSave.set_size_request(200,-1);
 		boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
 	}	
+	
+	
+	connDB_flag = true;
 }
 TableSaling::~TableSaling()
 {
+	connDB.close();
 }
 TableSaling::ModelColumns::ModelColumns()
 {
@@ -158,18 +174,7 @@ void TableSaling::cellrenderer_validated_on_edited(const Glib::ustring& path_str
 
 void TableSaling::treeviewcolumn_validated_on_cell_data_number( Gtk::CellRenderer* renderer , const Gtk::TreeModel::iterator& iter)
 {
-	Connector connDB;
-	try
-	{
-		connDB.connect(muposysdb::datconex);
-	}
-	catch(const std::exception& e)
-	{
-		Gtk::MessageDialog dlg("Error detectado durante conexion a BD",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text(e.what());
-		dlg.run();
-		return;
-	}
+	if(not connDB_flag) return;
 	
 	Gtk::TreeModel::Row row = *iter;	
 	std::vector<muposysdb::Catalog_Items*>* lstCatItems = NULL;
@@ -178,22 +183,44 @@ void TableSaling::treeviewcolumn_validated_on_cell_data_number( Gtk::CellRendere
 	if(cell)
 	{
 		std::string where = "number = '" + cell->property_text() + "'";
-		lstCatItems = muposysdb::Catalog_Items::select(connDB,where);
-		//std::cout << "where : " << where << "\n";
+		std::cout << "where : " << where << "\n";
+		try
+		{
+			lstCatItems = muposysdb::Catalog_Items::select(connDB,where);
+		}
+		catch(const std::exception& e)
+		{
+			Gtk::MessageDialog dlg("Error detectado durante consulta a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text(e.what());
+			dlg.run();
+			return;
+		}
 	}
 	
 	bool validated  = false;
 	if(not lstCatItems) return;
 	
 	if(lstCatItems->size() == 1)
-	{			
-		if(lstCatItems->front()->downName(connDB))
+	{
+		validated = true;
+		try
 		{
-			row[columns.name] = lstCatItems->front()->getName();
-			//row[columns.number_validated] = true;
+			if(lstCatItems->front()->downName(connDB))
+			{
+				std::cout << "name : " << lstCatItems->front()->getName() << "\n";
+				//row[columns.name] = "tests..";
+				//row[columns.name] = lstCatItems->front()->getName();
+			}
+		}
+		catch(const std::exception& e)
+		{
+			Gtk::MessageDialog dlg("Error detectado durante consulta a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text(e.what());
+			dlg.run();
+			return;
 		}
 	}
-	for(muposysdb::Catalog_Items* p : *lstCatItems)
+	/*for(muposysdb::Catalog_Items* p : *lstCatItems)
 	{
 		delete p;
 	}
@@ -201,10 +228,9 @@ void TableSaling::treeviewcolumn_validated_on_cell_data_number( Gtk::CellRendere
 	
 	if(not validated)
 	{
-		cell->property_text() = "";
-	}
+		//row[columns.name] = "";
+	}*/
 	
-	connDB.close();
 }
 /*void TableSaling::cellrenderer_validated_on_editing_started_number( Gtk::CellEditable* cell_editable, const Glib::ustring& path)
 {

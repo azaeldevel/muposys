@@ -7,26 +7,13 @@
 
 #include "config.h"
 
-#include <muposys/muposysdb.hpp>
+#include <muposys/apidb.hh>
 #include <gtkmm.h>
 
 #include "Exception.hh"
 
 namespace mps
 {
-
-#if defined DATABASE_ENGINE_MARIA
-	typedef octetos::db::maria::Connector Connector;
-	typedef octetos::db::maria::Datconnect Datconnect;
-#elif defined DATABASE_ENGINE_MYSQL
-	typedef octetos::db::mysql::Connector Connector;
-	typedef octetos::db::mysql::Datconnect Datconnect;
-#elif defined DATABASE_ENGINE_POSTGRESQL
-	typedef octetos::db::postgresql::Connector Connector;
-	typedef octetos::db::mysql::Datconnect Datconnect;
-#else
-	typedef octetos::db::Connector Connector;
-#endif
 
 	
 class TableSaling : public Gtk::Box
@@ -37,6 +24,9 @@ public:
 	virtual ~TableSaling();
 	
 protected:
+	
+	Connector connDB;
+	bool connDB_flag;
 	
 	void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
 	
@@ -81,6 +71,7 @@ private:
 	Gtk::Label lbTotal,lbTotalAmount;
 	Gtk::Box boxTotal;
 	Gtk::Box boxFloor;
+	
 };
 
 
@@ -142,7 +133,7 @@ protected:
 	//void set_title(const char* );
 	//void set_subtitle(const char* );
 
-#ifdef ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_DEVEL
 	//bool on_key_press_event(GdkEventKey* key_event) override;
 	
 #endif
@@ -154,7 +145,7 @@ private:
 	Gtk::Box* boxSlices;
 	Gtk::Notebook* nbMain;
 	
-#ifdef ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_DEVEL
 	TableSaling sales;
 	Gtk::Toolbar* tbMain;
 	Gtk::ToolButton btSales;

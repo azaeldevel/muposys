@@ -8,8 +8,12 @@
 #include <random>
 
 
+#ifdef MUPOSYS_APIDB_ENABLE_TDD
+	#include "apidb.hh"
+#else
+	#include <muposys/apidb.hh>
+#endif
 
-#include <muposys-apidb.hh>
 
 int v0_init(void);
 int v0_clean(void);

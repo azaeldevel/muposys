@@ -44,21 +44,11 @@ fi
 
 AC_ARG_ENABLE([tdd],[AS_HELP_STRING([--enable-tdd],[Enable Test-Drive Developing mode)])])
 if test "x$enable_tdd" = "xyes"; then 
-	AM_CONDITIONAL(ENABLE_TDD, true)
+	AM_CONDITIONAL(MUPOSYS_APIDB_ENABLE_TDD, true)
 	PKG_CHECK_MODULES(TDD, [cunit])
 else
-	AM_CONDITIONAL(ENABLE_TDD, false)
+	AM_CONDITIONAL(MUPOSYS_APIDB_ENABLE_TDD, false)
 fi
-
-AC_ARG_ENABLE([devel], AS_HELP_STRING([--enable-devel], [Soport de desarrollador activo]))
-if test "x$enable_devel" = "xyes"; then 
-	dnl AC_SUBST([ENABLE_DEVEL],[true])
-	AC_DEFINE_UNQUOTED([ENABLE_DEVEL], [], [Soporte de desarrollador activo])
-	AM_CONDITIONAL(ENABLE_DEVEL, true)
-else 
-	AM_CONDITIONAL(ENABLE_DEVEL, false)
-fi
-
 
 AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,false)
 AM_CONDITIONAL(DATABASE_ENGINE_MARIA,false)

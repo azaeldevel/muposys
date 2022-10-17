@@ -1,8 +1,8 @@
 
 #ifndef MUPOSYS_APIDB
 
-#ifdef ENABLE_DEVEL
-	#include <muposysdb.hpp>
+#ifdef MUPOSYS_APIDB_ENABLE_TDD
+	#include "muposysdb.hpp"
 #else
 	#include <muposys/muposysdb.hpp>
 #endif

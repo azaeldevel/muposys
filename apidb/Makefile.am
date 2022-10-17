@@ -1,7 +1,7 @@
 
 SUBDIRS = src 
 
-if ENABLE_TDD
+if MUPOSYS_APIDB_ENABLE_TDD
 SUBDIRS +=  tests
 endif
 
