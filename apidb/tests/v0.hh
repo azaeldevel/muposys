@@ -9,7 +9,7 @@
 
 
 #ifdef MUPOSYS_APIDB_ENABLE_TDD
-	#include "apidb.hh"
+	#include <apidb.hh>
 #else
 	#include <muposys/apidb.hh>
 #endif

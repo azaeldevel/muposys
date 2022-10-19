@@ -41,6 +41,8 @@ protected:
 	bool on_key_press_event(GdkEventKey* key_event);
 	bool on_quantity_key_press_event(GdkEventKey* key_event);
 	
+	void on_save_clicked();
+	
 	float total()const;
 	
 	void newrow();
@@ -52,8 +54,8 @@ private:
 	public:
 		ModelColumns();
 		//Gtk::TreeModelColumn<unsigned int> id;		
-		//Gtk::TreeModelColumn<unsigned int> item;
-		Gtk::TreeModelColumn<unsigned int> quantity;
+		Gtk::TreeModelColumn<int> item;
+		Gtk::TreeModelColumn<int> quantity;
 		//Gtk::TreeModelColumn<bool> quantity_valid;
 		Gtk::TreeModelColumn<Glib::ustring> presentation;
 		Gtk::TreeModelColumn<Glib::ustring> number;

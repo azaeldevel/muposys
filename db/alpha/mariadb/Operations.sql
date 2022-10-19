@@ -1,5 +1,5 @@
 
-CREATE TABLE Operation (op INT NOT NULL,final VARCHAR(60),user INT,FOREIGN KEY(op) REFERENCES Entities(id),FOREIGN KEY(user) REFERENCES Users(person));
+CREATE TABLE Operation (op INT PRIMARY KEY NOT NULL,final VARCHAR(60),user INT,FOREIGN KEY(op) REFERENCES Entities(id),FOREIGN KEY(user) REFERENCES Users(person));
 
 -- definicion de catalogos
 CREATE TABLE Catalogs(catalog INT PRIMARY KEY NOT NULL,name VARCHAR(60) NOT NULL,FOREIGN KEY(catalog) REFERENCES Entities(id));
@@ -22,5 +22,5 @@ CREATE TABLE Stocking (id INT  PRIMARY KEY NOT NULL,stock INT NOT NULL,item INT 
 ALTER TABLE Stocking ADD CONSTRAINT Stocking_id FOREIGN KEY(id) REFERENCES Entities(id);
 ALTER TABLE Stocking ADD COLUMN active ENUM('Y','N');
 
-CREATE TABLE Stocking_Production (item INT NOT NULL,subitem INT  NOT NULL, step INT DEFAULT 0, FOREIGN KEY(item) REFERENCES Stocking(id), FOREIGN KEY(subitem) REFERENCES Stocking(id));
+CREATE TABLE Stocking_Production (item INT PRIMARY KEY NOT NULL,subitem INT, step INT, FOREIGN KEY(item) REFERENCES Stocking(id), FOREIGN KEY(subitem) REFERENCES Stocking(id));
 -- CREATE TABLE OperationStock (id INT  PRIMARY KEY NOT NULL,origin INT NOT NULL,finale INT NOT NULL,FOREIGN KEY(origin) REFERENCES Stocking(id),FOREIGN KEY(finale) REFERENCES Stocking(id),FOREIGN KEY(id) REFERENCES Entities(id));

@@ -161,8 +161,7 @@ void v0_apidb()
     std::string stock1_label = "Stock " + std::to_string(randNumber);
 	CU_ASSERT(stock1.upName(connector,stock1_name));
 	CU_ASSERT(stock1.upLabel(connector,stock1_label));
-
-	
+		
 	randNumber = randInt(generator);
     muposysdb::Entities ente_stock2;
 	CU_ASSERT(ente_stock2.insert(connector));
@@ -178,19 +177,29 @@ void v0_apidb()
 	CU_ASSERT(ente_stocking1.insert(connector));
 	muposysdb::Stocking stoking1;
 	CU_ASSERT(stoking1.insert(connector,ente_stocking1,stock1,catItems1,3));
-
+	
 	randNumber = randInt(generator);
     muposysdb::Entities ente_stocking2;
 	CU_ASSERT(ente_stocking2.insert(connector));
 	muposysdb::Stocking stoking2;
 	CU_ASSERT(stoking2.insert(connector,ente_stocking2,stock2,catItems2,1));
-	
-	randNumber = randInt(generator);
-    muposysdb::Entities ente_stocking_prod1;
-	CU_ASSERT(ente_stocking_prod1.insert(connector));
+
+	try
+	{
 	muposysdb::Stocking_Production stoking_prod1s;
-	CU_ASSERT(stoking_prod1s.insert(connector,stoking1,stoking2));
+	CU_ASSERT(stoking_prod1s.insert(connector,stoking1));
+	}
+	catch(const std::exception& e)
+	{
+		std::cout << "Error : " << e.what() << "\n";
+	}
 	
+	/*
+	randNumber = randInt(generator);
+	muposysdb::Stocking_Production stoking_prod2s;
+	CU_ASSERT(stoking_prod2s.insert(connector,stoking2));
+	stoking_prod2s.upStep(connector,1);
+	*/
 	
     connector.commit();
 	connector.close();		

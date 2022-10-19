@@ -2,7 +2,7 @@
 #ifndef MUPOSYS_APIDB
 
 #ifdef MUPOSYS_APIDB_ENABLE_TDD
-	#include "muposysdb.hpp"
+	#include <muposysdb.hpp>
 #else
 	#include <muposys/muposysdb.hpp>
 #endif
@@ -21,6 +21,7 @@ namespace mps
 	typedef octetos::db::mysql::Datconnect Datconnect;
 #else
 	typedef octetos::db::Connector Connector;
+	typedef octetos::db::Datconnect Datconnect;
 #endif
 
 }
