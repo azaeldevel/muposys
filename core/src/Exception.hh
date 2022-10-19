@@ -53,6 +53,9 @@ public:
 	{
 		NO_ERROR,
 		VISIBLE_MAIN,
+		DB_CONECTION_FAIL,
+		DB_READ_FAIL,
+		DB_WRITE_FAIL,
 	};
 
 public:

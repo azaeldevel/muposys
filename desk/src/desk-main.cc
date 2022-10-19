@@ -27,7 +27,7 @@ int main (int argc, char *argv[])
 	{
 		builder = Gtk::Builder::create();
 		std::string fileui;
-#ifdef MUPOSYS_DESK_ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 		fileui = PACKAGE_SRC_DIR;
 #else
 		fileui = PACKAGE_DATA_DIR;
@@ -53,7 +53,7 @@ int main (int argc, char *argv[])
 	mps::Main* Main = 0;
 	try
 	{
-#ifdef MUPOSYS_DESK_ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 		builder->get_widget_derived("Main", Main,true);
 #else
 		builder->get_widget_derived("Main", Main);

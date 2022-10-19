@@ -15,8 +15,8 @@ lib_LTLIBRARIES = libmuposys-desk.la
 
 LIBS = $(OCTETOS_DB_LIBS) $(GTK_LIBS) $(APIDB_LIBS) $(OCTETOS_LIBS)
 FLAGS = $(OCTETOS_DB_CFLAGS)  $(GTK_CFLAGS) $(APIDB_CFLAGS) $(OCTETOS_CFLAGS)
-if MUPOSYS_DESK_ENABLE_DEVEL
-FLAGS += -DMUPOSYS_DESK_ENABLE_DEVEL
+if MUPOSYS_DESK_ENABLE_TDD
+FLAGS += -DMUPOSYS_DESK_ENABLE_TDD
 endif
 if OCTETOS_DB_MEDIUMWORD
 FLAGS += -DOCTETOS_DB_MEDIUMWORD
@@ -31,7 +31,7 @@ muposys-glade.c : $(top_srcdir)/resources.xml $(top_srcdir)/desk.ui
 	
 libmuposys_desk_la_CXXFLAGS = $(FLAGS) 
 libmuposys_desk_la_LDFLAGS = 
-libmuposys_desk_la_SOURCES = desk.cc desk.hh Exception.cc desk-TableSaling.cc
+libmuposys_desk_la_SOURCES = desk.cc desk.hh desk-TableSaling.cc
 libmuposys_desk_la_LIBADD =  $(LIBS)
 
 muposys_desk_LDADD = $(LIBS) libmuposys-desk.la
@@ -40,8 +40,8 @@ muposys_desk_SOURCES = desk-main.cc
 
 muposysdir = $(datadir)/muposys/desk
 muposys_DATA = muposys-desk.ui
-muposys_includedir = $(includedir)/muposys/desk
-muposys_include_HEADERS = desk.hh Exception.hh 
+muposys_includedir = $(includedir)/muposys
+muposys_include_HEADERS = desk.hh
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = muposys-desk.pc
 

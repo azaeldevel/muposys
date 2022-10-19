@@ -46,6 +46,12 @@ const char* Exception::what () const throw ()
 		return "No error.";
 	case Errors::VISIBLE_MAIN:
 		return "La ventana principal no deve estar inicialmente visisble(importante para realizar la llamada al Login).";
+	case Errors::DB_CONECTION_FAIL:
+		return "Falló en la conexion de Base de Datos";
+	case Errors::DB_READ_FAIL:
+		return "La lectura en Base de Datos falló";
+	case Errors::DB_WRITE_FAIL:
+		return "La escritura en Base de Datos falló";
 	default:
 		return "Error desconocido.";
 	}

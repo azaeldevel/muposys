@@ -9,12 +9,12 @@ LT_INIT
 
 PKG_CHECK_MODULES(GTK, [gtkmm-3.0])
 PKG_CHECK_MODULES(OCTETOS, [octetos-core])
-PKG_CHECK_MODULES(APIDB, [muposys-apidb])
+PKG_CHECK_MODULES(APIDB, [muposys-apidb muposys-core])
 
 AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])
 
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
-	case $enableval in
+case $enableval in
 	  	archlinux)
 			AC_DEFINE([LINUX_ARCH], [], [Enable configuration for Arch-Linux])
 			AC_SUBST([DATABASE_DIR],[$datarootdir])
@@ -30,14 +30,7 @@ AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for parti
 	  	*)
 			AC_MSG_ERROR([unknown option '$enable_os' for --enable-os])
 		;;
-	esac
-
-AC_ARG_ENABLE([stick],[AS_HELP_STRING([--enable-stick],[Enable all software to ensure be runnable muposys(for developing/testing normally)])])
-if test "x$enable_stick" = "xyes"; then 
-	AM_CONDITIONAL(ENABLE_STICK, true)
-else
-	AM_CONDITIONAL(ENABLE_STICK, false)
-fi
+esac
 
 AC_ARG_ENABLE([tdd],[AS_HELP_STRING([--enable-tdd],[Enable Test-Drive Developing mode)])])
 if test "x$enable_tdd" = "xyes"; then 
@@ -45,13 +38,6 @@ if test "x$enable_tdd" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT, [cunit])
 else
 	AM_CONDITIONAL(MUPOSYS_DESK_ENABLE_TDD, false)
-fi
-
-AC_ARG_ENABLE([devel], AS_HELP_STRING([--enable-devel], [Soport de desarrollador activo]))
-if test "x$enable_devel" = "xyes"; then 
-	AM_CONDITIONAL(MUPOSYS_DESK_ENABLE_DEVEL, true)
-else
-	AM_CONDITIONAL(MUPOSYS_DESK_ENABLE_DEVEL, false)
 fi
 
 AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,false)
@@ -79,12 +65,6 @@ case $enableval in
 		AC_MSG_ERROR([unknown option '$enable_database' for --enable-database])
 	;;
 esac
-
-
-
-
-
-
 
 AC_OUTPUT([
 Makefile

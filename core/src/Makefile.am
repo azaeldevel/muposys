@@ -1,6 +1,3 @@
-## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
 
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
@@ -11,13 +8,15 @@ AM_CFLAGS =\
 	 -Wall\
 	 -g
 
-bin_PROGRAMS = muposys_core
 
-muposys_core_SOURCES = \
-	main.cc
+lib_LTLIBRARIES = libmuposys-core.la
 
-muposys_core_LDFLAGS = 
+libmuposys_core_la_CXXFLAGS = $(FLAGS) 
+libmuposys_core_la_LDFLAGS = 
+libmuposys_core_la_SOURCES = Exception.cc
+libmuposys_core_la_LIBADD =  $(LIBS)
 
-muposys_core_LDADD = 
-
-
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = muposys-core.pc
+muposys_includedir = $(includedir)/muposys
+muposys_include_HEADERS = core.hh Exception.hh

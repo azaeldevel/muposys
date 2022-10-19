@@ -9,8 +9,7 @@
 
 #include <muposys/apidb.hh>
 #include <gtkmm.h>
-
-#include "Exception.hh"
+#include <muposys/Exception.hh>
 
 namespace mps
 {
@@ -135,7 +134,7 @@ protected:
 	//void set_title(const char* );
 	//void set_subtitle(const char* );
 
-#ifdef MUPOSYS_DESK_ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 	//bool on_key_press_event(GdkEventKey* key_event) override;
 	
 #endif
@@ -147,7 +146,7 @@ private:
 	Gtk::Box* boxSlices;
 	Gtk::Notebook* nbMain;
 	
-#ifdef MUPOSYS_DESK_ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 	TableSaling sales;
 	Gtk::Toolbar* tbMain;
 	Gtk::ToolButton btSales;

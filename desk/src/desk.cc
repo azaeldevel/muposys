@@ -38,7 +38,7 @@ void Main::init()
 	nbMain = 0;
 	builder->get_widget("nbMain", nbMain);
 	
-#ifdef MUPOSYS_DESK_ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 	
 	add_activity(sales);	
 	//sales.set_size_request(get_width()/3,-1);
@@ -106,7 +106,7 @@ void Main::add_activity(Gtk::Widget& w)
 	nbMain->append_page(w);	
 }
 
-#ifdef MUPOSYS_DESK_ENABLE_DEVEL
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 /*
 bool Main::on_key_press_event(GdkEventKey* key_event)
 {
