@@ -5,7 +5,8 @@ GRANT ALL PRIVILEGES ON `muposys-0-alpha`.* TO 'muposys'@'localhost';
 
 use `muposys-0-alpha`;
 
-CREATE TABLE Ente (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, md5sum VARCHAR(32)); 
+CREATE TABLE Ente (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL); 
+ALTER TABLE Ente ADD COLUMN created datetime DEFAULT now();
 
 CREATE TABLE Version (ente INT NOT NULL, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT NULL,patch SMALLINT NULL, FOREIGN KEY(ente) REFERENCES Ente(id)); 
 ALTER TABLE Version ADD CONSTRAINT versions_unique UNIQUE (ente);

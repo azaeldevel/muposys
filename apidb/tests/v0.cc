@@ -185,7 +185,7 @@ void v0_apidb()
 	CU_ASSERT(ente_stocking2.insert(connector));
 	muposysdb::Stocking stoking2;
 	CU_ASSERT(stoking2.insert(connector,ente_stocking2,stock2,catItems2,1));
-
+	
 	try
 	{
 	muposysdb::Stocking_Production stoking_prod1s;
@@ -196,12 +196,12 @@ void v0_apidb()
 		std::cout << "Error : " << e.what() << "\n";
 	}
 	
-	/*
+	
 	randNumber = randInt(generator);
 	muposysdb::Stocking_Production stoking_prod2s;
 	CU_ASSERT(stoking_prod2s.insert(connector,stoking2));
 	stoking_prod2s.upStep(connector,1);
-	*/
+	
 	
     connector.commit();
 	connector.close();		
