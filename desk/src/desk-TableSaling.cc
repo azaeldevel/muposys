@@ -276,14 +276,14 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 	Gtk::TreePath path(path_string);
 	
 	std::string where = "number = '" + new_text + "'";
-	std::vector<muposysdb::Catalog_Item*>* lstCatItems = muposysdb::Catalog_Item::select(connDB,where);
+	std::vector<muposysdb::CatalogItem*>* lstCatItems = muposysdb::CatalogItem::select(connDB,where);
 	//std::cout << "where : " << where << "\n";
 	
 	if(not lstCatItems) return;
 	
 	if(lstCatItems->size() == 1)
 	{
-		lstCatItems->front()->downName(connDB);
+		lstCatItems->front()->downBrief(connDB);
 		lstCatItems->front()->downValue(connDB);
 		lstCatItems->front()->downPresentation(connDB);
 		
@@ -291,15 +291,15 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 			if(iter)
 			{
 				Gtk::TreeModel::Row row = *iter;
-				row[columns.item] = lstCatItems->front()->getID().getID();
+				row[columns.item] = lstCatItems->front()->getItem().getID();
 				row[columns.number] = new_text;
-				row[columns.name] = lstCatItems->front()->getName();
+				row[columns.name] = lstCatItems->front()->getBrief();
 				row[columns.presentation] = lstCatItems->front()->getPresentation();
 				row[columns.cost_unit] = lstCatItems->front()->getValue();
 				row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
 			}
 	}
-	for(muposysdb::Catalog_Item* p : *lstCatItems)
+	for(muposysdb::CatalogItem* p : *lstCatItems)
 	{
 		delete p;
 	}
@@ -410,11 +410,12 @@ void TableSaling::on_save_clicked()
 {
 	//std::cout << "saving..\n";
 	Gtk::TreeModel::Row row;
-	muposysdb::Ente *ente_stocking;
+	//muposysdb::Ente *ente_stocking;
 	muposysdb::Stock stock(9);
 	muposysdb::Stocking* stocking;
-	muposysdb::Catalog_Item* cat_item;
-	muposysdb::Stocking_Production* stoking_prod;
+	muposysdb::CatalogItem* cat_item;
+	//muposysdb::Stocking_Production* stoking_prod;
+	muposysdb::Service* service;
 	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
 	int quantity,item;
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
@@ -426,8 +427,8 @@ void TableSaling::on_save_clicked()
 		//std::cout << "\tStep 2\n";
 		quantity = row[columns.quantity];
 		if(quantity == 0) break;
-		std::cout << "\tStep 3\n";
-		ente_stocking = new muposysdb::Ente;
+		//std::cout << "\tStep 3\n";
+		/*ente_stocking = new muposysdb::Ente;
 		std::cout << "\tStep 4\n";
 		if(not ente_stocking->insert(connDB))
 		{
@@ -435,22 +436,22 @@ void TableSaling::on_save_clicked()
 			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
 			dlg.run();
 			return;
-		}
+		}*/
 		//std::cout << "\tStep 5\n";
 		stocking = new muposysdb::Stocking;
 		//std::cout << "\tStep 6\n";
 		item = row[columns.item];
 		//std::cout << "\tStep 7\n";
-		cat_item = new muposysdb::Catalog_Item(item);
+		cat_item = new muposysdb::CatalogItem(item);
 		//std::cout << "\tStep 8\n";
-		if(not stocking->insert(connDB,*ente_stocking,stock,*cat_item,quantity))
+		if(not stocking->insert(connDB,stock,*cat_item,-quantity))
 		{
 			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura de Stoking.");
 			dlg.run();
 			return;
 		}		
-		stoking_prod = new muposysdb::Stocking_Production;
+		/*stoking_prod = new muposysdb::Stocking_Production;
 		if(not stoking_prod->insert(connDB,*stocking))
 		{
 			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
@@ -464,9 +465,9 @@ void TableSaling::on_save_clicked()
 			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
 			dlg.run();
 			return;		
-		}
+		}*/
 		//std::cout << "\tStep 5\n";
-		delete ente_stocking;
+		//delete ente_stocking;
 		delete stocking;
 		delete cat_item;
 				
