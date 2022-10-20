@@ -88,12 +88,14 @@ void v0_apidb()
     CU_ASSERT(person.upName3(connector,name_person));
     
     muposysdb::Entities ente_user;
-    CU_ASSERT(ente_user.insert(connector));
+    CU_ASSERT(ente_user.insert(connector));	
+	muposysdb::UsersManagement usermang;
+	CU_ASSERT(usermang.insert(connector,ente_user));
     muposysdb::Users user;
     randNumber = randInt(generator);
     //std::cout << "Person : " << person.getEnte().getID() << "\n";
     std::string name_user = "user-" + std::to_string(randNumber);
-    CU_ASSERT(user.insert(connector,ente_user,person,name_user));
+    CU_ASSERT(user.insert(connector,usermang,person,name_user));
     		
     muposysdb::Entities ente_up;
     CU_ASSERT(ente_up.insert(connector));

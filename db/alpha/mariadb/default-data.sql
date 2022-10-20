@@ -12,6 +12,7 @@ INSERT INTO Entities(id) VALUES(10);-- <<<--- last use
 
 INSERT INTO Persons(ente,name1) VALUES(1,'root');
 
+INSERT INTO UsersManagement(um) VALUES(2);
 INSERT INTO Users(user,person,name) VALUES(2,1,'root');
 UPDATE Users SET pwdtxt='123456' WHERE user = 2;
 UPDATE Users SET status='A' WHERE user = 2;

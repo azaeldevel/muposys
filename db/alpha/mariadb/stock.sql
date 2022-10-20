@@ -1,5 +1,4 @@
 
-CREATE TABLE Operation (op INT PRIMARY KEY NOT NULL,final VARCHAR(60),user INT,FOREIGN KEY(op) REFERENCES Entities(id),FOREIGN KEY(user) REFERENCES Users(person));
 
 -- definicion de catalogos
 CREATE TABLE Catalogs(catalog INT PRIMARY KEY NOT NULL,name VARCHAR(60) NOT NULL,FOREIGN KEY(catalog) REFERENCES Entities(id));

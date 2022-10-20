@@ -3,3 +3,31 @@ CREATE  USER IF NOT EXISTS 'muposys'@localhost IDENTIFIED BY '123456';
 CREATE DATABASE `muposys-0-alpha`;
 GRANT ALL PRIVILEGES ON `muposys-0-alpha`.* TO 'muposys'@'localhost';
 
+use `muposys-0-alpha`;
+
+CREATE TABLE Entities (id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, md5sum VARCHAR(32)); 
+
+CREATE TABLE Versions (ente INT NOT NULL, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT NULL,patch SMALLINT NULL, FOREIGN KEY(ente) REFERENCES Entities(id)); 
+ALTER TABLE Versions ADD CONSTRAINT versions_unique UNIQUE (ente);
+ALTER TABLE Versions ADD CONSTRAINT version_pk PRIMARY KEY(ente) ;
+
+CREATE TABLE Persons (ente INT NOT NULL,name1 VARCHAR(30) NOT NULL,name2 VARCHAR(30),name3 VARCHAR(30),name4 VARCHAR(30),FOREIGN KEY(ente) REFERENCES Entities(id));
+-- ALTER TABLE Persons ADD CONSTRAINT ente_unique UNIQUE (ente);
+ALTER TABLE Persons ADD COLUMN age DECIMAL(6,2);
+ALTER TABLE Persons ADD COLUMN canyonNumber DECIMAL(6,2);
+ALTER TABLE Persons ADD COLUMN gender ENUM('M','F');
+ALTER TABLE Persons ADD COLUMN canyonLength DECIMAL(6,2);
+ALTER TABLE Persons MODIFY COLUMN age FLOAT;
+ALTER TABLE Persons MODIFY COLUMN canyonNumber FLOAT;
+ALTER TABLE Persons MODIFY COLUMN canyonLength FLOAT;
+ALTER TABLE Persons ADD CONSTRAINT ente_primary PRIMARY KEY (ente);
+ALTER TABLE Persons MODIFY COLUMN canyonLength FLOAT;
+
+CREATE TABLE UsersManagement (um INT NOT NULL PRIMARY KEY, FOREIGN KEY(um) REFERENCES Entities(id));
+
+CREATE TABLE Users (user INT NOT NULL PRIMARY KEY,person INT NOT NULL, name VARCHAR(20) NOT NULL,pwdtxt VARCHAR(12), FOREIGN KEY(person) REFERENCES Persons(ente), FOREIGN KEY(user) REFERENCES UsersManagement(um));
+ALTER TABLE Users ADD CONSTRAINT users_unique UNIQUE (name);
+-- R: Registrado, P:Autorizacion Pendiente, A:Autorizado
+ALTER TABLE Users ADD COLUMN status ENUM('R','P','A');
+
+CREATE TABLE Operation (op INT PRIMARY KEY NOT NULL,final VARCHAR(60),user INT,FOREIGN KEY(op) REFERENCES Entities(id),FOREIGN KEY(user) REFERENCES Users(person));
