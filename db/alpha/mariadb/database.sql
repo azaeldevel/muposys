@@ -31,4 +31,5 @@ ALTER TABLE User ADD CONSTRAINT users_unique UNIQUE (name);
 -- R: Registrado, P:Autorizacion Pendiente, A:Autorizado
 ALTER TABLE User ADD COLUMN status ENUM('R','P','A');
 
-CREATE TABLE Operation (op INT PRIMARY KEY NOT NULL,final VARCHAR(60),user INT,FOREIGN KEY(op) REFERENCES Ente(id),FOREIGN KEY(user) REFERENCES User(person));
+-- user is the creator o operation
+CREATE TABLE Operation (operation INT PRIMARY KEY NOT NULL,user INT NOT NULL,FOREIGN KEY(operation) REFERENCES Ente(id),FOREIGN KEY(user) REFERENCES User(user));
