@@ -1,5 +1,4 @@
 
-#include <gtkmm/application.h>
 
 #include "desk.hh"
 
@@ -410,14 +409,57 @@ void TableSaling::on_save_clicked()
 {
 	//std::cout << "saving..\n";
 	Gtk::TreeModel::Row row;
-	//muposysdb::Ente *ente_stocking;
+	muposysdb::Ente *ente_service,*ente_operation;
 	muposysdb::Stock stock(9);
 	muposysdb::Stocking* stocking;
 	muposysdb::CatalogItem* cat_item;
 	//muposysdb::Stocking_Production* stoking_prod;
 	muposysdb::Service* service;
+	muposysdb::Operation* operation;
+	muposysdb::OperationStock* operationStock;
 	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
 	int quantity,item;
+	
+	ente_service = new muposysdb::Ente;
+	if(not ente_service->insert(connDB))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
+			dlg.run();
+			return;
+	}
+	service = new muposysdb::Service;
+	if(not service->insert(connDB,*ente_service))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
+			dlg.run();
+			return;			
+	}
+	if(not service->upStep(connDB,0))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
+			dlg.run();
+			return;		
+	}
+		
+	ente_operation = new muposysdb::Ente;
+	if(not ente_operation->insert(connDB))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
+			dlg.run();
+			return;
+	}		
+	operation = new muposysdb::Operation;
+	if(not operation->insert(connDB,*ente_operation,Main::credential.userdb,*service))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
+			dlg.run();
+			return;			
+	}
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
 	{
 		//std::cout << "\tStep 1\n";
@@ -428,21 +470,16 @@ void TableSaling::on_save_clicked()
 		quantity = row[columns.quantity];
 		if(quantity == 0) break;
 		//std::cout << "\tStep 3\n";
-		/*ente_stocking = new muposysdb::Ente;
+		/*
 		std::cout << "\tStep 4\n";
-		if(not ente_stocking->insert(connDB))
-		{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
-			dlg.run();
-			return;
-		}*/
+		*/
 		//std::cout << "\tStep 5\n";
 		stocking = new muposysdb::Stocking;
 		//std::cout << "\tStep 6\n";
 		item = row[columns.item];
 		//std::cout << "\tStep 7\n";
 		cat_item = new muposysdb::CatalogItem(item);
+		
 		//std::cout << "\tStep 8\n";
 		if(not stocking->insert(connDB,stock,*cat_item,-quantity))
 		{
@@ -450,30 +487,34 @@ void TableSaling::on_save_clicked()
 			dlg.set_secondary_text("Durante la escritura de Stoking.");
 			dlg.run();
 			return;
-		}		
-		/*stoking_prod = new muposysdb::Stocking_Production;
-		if(not stoking_prod->insert(connDB,*stocking))
+		}
+		
+		operationStock = new muposysdb::OperationStock;
+		if(not operationStock->insert(connDB,*operation,stock,*cat_item,-quantity))
 		{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
 			dlg.run();
 			return;			
-		}		
-		if(not stoking_prod->upStep(connDB,0))
-		{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
-			dlg.run();
-			return;		
-		}*/
+		}
+		
 		//std::cout << "\tStep 5\n";
-		//delete ente_stocking;
-		delete stocking;
 		delete cat_item;
+		delete stocking;
 				
-		std::cout << "\n";
+		//std::cout << "\n";
 	}
 	
+	
+		
+		
+		
+		
+	delete ente_service;
+	delete service;
+	delete ente_operation;
+	delete operation;
+		
 	connDB.commit();
 }
 

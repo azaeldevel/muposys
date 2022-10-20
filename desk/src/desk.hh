@@ -85,6 +85,7 @@ public:
 		bool valid;
 		std::string user;
 		std::string name;
+		muposysdb::User userdb;
 	};
 	Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
 	virtual ~Login();
@@ -127,6 +128,8 @@ public:
 	void check_session();	
 	void add_activity(Gtk::Widget&);
 	
+	static Login::Credential credential;
+	
 protected:
 	const Glib::RefPtr<Gtk::Builder>& builder;
 	mps::Login* login;
@@ -140,7 +143,7 @@ protected:
 #endif
 	
 private:
-	Login::Credential credential;
+	//Login::Credential credential;
 	Gtk::Label* lbUser;
 	bool devel;
 	Gtk::Box* boxSlices;

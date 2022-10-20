@@ -6,6 +6,8 @@
 namespace mps
 {
 
+Login::Credential Main::credential;
+
 Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade), devel(false)
 {	
 	init();
@@ -87,7 +89,28 @@ void Main::check_session()
 	{	
 		//std::cout << "User valid " << login->get_credential().user << "..\n";
 		credential = login->get_credential();
-		lbUser->set_text(credential.user);
+		Connector connDB;
+		bool flag = false;
+		int res = 0;
+		try
+		{
+			flag = connDB.connect(muposysdb::datconex);
+		}
+		catch(const std::exception& e)
+		{
+			Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text(e.what());
+			res = dlg.run();
+			return;		
+		}
+		credential.userdb.downName(connDB);	
+		if(credential.userdb.downPerson(connDB))
+		{
+			credential.userdb.getPerson().downName1(connDB);	
+			credential.userdb.getPerson().downName3(connDB);	
+		}
+		lbUser->set_text(credential.userdb.getName());
+		connDB.close();
 	}
 	login->close();
 }
@@ -245,6 +268,7 @@ void Login::check_user()
 	}
 	//std::cout << "Usuario aceptado\n";
 	credential.user = inUser->get_text();
+	credential.userdb = *userlst->front();
 }
 const Login::Credential& Login::get_credential() const
 {
