@@ -22,20 +22,18 @@ INSERT INTO Version(ente,name,major,minor,patch) VALUES(3,'database',0,2,0);
 UPDATE Person SET name1='Azael' WHERE ente = 1;
 UPDATE Person SET name3='Reyes' WHERE ente = 1;
 
+INSERT INTO UserManagement(um) VALUES(3);
 INSERT INTO Permission(permission,name,brief) VALUES(3,'login','Permisos para acceder a muposys.');
 
-INSERT INTO User_Permission(up,user,permission) VALUES(4,2,3);
+INSERT INTO UserPermission(user,permission) VALUES(2,3);
 
-INSERT INTO Catalog(catalog,name) VALUES(5,'supplies');
-UPDATE Catalog SET label = 'Insumos' WHERE catalog = 5 and name = 'supplies';
+INSERT INTO Catalog(catalog,brief) VALUES(5,'Insumos');
 
-INSERT INTO Catalog(catalog,name) VALUES(6,'internal');
-UPDATE Catalog SET label = 'Interno' WHERE catalog = 6 and name = 'internal';
+INSERT INTO Catalog(catalog,brief) VALUES(6,'Interno');
 
-INSERT INTO Catalog(catalog,name) VALUES(7,'offers');
-UPDATE Catalog SET label = 'Oferta' WHERE catalog = 7 and name = 'offers';
+INSERT INTO Catalog(catalog,brief) VALUES(7,'Oferta');
 
-INSERT INTO Stock(stock,name,label) VALUES(8,'main','Principal');
+INSERT INTO Stock(stock,brief) VALUES(8,'Principal');
 
-INSERT INTO Stock(stock,name,label) VALUES(9,'production','Producción');
+INSERT INTO Stock(stock,brief) VALUES(9,'Producción');
 

@@ -202,7 +202,7 @@ void Login::check_user()
 	
 	std::string strwhere = "name = ";
 	strwhere += "'" + inUser->get_text() + "' and pwdtxt = '" + inPwd->get_text() + "' and status = 'A'";
-	std::vector<muposysdb::Users*>* userlst = muposysdb::Users::select(connDB,strwhere);
+	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,strwhere);
 	
 	//std::cout << "SQL str : " << strwhere << "\n";
 	

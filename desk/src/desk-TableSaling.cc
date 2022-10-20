@@ -276,7 +276,7 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 	Gtk::TreePath path(path_string);
 	
 	std::string where = "number = '" + new_text + "'";
-	std::vector<muposysdb::Catalog_Items*>* lstCatItems = muposysdb::Catalog_Items::select(connDB,where);
+	std::vector<muposysdb::Catalog_Item*>* lstCatItems = muposysdb::Catalog_Item::select(connDB,where);
 	//std::cout << "where : " << where << "\n";
 	
 	if(not lstCatItems) return;
@@ -299,7 +299,7 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 				row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
 			}
 	}
-	for(muposysdb::Catalog_Items* p : *lstCatItems)
+	for(muposysdb::Catalog_Item* p : *lstCatItems)
 	{
 		delete p;
 	}
@@ -410,10 +410,10 @@ void TableSaling::on_save_clicked()
 {
 	//std::cout << "saving..\n";
 	Gtk::TreeModel::Row row;
-	muposysdb::Entities *ente_stocking;
+	muposysdb::Ente *ente_stocking;
 	muposysdb::Stock stock(9);
 	muposysdb::Stocking* stocking;
-	muposysdb::Catalog_Items* cat_item;
+	muposysdb::Catalog_Item* cat_item;
 	muposysdb::Stocking_Production* stoking_prod;
 	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
 	int quantity,item;
@@ -427,7 +427,7 @@ void TableSaling::on_save_clicked()
 		quantity = row[columns.quantity];
 		if(quantity == 0) break;
 		std::cout << "\tStep 3\n";
-		ente_stocking = new muposysdb::Entities;
+		ente_stocking = new muposysdb::Ente;
 		std::cout << "\tStep 4\n";
 		if(not ente_stocking->insert(connDB))
 		{
@@ -441,7 +441,7 @@ void TableSaling::on_save_clicked()
 		//std::cout << "\tStep 6\n";
 		item = row[columns.item];
 		//std::cout << "\tStep 7\n";
-		cat_item = new muposysdb::Catalog_Items(item);
+		cat_item = new muposysdb::Catalog_Item(item);
 		//std::cout << "\tStep 8\n";
 		if(not stocking->insert(connDB,*ente_stocking,stock,*cat_item,quantity))
 		{
