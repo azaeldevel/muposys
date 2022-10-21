@@ -41,7 +41,6 @@ void Main::init()
 	builder->get_widget("nbMain", nbMain);
 	
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	
 	add_activity(sales);	
 	//set_valign(Gtk::ALIGN_CENTER);
 	//nbMain->set_valign(Gtk::ALIGN_CENTER);
@@ -53,7 +52,6 @@ void Main::init()
 	btSales.set_label("Test");
 	
 	show_all_children();
-	
 #endif
 
 }

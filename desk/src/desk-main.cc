@@ -32,7 +32,7 @@ int main (int argc, char *argv[])
 #else
 		fileui = PACKAGE_DATA_DIR;
 #endif
-		fileui += "/muposys-desk.ui";
+		fileui += "/muposys.ui";
 		builder->add_from_file(fileui);
 	}
 	catch (const Glib::FileError& e)

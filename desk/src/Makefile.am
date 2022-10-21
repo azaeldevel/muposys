@@ -2,7 +2,7 @@
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(datadir)/muposys/desk"\" \
+	-DPACKAGE_DATA_DIR=\""$(datadir)/muposys/"\" \
 	-DPROGRAMNAME_LOCALEDIR=\"${PROGRAMNAME_LOCALEDIR}\" \
 	$(GTK_CFLAGS)
 
@@ -38,8 +38,8 @@ muposys_desk_LDADD = $(LIBS) libmuposys-desk.la
 muposys_desk_CXXFLAGS = $(FLAGS)
 muposys_desk_SOURCES = desk-main.cc 
 
-muposysdir = $(datadir)/muposys/desk
-muposys_DATA = muposys-desk.ui
+muposysdir = $(datadir)/muposys
+muposys_DATA = muposys.ui
 muposys_includedir = $(includedir)/muposys
 muposys_include_HEADERS = desk.hh
 pkgconfigdir = $(libdir)/pkgconfig
