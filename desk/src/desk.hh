@@ -70,8 +70,8 @@ private:
 	Gtk::TreeView table;
 	Gtk::Button btSave;
 	Gtk::Label lbTotal,lbTotalAmount;
-	Gtk::Box boxTotal;
-	Gtk::Box boxFloor;
+	Gtk::ButtonBox boxTotal;
+	Gtk::ButtonBox boxFloor;
 	
 };
 

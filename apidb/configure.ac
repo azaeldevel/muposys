@@ -1,5 +1,5 @@
 
-AC_INIT(muposys_apidb, 0.2.0-alpha)
+AC_INIT(muposys-apidb, 0.2.0-alpha)
 
 AC_CONFIG_HEADERS([config.h])
 

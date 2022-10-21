@@ -24,7 +24,7 @@ void TableSaling::init()
 		return;
 	}
 	
-	//set_valign(Gtk::ALIGN_CENTER);
+	set_valign(Gtk::ALIGN_CENTER);
 	table.add_events(Gdk::KEY_PRESS_MASK);
 	//table.signal_key_press_event().connect(sigc::mem_fun(*this, &TableSaling::on_key_press_event));
 	pack_start(table,Gtk::PACK_SHRINK);//
@@ -65,23 +65,23 @@ void TableSaling::init()
 		
 	newrow();	
 	
-	pack_start(boxFloor,Gtk::PACK_SHRINK);
+	pack_start(boxFloor);
 	{
-		boxFloor.set_valign(Gtk::ALIGN_END);
-		boxFloor.set_spacing(get_spacing()/3);
+		//boxFloor.set_valign(Gtk::ALIGN_END);
+		//boxFloor.set_spacing(get_spacing()/3);
 		
 		//agregando widgets de total
-		boxFloor.pack_start(boxTotal,Gtk::PACK_SHRINK);
+		boxFloor.pack_start(boxTotal);
 		{				
-			boxTotal.pack_start(lbTotalAmount,Gtk::PACK_SHRINK);
-			boxTotal.pack_start(lbTotal,Gtk::PACK_SHRINK);
+			boxTotal.pack_start(lbTotalAmount);
+			boxTotal.pack_start(lbTotal);
 			lbTotal.set_text("Total : $");
 		}
 		
-		btSave.set_size_request(200,-1);
-		boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
+		//btSave.set_size_request(200,-1);
+		boxFloor.pack_start(btSave);
 		btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked) );
-	}	
+	}
 	
 	
 	connDB_flag = true;

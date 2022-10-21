@@ -11,7 +11,7 @@ PKG_CHECK_MODULES(GTK, [gtkmm-3.0])
 PKG_CHECK_MODULES(OCTETOS, [octetos-core])
 PKG_CHECK_MODULES(APIDB, [muposys-apidb muposys-core])
 
-AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])
+dnl AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])
 
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
 case $enableval in

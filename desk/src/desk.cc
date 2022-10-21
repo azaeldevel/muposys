@@ -43,6 +43,8 @@ void Main::init()
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	
 	add_activity(sales);	
+	//set_valign(Gtk::ALIGN_CENTER);
+	//nbMain->set_valign(Gtk::ALIGN_CENTER);
 	//sales.set_size_request(get_width()/3,-1);
 	
 	tbMain = 0;
