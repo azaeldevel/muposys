@@ -53,22 +53,30 @@ void v0_apidb()
     delete lst;	
     
     std::vector<muposysdb::User*>* lstUsers = muposysdb::User::select(connector,"person > 0",5,'D');
-    
+    CU_ASSERT(lstUsers != NULL)
+	for(auto p : *lstUsers)
+  	{
+		CU_ASSERT(p->downName(connector));
+		CU_ASSERT(p->downPerson(connector));
+      	//std::cout << p->getName() << std::endl;
+  	}
+  	for(auto p : *lstUsers)
+  	{
+            delete p;
+  	}
+    delete lstUsers;
+	
     std::vector<muposysdb::Permission*>* permsslst = muposysdb::Permission::select(connector,"",0);
     CU_ASSERT(permsslst != NULL)
-  	/*
 	for(auto p : *permsslst)
   	{
-            if(p->downBrief(connector) and verbose)
-            {
-                //if(verbose)  std::cout << p->getName() << " " << p->getBrief() << std::endl;
-            }
+		CU_ASSERT(p->downBrief(connector));
+		CU_ASSERT(p->downName(connector));
   	}
   	for(auto p : *permsslst)
   	{
-            delete p;
-  	}	
-	*/
+    	delete p;
+  	}
     delete permsslst;
 	
     muposysdb::Permission permss;
@@ -103,6 +111,18 @@ void v0_apidb()
     //CU_ASSERT(ente_up.insert(connector));
     muposysdb::UserPermission usr_permss;
     CU_ASSERT(usr_permss.insert(connector,user,permss));
+	std::vector<muposysdb::UserPermission*>* userpermsslst = muposysdb::UserPermission::select(connector,"",0);
+    CU_ASSERT(userpermsslst != NULL)
+	for(auto p : *userpermsslst)
+  	{
+		CU_ASSERT(p->downPermission(connector));
+		CU_ASSERT(p->downUser(connector));
+  	}
+  	for(auto p : *userpermsslst)
+  	{
+    	delete p;
+  	}
+    delete userpermsslst;
     
     randNumber = randInt(generator);
     muposysdb::Ente ente_catalog;

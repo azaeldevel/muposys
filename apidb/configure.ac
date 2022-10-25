@@ -16,31 +16,21 @@ PKG_CHECK_MODULES(OCTETOS, [octetos-core])
 
 AC_DEFINE_UNQUOTED([MUPOSYS_APIDB], [true] ,[Signal for local compilation])
 
+AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_ARCH, false)
+AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_DEBIAN, false)
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
-	case $enableval in
-	  	archlinux)
-			AC_DEFINE([LINUX_ARCH], [], [Enable configuration for Arch-Linux])
-			AC_SUBST([DATABASE_DIR],[$datarootdir])
-			AC_SUBST([DATABASE_FN],[http])
-			AC_SUBST([USER_GROUP],[http:http])
-			AC_DEFINE_UNQUOTED([DATABASE_DIR], ["$DATABASE_DIR"] ,[Full path for database file])
-			AC_DEFINE_UNQUOTED([DATABASE_FN], ["$DATABASE_FN"] ,[Full path for database file])
-			AC_DEFINE_UNQUOTED([DATABASE], ["$DATABASE_DIR/$DATABASE_FN"] ,[Full path for database file])
-		;;
-	  	debian) 
-			AC_DEFINE([LINUX_DEBIAN], [], [Enable configuration for Debian])
-		;;
-	  	*)
-			AC_MSG_ERROR([unknown option '$enable_os' for --enable-os])
-		;;
-	esac
+case $enableval in
+	archlinux)
+		AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_ARCH, true)
+	;;
+	debian) 
+		AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_DEBIAN, true)	
+	;;
+	*)
+		AC_MSG_ERROR([unknown option '$enable_os' for --enable-os])	
+	;;
+esac
 
-AC_ARG_ENABLE([stick],[AS_HELP_STRING([--enable-stick],[Enable all software to ensure be runnable muposys(for developing/testing normally)])])
-if test "x$enable_stick" = "xyes"; then 
-	AM_CONDITIONAL(ENABLE_STICK, true)
-else
-	AM_CONDITIONAL(ENABLE_STICK, false)
-fi
 
 AC_ARG_ENABLE([tdd],[AS_HELP_STRING([--enable-tdd],[Enable Test-Drive Developing mode)])])
 if test "x$enable_tdd" = "xyes"; then 
