@@ -72,9 +72,9 @@ void TableSaling::init()
 		
 		//agregando widgets de total
 		boxFloor.pack_start(boxTotal);
-		{				
-			boxTotal.pack_start(lbTotalAmount);
+		{
 			boxTotal.pack_start(lbTotal);
+			boxTotal.pack_start(lbTotalAmount);
 			lbTotal.set_text("Total : $");
 		}
 		
@@ -373,8 +373,6 @@ void TableSaling::cellrenderer_validated_on_edited_quantity(const Glib::ustring&
 		std::cout << "amount : " << row[columns.amount] << "\n";
 	}
 }*/
-
-
 void TableSaling::newrow()
 {
 	tree_model->append();
@@ -443,7 +441,7 @@ void TableSaling::on_save_clicked()
 			dlg.run();
 			return;		
 	}
-		
+	
 	ente_operation = new muposysdb::Ente;
 	if(not ente_operation->insert(connDB))
 	{
@@ -451,15 +449,8 @@ void TableSaling::on_save_clicked()
 			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
 			dlg.run();
 			return;
-	}		
-	/*operation = new muposysdb::Operation;
-	if(not operation->insert(connDB,*ente_operation,Main::credential.userdb,*service))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
-			dlg.run();
-			return;			
-	}*/
+	}
+	
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
 	{
 		//std::cout << "\tStep 1\n";
@@ -506,18 +497,19 @@ void TableSaling::on_save_clicked()
 		//std::cout << "\n";
 	}
 	
-	
-		
-		
-		
-		
 	delete ente_service;
 	delete service;
 	delete ente_operation;
 		
 	connDB.commit();
+	
+	clear();
 }
-
+void TableSaling::clear()
+{
+	tree_model->clear();
+	newrow();
+}
 
 
 

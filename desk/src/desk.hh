@@ -46,6 +46,8 @@ protected:
 	
 	void newrow();
 	
+	void clear();
+	
 private:
 	
 	class ModelColumns : public Gtk::TreeModel::ColumnRecord

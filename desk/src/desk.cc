@@ -24,7 +24,7 @@ Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,b
 }
 void Main::init()
 {	
-	/*if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
+	if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
 	
 	add_events(Gdk::KEY_PRESS_MASK);		
 	
@@ -52,7 +52,7 @@ void Main::init()
 	btSales.set_label("Test");
 	
 	show_all_children();
-#endif*/
+#endif
 
 }
 Main::~Main()
@@ -103,13 +103,13 @@ void Main::check_session()
 			res = dlg.run();
 			return;		
 		}
-		credential.userdb.downName(connDB);	
+		if(credential.userdb.downName(connDB)) lbUser->set_text(credential.userdb.getName());			
+			
 		if(credential.userdb.downPerson(connDB))
 		{
-			//credential.userdb.getPerson().downName1(connDB);	
-			//credential.userdb.getPerson().downName3(connDB);	
+			credential.userdb.getPerson().downName1(connDB);	
+			credential.userdb.getPerson().downName3(connDB);	
 		}
-		lbUser->set_text(credential.userdb.getName());
 		connDB.close();
 	}
 	login->close();
@@ -250,6 +250,7 @@ void Login::check_user()
 		lbmsg->set_text("Usuario/Contraseña incorrectos.");
 		for(auto u : *userlst)
 		{
+			u->downPerson(connDB);
 			if(u->getPerson().downName1(connDB))
 			{
 				if(u->getPerson().downName3(connDB))
