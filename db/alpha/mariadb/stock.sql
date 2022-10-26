@@ -23,17 +23,6 @@ ALTER TABLE Stock ADD CONSTRAINT fk_stock_Stock_id FOREIGN KEY(stock) REFERENCES
 -- ALTER TABLE OperationStock ADD CONSTRAINT fk_stock_Stock_stock FOREIGN KEY(stock) REFERENCES Stock(stock);
 -- ALTER TABLE OperationStock ADD CONSTRAINT fk_item_CatalogItem_item FOREIGN KEY(item) REFERENCES CatalogItem(item);
 
-
 CREATE TABLE Stocking (stocking BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,stock BIGINT NOT NULL,item BIGINT NOT NULL,amount BIGINT NOT NULL);
 ALTER TABLE Stocking ADD CONSTRAINT fk_stock_Stock_stock FOREIGN KEY(stock) REFERENCES Stock(stock);
 ALTER TABLE Stocking ADD CONSTRAINT fk_item_CatalogItem_item FOREIGN KEY(item) REFERENCES CatalogItem(item);
-
-CREATE TABLE OperationProgress ( stocking BIGINT NOT NULL, service BIGINT NOT NULL, step TINYINT NOT NULL DEFAULT 0);
-ALTER TABLE OperationProgress ADD CONSTRAINT pk_OperationProgress PRIMARY KEY(stocking);
-ALTER TABLE OperationProgress ADD CONSTRAINT fk_stocking_Stocking_stocking FOREIGN KEY(stocking) REFERENCES Stocking(stocking);
-ALTER TABLE OperationProgress ADD CONSTRAINT fk_service_Service_service FOREIGN KEY(service) REFERENCES Service(service);
--- CREATE TABLE Stocking_Production (stocking BIGINT PRIMARY KEY NOT NULL,subitem BIGINT, step BIGINT, FOREIGN KEY(item) REFERENCES Stocking(id), FOREIGN KEY(CatalogItem) REFERENCES Stocking(stocking));
-
--- CREATE TABLE OperationStock (id BIGINT  PRIMARY KEY NOT NULL,origin BIGINT NOT NULL,finale BIGINT NOT NULL, FOREIGN KEY(origin) REFERENCES Stocking(id), FOREIGN KEY(finale) REFERENCES Stocking(id), FOREIGN KEY(id) REFERENCES Ente(id));
-
-

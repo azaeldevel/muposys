@@ -36,8 +36,8 @@ ALTER TABLE User ADD CONSTRAINT users_unique UNIQUE (name);
 -- R: Registrado, P:Autorizacion Pendiente, A:Autorizado
 ALTER TABLE User ADD COLUMN status ENUM('R','P','A');
 
-CREATE TABLE Service(service BIGINT PRIMARY KEY NOT NULL,step BIGINT, FOREIGN KEY(service) REFERENCES Ente(id));
-ALTER TABLE Service ADD CONSTRAINT fk_service_Service_id FOREIGN KEY(service) REFERENCES Ente(id);
+CREATE TABLE Operation(operation BIGINT PRIMARY KEY NOT NULL,step BIGINT, FOREIGN KEY(operation) REFERENCES Ente(id));
+ALTER TABLE Operation ADD CONSTRAINT fk_operation_Operation_id FOREIGN KEY(operation) REFERENCES Ente(id);
 
 -- user is the creator o operation
 -- CREATE TABLE Operation (operation BIGINT PRIMARY KEY NOT NULL,user BIGINT NOT NULL,service BIGINT NOT NULL, FOREIGN KEY(user) REFERENCES User(user),FOREIGN KEY(service) REFERENCES Service(service));
