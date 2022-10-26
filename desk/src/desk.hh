@@ -15,7 +15,7 @@ namespace mps
 {
 
 	
-class TableSaling : public Gtk::Box
+class TableSaling : public Gtk::VBox
 {	
 public:
 	TableSaling();	
@@ -124,42 +124,40 @@ public:
 	/**
 	*
 	**/
-	//Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	//Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
-	void init();
 	virtual ~Main();
 	
-	void check_session();	
+	void set_title(const char* );
+	void set_subtitle(const char* );
 	void add_activity(Gtk::Widget&);
 	
 	static Login::Credential credential;
 	
 protected:
 	Gtk::HeaderBar header;
-	Gtk::Box box_header;
-	Gtk::Box box_header_info;
-	Gtk::Box box_header_controls;
-	Gtk::Separator sep_header;
-	//void set_title(const char* );
-	//void set_subtitle(const char* );
+	Gtk::Toolbar tbMain;
+	
+	void init();
+	void check_session();	
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	//bool on_key_press_event(GdkEventKey* key_event) override;
-	
 #endif
 	
 private:
 	Login login;
 	Gtk::Label lbUser;
 	bool devel;
-	Gtk::Box boxSlices;
+	Gtk::VBox boxSlices;
 	Gtk::Notebook nbMain;
 	Gtk::Button btUserMang;
 	Gtk::Button btApplication;
+	Gtk::HBox box_header;
+	Gtk::HBox box_header_info;
+	Gtk::HBox box_header_controls;
+	Gtk::Separator sep_header;
 	
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	TableSaling sales;
-	Gtk::Toolbar* tbMain;
 	Gtk::ToolButton btSales;
 #endif
 };
@@ -170,8 +168,8 @@ public:
 	/**
 	*
 	**/
-	//Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	//Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
+	Restaurant();
+	Restaurant(bool devel);
 	virtual ~Restaurant();
 		
 protected:

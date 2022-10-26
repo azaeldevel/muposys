@@ -6,7 +6,7 @@ namespace mps
 {
 
 
-TableSaling::TableSaling() : Gtk::Box(Gtk::ORIENTATION_VERTICAL),btSave(Gtk::Stock::SAVE),boxFloor(Gtk::ORIENTATION_VERTICAL),connDB_flag(false)
+TableSaling::TableSaling() : btSave(Gtk::Stock::SAVE), boxFloor(Gtk::ORIENTATION_VERTICAL),connDB_flag(false)
 {
 	init();	
 }
@@ -14,7 +14,7 @@ void TableSaling::init()
 {
 	try
 	{
-		connDB.connect(muposysdb::datconex);
+	 connDB_flag = connDB.connect(muposysdb::datconex);
 	}
 	catch(const std::exception& e)
 	{
@@ -27,7 +27,7 @@ void TableSaling::init()
 	set_valign(Gtk::ALIGN_CENTER);
 	table.add_events(Gdk::KEY_PRESS_MASK);
 	//table.signal_key_press_event().connect(sigc::mem_fun(*this, &TableSaling::on_key_press_event));
-	pack_start(table,Gtk::PACK_SHRINK);//
+	pack_start(table,false,true);//
 	{
 		set_homogeneous(false);
 		
@@ -65,7 +65,7 @@ void TableSaling::init()
 		
 	newrow();	
 	
-	pack_start(boxFloor);
+	pack_start(boxFloor,false,true);
 	{
 		//boxFloor.set_valign(Gtk::ALIGN_END);
 		//boxFloor.set_spacing(get_spacing()/3);
@@ -83,12 +83,10 @@ void TableSaling::init()
 		btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked) );
 	}
 	
-	
-	connDB_flag = true;
 }
 TableSaling::~TableSaling()
 {
-	connDB.close();
+	if(connDB_flag) connDB.close();
 }
 TableSaling::ModelColumns::ModelColumns()
 {

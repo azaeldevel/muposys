@@ -11,56 +11,50 @@ Main::Main() : devel(false)
 {	
 	hide();
 	init();
-		
+	
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 	show();
 }
-Main::Main(bool d) : devel(false)
+Main::Main(bool d) : devel(d)
 {	
+	hide();
 	init();
 		
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 	show();
 }
 void Main::init()
-{	
+{
 	if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
 	
 	add_events(Gdk::KEY_PRESS_MASK);		
 	
-	header.set_title("Multi-Porpuse Software System");
-	header.set_subtitle("muposys");
+	set_title("Multi-Porpuse Software System");
+	set_subtitle("muposys");
 	header.set_show_close_button(true);
 	set_titlebar(header);
 	
 	header.pack_start(box_header);
 	box_header.pack_start(box_header_controls);
-	box_header.pack_start(sep_header);
+	box_header.pack_start(sep_header,false,true,10);
 	box_header.pack_start(box_header_info);
 	
 	box_header_info.pack_start(lbUser);
 	
 	box_header_controls.pack_start(btApplication);
 	box_header_controls.pack_start(btUserMang);
+	btApplication.set_image_from_icon_name("contact-new-symbolic");
 	btUserMang.set_image_from_icon_name("gtk-preferences");
-	btApplication.set_image_from_icon_name("gtk-preferences");
-		
+	
+	add(boxSlices);
+	boxSlices.pack_start(tbMain,false,true);
+	boxSlices.pack_start(nbMain,false,true);
+	
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	//add_activity(sales);	
-	//set_valign(Gtk::ALIGN_CENTER);
-	//nbMain->set_valign(Gtk::ALIGN_CENTER);
-	//sales.set_size_request(get_width()/3,-1);
+	add_activity(sales);	
 	set_default_size(800,640);	
 	show_all_children();
 #endif
-	
-	/*
-	boxSlices = 0;
-	builder->get_widget("boxSlices", boxSlices);	
-	
-	nbMain = 0;
-	builder->get_widget("nbMain", nbMain);
-	*/
 }
 Main::~Main()
 {
@@ -114,31 +108,37 @@ void Main::check_session()
 	}
 	login.close();
 }
-
-/*
-void Main::set_title(const char* )
-{
-}
-void Main::set_subtitle(const char* )
-{
-}
-*/
-
 void Main::add_activity(Gtk::Widget& w)
 {
-	//nbMain->append_page(w);	
+	nbMain.append_page(w);	
 }
-
-#ifdef MUPOSYS_DESK_ENABLE_TDD
-/*
-bool Main::on_key_press_event(GdkEventKey* key_event)
+void Main::set_title(const char* t )
 {
-	std::cout << "key " << (char) key_event->keyval << "\n";
-	
-	return true;
+	header.set_title(t);
 }
-*/
+void Main::set_subtitle(const char* t )
+{
+	header.set_subtitle(t);
+}
+#ifdef MUPOSYS_DESK_ENABLE_TDD
+
 #endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 Login::Login()
@@ -288,12 +288,40 @@ void Login::on_response(int res)
 
 
 
-/*Restaurant::Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Main(cobject,refGlade)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Restaurant::Restaurant() 
 {
 }
-Restaurant::Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool d) : Main(cobject,refGlade,d)
+Restaurant::Restaurant(bool d) : Main(d)
 {
-}*/
+}
 Restaurant::~Restaurant()
 {
 }
