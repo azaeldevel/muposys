@@ -135,6 +135,7 @@ public:
 protected:
 	Gtk::HeaderBar header;
 	Gtk::Toolbar tbMain;
+	Gtk::Notebook nbMain;
 	
 	void init();
 	void check_session();	
@@ -148,9 +149,8 @@ private:
 	Gtk::Label lbUser;
 	bool devel;
 	Gtk::VBox boxSlices;
-	Gtk::Notebook nbMain;
-	Gtk::Button btUserMang;
-	Gtk::Button btApplication;
+	//Gtk::Button btUserMang;
+	Gtk::Button btHome,btSysMang,btLogout,btAbout;
 	Gtk::HBox box_header;
 	Gtk::HBox box_header_info;
 	Gtk::HBox box_header_controls;

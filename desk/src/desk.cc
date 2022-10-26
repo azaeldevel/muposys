@@ -41,10 +41,20 @@ void Main::init()
 	
 	box_header_info.pack_start(lbUser);
 	
-	box_header_controls.pack_start(btApplication);
-	box_header_controls.pack_start(btUserMang);
-	btApplication.set_image_from_icon_name("contact-new-symbolic");
-	btUserMang.set_image_from_icon_name("gtk-preferences");
+	box_header_controls.pack_start(btHome);
+	box_header_controls.pack_start(btSysMang);
+	box_header_controls.pack_start(btLogout);
+	box_header_controls.pack_start(btAbout);
+	
+	btHome.set_image_from_icon_name("gtk-home");
+	btSysMang.set_image_from_icon_name("gtk-preferences");
+	btLogout.set_image_from_icon_name("lock");
+	btAbout.set_image_from_icon_name("gtk-about");
+	
+	btHome.set_tooltip_text("Aplicacion principal");
+	btSysMang.set_tooltip_text("Administración de MUPOSYS");
+	btLogout.set_tooltip_text("Cerrar seción de usuario actual");
+	btAbout.set_tooltip_text("Acerca de MUPOSYS");
 	
 	add(boxSlices);
 	boxSlices.pack_start(tbMain,false,true);
@@ -121,7 +131,7 @@ void Main::set_subtitle(const char* t )
 	header.set_subtitle(t);
 }
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-
+	
 #endif
 
 

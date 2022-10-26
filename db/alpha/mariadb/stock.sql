@@ -12,6 +12,7 @@ ALTER TABLE CatalogItem ADD COLUMN active ENUM('Y','N');
 ALTER TABLE CatalogItem ADD CONSTRAINT Cataloging_Entity_id FOREIGN KEY(item) REFERENCES Ente(id) ;
 ALTER TABLE CatalogItem ADD COLUMN value FLOAT;
 ALTER TABLE CatalogItem ADD COLUMN presentation VARCHAR(5);
+ALTER TABLE CatalogItem ADD COLUMN type ENUM('service','matter');
 
 -- Definiocn de locaciones de Inventario
 CREATE TABLE Stock (stock BIGINT PRIMARY KEY NOT NULL,brief VARCHAR(256));
