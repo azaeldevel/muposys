@@ -77,8 +77,6 @@ private:
 	
 };
 
-
-
 class Login : public Gtk::Dialog
 {
 public:
@@ -89,27 +87,29 @@ public:
 		std::string name;
 		muposysdb::User userdb;
 	};
-	Login(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	Login();
+	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
+	void init();
 	virtual ~Login();
 	
-	int run();
+	//int run();
 	const Credential& get_credential() const;
 	void set_session(const char*,const char*);
 	
 protected:
-	const Glib::RefPtr<Gtk::Builder>& builder;
-	Gtk::Label* lbmsg;
+	Gtk::Label lbMessage;
 	void on_bt_ok_clicked();
 	void on_bt_cancel_clicked();
-	void on_in_user_clean();
-	bool on_in_user_enter(GdkEventKey* );
+	void on_response(int);
 	
 private:
-	int retcode;
-	Gtk::Button* btOK;
-	Gtk::Button* btCancel;
-	Gtk::Entry* inUser;
-	Gtk::Entry* inPwd;
+	//int retcode;
+	Gtk::Button btOK;
+	Gtk::Button btCancel;
+	Gtk::Entry inUser,inPwd;
+	Gtk::Label lbUser,lbPass;
+	Gtk::Box boxUser,boxPass;
+	Gtk::ButtonBox boxButtons;
 	
 	void check_user();
 	Credential credential;
@@ -119,11 +119,13 @@ private:
 class Main : public Gtk::Window
 {
 public:
+	Main();
+	Main(bool devel);
 	/**
 	*
 	**/
-	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
+	//Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	//Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
 	void init();
 	virtual ~Main();
 	
@@ -133,9 +135,11 @@ public:
 	static Login::Credential credential;
 	
 protected:
-	const Glib::RefPtr<Gtk::Builder>& builder;
-	mps::Login* login;
-	Gtk::HeaderBar* hb_muposys;
+	Gtk::HeaderBar header;
+	Gtk::Box box_header;
+	Gtk::Box box_header_info;
+	Gtk::Box box_header_controls;
+	Gtk::Separator sep_header;
 	//void set_title(const char* );
 	//void set_subtitle(const char* );
 
@@ -145,11 +149,13 @@ protected:
 #endif
 	
 private:
-	//Login::Credential credential;
-	Gtk::Label* lbUser;
+	Login login;
+	Gtk::Label lbUser;
 	bool devel;
-	Gtk::Box* boxSlices;
-	Gtk::Notebook* nbMain;
+	Gtk::Box boxSlices;
+	Gtk::Notebook nbMain;
+	Gtk::Button btUserMang;
+	Gtk::Button btApplication;
 	
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	TableSaling sales;
@@ -164,8 +170,8 @@ public:
 	/**
 	*
 	**/
-	Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
-	Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
+	//Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade);
+	//Restaurant(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade,bool devel);
 	virtual ~Restaurant();
 		
 protected:
