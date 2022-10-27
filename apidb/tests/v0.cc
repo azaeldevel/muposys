@@ -106,7 +106,7 @@ void v0_apidb()
     std::string name_user = "user-" + std::to_string(randNumber);
     CU_ASSERT(user.insert(connector,usermang,person,name_user));
     CU_ASSERT(user.downName(connector));
-    std::cout << "User name : " << user.getName() << "\n";
+    //std::cout << "User name : " << user.getName() << "\n";
 	
     		
     //muposysdb::Ente ente_up;

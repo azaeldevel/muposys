@@ -74,11 +74,14 @@ void TableSaling::init()
 			boxTotal.pack_start(lbTotalAmount);
 			lbTotal.set_text("Total : $");
 		}
-		
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 		btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
+#endif
 		btSave.set_image_from_icon_name("filesave");
 		boxFloor.pack_start(btSave);
 	}
+	
+	saved = true;
 }
 TableSaling::~TableSaling()
 {
@@ -95,7 +98,6 @@ TableSaling::ModelColumns::ModelColumns()
 	add(cost_unit);
 	add(amount);
 }
-
 void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
 {
 	//std::cout << "Size : " << tree_model->children().size() << "\n";		
@@ -103,7 +105,233 @@ void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeM
 	if(last == iter) newrow();
 	
 	lbTotalAmount.set_text(std::to_string(total()));
+	saved = false;
+	//if(page) page->set_tab_label_text();
 }
+void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text)
+{
+	Gtk::TreePath path(path_string);
+	
+	std::string where = "number = '" + new_text + "'";
+	std::vector<muposysdb::CatalogItem*>* lstCatItems = muposysdb::CatalogItem::select(connDB,where);
+	//std::cout << "where : " << where << "\n";
+	
+	if(not lstCatItems) return;
+	
+	if(lstCatItems->size() == 1)
+	{
+		lstCatItems->front()->downBrief(connDB);
+		lstCatItems->front()->downValue(connDB);
+		lstCatItems->front()->downPresentation(connDB);
+		
+			Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
+			if(iter)
+			{
+				Gtk::TreeModel::Row row = *iter;
+				row[columns.item] = lstCatItems->front()->getItem().getID();
+				row[columns.number] = new_text;
+				row[columns.name] = lstCatItems->front()->getBrief();
+				row[columns.presentation] = lstCatItems->front()->getPresentation();
+				row[columns.cost_unit] = lstCatItems->front()->getValue();
+				row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
+			}
+	}
+	for(muposysdb::CatalogItem* p : *lstCatItems)
+	{
+		delete p;
+	}
+	delete lstCatItems;
+}
+
+void TableSaling::newrow()
+{
+	tree_model->append();
+}
+
+float TableSaling::total() const
+{
+	Gtk::TreeModel::Row row;
+	float tt = 0;
+	for(const Gtk::TreeModel::iterator& it : tree_model->children())
+	{
+		row = *it;
+		tt += row[columns.amount];
+	}
+	return tt;
+}
+
+bool TableSaling::on_key_press_event(GdkEventKey* key_event)
+{
+	std::cout << "key tree " << (char) key_event->keyval << "\n";
+	
+	return false;
+}
+
+bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
+{
+	std::cout << "key quantity : " << (char) key_event->keyval << "\n";
+	
+	return false;
+}
+void TableSaling::clear()
+{
+	tree_model->clear();
+	lbTotalAmount.set_text("");
+	newrow();
+}
+void TableSaling::set_page(Gtk::Widget& p)
+{
+	page = &p;
+}
+
+#ifdef MUPOSYS_DESK_ENABLE_TDD
+void TableSaling::on_save_clicked()
+{
+	save();
+}
+void TableSaling::save()
+{
+	//std::cout << "saving..\n";
+	Gtk::TreeModel::Row row;
+	muposysdb::Ente *ente_service,*ente_operation;
+	muposysdb::Stock stock(9);
+	muposysdb::Stocking* stocking;
+	muposysdb::CatalogItem* cat_item;
+	muposysdb::Operation* operation;
+	muposysdb::Progress* operationProgress;
+	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
+	int quantity,item;
+	ente_service = new muposysdb::Ente;
+	if(not ente_service->insert(connDB))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
+			dlg.run();
+			return;
+	}
+	operation = new muposysdb::Operation;
+	if(not operation->insert(connDB,*ente_service))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
+			dlg.run();
+			return;			
+	}
+	if(not operation->upStep(connDB,0))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
+			dlg.run();
+			return;		
+	}
+	
+	ente_operation = new muposysdb::Ente;
+	if(not ente_operation->insert(connDB))
+	{
+			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
+			dlg.run();
+			return;
+	}
+	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
+	{
+		if(last == it) break;
+		row = *it;
+		
+		quantity = row[columns.quantity];
+		if(quantity == 0) break;
+		
+		item = row[columns.item];
+		
+		cat_item = new muposysdb::CatalogItem(item);
+		
+		cat_item->downType(connDB);
+		if(cat_item->getType().compare("service") == 0)
+		{
+			for(unsigned int i = 0; i < quantity; i++ )
+			{
+				stocking = new muposysdb::Stocking;
+				if(not stocking->insert(connDB,stock,*cat_item,-1))
+				{
+					Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+					dlg.set_secondary_text("Durante la escritura de Stoking.");
+					dlg.run();
+					return;
+				}
+				operationProgress = new muposysdb::Progress;
+				if(not operationProgress->insert(connDB,*stocking,*operation,0))
+				{
+					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
+					dlg.set_secondary_text("Durante la escritura de Stoking Production.");
+					dlg.run();
+					return;			
+				}
+				delete operationProgress;
+				delete stocking;
+			}
+		}
+		else
+		{
+			stocking = new muposysdb::Stocking;
+			if(not stocking->insert(connDB,stock,*cat_item,-quantity))
+			{
+				Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+				dlg.set_secondary_text("Durante la escritura de Stoking.");
+				dlg.run();
+				return;
+			}
+			delete stocking;
+		}
+		
+		delete cat_item;
+	}
+	
+	delete ente_service;
+	delete ente_operation;	
+	
+	muposysdb::Sale* sale;
+	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
+	{
+		if(last == it) break;
+		row = *it;
+		
+		quantity = row[columns.quantity];
+		if(quantity == 0) break;
+		
+		item = row[columns.item];
+		cat_item = new muposysdb::CatalogItem(item);
+		
+		sale = new muposysdb::Sale;
+		if(not sale->insert(connDB,*operation,stock,*cat_item,quantity))
+		{
+			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
+			dlg.set_secondary_text("Durante la escritura de Stoking.");
+			dlg.run();
+			return;
+		}
+		
+		delete cat_item;
+	}
+	
+	delete operation;
+	
+	connDB.commit();	
+	clear();
+	
+	Gtk::MessageDialog dlg("Operacion completada.",true,Gtk::MESSAGE_INFO);
+	dlg.set_secondary_text("La Venta se realizo satisfactoriamente.");
+	dlg.run();
+}
+#endif
+
+
+
+
+
+
+
+
+
 
 /*
 void TableSaling::treeviewcolumn_validated_on_cell_data( Gtk::CellRenderer* renderer , const Gtk::TreeModel::iterator& iter)
@@ -264,42 +492,6 @@ void TableSaling::cellrenderer_validated_on_editing_started_number( Gtk::CellEdi
 	}
 	delete lstCatItems;
 }*/
-void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text)
-{
-	Gtk::TreePath path(path_string);
-	
-	std::string where = "number = '" + new_text + "'";
-	std::vector<muposysdb::CatalogItem*>* lstCatItems = muposysdb::CatalogItem::select(connDB,where);
-	//std::cout << "where : " << where << "\n";
-	
-	if(not lstCatItems) return;
-	
-	if(lstCatItems->size() == 1)
-	{
-		lstCatItems->front()->downBrief(connDB);
-		lstCatItems->front()->downValue(connDB);
-		lstCatItems->front()->downPresentation(connDB);
-		
-			Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
-			if(iter)
-			{
-				Gtk::TreeModel::Row row = *iter;
-				row[columns.item] = lstCatItems->front()->getItem().getID();
-				row[columns.number] = new_text;
-				row[columns.name] = lstCatItems->front()->getBrief();
-				row[columns.presentation] = lstCatItems->front()->getPresentation();
-				row[columns.cost_unit] = lstCatItems->front()->getValue();
-				row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
-			}
-	}
-	for(muposysdb::CatalogItem* p : *lstCatItems)
-	{
-		delete p;
-	}
-	delete lstCatItems;
-}
-
-
 
 void TableSaling::treeviewcolumn_validated_on_cell_data_quantity( Gtk::CellRenderer* cell_editable , const Gtk::TreeModel::iterator& iter)
 {
@@ -367,149 +559,6 @@ void TableSaling::cellrenderer_validated_on_edited_quantity(const Glib::ustring&
 		std::cout << "amount : " << row[columns.amount] << "\n";
 	}
 }*/
-void TableSaling::newrow()
-{
-	tree_model->append();
-}
-
-float TableSaling::total() const
-{
-	Gtk::TreeModel::Row row;
-	float tt = 0;
-	for(const Gtk::TreeModel::iterator& it : tree_model->children())
-	{
-		row = *it;
-		tt += row[columns.amount];
-	}
-	return tt;
-}
-
-bool TableSaling::on_key_press_event(GdkEventKey* key_event)
-{
-	std::cout << "key tree " << (char) key_event->keyval << "\n";
-	
-	return false;
-}
-
-bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
-{
-	std::cout << "key quantity : " << (char) key_event->keyval << "\n";
-	
-	return false;
-}
-void TableSaling::on_save_clicked()
-{
-	//std::cout << "saving..\n";
-	Gtk::TreeModel::Row row;
-	muposysdb::Ente *ente_service,*ente_operation;
-	muposysdb::Stock stock(9);
-	muposysdb::Stocking* stocking;
-	muposysdb::CatalogItem* cat_item;
-	muposysdb::Operation* operation;
-	muposysdb::OperationProgress* operationProgress;
-	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
-	int quantity,item;
-	ente_service = new muposysdb::Ente;
-	if(not ente_service->insert(connDB))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
-			dlg.run();
-			return;
-	}
-	operation = new muposysdb::Operation;
-	if(not operation->insert(connDB,*ente_service))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
-			dlg.run();
-			return;			
-	}
-	if(not operation->upStep(connDB,0))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
-			dlg.run();
-			return;		
-	}
-	
-	ente_operation = new muposysdb::Ente;
-	if(not ente_operation->insert(connDB))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
-			dlg.run();
-			return;
-	}
-	
-	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
-	{
-		//std::cout << "\tStep 1\n";
-		if(last == it) break;
-		row = *it;
-		//std::cout << "\t" << (unsigned int)row[columns.item]  << " - " << row[columns.number] << "\n";
-		//std::cout << "\tStep 2\n";
-		quantity = row[columns.quantity];
-		if(quantity == 0) break;
-		//std::cout << "\tStep 3\n";
-		/*
-		std::cout << "\tStep 4\n";
-		*/
-		//std::cout << "\tStep 5\n";
-		//std::cout << "\tStep 6\n";
-		item = row[columns.item];
-		//std::cout << "\tStep 7\n";
-		cat_item = new muposysdb::CatalogItem(item);
-		
-		//std::cout << "\tStep 8\n";
-		cat_item->downType(connDB);
-		if(cat_item->getType().compare("service") == 0)
-		{
-			for(unsigned int i = 0; i < quantity; i++ )
-			{
-				stocking = new muposysdb::Stocking;
-				if(not stocking->insert(connDB,stock,*cat_item,-1))
-				{
-					Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-					dlg.set_secondary_text("Durante la escritura de Stoking.");
-					dlg.run();
-					return;
-				}
-				operationProgress = new muposysdb::OperationProgress;
-				if(not operationProgress->insert(connDB,*stocking,*operation,0))
-				{
-					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-					dlg.set_secondary_text("Durante la escritura de Stoking Production.");
-					dlg.run();
-					return;			
-				}
-				delete operationProgress;
-				delete stocking;
-			}
-		}
-		
-		//std::cout << "\tStep 5\n";
-		delete cat_item;
-				
-		//std::cout << "\n";
-	}
-	
-	delete ente_service;
-	delete operation;
-	delete ente_operation;
-		
-	connDB.commit();
-	
-	clear();
-}
-void TableSaling::clear()
-{
-	tree_model->clear();
-	lbTotalAmount.set_text("");
-	newrow();
-}
-
-
 
 
 

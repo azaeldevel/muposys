@@ -59,9 +59,10 @@ void Main::init()
 	add(boxSlices);
 	boxSlices.pack_start(tbMain,false,true);
 	boxSlices.pack_start(nbMain,false,true);
-	
+		
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	add_activity(sales);	
+	sales.set_page(*nbMain.get_nth_page(nbMain.get_current_page()));
 	set_default_size(800,640);	
 	show_all_children();
 #endif
@@ -69,7 +70,6 @@ void Main::init()
 Main::~Main()
 {
 }
-
 void Main::check_session()
 {
 	login.set_transient_for(*this);
