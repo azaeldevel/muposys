@@ -8,20 +8,22 @@ namespace mps
 
 Login::Credential Main::credential;
 Main::Main() : devel(false)
-{	
-	hide();
+{
 	init();
 	
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();
+#endif
 }
 Main::Main(bool d) : devel(d)
-{	
-	hide();
+{
 	init();
 		
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
+#ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();
+#endif
 }
 void Main::init()
 {
@@ -61,9 +63,9 @@ void Main::init()
 	boxSlices.pack_start(nbMain,false,true);
 		
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	add_activity(sales);	
-	sales.set_page(*nbMain.get_nth_page(nbMain.get_current_page()));
-	set_default_size(800,640);	
+	int page_index = nbMain.append_page(sales);
+	sales.set_info(nbMain,page_index);
+	set_default_size(800,640);
 	show_all_children();
 #endif
 }
@@ -118,10 +120,10 @@ void Main::check_session()
 	}
 	login.close();
 }
-void Main::add_activity(Gtk::Widget& w)
+/*void Main::add_activity(Gtk::Widget& w)
 {
 	nbMain.append_page(w);	
-}
+}*/
 void Main::set_title(const char* t )
 {
 	header.set_title(t);
@@ -220,7 +222,7 @@ void Login::check_user()
 	credential.valid = true;
 	
 	std::string strwhere = "name = ";
-	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 'A'";
+	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 'autorizado'";
 	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,strwhere);
 	
 	//std::cout << "SQL str : " << strwhere << "\n";

@@ -8,7 +8,9 @@ AM_CPPFLAGS = \
 
 AM_CFLAGS = -g -Wall
 
+if MUPOSYS_DESK_ENABLE_TDD
 bin_PROGRAMS = muposys-desk 
+endif
 
 lib_LTLIBRARIES = libmuposys-desk.la
 

@@ -5,7 +5,8 @@ GRANT ALL PRIVILEGES ON `muposys-0-alpha`.* TO 'muposys'@'localhost';
 
 use `muposys-0-alpha`;
 
-CREATE TABLE Ente (id BIGINT AUTO_INCREMENT PRIMARY KEY NOT NULL,created datetime DEFAULT now()); 
+CREATE TABLE Ente (id BIGINT, created datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Hora de creacion de Ente'); 
+ALTER TABLE Ente MODIFY id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador global de Objeto';
 
 
 CREATE TABLE Version (ente BIGINT NOT NULL, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT NULL,patch SMALLINT NULL, FOREIGN KEY(ente) REFERENCES Ente(id)); 
@@ -34,10 +35,12 @@ ALTER TABLE User ADD CONSTRAINT fk_user_UserManagement_um FOREIGN KEY(user) REFE
 ALTER TABLE User ADD CONSTRAINT fk_person_Person_ente FOREIGN KEY(person) REFERENCES Person(ente);
 ALTER TABLE User ADD CONSTRAINT users_unique UNIQUE (name);
 -- R: Registrado, P:Autorizacion Pendiente, A:Autorizado
-ALTER TABLE User ADD COLUMN status ENUM('R','P','A');
+ALTER TABLE User ADD COLUMN status ENUM('registrado','pendiente','autorizado');
 
-CREATE TABLE Operation(operation BIGINT PRIMARY KEY NOT NULL,step BIGINT, FOREIGN KEY(operation) REFERENCES Ente(id));
+CREATE TABLE Operation(operation BIGINT PRIMARY KEY NOT NULL, FOREIGN KEY(operation) REFERENCES Ente(id));
 ALTER TABLE Operation ADD CONSTRAINT fk_operation_Operation_id FOREIGN KEY(operation) REFERENCES Ente(id);
+ALTER TABLE Operation ADD begin datetime COMMENT 'Hora de inicio de operación';
+ALTER TABLE Operation ADD end datetime COMMENT 'Hora de terminación de la operacion';
 
 -- user is the creator o operation
 -- CREATE TABLE Operation (operation BIGINT PRIMARY KEY NOT NULL,user BIGINT NOT NULL,service BIGINT NOT NULL, FOREIGN KEY(user) REFERENCES User(user),FOREIGN KEY(service) REFERENCES Service(service));
