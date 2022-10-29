@@ -1,0 +1,11 @@
+:root
+{
+	--theme-background-color : #79869B;
+	--theme-cancel-color : #E3943B;	
+	--theme-funtion-color: #275AAD;	
+}
+
+body 
+{
+	font-family: Arial, Helvetica, sans-serif;
+}

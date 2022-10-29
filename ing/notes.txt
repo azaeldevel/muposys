@@ -7,3 +7,7 @@ parametor de guion de configure
 'CFLAGS=-g -O0' 'CXXFLAGS=-g -O0' 'JFLAGS=-g -O0' 'FFLAGS=-g -O0' --prefix=/srv --bindir=/srv/http --datarootdir=/srv/data --libdir=/usr/lib --includedir=/usr/include --disable-shared --enable-static --enable-os=archlinux --enable-tdd --enable-database=maria --enable-devel 
 
 --prefix=/srv --bindir=/srv/http --datarootdir=/srv/data --libdir=/usr/lib --includedir=/usr/include 
+
+--prefix=/srv --bindir=/srv/http --datarootdir=/srv/data --libdir=/usr/lib --includedir=/usr/include --disable-shared --enable-static --enable-os=archlinux --enable-tdd --enable-database=maria --enable-devel
+
+--prefix=/srv/http/muposys/alpha --bindir=/srv/http/muposys/alpha --datarootdir=/srv/data/muposys/alpha --libdir=/usr/lib/muposys/alpha --includedir=/usr/include/muposys/alpha --disable-shared --enable-static --enable-os=archlinux --enable-tdd --enable-database=maria --enable-devel

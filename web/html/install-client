@@ -1,0 +1,75 @@
+#!/bin/bash
+
+#WEBDIRECTORY="/var/www/localhost/htdocs"
+#WEBDIRECTORY="/var/www/muposys"
+#WEBDIRECTORY="/var/www/vhosts/muposys/html"
+#WEBDIRECTORY="/srv/http/"
+
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+    Redcore)
+        
+    ;;
+    manjareland)
+        
+    ;;
+    Gentoo)
+        WEBDIRECTORY="/var/www/localhost/htdocs"
+    ;;
+    debland)
+        
+        
+    ;;
+    Ubuntu)
+        
+    ;;
+	ManjaroLinux)
+	WEBDIRECTORY="/srv/http"
+	
+	;;
+    
+    *)
+esac
+
+rm -f muposys-html/*~
+cp -r -f muposys-html/* $WEBDIRECTORY
+
+if [ ! -d "$WEBDIRECTORY/theme/gnome-2.91" ] ; then
+	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then
+		wget https://download.gnome.org/sources/gnome-icon-theme/2.91/gnome-icon-theme-2.91.93.tar.bz2
+	fi
+	mkdir gnome-2.91
+	tar -xjf gnome-icon-theme-2.91.93.tar.bz2 -C gnome-2.91 --strip-components=1
+	mkdir -p $WEBDIRECTORY/theme/gnome-2.91
+	mv gnome-2.91/gnome/* $WEBDIRECTORY/theme/gnome-2.91/
+	rm -r gnome-2.91
+fi
+
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+    Redcore)
+        
+    ;;
+    manjareland)
+        
+    ;;
+    Gentoo)
+        chown apache:apache -R $WEBDIRECTORY
+        chmod u+w $WEBDIRECTORY    
+    ;;
+    debland)
+        
+        
+    ;;
+    Ubuntu)
+        chown www-data:www-data -R /var/www
+        chmod u+w /var/www
+
+    ;;
+	ManjaroLinux)
+		chown http:http -R $WEBDIRECTORY    
+	;;
+    *)
+esac
+
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href = "/css/Mkos-Big-Sur/appearance/muposys.css" rel = "stylesheet">
+	<link href="/css/Mkos-Big-Sur/icons/application.css" rel="stylesheet">
+	<link rel="stylesheet" href="/css/Mkos-Big-Sur/login.css">
+	<meta charset="utf-8">
+	<title>Inicio de Sesion</title>
+</head>
+
+<body>
+	<form id="frmLogin" class="modal-content animate" action="login.cgi" method="post">
+    	<div class="container">
+		  	<label for="user"><b>Usuario:</b></label>
+		  	<input type="text" placeholder="Nombre de Usuario" name="user" required>
+
+		  	<label for="psw"><b>Contraseña:</b></label>
+		  	<input type="password" placeholder="Contraseña" name="psw" required>
+		  	
+		  	<button type="submit">Login</button>
+		  	<label>
+		    	<input type="checkbox"  name="remember">Recordame aquí</input>
+		  	</label>
+		</div>
+
+		<div class="container">
+			<div class="contcancel">
+		  		<button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancelar</button>
+			</div>
+			<div class="contoptions">
+			  	¿Olvidó su <a href="#">contraseña</a>?<br>
+				¿Deséa <a href="userregister.html">registrarse</a>?
+			</div>
+    	</div>
+	</form>
+</body>
+</html>

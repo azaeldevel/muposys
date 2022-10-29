@@ -47,7 +47,7 @@ LT_INIT([win32-dll])
 
 
 
-PKG_CHECK_MODULES(CGICC, [cgicc])
+PKG_CHECK_MODULES(CGICC, [cgicc muposys-apidb])
 PKG_CHECK_MODULES(SQLITE3, [sqlite3])
 PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract])
 PKG_CHECK_MODULES(GTK, [gtkmm-3.0])
@@ -131,13 +131,11 @@ esac
 
 AC_OUTPUT([
 Makefile
-apidb/Makefile
-apidb/muposys-apidb.pc
 src/Makefile
 cgi/Makefile
 cgi/user-mang/Makefile
 cgi/user-mang/permissions/Makefile
 cgi/muposys-cgi.pc
-desk/Makefile
 tests/Makefile
+tprb/Makefile
 ])
