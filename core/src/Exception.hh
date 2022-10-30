@@ -56,6 +56,9 @@ public:
 		DB_CONECTION_FAIL,
 		DB_READ_FAIL,
 		DB_WRITE_FAIL,
+
+		FAIL_OPEN_DATABASE,
+		NOT_FOUND,
 	};
 
 public:

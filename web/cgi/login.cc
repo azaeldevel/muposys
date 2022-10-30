@@ -23,11 +23,11 @@
 #include "login.hh"
 
 
-namespace muposys::server
+namespace mps::server
 {
 
 
-Login::Login() : CGI(http::db::Conector::database_file,muposysdb::datconex)
+Login::Login() : CGI(muposysdb::datconex)
 {
 }
 Login::~Login()
@@ -38,64 +38,63 @@ Login::~Login()
 bool Login::check()
 {
 	
-	if(has_session()) 
-	{
-		connHttp.begin();
-		remove_session();
-		connHttp.commit();
-	}
 
 	
-	//std::cout << "Step 1\n<br>";
+	
+	std::cout << "Step 1\n<br>";
 	cgicc::Cgicc formData;   	
 	std::string userstr, password;
 	cgicc::form_iterator itUser = formData.getElement("user"); 
 	if( !itUser->isEmpty() && itUser != (*formData).end()) 
 	{
-		//std::cout << "Usuario : " << **itUser << "<br>"; 
+		std::cout << "Usuario : " << **itUser << "<br>"; 
 		userstr = **itUser;
 	}
 	else 
 	{
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
 		return false;
 	}
 		
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
 	{
-		//std::cout << "Contrasena : " << **itPassword << "<br>"; 
+		std::cout << "Contrasena : " << **itPassword << "<br>"; 
 		password = **itPassword;
-	} 
+	}
 	else 
 	{
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 		return false;
 	}
+	
+	std::cout << "check : Step 2\n<br>";
 	
 	//Connector conn;	
 	connDB.connect(muposysdb::datconex);
 		
 	muposysdb::User* userbd;
 	std::string strwhere = "name = ";
-	strwhere += "'" + userstr + "' and status = 'A'";
+	strwhere += "'" + userstr + "' and status = 'autorizado'";
 	std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
 		return false;
 	}
 	else if(usrlst->size() > 1) 
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de 
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
 		return false;
 	}
 	else
 	{
 		userbd = usrlst->at(0);
 	}
-	//std::cout << "check : Step 2\n<br>";
+	std::cout << "check : Step 3\n<br>";
 	if(userbd->downName(connDB) and userbd->downPwdtxt(connDB))
 	{
 		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
@@ -109,10 +108,10 @@ bool Login::check()
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
 			//muposys::http::Session session;
-			if(not register_session(userbd->getName().c_str()))
+			/*if(not register_session(userbd->getName().c_str()))
 			{
 				return false;
-			}
+			}*/
 			std::cout << "Step login\n<br>";
 						
 			if(not permission("login"))
@@ -144,18 +143,18 @@ bool Login::check()
 
 int Login::main(std::ostream& out)
 {
-	muposys::contenttype(out,"text","html");
+	mps::contenttype(out,"text","html");
 	try
 	{
 		if(check())
 		{
 			//out << "Location:/application.cgi\n\n";
-			head.redirect(0,"/application.cgi");
+			//head.redirect(0,"/application.cgi");
 		}
 		else
 		{
 			//out << "Location:/login.html?failure\n\n";
-			head.redirect(0,"/login.html?failure");
+			//head.redirect(0,"/login.html?failure");
 		}
 		head.print(out);
 	}

@@ -1,9 +1,6 @@
 
 SUBDIRS = cgi 
-if ENABLE_TDD
-SUBDIRS += tests \
-	tprb
-endif
+
 
 
 dist_doc_DATA = \
@@ -54,7 +51,7 @@ js_DATA=html/js/login.js html/js/muposys.js
 themedir=$(bindir)/js
 theme_DATA=html/js/login.js
 
-if ENABLE_DEVEL
+if MUPOSYS_WEB_ENABLE_RUNNABLE
 
 install-data-hook:
 	chmod a+w $(bindir)/*.html

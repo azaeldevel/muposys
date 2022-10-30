@@ -1,6 +1,4 @@
 
-SUBDIRS = . user-mang 
-
 AM_CPPFLAGS = \
 	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
 	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
@@ -13,28 +11,29 @@ AM_CFLAGS =\
 
 lib_LTLIBRARIES = libmuposys-cgi.la
 
-if ENABLE_STICK
-bin_PROGRAMS = login.cgi logout.cgi user-register.cgi application.cgi
-else
-bin_PROGRAMS = login.cgi logout.cgi user-register.cgi 
+LIBS = $(OCTETOS_DB_LIBS) $(APIDB_LIBS) $(MUPOSYS_LIBS)
+FLAGS = $(OCTETOS_DB_CFLAGS)  $(APIDB_CFLAGS) $(MUPOSYS_CFLAGS)
+if MUPOSYS_WEB_ENABLE_TDD
+FLAGS += -DMUPOSYS_WEB_ENABLE_TDD
+endif
+if OCTETOS_DB_MEDIUMWORD
+FLAGS += -DOCTETOS_DB_MEDIUMWORD
+endif
+if DATABASE_ENGINE_MARIA
+FLAGS += -DDATABASE_ENGINE_MARIA
 endif
 
+if MUPOSYS_WEB_ENABLE_RUNNABLE
+bin_PROGRAMS = login.cgi logout.cgi application.cgi
+else
+bin_PROGRAMS = login.cgi logout.cgi 
+endif
 
-LIB = $(OCTETOS_DB_LIBS) $(SQLITE3_LIBS) $(CGICC_LIBS)
-FLAGS = $(OCTETOS_DB_CFLAGS) $(SQLITE3_CFLAGS) $(CGICC_CFLAGS)
-
-$(top_builddir)/cgi/http : Makefile.am
-	cp $(top_srcdir)/cgi/http $@
-
-$(top_builddir)/tests/http : Makefile.am
-	cp $(top_srcdir)/cgi/http $(top_builddir)/tests/
-
-BUILT_SOURCES = $(top_builddir)/cgi/http $(top_builddir)/tests/http
 
 
 libmuposys_cgi_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(FLAGS) 
 libmuposys_cgi_la_LDFLAGS = 
-libmuposys_cgi_la_SOURCES = html.cc http.cc http-db.cc Exception.cc login.cc application.cc logout.cc user-mang/permissions/add.cc user-mang/permissions/user-permiss.cc
+libmuposys_cgi_la_SOURCES = html.cc login.cc application.cc logout.cc Exception.cc
 libmuposys_cgi_la_LIBADD =  $(LIB)
 
 
@@ -42,12 +41,10 @@ login_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
 login_cgi_LDADD =  libmuposys-cgi.la $(LIB) 
 login_cgi_SOURCES = login-main.cc 
 
-if ENABLE_STICK
-
+if MUPOSYS_WEB_ENABLE_RUNNABLE
 application_cgi_SOURCES = application-main.cc
 application_cgi_LDADD = libmuposys-cgi.la $(LIB)
 application_cgi_CXXFLAGS = $(FLAGS) $(DBFLAGS) -I$(top_builddir)
-
 endif
 
 logout_cgi_SOURCES = logout-main.cc  

@@ -1,8 +1,7 @@
 
 #include "html.hh"
-#include "http.hh"
 
-namespace muposys
+namespace mps
 {
 void contenttype(std::ostream& out,const char* content,const char* type)
 {
@@ -225,45 +224,22 @@ void script::source(const char* s)
 	src = s;
 }
 
-Service::Service() : is_open_http(false),is_open_DB(false)
+Service::Service() : is_open_DB(false)
 {
 }
-Service::Service(const std::filesystem::path& db) : connHttp(db),is_open_http(true),is_open_DB(false)
+Service::Service(const Datconnect& dat)
 {
-}
-Service::Service(const Datconnect& dat) : is_open_DB(true)
-{
-	connDB.connect(dat);
-}
-Service::Service(const std::filesystem::path& db,const Datconnect& dat) : connHttp(db),is_open_http(true),is_open_DB(true)
-{
-	connDB.connect(dat);
+	is_open_DB = connDB.connect(dat);
 }
 Service::~Service()
 {
-	if(is_open_http) 
-	{
-		//session.remove(connHttp);
-		connHttp.close();
-	}
 	if(is_open_DB) connDB.close();
 }
-bool Service::create_session()
+
+/*bool Service::add(const char* varible,const char* value)
 {
-	return session.addregister(connHttp);
-}
-bool Service::remove_session()
-{
-	return session.remove(connHttp);
-}
-bool Service::has_session()
-{
-	return session.load(connHttp);
-}
-bool Service::add(const char* varible,const char* value)
-{
-	muposys::http::db::Variable var;
-	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible,value);
+	muposysdb::Variable var;
+	bool res =  var.insert(connDB,getenv("REMOTE_ADDR"),varible,value);
 	return res;
 }
 bool Service::add(const std::string& varible,const std::string& value)
@@ -271,15 +247,15 @@ bool Service::add(const std::string& varible,const std::string& value)
 	muposys::http::db::Variable var;
 	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible.c_str(),value.c_str());
 	return res;
-}
+}*/
 bool Service::permission(const char* p)
 {
 	//std::cout << "permission : Step 1\n<br>";
-	if(not has_session()) return false;
+	//if(not has_session()) return false;
 	
 	//std::cout << "permission : Step 2\n<br>";
-	http::db::Variable var;
-	if(not var.select(connHttp,getenv("REMOTE_ADDR"),"user")) return false;
+	muposysdb::Variable var;
+	/*if(not var.select(connHttp,getenv("REMOTE_ADDR"),"user")) return false;*/
 
 	//
 	if(var.getValue().empty()) return false;
@@ -342,72 +318,7 @@ bool Service::permission(const char* p)
 	//std::cout << "permission : Step 5\n<br>";
 	return true;	
 }
-bool Service::open(const std::filesystem::path& fn)
-{
-	connHttp.open(fn);
-	is_open_http = true;
-	
-	return true;
-}
-bool Service::register_session(const char* user)
-{
-	//std::cout << "register_session : 1\n<br>";
-	if(not has_session())
-	{
-		//std::cout << "register_session : 1.2\n<br>";
-		connHttp.begin();
-		if(create_session())
-		{
-			//std::cout << "register_session : 1.2.1\n<br>";
-			if(add("user",user))
-			{
-				//std::cout << "register_session : 1.2.1.1\n<br>";
-				connHttp.commit();
-				return true;
-			}
-			else
-			{
-				//std::cout << "register_session : 1.2.1.2\n<br>";
-				connHttp.rollback();
-				return false;
-			}
-		}
-		else
-		{
-			//std::cout << "register_session : 1.2.2\n<br>";
-			return false;
-		}
-	}
-	else
-	{
-		//std::cout << "register_session : 1.3\n<br>";
-		connHttp.begin();
-		if(create_session())
-		{
-			//std::cout << "register_session : 1.3.1\n<br>";
-			if(add("user",user))
-			{
-				//std::cout << "register_session : 1.3.1.1\n<br>";
-				connHttp.commit();
-				return true;
-			}
-			else
-			{
-				//std::cout << "register_session : 1.3.1.2\n<br>";
-				connHttp.rollback();
-				return false;
-			}
-		}
-		else
-		{
-			//std::cout << "register_session : 1.3.2\n<br>";
-			return false;
-		}
-	}
 
-	//std::cout << "register_session : 2\n<br>";
-	return true;
-}
 
 Page::Page() : body(NULL)
 {
@@ -422,28 +333,12 @@ Page::Page(Body& b,const std::string t) : body(&b)
 	head.title = t;
 }
 
-Page::Page(Body& b,const std::filesystem::path& db) : body(&b), Service(db)
-{
-
-}
 Page::Page(Body& b,const Datconnect& dat) : body(&b), Service(dat)
 {
 
 }
-Page::Page(Body& b,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
-{
 
-}
-
-Page::Page(Body& b,const std::string& t,const std::filesystem::path& db) : body(&b), Service(db)
-{
-	head.title = t;
-}
 Page::Page(Body& b,const std::string& t,const Datconnect& dat) : body(&b), Service(dat)
-{
-	head.title = t;
-}
-Page::Page(Body& b,const std::string& t,const std::filesystem::path& db,const Datconnect& dat) : body(&b), Service(db,dat)
 {
 	head.title = t;
 }
@@ -464,21 +359,10 @@ void Page::print(std::ostream& out) const
 CGI::CGI() 
 {
 }
-
-CGI::CGI(const std::filesystem::path& db) : Service(db)
-{
-
-}
 CGI::CGI(const Datconnect& dat) : Service(dat)
 {
 
 }
-CGI::CGI(const std::filesystem::path& db,const Datconnect& dat) : Service(db,dat)
-{
-
-}
-
-
 CGI::~CGI()
 {
 }

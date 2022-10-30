@@ -6,11 +6,11 @@
 #include "html.hh"
 #include <muposys/apidb.hh>
 
-namespace muposys::server
+namespace mps::server
 {
 
 
-class Logout : public muposys::CGI
+class Logout : public mps::CGI
 {
 private:	
 public:

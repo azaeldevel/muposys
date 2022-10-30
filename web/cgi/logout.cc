@@ -21,10 +21,10 @@
 #include "logout.hh"
 
 
-namespace muposys::server
+namespace mps::server
 {
 
-Logout::Logout(): CGI(http::db::Conector::database_file)
+Logout::Logout()
 {
 }
 Logout::~Logout()
@@ -34,7 +34,7 @@ Logout::~Logout()
 
 int Logout::main(std::ostream& out)
 {	
-	muposys::contenttype(out,"text","html");
+	mps::contenttype(out,"text","html");
 	out << "Logout testing..\n";
 	try
 	{

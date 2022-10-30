@@ -1,13 +1,13 @@
 #ifndef MUPOSYS_APPLICATION_HH
 #define MUPOSYS_APPLICATION_HH
 
-#include "http.hh"
+
 #include "html.hh"
 
-namespace muposys
+namespace mps
 {
 
-class BodyApplication : public muposys::Body
+class BodyApplication : public mps::Body
 {
 private:
 	
@@ -22,7 +22,7 @@ public:
 protected:
 	bool user_mang;	
 };
-class Application : public muposys::Page
+class Application : public mps::Page
 {	
 public:
 	virtual void print(std::ostream& out) const;

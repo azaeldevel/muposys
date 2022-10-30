@@ -8,12 +8,12 @@
 #include <cgicc/HTTPHTMLHeader.h>
 #include <cgicc/HTTPResponseHeader.h>
 #include <cgicc/HTTPStatusHeader.h>
+#include <filesystem>
+#include <iostream>
+#include <cgicc/Cgicc.h> 
+#include <muposys/apidb.hh>
 
-
-#include "config.h"
-#include "http.hh"
-
-namespace muposys
+namespace mps
 {
 	void contenttype(std::ostream& out,const char* content,const char* type);
 	
@@ -125,9 +125,7 @@ namespace muposys
 	{
 	public:	
 		Service();
-		Service(const std::filesystem::path&);		
 		Service(const Datconnect&);
-		Service(const std::filesystem::path&,const Datconnect&);
 
 		~Service();
 		
@@ -137,15 +135,11 @@ namespace muposys
 		bool add(const char* varible,const char* value);
 		bool add(const std::string& varible,const std::string& value);
 		bool permission(const char*);
-		bool open(const std::filesystem::path& );
 		bool register_session(const char*);
 	private:
-		bool is_open_http;
 		bool is_open_DB;
 		
 	protected:
-		muposys::http::db::Conector connHttp;
-		muposys::http::Session session;
 		Connector connDB;
 	};
 	class Page : public Tag, public Service
@@ -154,14 +148,8 @@ namespace muposys
 		Page();
 		Page(Body&);
 		Page(Body&,const std::string title);
-
-		Page(Body&,const std::filesystem::path&);		
 		Page(Body&,const Datconnect&);
-		Page(Body&,const std::filesystem::path&,const Datconnect&);
-
-		Page(Body&,const std::string& title,const std::filesystem::path&);		
 		Page(Body&,const std::string& title,const Datconnect&);
-		Page(Body&,const std::string& title,const std::filesystem::path&,const Datconnect&);
 
 		
 		

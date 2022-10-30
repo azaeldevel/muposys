@@ -52,6 +52,13 @@ const char* Exception::what () const throw ()
 		return "La lectura en Base de Datos falló";
 	case Errors::DB_WRITE_FAIL:
 		return "La escritura en Base de Datos falló";
+		
+	
+	case Errors::FAIL_OPEN_DATABASE:
+		return "Fallo al abrir la base de datos";
+	case Errors::NOT_FOUND:
+		return "No se encontro la tabla";
+		
 	default:
 		return "Error desconocido.";
 	}

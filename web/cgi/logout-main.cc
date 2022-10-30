@@ -23,7 +23,7 @@
 
 int main ()
 {
-	muposys::server::Logout logout;
+	mps::server::Logout logout;
 	logout.main();
 	
 	return 0;

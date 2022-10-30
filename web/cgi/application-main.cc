@@ -5,8 +5,8 @@
 
 int main()
 {	
-	muposys::BodyApplication body;
-	muposys::Application app(body);
+	mps::BodyApplication body;
+	mps::Application app(body);
 	app.main();
 	
 	return 0;

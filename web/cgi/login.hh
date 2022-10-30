@@ -2,14 +2,14 @@
 #ifndef MUPOSYS_LOGIN_HH
 #define MUPOSYS_LOGIN_HH
 
-#include "http.hh"
+
 #include "html.hh"
 
 
-namespace muposys::server
+namespace mps::server
 {
 
-class Login : public muposys::CGI
+class Login : public mps::CGI
 {
 private:
 	
