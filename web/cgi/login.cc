@@ -37,10 +37,6 @@ Login::~Login()
 
 bool Login::check()
 {
-	
-
-	
-	
 	std::cout << "Step 1\n<br>";
 	cgicc::Cgicc formData;   	
 	std::string userstr, password;
@@ -114,14 +110,14 @@ bool Login::check()
 			}*/
 			std::cout << "Step login\n<br>";
 						
-			if(not permission("login"))
+			/*if(not permission("login"))
 			{
 				delete usrlst->front();
 				delete usrlst;
 				//std::cout << "NO tinen permiso<br>\n";
 				return false;
 			}
-			std::cout << "Step permission\n<br>";
+			std::cout << "Step permission\n<br>";*/
 			
 			delete usrlst->front();
 			delete usrlst;
