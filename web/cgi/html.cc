@@ -224,6 +224,9 @@ void script::source(const char* s)
 	src = s;
 }
 
+
+
+const char* Service::user_name_variable = "oct.mps.web.user";
 Service::Service() : is_open_DB(false)
 {
 }
@@ -248,6 +251,129 @@ bool Service::add(const std::string& varible,const std::string& value)
 	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible.c_str(),value.c_str());
 	return res;
 }*/
+bool Service::has_session()
+{
+	if(get_session() > 0) return true;
+	
+	return false;
+}
+long Service::get_session()
+{
+	std::string findSesion = "client = '";
+	findSesion += getenv("REMOTE_ADDR");
+	findSesion += "'";
+	std::vector<muposysdb::Session*>* clientlst = muposysdb::Session::select(connDB,findSesion,0);
+	bool flag_op;
+	long session = -1;
+	if(clientlst->size() == 0)
+	{
+		flag_op = false;
+	}
+	else if(clientlst->size() > 1)
+	{
+		flag_op = false;
+	}
+	else if(clientlst->size() == 1)
+	{
+		flag_op = true;
+		session = clientlst->front()->getID();
+	}
+	
+	
+	if(clientlst != NULL)
+	{
+		for(auto u : *clientlst)
+		{
+			delete u;
+		}
+		delete clientlst;
+	}
+	return session;
+}
+bool Service::register_session(const char* s)
+{
+	
+	std::cout << "Service::register_session : Step 1<br>\n";
+	
+	long session = get_session();
+	if(session < 1)
+	{
+		muposysdb::Session session;
+		session.insert(connDB,getenv("REMOTE_ADDR"));
+	}
+	
+	session = get_session();
+	if(session < 1) return false;
+	
+	std::cout << "Service::register_session : Step 2<br>\n";
+	
+	std::string findSesion = "id = '";
+	findSesion += std::to_string(session);
+	findSesion = findSesion + "' and name = '" + user_name_variable + "'";
+	std::cout << "Service::register_session : " << findSesion << "<br>\n";
+	std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+	bool flag_op,flag_main,flag_name,flag_val,flag_session;
+	muposysdb::Variable var;
+	std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
+	if(not varslst)
+	{
+		flag_main = var.insert(connDB);
+		flag_name = var.upName(connDB,user_name_variable);
+		flag_val = var.upValue(connDB,s);
+		flag_session = var.upSession(connDB,session);
+		flag_op = true;
+	}
+	else if(varslst->size() == 0)
+	{
+		std::cout << "Service::register_session updating..<br>\n";
+		flag_main = var.insert(connDB);
+		std::cout << "Service::register_session updating 1<br>\n";
+		flag_name = var.upName(connDB,user_name_variable);
+		std::cout << "Service::register_session updating 2<br>\n";
+		flag_val = var.upValue(connDB,s);
+		std::cout << "Service::register_session updating 3<br>\n";
+		flag_session = var.upSession(connDB,session);
+		std::cout << "Service::register_session updating 4<br>\n";
+		flag_op = true;
+		std::cout << "Service::register_session updated..<br>\n";
+	}
+	else if(varslst->size() == 1)
+	{
+		flag_name = true;
+		flag_main = true;
+		flag_val = varslst->front()->upValue(connDB,s);
+		flag_session = varslst->front()->upSession(connDB,session);
+		flag_op = true;
+	}
+	else
+	{
+		for(int i = 1; i < varslst->size(); i++)
+		{
+			varslst->at(i)->remove(connDB);
+		}
+		flag_val = varslst->front()->upValue(connDB,s);
+		flag_session = varslst->front()->upSession(connDB,session);
+		flag_op = true;
+		flag_name = true;
+		flag_main = true;
+	}
+	
+	std::cout << "Service::register_session done\n";
+	
+	if(varslst != NULL)
+	{
+		for(auto u : *varslst)
+		{
+			delete u;
+		}
+		delete varslst;
+	}
+	connDB.commit();
+	
+	if(flag_main and flag_name and flag_val and flag_session and flag_op) return true;
+	
+	return false;
+}
 bool Service::permission(const char* p)
 {
 	//std::cout << "permission : Step 1\n<br>";

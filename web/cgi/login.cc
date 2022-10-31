@@ -27,6 +27,7 @@ namespace mps::server
 {
 
 
+
 Login::Login() : CGI(muposysdb::datconex)
 {
 }
@@ -38,6 +39,8 @@ Login::~Login()
 bool Login::check()
 {
 	std::cout << "Step 1\n<br>";
+		
+	
 	cgicc::Cgicc formData;   	
 	std::string userstr, password;
 	cgicc::form_iterator itUser = formData.getElement("user"); 
@@ -65,9 +68,6 @@ bool Login::check()
 	}
 	
 	std::cout << "check : Step 2\n<br>";
-	
-	//Connector conn;	
-	connDB.connect(muposysdb::datconex);
 		
 	muposysdb::User* userbd;
 	std::string strwhere = "name = ";
@@ -103,21 +103,21 @@ bool Login::check()
 			//std::cout << "password valided\n<br>";
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
 			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
-			//muposys::http::Session session;
-			/*if(not register_session(userbd->getName().c_str()))
+			if(not register_session(userbd->getName().c_str()))
 			{
+				std::cout << "Fallo registro de secion<br>";
 				return false;
-			}*/
+			}
 			std::cout << "Step login\n<br>";
-						
-			/*if(not permission("login"))
+			
+			if(not permission("login"))
 			{
 				delete usrlst->front();
 				delete usrlst;
 				//std::cout << "NO tinen permiso<br>\n";
 				return false;
 			}
-			std::cout << "Step permission\n<br>";*/
+			std::cout << "Step permission\n<br>";
 			
 			delete usrlst->front();
 			delete usrlst;
@@ -158,7 +158,7 @@ int Login::main(std::ostream& out)
 	{
 		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";	
 		//out << "Error : " << e.what() << "<br>\n";
-		head.redirect(0,"/login.html?error");
+		//head.redirect(0,"/login.html?error");
 		head.print(out);
 		return EXIT_FAILURE;
 	}

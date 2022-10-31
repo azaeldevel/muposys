@@ -20,6 +20,8 @@ public:
 	~Login();
 	
 	virtual int main(std::ostream& out = std::cout);
+	
+	
 };
 
 }

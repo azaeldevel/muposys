@@ -132,14 +132,18 @@ namespace mps
 		bool create_session();
 		bool remove_session();
 		bool has_session();
+		long get_session();
 		bool add(const char* varible,const char* value);
 		bool add(const std::string& varible,const std::string& value);
 		bool permission(const char*);
 		bool register_session(const char*);
+		
+		static const char* user_name_variable;
+		
 	private:
-		bool is_open_DB;
 		
 	protected:
+		bool is_open_DB;
 		Connector connDB;
 	};
 	class Page : public Tag, public Service
