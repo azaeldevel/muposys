@@ -5,9 +5,10 @@
 
 int main()
 {	
+	mps::contenttype(std::cout,"text","html");
 	mps::BodyApplication body;
 	mps::Application app(body);
-	app.main();
+	//app.main();
 	
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -23,46 +23,39 @@ namespace mps
 	
 Exception::Exception()
 {
-
 }
+Exception::Exception(const Exception& e) : oct::core::v3::Exception(e)
+{
+}
+Exception::Exception(Exception&& e) : oct::core::v3::Exception(e)
+{
+}
+
+
 Exception::Exception(unsigned int c) : oct::core::v3::Exception(c)
 {
 }
 Exception::Exception(unsigned int c,const char* s) : oct::core::v3::Exception(c,s)
 {
 }
-Exception::Exception(unsigned int c,const char* f, unsigned int l) : oct::core::v3::Exception(c,f,l)
+Exception::Exception(unsigned int c,const char* fn, unsigned int l) : oct::core::v3::Exception(c,fn,l)
 {
 }
-Exception::Exception(unsigned int c,const char* s,const char* f, unsigned int l) : oct::core::v3::Exception(c,s,f,l)
+Exception::Exception(unsigned int c,const char* s,const char* fn, unsigned int l) : oct::core::v3::Exception(c,s,fn,l)
 {
 }
 
-const char* Exception::what () const throw ()
+Exception::Exception(const std::string& m) : oct::core::v3::Exception(m)
 {
-	switch(code())
-	{
-	case Errors::NO_ERROR:
-		return "No error.";
-	case Errors::VISIBLE_MAIN:
-		return "La ventana principal no deve estar inicialmente visisble(importante para realizar la llamada al Login).";
-	case Errors::DB_CONECTION_FAIL:
-		return "Falló en la conexion de Base de Datos";
-	case Errors::DB_READ_FAIL:
-		return "La lectura en Base de Datos falló";
-	case Errors::DB_WRITE_FAIL:
-		return "La escritura en Base de Datos falló";
-		
-	
-	case Errors::FAIL_OPEN_DATABASE:
-		return "Fallo al abrir la base de datos";
-	case Errors::NOT_FOUND:
-		return "No se encontro la tabla";
-		
-	default:
-		return "Error desconocido.";
-	}
-	return "Error desconocido.";
 }
+Exception::Exception(const std::string& m,const char* f, unsigned int l) : oct::core::v3::Exception(m,f,l)
+{
+}
+
+Exception::~Exception()
+{
+}
+
+
 	
 }

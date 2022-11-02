@@ -153,7 +153,7 @@ namespace mps
 	public:
 		Page();
 		Page(Body&);
-		Page(Body&,const std::string title);
+		Page(Body&,const std::string& title);
 		Page(Body&,const Datconnect&);
 		Page(Body&,const std::string& title,const Datconnect&);
 

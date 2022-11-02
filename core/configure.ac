@@ -7,27 +7,30 @@ AC_PROG_CXX
 
 LT_INIT
 
-AM_CONDITIONAL(LINUX_ARCH, false)
-AM_CONDITIONAL(LINUX_DEBIAN, false)
+AC_DEFINE_UNQUOTED([MUPOSYS_APIDB], [true] ,[Signal for local compilation])
+
+AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_ARCH, false)
+AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_DEBIAN, false)
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
 case $enableval in
-	  	archlinux)
-			AM_CONDITIONAL(LINUX_ARCH, true)
-		;;
-	  	debian) 
-			AM_CONDITIONAL(LINUX_DEBIAN, true)
-		;;
-	  	*)
-			AC_MSG_ERROR([unknown option '$enable_os' for --enable-os])
-		;;
+	archlinux)
+		AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_ARCH, true)
+	;;
+	debian) 
+		AM_CONDITIONAL(OCTETOS_MUPOSYS_APIDB_ARCH_LINUX_DEBIAN, true)	
+	;;
+	*)
+		AC_MSG_ERROR([unknown option '$enable_os' for --enable-os])	
+	;;
 esac
+
 
 AC_ARG_ENABLE([tdd],[AS_HELP_STRING([--enable-tdd],[Enable Test-Drive Developing mode)])])
 if test "x$enable_tdd" = "xyes"; then 
-	AM_CONDITIONAL(MUPOSYS_DESK_ENABLE_TDD, true)
-	PKG_CHECK_MODULES(CUNIT, [cunit])
+	AM_CONDITIONAL(MUPOSYS_APIDB_ENABLE_TDD, true)
+	PKG_CHECK_MODULES(TDD, [cunit])
 else
-	AM_CONDITIONAL(MUPOSYS_DESK_ENABLE_TDD, false)
+	AM_CONDITIONAL(MUPOSYS_APIDB_ENABLE_TDD, false)
 fi
 
 AM_CONDITIONAL(OCTETOS_DB_MEDIUMWORD,false)
@@ -52,15 +55,9 @@ case $enableval in
 		AM_CONDITIONAL(DATABASE_ENGINE_POSTGRESQL,true)
 	;;
 	*)
-		dnl AC_MSG_ERROR([unknown option '$enable_database' for --enable-database])
+		AC_MSG_ERROR([unknown option '$enable_database' for --enable-database])
 	;;
 esac
-
-
-
-
-
-
 
 AC_OUTPUT([
 Makefile

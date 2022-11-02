@@ -8,6 +8,6 @@ includedir=@includedir@
 Name: muposys-core
 Description: Multi-Porpuse Software System for Core
 Version: @VERSION@
-Requires: octetos-core
+Requires: octetos-core octetos-db-abstract 
 Libs: -L${libdir} -lmuposys-core
 Cflags: -I${includedir}

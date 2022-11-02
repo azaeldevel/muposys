@@ -40,8 +40,8 @@ login_cgi_SOURCES = login-main.cc
 
 if MUPOSYS_WEB_ENABLE_RUNNABLE
 application_cgi_SOURCES = application-main.cc
-application_cgi_LDADD = libmuposys-cgi.la 
-application_cgi_CXXFLAGS = $(FLAGS) -I$(top_builddir)
+application_cgi_LDADD = libmuposys-cgi.la $(LIBS)
+application_cgi_CXXFLAGS = $(FLAGS)
 endif
 
 logout_cgi_SOURCES = logout-main.cc  

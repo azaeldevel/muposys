@@ -408,7 +408,7 @@ std::string Service::get_user()
 }
 bool Service::permission(const char* p)
 {
-	std::cout << "permission : Step 1\n<br>";
+	//std::cout << "permission : Step 1\n<br>";
 	
 	long userid = 0;
 	std::string user = get_user();
@@ -416,9 +416,9 @@ bool Service::permission(const char* p)
 	if(user.empty()) return false;
 	
 	//finding user id
-	std::cout << "permission : Step 2\n<br>";
+	//std::cout << "permission : Step 2\n<br>";
 	std::string findUser = "name = '" + user + "'";
-	std::cout << "SQL where : " << findUser << "<br>\n";
+	//std::cout << "SQL where : " << findUser << "<br>\n";
 	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,findUser,0);
 	bool flpermiss = false;
 	if(not userlst)
@@ -448,12 +448,12 @@ bool Service::permission(const char* p)
 	if(not flpermiss) return false;
 	
 	//finding user id
-	std::cout << "permission : Step 3\n<br>";
+	//std::cout << "permission : Step 3\n<br>";
 	std::string findPermission = "name = '";
 	findPermission += p;
 	findPermission += "'";
 	long permss = -1;
-	std::cout << "SQL where : " << findPermission << "<br>\n";
+	//std::cout << "SQL where : " << findPermission << "<br>\n";
 	std::vector<muposysdb::Permission*>* permsslst = muposysdb::Permission::select(connDB,findPermission,0);
 	if(not permsslst)
 	{
@@ -478,11 +478,11 @@ bool Service::permission(const char* p)
 	}
 	if(not flpermiss) return false;
 	
-	std::cout << "permission : Step 4\n<br>";
+	//std::cout << "permission : Step 4\n<br>";
 	std::string findUserpermission = "user = " + std::to_string(userid) + " and permission = " +  std::to_string(permss);
-	std::cout << "SQL where : " << findUserpermission << "<br>\n";
+	//std::cout << "SQL where : " << findUserpermission << "<br>\n";
 	std::vector<muposysdb::UserPermission*>* usrpermiss = muposysdb::UserPermission::select(connDB,findUserpermission,2);
-	std::cout << "size : " << usrpermiss->size() << "<br>\n";
+	//std::cout << "size : " << usrpermiss->size() << "<br>\n";
 	//std::cout << "Query done.\n";
 	//std::cout << "permission : Step 3\n<br>";
 	if(not usrpermiss)
@@ -507,7 +507,7 @@ bool Service::permission(const char* p)
 		delete usrpermiss;
 	}
 	
-	std::cout << "permission : Step 5\n<br>";
+	//std::cout << "permission : Step 5\n<br>";
 	return flpermiss;	
 }
 
@@ -520,7 +520,7 @@ Page::Page() : body(NULL)
 Page::Page(Body& b) : body(&b)
 {
 }
-Page::Page(Body& b,const std::string t) : body(&b)
+Page::Page(Body& b,const std::string& t) : body(&b)
 {
 	head.title = t;
 }
@@ -537,14 +537,14 @@ Page::Page(Body& b,const std::string& t,const Datconnect& dat) : body(&b), Servi
 
 void Page::print(std::ostream& out) const
 {
+	head.print(out);
 	out << "<html>\n";
-		head.print(out);
-		if(body) 
-		{
-			out << "<body>\n";
-			body->print(out);
-			out << "</body>\n";
-		}
+	if(body) 
+	{
+		out << "<body>\n";
+		body->print(out);
+		out << "</body>\n";
+	}
 	out << "</html>\n";
 }
 

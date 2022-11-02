@@ -49,26 +49,24 @@ namespace mps
 class Exception : public oct::core::v3::Exception
 {
 public:
-	enum Errors
-	{
-		NO_ERROR,
-		VISIBLE_MAIN,
-		DB_CONECTION_FAIL,
-		DB_READ_FAIL,
-		DB_WRITE_FAIL,
-
-		FAIL_OPEN_DATABASE,
-		NOT_FOUND,
-	};
 
 public:
 	Exception();
+	Exception(const Exception&);
+	Exception(Exception&&);
+	
 	Exception(unsigned int code);
-	Exception(unsigned int code,const char* subject);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	Exception(unsigned int code,const char* subject,const char* filename, unsigned int line);
+	
+	Exception(unsigned int code,const char* message);
+	Exception(unsigned int code,const char* message,const char* filename, unsigned int line);
 
-	virtual const char* what () const throw ();
+	Exception(const std::string& message);
+	Exception(const std::string& message,const char* filename, unsigned int line);
+	
+	Exception(unsigned int code,const std::string& message);
+	Exception(unsigned int code,const std::string& message,const char* filename, unsigned int line);
+	~Exception();
 
 private:
 };
