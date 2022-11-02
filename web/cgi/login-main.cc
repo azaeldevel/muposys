@@ -23,14 +23,6 @@
 
 int main ()
 {
-	/*
-	muposys::http::db::Conector conn(muposys::http::db::database_file);
-	muposys::http::db::Session session;
-	conn.begin();
-	if(session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR"))) session.remove(conn);
-	conn.commit();
-	conn.close();
-	*/
 	mps::server::Login login;
 	return login.main();
 }

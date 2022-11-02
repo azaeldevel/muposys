@@ -38,105 +38,117 @@ Login::~Login()
 
 bool Login::check()
 {
-	std::cout << "Step 1\n<br>";
-		
-	
-	cgicc::Cgicc formData;   	
+	std::cout << "Login::check : Step 1.0<br>\n";
 	std::string userstr, password;
-	cgicc::form_iterator itUser = formData.getElement("user"); 
-	if( !itUser->isEmpty() && itUser != (*formData).end()) 
+	std::cout << "Login::check : Step 1.1<br>\n";
+	try
 	{
-		std::cout << "Usuario : " << **itUser << "<br>"; 
-		userstr = **itUser;
-	}
-	else 
-	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-		return false;
-	}
+		std::cout << "Login::check : Step 1.2<br>\n";
+		cgicc::Cgicc cgi;
+		std::cout << "Login::check : Step 1.3<br>\n";
+		std::cout << "Login::check  : Step 2<br>\n";
+		cgicc::form_iterator itUser = cgi.getElement("user");
+		std::cout << "Login::check  : Step 3<br>\n";
+		std::cout << "Login::check  : Step 4<br>\n";
+		if(itUser != (*cgi).end()) 
+		{
+			std::cout << "Usuario : " << **itUser << "<br>"; 
+			userstr = **itUser;
+		}
+		else 
+		{
+			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
+			return false;
+		}
 		
-	cgicc::form_iterator itPassword = formData.getElement("psw");  
-	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
-	{
-		std::cout << "Contrasena : " << **itPassword << "<br>"; 
-		password = **itPassword;
+		std::cout << "check : Step 5<br>\n";
+		
+		cgicc::form_iterator itPassword = cgi.getElement("psw");  
+		if(itPassword != (*cgi).end()) 
+		{
+			std::cout << "Contraseña : " << **itPassword << "<br>"; 
+			password = **itPassword;
+		}
+		else 
+		{
+			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
+			return false;
+		}
 	}
-	else 
+	catch(const std::exception& e)
 	{
-		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
-		return false;
+		std::cout << "Fail : " << e.what() << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
-	std::cout << "check : Step 2\n<br>";
-		
+	std::cout << "check : Step 6<br>\n";
+	
+	
 	muposysdb::User* userbd;
 	std::string strwhere = "name = ";
 	strwhere += "'" + userstr + "' and status = 'autorizado'";
 	std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
+	bool fluser;
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-		return false;
+		fluser = false;
 	}
 	else if(usrlst->size() > 1) 
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de 
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-		return false;
+		fluser = false;
 	}
 	else
 	{
 		userbd = usrlst->at(0);
+		fluser = true;
 	}
-	std::cout << "check : Step 3\n<br>";
+	
+	std::cout << "check : Step 4\n<br>";
+	
 	if(userbd->downName(connDB) and userbd->downPwdtxt(connDB))
 	{
-		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
-		//std::cout << "check : Step 2.1\n<br>";
-		//std::cout << "userbd name : " << userbd->getName () << "<br>";
-		//std::cout << "userbd password : " << userbd->getPwdtxt () << "<br>";
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			std::cout << "check : Step\n<br>";
-			//std::cout << "password valided\n<br>";
-			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";			
-			//muposys::http::db::Conector connhttp(muposys::http::db::database_file);
-			if(not register_session(userbd->getName().c_str()))
+			if(register_session(userbd->getName().c_str()))
 			{
-				std::cout << "Fallo registro de secion<br>";
-				return false;
+				if(permission("login"))
+				{
+					std::cout << "Step permission\n<br>";
+					fluser = true;
+				}
+				else
+				{
+					std::cout << "Not permission\n<br>";
+					fluser = false;
+				}
 			}
-			std::cout << "Step login\n<br>";
-			
-			if(not permission("login"))
+			else
 			{
-				delete usrlst->front();
-				delete usrlst;
-				//std::cout << "NO tinen permiso<br>\n";
-				return false;
+				std::cout << "Fallo registro de secion<br>";		
+				fluser = false;
 			}
-			std::cout << "Step permission\n<br>";
-			
-			delete usrlst->front();
-			delete usrlst;
-						
-			return true;
 		}
 		else
 		{
-			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";			
 			if(userstr.compare(userbd->getName()) != 0) std::cout << userstr << " != " << userbd->getName () << "<br>";
 			if(password.compare(userbd->getPwdtxt()) != 0)std::cout << password << " != " << userbd->getPwdtxt () << "<br>";
 		}
 	}
-
-	delete usrlst->front();
-	delete usrlst;
-	return false;
+	if(usrlst)
+	{
+		for(auto u : *usrlst)
+		{
+			delete u;
+		}
+		delete usrlst;
+	}
+	return fluser;
 }
-
 int Login::main(std::ostream& out)
 {
 	mps::contenttype(out,"text","html");
@@ -145,21 +157,21 @@ int Login::main(std::ostream& out)
 		if(check())
 		{
 			//out << "Location:/application.cgi\n\n";
-			//head.redirect(0,"/application.cgi");
+			head.redirect(0,"/application.cgi");
 		}
 		else
 		{
 			//out << "Location:/login.html?failure\n\n";
-			//head.redirect(0,"/login.html?failure");
+			head.redirect(0,"/login.html?failure");
 		}
 		head.print(out);
 	}
 	catch(const std::exception& e)
 	{
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";	
+		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";	
 		//out << "Error : " << e.what() << "<br>\n";
 		//head.redirect(0,"/login.html?error");
-		head.print(out);
+		//head.print(out);
 		return EXIT_FAILURE;
 	}
 	

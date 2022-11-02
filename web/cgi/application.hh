@@ -29,9 +29,9 @@ public:
 	virtual int main(std::ostream& out = std::cout);
 	
 	Application(BodyApplication&);
-	Application(BodyApplication&,const std::string title);
+	Application(BodyApplication&,const std::string& title);
 	virtual ~Application();
-
+	
 private:	
 	
 protected:

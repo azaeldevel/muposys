@@ -137,10 +137,12 @@ namespace mps
 		bool add(const std::string& varible,const std::string& value);
 		bool permission(const char*);
 		bool register_session(const char*);
+		std::string get_user();
 		
 		static const char* user_name_variable;
 		
 	private:
+		muposysdb::Variable variable;
 		
 	protected:
 		bool is_open_DB;

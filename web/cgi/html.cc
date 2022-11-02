@@ -292,8 +292,7 @@ long Service::get_session()
 }
 bool Service::register_session(const char* s)
 {
-	
-	std::cout << "Service::register_session : Step 1<br>\n";
+	//std::cout << "Service::register_session : Step 1<br>\n";
 	
 	long session = get_session();
 	if(session < 1)
@@ -305,37 +304,36 @@ bool Service::register_session(const char* s)
 	session = get_session();
 	if(session < 1) return false;
 	
-	std::cout << "Service::register_session : Step 2<br>\n";
+	//std::cout << "Service::register_session : Step 2<br>\n";
 	
 	std::string findSesion = "id = '";
 	findSesion += std::to_string(session);
 	findSesion = findSesion + "' and name = '" + user_name_variable + "'";
-	std::cout << "Service::register_session : " << findSesion << "<br>\n";
+	//std::cout << "Service::register_session : " << findSesion << "<br>\n";
 	std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
 	bool flag_op,flag_main,flag_name,flag_val,flag_session;
-	muposysdb::Variable var;
-	std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
+	//std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
 	if(not varslst)
 	{
-		flag_main = var.insert(connDB);
-		flag_name = var.upName(connDB,user_name_variable);
-		flag_val = var.upValue(connDB,s);
-		flag_session = var.upSession(connDB,session);
+		flag_main = variable.insert(connDB);
+		flag_name = variable.upName(connDB,user_name_variable);
+		flag_val = variable.upValue(connDB,s);
+		flag_session = variable.upSession(connDB,session);
 		flag_op = true;
 	}
 	else if(varslst->size() == 0)
 	{
-		std::cout << "Service::register_session updating..<br>\n";
-		flag_main = var.insert(connDB);
-		std::cout << "Service::register_session updating 1<br>\n";
-		flag_name = var.upName(connDB,user_name_variable);
-		std::cout << "Service::register_session updating 2<br>\n";
-		flag_val = var.upValue(connDB,s);
-		std::cout << "Service::register_session updating 3<br>\n";
-		flag_session = var.upSession(connDB,session);
-		std::cout << "Service::register_session updating 4<br>\n";
+		//std::cout << "Service::register_session updating..<br>\n";
+		flag_main = variable.insert(connDB);
+		//std::cout << "Service::register_session updating 1<br>\n";
+		flag_name = variable.upName(connDB,user_name_variable);
+		//std::cout << "Service::register_session updating 2<br>\n";
+		flag_val = variable.upValue(connDB,s);
+		//std::cout << "Service::register_session updating 3<br>\n";
+		flag_session = variable.upSession(connDB,session);
+		//std::cout << "Service::register_session updating 4<br>\n";
 		flag_op = true;
-		std::cout << "Service::register_session updated..<br>\n";
+		//std::cout << "Service::register_session updated..<br>\n";
 	}
 	else if(varslst->size() == 1)
 	{
@@ -358,7 +356,7 @@ bool Service::register_session(const char* s)
 		flag_main = true;
 	}
 	
-	std::cout << "Service::register_session done\n";
+	//std::cout << "Service::register_session done\n";
 	
 	if(varslst != NULL)
 	{
@@ -374,75 +372,143 @@ bool Service::register_session(const char* s)
 	
 	return false;
 }
+std::string Service::get_user()
+{	
+	std::string user;
+	if(variable.getID() > 0)
+	{
+		if(variable.getValue().empty()) variable.downValue(connDB);
+		return variable.getValue();
+	}
+	else
+	{
+		long session = get_session();
+		
+		if(session < 1) return user;
+		
+		std::string findSesion = "session = '";
+		findSesion += std::to_string(session);
+		findSesion += findSesion + "' and name = '" + user_name_variable + "'";
+		//std::cout << "SQL Service::get_user : " << findSesion << "\n";
+		std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+		if(not varslst)
+		{
+		}
+		else if(varslst->size() == 1)
+		{
+			if(varslst->front()->downValue(connDB)) user = varslst->front()->getValue();
+		}
+		for(auto d : *varslst)
+		{
+			delete d;
+		}
+	}
+	
+	return user;
+}
 bool Service::permission(const char* p)
 {
-	//std::cout << "permission : Step 1\n<br>";
-	//if(not has_session()) return false;
+	std::cout << "permission : Step 1\n<br>";
 	
-	//std::cout << "permission : Step 2\n<br>";
-	muposysdb::Variable var;
-	/*if(not var.select(connHttp,getenv("REMOTE_ADDR"),"user")) return false;*/
-
-	//
-	if(var.getValue().empty()) return false;
-
-	unsigned int userid = 0;
-	std::string findUser = "name = '" + var.getValue() + "'";
+	long userid = 0;
+	std::string user = get_user();
+	
+	if(user.empty()) return false;
+	
+	//finding user id
+	std::cout << "permission : Step 2\n<br>";
+	std::string findUser = "name = '" + user + "'";
+	std::cout << "SQL where : " << findUser << "<br>\n";
 	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,findUser,0);
-	if(userlst->size() == 0 or userlst->size() > 1)
+	bool flpermiss = false;
+	if(not userlst)
+	{
+		flpermiss = false;
+	}
+	else if(userlst->size() != 1)
+	{		
+		flpermiss = false;
+	}
+	else if(userlst->size() == 1)
+	{
+		if(userlst->front()->downPerson(connDB)) 
+		{
+			userid = userlst->front()->getUser().getUm().getID();
+			flpermiss = true;
+		}
+	}
+	if(userlst)
 	{
 		for(auto u : *userlst)
 		{
 			delete u;
 		}
-		return false;
+		delete userlst;
 	}
-	if(userlst->size() == 1)
-	{
-		userid = userlst->front()->getPerson().getEnte().getID();
-	}
-	if(userlst != NULL)
-	{
-		for(auto u : *userlst)
-		{
-			delete u;
-		}
-	}
-	delete userlst;
+	if(not flpermiss) return false;
 	
-	//std::cout << "permission : Step 3\n<br>";
-	std::string findUserpermission = "user = " + std::to_string(userid) + " and permission = '" + p + "'";
-	//std::cout << "SQL where : " << findUserpermission << "\n";
-	std::vector<muposysdb::UserPermission*>* usrpermiss = muposysdb::UserPermission::select(connDB,findUserpermission,0);
-	//std::cout << "size : " << usrpermiss->size() << "\n";
-	//std::cout << "Query done.\n";
-	if(usrpermiss->size() == 0 or usrpermiss->size() > 1)//no tine permiso o tien mas de un permiso
+	//finding user id
+	std::cout << "permission : Step 3\n<br>";
+	std::string findPermission = "name = '";
+	findPermission += p;
+	findPermission += "'";
+	long permss = -1;
+	std::cout << "SQL where : " << findPermission << "<br>\n";
+	std::vector<muposysdb::Permission*>* permsslst = muposysdb::Permission::select(connDB,findPermission,0);
+	if(not permsslst)
 	{
-		//std::cout << "permission : Step 3\n<br>";
-		if(usrpermiss != NULL)
-		{
-			for(auto p : *usrpermiss)
-			{
-				delete p;
-			}
-		}
-		delete usrpermiss;
-		//std::cout << "permission : do not has\n<br>";
-		return false;
+		flpermiss = false;
 	}
-
-	//std::cout << "permission : Step 4\n<br>";
-	if(usrpermiss != NULL)
+	else if(permsslst->size() != 1)
+	{		
+		flpermiss = false;
+	}
+	else if(permsslst->size() == 1)
+	{
+		permss = permsslst->front()->getPermission().getUm().getID();
+		flpermiss = true;
+	}
+	if(permsslst)
+	{
+		for(auto u : *permsslst)
+		{
+			delete u;
+		}
+		delete permsslst;
+	}
+	if(not flpermiss) return false;
+	
+	std::cout << "permission : Step 4\n<br>";
+	std::string findUserpermission = "user = " + std::to_string(userid) + " and permission = " +  std::to_string(permss);
+	std::cout << "SQL where : " << findUserpermission << "<br>\n";
+	std::vector<muposysdb::UserPermission*>* usrpermiss = muposysdb::UserPermission::select(connDB,findUserpermission,2);
+	std::cout << "size : " << usrpermiss->size() << "<br>\n";
+	//std::cout << "Query done.\n";
+	//std::cout << "permission : Step 3\n<br>";
+	if(not usrpermiss)
+	{
+		flpermiss = false;
+	}
+	else if(usrpermiss->size() != 1)//no tine permiso o tien mas de un permiso
+	{
+		flpermiss = false;
+	}
+	else
+	{
+		//si hay un registro estonces es el buscado no es neceario9 comprobar los datos
+		flpermiss = true;		
+	}
+	if(usrpermiss)
 	{
 		for(auto p : *usrpermiss)
 		{
 			delete p;
 		}
+		delete usrpermiss;
 	}
-	delete usrpermiss;
 	
-	//std::cout << "permission : Step 5\n<br>";
-	return true;	
+	std::cout << "permission : Step 5\n<br>";
+	return flpermiss;	
 }
 
 

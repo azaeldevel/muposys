@@ -57,7 +57,7 @@ Application::Application(BodyApplication& b) : mps::Page(b)
 	head.css("/css/Mkos-Big-Sur/appearance/muposys.css");
 	head.css("/css/Mkos-Big-Sur/icons/application.css");
 }
-Application::Application(BodyApplication& b,const std::string t) : mps::Page(b,t)
+Application::Application(BodyApplication& b,const std::string& t) : mps::Page(b,t)
 {
 	head.charset("UTF-8");
 	head.responsive("viewport","width=device-width, initial-scale=1");
@@ -73,14 +73,14 @@ int Application::main(std::ostream& out)
 {
 	contenttype(out,"text","html");
 	
-	//if(not has_session())
+	/*if(not has_session())
 	{
 		head.redirect(0,"/login.html?failure");
 		head.print(out);
 		return EXIT_SUCCESS;
-	}
+	}*/
 	
-	print(std::cout);
+	//print(std::cout);
 
 	return EXIT_SUCCESS;
 }
