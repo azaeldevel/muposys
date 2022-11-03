@@ -19,7 +19,7 @@ void BodyApplication::panel(std::ostream& out)const
 	
 	out << "\t\t\t<div id=\"system\"><a href=\"/system.html\"></a></div>\n";	
 }
-void BodyApplication::print(std::ostream& out) const
+std::ostream& BodyApplication::operator >> (std::ostream& out)
 {
 	out << "\t<div id=\"menu\">\n";		
 
@@ -53,31 +53,29 @@ Application::Application(BodyApplication& b) : mps::Page(b)
 	head.css("/css/Mkos-Big-Sur/icons/application.css");
 	*/
 }
-Application::Application(BodyApplication& b,const std::string& t) : mps::Page(b,t)
+/*Application::Application(BodyApplication& b,const std::string& t) //: mps::Page(b,t)
 {
 	head.charset("UTF-8");
 	head.responsive("viewport","width=device-width, initial-scale=1");
 	head.css("/css/Mkos-Big-Sur/appearance/muposys.css");
 	head.css("/css/Mkos-Big-Sur/icons/application.css");
-}
+}*/
 void Application::print(std::ostream& out) const
 {
-	mps::Page::print(out);
+	//mps::Page::print(out);
 }
 int Application::main(std::ostream& out)
 {
-	//contenttype(out,"text","html");
+	contenttype(out,"text","html");
 	
-	/*
 	if(not has_session())
 	{
 		head.redirect(0,"/login.html?failure");
-		head.print(out);
+		head >> out;
 		return EXIT_SUCCESS;
 	}
-	*/
 	
-	//print(out);
+	print(out);
 
 	return EXIT_SUCCESS;
 }

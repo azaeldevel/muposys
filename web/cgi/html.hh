@@ -55,7 +55,7 @@ namespace mps
 
 	struct Tag
 	{
-		virtual void print(std::ostream& out) const = 0;
+		virtual std::ostream& operator >> (std::ostream& out) = 0;
 	};
 
 	struct meta : public Tag
@@ -65,7 +65,7 @@ namespace mps
 		std::string http_equiv;
 		std::string name;
 
-		virtual void print(std::ostream& out) const;
+		virtual std::ostream& operator >> (std::ostream& out);
 	};
 
 	struct link
@@ -91,7 +91,7 @@ namespace mps
 		std::vector<meta> metas;
 		std::vector<link> links;
 
-		virtual void print(std::ostream& out) const;
+		virtual std::ostream& operator >> (std::ostream& out);
 
 		void redirect(unsigned short time,const char* url);
 		void charset(const char*);
@@ -126,8 +126,7 @@ namespace mps
 	public:	
 		Service();
 		Service(const Datconnect&);
-
-		~Service();
+		virtual ~Service();
 		
 		bool create_session();
 		bool remove_session();
@@ -157,14 +156,16 @@ namespace mps
 		Page(Body&,const Datconnect&);
 		Page(Body&,const std::string& title,const Datconnect&);
 
+		virtual ~Page();
 		
 		
-		virtual void print(std::ostream& out) const;
+		virtual std::ostream& operator >> (std::ostream& out);
 		virtual int main(std::ostream& out)  = 0;
-	private:
 	protected:
 		Body* body; 
 		Head head;
+		
+	private:
 	};
 	
 	class CGI : public Service

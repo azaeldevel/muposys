@@ -79,7 +79,5 @@ fi
 AC_OUTPUT([
 Makefile
 cgi/Makefile
-cgi/user-mang/Makefile
-cgi/user-mang/permissions/Makefile
 cgi/muposys-cgi.pc
 ])

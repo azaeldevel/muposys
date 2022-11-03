@@ -12,10 +12,10 @@ class BodyApplication : public mps::Body
 private:
 	
 public:
-	virtual void print(std::ostream& out) const;
+	virtual std::ostream& operator >> (std::ostream& out);
 	virtual void programs(std::ostream& out) const;
 	virtual void panel(std::ostream& out) const;
-
+	
 protected:
 	
 };
@@ -27,7 +27,7 @@ public:
 	virtual int main(std::ostream& out = std::cout);
 	
 	Application(BodyApplication&);
-	Application(BodyApplication&,const std::string& title);
+	//Application(BodyApplication&,const std::string& title);
 	virtual ~Application();
 	
 private:	

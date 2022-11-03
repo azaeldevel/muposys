@@ -71,7 +71,7 @@ void Header::print_redirect(std::ostream& out) const
 	out << "Location : " << location << "\n";
 }
 	*/
-void meta::print(std::ostream& out) const
+std::ostream& meta::operator >>  (std::ostream& out)
 {
 	out << "\t<meta";
 	if(not charset.empty())
@@ -91,6 +91,8 @@ void meta::print(std::ostream& out) const
 		out << " name=\"" + name + "\"";
 	}
 	out << ">\n";
+	
+	return out;
 }
 
 
@@ -138,12 +140,12 @@ void link::print(std::ostream& out) const
 
 
 
-void Head::print(std::ostream& out) const
+std::ostream& Head::operator >> (std::ostream& out)
 {
 	out << "<head>\n";
-	for(const meta& m : metas)
+	for(meta& m : metas)
 	{
-		m.print(out);
+		m >> out;
 	}
 	for(const link& l : links)
 	{
@@ -154,6 +156,8 @@ void Head::print(std::ostream& out) const
 		out << "\t<title>" << title << "</title>\n";
 	}
 	out << "</head>\n";
+	
+	return out;
 }
 void Head::redirect(unsigned short time,const char* url)
 {
@@ -515,8 +519,6 @@ bool Service::permission(const char* p)
 Page::Page() : body(NULL)
 {
 }
-
-
 Page::Page(Body& b) : body(&b)
 {
 }
@@ -529,20 +531,22 @@ Page::Page(Body& b,const Datconnect& dat) : body(&b), Service(dat)
 {
 
 }
-
 Page::Page(Body& b,const std::string& t,const Datconnect& dat) : body(&b), Service(dat)
 {
 	head.title = t;
 }
-
-void Page::print(std::ostream& out) const
+Page::~Page()
 {
-	head.print(out);
+}
+
+std::ostream& Page::operator >> (std::ostream& out)
+{
+	head >> out;
 	out << "<html>\n";
 	if(body) 
 	{
 		out << "<body>\n";
-		body->print(out);
+		(*body) >> out;
 		out << "</body>\n";
 	}
 	out << "</html>\n";
