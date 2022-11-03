@@ -240,7 +240,7 @@ Service::Service(const Datconnect& dat)
 }
 Service::~Service()
 {
-	if(is_open_DB) connDB.close();
+	//if(is_open_DB) connDB.close();
 }
 
 /*bool Service::add(const char* varible,const char* value)
@@ -550,6 +550,8 @@ std::ostream& Page::operator >> (std::ostream& out)
 		out << "</body>\n";
 	}
 	out << "</html>\n";
+	
+	return out;
 }
 
 CGI::CGI() 

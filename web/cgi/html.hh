@@ -162,10 +162,10 @@ namespace mps
 		virtual std::ostream& operator >> (std::ostream& out);
 		virtual int main(std::ostream& out)  = 0;
 	protected:
-		Body* body; 
-		Head head;
 		
+		Head head;
 	private:
+		Body* body; 
 	};
 	
 	class CGI : public Service
