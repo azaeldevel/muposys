@@ -45,7 +45,7 @@ std::ostream& BodyApplication::operator >> (std::ostream& out)
 Application::~Application()
 {
 }
-Application::Application(BodyApplication& b) : mps::Page(b)
+Application::Application(BodyApplication& b) : mps::Page(b,muposysdb::datconex)
 {
 	head.title = "Multi-Porpuse Software System";
 	head.charset("UTF-8");
@@ -53,7 +53,7 @@ Application::Application(BodyApplication& b) : mps::Page(b)
 	head.css("/css/Mkos-Big-Sur/appearance/muposys.css");
 	head.css("/css/Mkos-Big-Sur/icons/application.css");
 }
-Application::Application(BodyApplication& b,const std::string& t) : mps::Page(b,t)
+Application::Application(BodyApplication& b,const std::string& t) : mps::Page(b,t,muposysdb::datconex)
 {
 	head.charset("UTF-8");
 	head.responsive("viewport","width=device-width, initial-scale=1");
@@ -70,14 +70,14 @@ int Application::main(std::ostream& out)
 {
 	contenttype(out,"text","html");
 	
-	/*if(not has_session())
+	if(not has_session())
 	{
-		head.redirect(0,"/login.html?failure");
-		head >> out;
+		//head.redirect(0,"/login.html?failure");
+		//head >> out;
 		return EXIT_SUCCESS;
-	}*/
+	}
 	
-	(*this) >> out;
+	//(*this) >> out;
 
 	return EXIT_SUCCESS;
 }

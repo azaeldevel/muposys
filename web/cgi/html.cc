@@ -263,10 +263,20 @@ bool Service::has_session()
 }
 long Service::get_session()
 {
+	std::cout << "Service::get_session : Step 1.0<br>\n";
+	const char* host = getenv("REMOTE_ADDR");
+	std::cout << "Service::get_session : Step 1.1<br>\n";
+	if(not host) return -1;	
+	std::cout << "Service::get_session : Step 1.2<br>\n";
 	std::string findSesion = "client = '";
-	findSesion += getenv("REMOTE_ADDR");
+	std::cout << "Service::get_session : Step 1.3<br>\n";
+	findSesion += host;
+	std::cout << "Service::get_session : Step 1.4<br>\n";
 	findSesion += "'";
 	std::vector<muposysdb::Session*>* clientlst = muposysdb::Session::select(connDB,findSesion,0);
+	
+	std::cout << "Service::get_session : Step 2<br>\n";
+	
 	bool flag_op;
 	long session = -1;
 	if(clientlst->size() == 0)
@@ -283,7 +293,7 @@ long Service::get_session()
 		session = clientlst->front()->getID();
 	}
 	
-	
+	std::cout << "Service::get_session : Step 3<br>\n";
 	if(clientlst != NULL)
 	{
 		for(auto u : *clientlst)
@@ -292,6 +302,8 @@ long Service::get_session()
 		}
 		delete clientlst;
 	}
+	
+	std::cout << "Service::get_session : Step 3<br>\n";
 	return session;
 }
 bool Service::register_session(const char* s)
