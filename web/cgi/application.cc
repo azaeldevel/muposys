@@ -51,17 +51,19 @@ Application::~Application()
 Application::Application(BodyApplication& b) : mps::Page(b,muposysdb::datconex)
 {
 	head.title = "Multi-Porpuse Software System";
-	head.charset("UTF-8");
-	head.responsive("viewport","width=device-width, initial-scale=1");
-	head.css("/css/Mkos-Big-Sur/appearance/muposys.css");
-	head.css("/css/Mkos-Big-Sur/icons/application.css");
+	init();
 }
 Application::Application(BodyApplication& b,const std::string& t) : mps::Page(b,t,muposysdb::datconex)
+{
+	init();
+}
+void Application::init()
 {
 	head.charset("UTF-8");
 	head.responsive("viewport","width=device-width, initial-scale=1");
 	head.css("/css/Mkos-Big-Sur/appearance/muposys.css");
 	head.css("/css/Mkos-Big-Sur/icons/application.css");
+	//head.addscript("tests.js");
 }
 std::ostream& Application::operator >> (std::ostream& out)
 {

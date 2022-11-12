@@ -28,6 +28,7 @@ public:
 	
 	Application(BodyApplication&);
 	Application(BodyApplication&,const std::string& title);
+	void init();
 	virtual ~Application();
 	
 private:	

@@ -87,22 +87,6 @@ namespace mps
 		virtual void print(std::ostream& out) const;
 	};
 
-
-	struct Head : public Tag
-	{
-		std::string title;
-		
-		std::vector<meta> metas;
-		std::vector<link> links;
-
-		virtual std::ostream& operator >> (std::ostream& out);
-
-		void redirect(unsigned short time,const char* url);
-		void charset(const char*);
-		void responsive(const char* name,const char* content);
-		void css(const char*);
-		
-	};
 	struct script
 	{
 		std::string async;
@@ -118,6 +102,23 @@ namespace mps
 		virtual void print(std::ostream& out) const;
 		
 		void source(const char*);
+	};
+	struct Head : public Tag
+	{
+		std::string title;
+		
+		std::vector<meta> metas;
+		std::vector<link> links;
+		std::vector<script> scripts;
+
+		virtual std::ostream& operator >> (std::ostream& out);
+
+		void redirect(unsigned short time,const char* url);
+		void charset(const char*);
+		void responsive(const char* name,const char* content);
+		void css(const char*);
+		void addscript(const char*);
+		
 	};
 	struct Body : public Tag
 	{

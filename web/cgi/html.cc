@@ -151,6 +151,11 @@ std::ostream& Head::operator >> (std::ostream& out)
 	{
 		l.print(out);
 	}
+	for(const script& s : scripts)
+	{
+		s.print(out);
+	}
+	
 	if(not title.empty())
 	{
 		out << "\t<title>" << title << "</title>\n";
@@ -182,7 +187,11 @@ void Head::css(const char* file)
 	links.back().rel = "stylesheet";
 	links.back().href =  file;
 }
-
+void Head::addscript(const char* s)
+{
+	scripts.push_back(script());
+	scripts.back().source(s);
+}
 
 
 
@@ -192,35 +201,35 @@ void script::print(std::ostream& out) const
 	out << "\t<script";
 	if(not async.empty())
 	{
-		out << " async = \"" + async + "\" ";
+		out << " async = \"" + async + "\"";
 	}
 	if(not crossorigin.empty())
 	{
-		out << "crossorigin =\"" + crossorigin + "\" ";
+		out << " crossorigin =\"" + crossorigin + "\"";
 	}
 	if(not defer.empty())
 	{
-		out << "defer = \"" + defer + "\" ";
+		out << " defer = \"" + defer + "\"";
 	}
 	if(not integrity.empty())
 	{
-		out << "integrity =\"" + integrity + "\" ";
+		out << " integrity =\"" + integrity + "\" ";
 	}
 	if(not referrerpolicy.empty())
 	{
-		out << "referrerpolicy =\"" + referrerpolicy + "\" ";
+		out << " referrerpolicy =\"" + referrerpolicy + "\"";
 	}
 	if(not src.empty())
 	{
-		out << "src = \"" + src + "\" ";
+		out << " src = \"" + src + "\"";
 	}
 	if(not type.empty())
 	{
-		out << "type =\"" + type + "\" ";
+		out << " type =\"" + type + "\"";
 	}
-	out << ">";
-	if(not content.empty()) out << content << "<br>\n\t"; 
-	out << "</script>";
+	out << ">\n";
+	if(not content.empty()) out << content; 
+	out << "\n\t</script>\n";
 	
 }
 void script::source(const char* s)
