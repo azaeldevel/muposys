@@ -7,9 +7,9 @@
 
 #include "config.h"
 
-#include <muposys/apidb.hh>
+#include <muposys/core/apidb.hh>
 #include <gtkmm.h>
-#include <muposys/Exception.hh>
+#include <muposys/core/Exception.hh>
 
 
 #include "TableSaling.hh"

@@ -2,7 +2,6 @@
 
 #include "application.hh"
 
-
 int main()
 {	
 	//mps::contenttype(std::cout,"text","html");

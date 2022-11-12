@@ -18,7 +18,7 @@ case $enableval in
 	archlinux)
 		AM_CONDITIONAL(OCTETOS_MUPOSYS_CORE_ARCH_LINUX_ARCH, true)
 	;;
-	debian) 
+	debian)
 		AM_CONDITIONAL(OCTETOS_MUPOSYS_CORE_ARCH_LINUX_DEBIAN, true)	
 	;;
 	*)

@@ -13,8 +13,8 @@ private:
 	
 public:
 	virtual std::ostream& operator >> (std::ostream& out);
-	virtual void programs(std::ostream& out) const;
-	virtual void panel(std::ostream& out) const;
+	virtual void programs(std::ostream& out);
+	virtual void panel(std::ostream& out);
 	
 protected:
 	

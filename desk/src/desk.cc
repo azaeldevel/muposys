@@ -27,7 +27,7 @@ Main::Main(bool d) : devel(d)
 }
 void Main::init()
 {
-	if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
+	//if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
 	
 	add_events(Gdk::KEY_PRESS_MASK);		
 	

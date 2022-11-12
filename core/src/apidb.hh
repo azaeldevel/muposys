@@ -4,7 +4,7 @@
 #ifdef MUPOSYS_APIDB_ENABLE_TDD
 	#include <muposysdb.hpp>
 #else
-	#include <muposys/muposysdb.hpp>
+	#include <muposys/core/muposysdb.hpp>
 #endif
 
 namespace mps

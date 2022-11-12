@@ -37,7 +37,7 @@ ALTER TABLE User ADD CONSTRAINT users_unique UNIQUE (name);
 -- R: Registrado, P:Autorizacion Pendiente, A:Autorizado
 ALTER TABLE User ADD COLUMN status ENUM('registrado','pendiente','autorizado');
 
-CREATE TABLE Operation(operation BIGINT PRIMARY KEY NOT NULL,step TINYINT, FOREIGN KEY(operation) REFERENCES Ente(id));
+CREATE TABLE Operation(operation BIGINT PRIMARY KEY NOT NULL, FOREIGN KEY(operation) REFERENCES Ente(id));
 ALTER TABLE Operation ADD CONSTRAINT fk_operation_Operation_id FOREIGN KEY(operation) REFERENCES Ente(id);
 ALTER TABLE Operation ADD begin datetime COMMENT 'Hora de inicio de operación';
 ALTER TABLE Operation ADD end datetime COMMENT 'Hora de terminación de la operacion';

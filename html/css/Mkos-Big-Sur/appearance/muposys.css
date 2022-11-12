@@ -29,7 +29,6 @@ body > #menu
 
 body > #menu
 {
-	float : inline-block;
 }
 
 body > #menu > #panel
@@ -38,30 +37,6 @@ body > #menu > #panel
 	height : 100%;
 	min-width : 15%;
 }
-body > #menu > #programs
-{
-	float : left;
-	height : 100%;
-	min-width : 50%;
-}
-
-body > #menu > #programs > div
-{
-	float: left;
-	height: 100%;
-	width: 30%;
-	background-repeat : no-repeat;
-	background-size : contain;
-	background-position: center;
-}
-body > #menu > #programs > div > a
-{	
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
-}
-
 body > #menu > #panel > div
 {
 	float: right;
@@ -71,7 +46,6 @@ body > #menu > #panel > div
 	background-size : contain;
 	background-position: center;
 }
-
 body > #menu > #panel > div > a
 {	
     display: block;
@@ -79,6 +53,31 @@ body > #menu > #panel > div > a
     width: 100%;
     text-decoration: none;
 }
+
+
+body > #menu > #programs
+{
+}
+body > #menu > #programs > div
+{
+	text-align: center;
+    display:inline-block;
+	vertical-align: middle;
+    align-items: center;
+	color: white;
+	padding: 16px;
+    height: 100%;
+}
+body > #menu > #programs > div > a
+{
+	text-align: center;
+	display: inline-block;
+	color: white;
+	background-color: white;
+	padding: 16px;
+	height: 100%;
+}
+
 
 .space
 {
@@ -122,9 +121,8 @@ input[type=text], input[type=password]
 .modal-content 
 {
   background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 5% auto 15% auto;
   border: 1px solid #888;
-   /* width: 80%;Could be more or less, depending on screen size */
 }
 
 .container

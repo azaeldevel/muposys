@@ -18,8 +18,6 @@ dnl AC_SUBST(GETTEXT_PACKAGE)
 dnl AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 dnl AM_GLIB_GNU_GETTEXT
 
-
-
 dnl ***************************************************************************
 dnl Check for Windows
 dnl ***************************************************************************

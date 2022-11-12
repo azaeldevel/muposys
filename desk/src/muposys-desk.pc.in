@@ -8,6 +8,6 @@ includedir=@includedir@
 Name: muposys-desk
 Description: Multi-Porpuse Software System for Desktop Application
 Version: @VERSION@
-Requires: muposys-apidb
+Requires: octetos-core muposys-core
 Libs: -L${libdir} -lmuposys-desk
 Cflags: -I${includedir}

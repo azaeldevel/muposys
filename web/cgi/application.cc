@@ -7,11 +7,14 @@ namespace mps
 {
 
 
-void BodyApplication::programs(std::ostream& out) const
+void BodyApplication::programs(std::ostream& out) 
 {
-	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\">" << "logout" << "</a></div>\n";
 }
-void BodyApplication::panel(std::ostream& out) const
+void BodyApplication::panel(std::ostream& out)
 {
 	out << "\t\t\t<div id=\"logout\"><a href=\"/logout.cgi\"></a></div>\n";
 
@@ -72,12 +75,12 @@ int Application::main(std::ostream& out)
 	
 	if(not has_session())
 	{
-		//head.redirect(0,"/login.html?failure");
-		//head >> out;
+		head.redirect(0,"/login.html?failure");
+		head >> out;
 		return EXIT_SUCCESS;
 	}
 	
-	//(*this) >> out;
+	(*this) >> out;
 
 	return EXIT_SUCCESS;
 }

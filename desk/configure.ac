@@ -4,12 +4,12 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([1.11])
 AM_SILENT_RULES([yes])
 AC_PROG_CXX
-LT_INIT
 
+LT_INIT
 
 PKG_CHECK_MODULES(GTK, [gtkmm-3.0])
 PKG_CHECK_MODULES(OCTETOS, [octetos-core])
-PKG_CHECK_MODULES(APIDB, [muposys-apidb muposys-core])
+PKG_CHECK_MODULES(APIDB, [muposys-core])
 
 dnl AC_DEFINE_UNQUOTED([MUPOSYS], [true] ,[Signal for local compilation])
 

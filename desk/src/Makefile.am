@@ -42,7 +42,7 @@ muposys_desk_SOURCES = desk-main.cc
 
 muposysdir = $(datadir)/muposys
 muposys_DATA = muposys.ui
-muposys_includedir = $(includedir)/muposys
+muposys_includedir = $(includedir)/muposys/desk
 muposys_include_HEADERS = desk.hh TableSaling.hh
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = muposys-desk.pc

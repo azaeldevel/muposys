@@ -298,7 +298,7 @@ void TableSaling::save()
 					dlg.run();
 					return;
 				}
-				/*operationProgress = new muposysdb::Progress;
+				operationProgress = new muposysdb::Progress;
 				if(not operationProgress->insert(connDB,*stocking,*operation,0))
 				{
 					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
@@ -306,7 +306,7 @@ void TableSaling::save()
 					dlg.run();
 					return;			
 				}
-				delete operationProgress;*/
+				delete operationProgress;
 				delete stocking;
 			}
 		}

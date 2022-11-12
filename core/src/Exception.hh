@@ -49,7 +49,7 @@ namespace mps
 class Exception : public oct::core::v3::Exception
 {
 public:
-
+	
 public:
 	Exception();
 	Exception(const Exception&);

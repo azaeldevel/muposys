@@ -11,7 +11,7 @@
 #include <filesystem>
 #include <iostream>
 #include <cgicc/Cgicc.h> 
-#include <muposys/apidb.hh>
+#include <muposys/core/apidb.hh>
 
 namespace mps
 {
@@ -19,7 +19,9 @@ namespace mps
 	
 	void doctype(std::ostream& out,const char * type);	
 
-	/*struct ContentType
+	/*
+	
+	struct ContentType
 	{
 		const char* content;
 		const char* type;
@@ -51,7 +53,9 @@ namespace mps
 		virtual void print_redirect(std::ostream& out) const;
 
 		void redirect(const std::string&);
-	};*/
+	};
+	
+	*/
 
 	struct Tag
 	{
@@ -161,11 +165,11 @@ namespace mps
 		
 		virtual std::ostream& operator >> (std::ostream& out);
 		virtual int main(std::ostream& out)  = 0;
-	protected:
-		
+	protected:		
 		Head head;
+		Body* body;
+		
 	private:
-		Body* body; 
 	};
 	
 	class CGI : public Service

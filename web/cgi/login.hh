@@ -5,7 +5,6 @@
 
 #include "html.hh"
 
-
 namespace mps::server
 {
 

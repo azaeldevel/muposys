@@ -38,7 +38,7 @@ Login::~Login()
 
 bool Login::check()
 {
-	//std::cout << "Login::check : Step 1.0<br>\n";
+	std::cout << "Login::check : Step 1.0<br>\n";
 	std::string userstr, password;
 	//std::cout << "Login::check : Step 1.1<br>\n";
 	try
@@ -46,7 +46,7 @@ bool Login::check()
 		//std::cout << "Login::check : Step 1.2<br>\n";
 		cgicc::Cgicc cgi;
 		//std::cout << "Login::check : Step 1.3<br>\n";
-		//std::cout << "Login::check  : Step 2<br>\n";
+		std::cout << "Login::check  : Step 2<br>\n";
 		cgicc::form_iterator itUser = cgi.getElement("user");
 		//std::cout << "Login::check  : Step 3<br>\n";
 		//std::cout << "Login::check  : Step 4<br>\n";
@@ -80,7 +80,7 @@ bool Login::check()
 		//std::cout << "Fail : " << e.what() << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
-	//std::cout << "check : Step 6<br>\n";	
+	std::cout << "check : Step 6<br>\n";	
 	
 	muposysdb::User* userbd;
 	std::string strwhere = "name = ";
@@ -106,31 +106,33 @@ bool Login::check()
 		fluser = true;
 	}
 	
-	//std::cout << "check : Step 4\n<br>";
+	std::cout << "check : Step 4\n<br>";
 	
 	if(userbd->downName(connDB) and userbd->downPwdtxt(connDB))
 	{
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
-			//std::cout << "check : Step\n<br>";
+			std::cout << "check pass : Step\n<br>";
 			if(register_session(userbd->getName().c_str()))
 			{
+				std::cout << "Step login permission\n<br>";
 				if(permission("login"))
 				{
-					//std::cout << "Step permission\n<br>";
+					std::cout << "Step permission\n<br>";
 					fluser = true;
 				}
 				else
 				{
-					//std::cout << "Not permission\n<br>";
+					std::cout << "Not permission\n<br>";
 					fluser = false;
 				}
 			}
 			else
 			{
-				//std::cout << "Fallo registro de secion<br>";		
+				std::cout << "Fallo registro de secion<br>";		
 				fluser = false;
 			}
+			std::cout << "Done check \n<br>";	
 		}
 		else
 		{
@@ -168,7 +170,7 @@ int Login::main(std::ostream& out)
 	catch(const std::exception& e)
 	{
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";	
-		//out << "Error : " << e.what() << "<br>\n";
+		out << "Error : " << e.what() << "<br>\n";
 		//head.redirect(0,"/login.html?error");
 		//head.print(out);
 		return EXIT_FAILURE;
@@ -176,6 +178,14 @@ int Login::main(std::ostream& out)
 	
 	return EXIT_SUCCESS;
 }
+
+
+
+
+
+
+
+
 }
 
 
