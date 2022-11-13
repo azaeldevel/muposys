@@ -1,8 +1,6 @@
 
 SUBDIRS = cgi 
 
-
-
 dist_doc_DATA = \
 	README \
 	COPYING \
