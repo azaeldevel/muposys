@@ -1,6 +1,6 @@
 
-#ifndef MUPOSYS_EXCEPTION_HH
-#define MUPOSYS_EXCEPTION_HH
+#ifndef MUPOSYS_CORE_EXCEPTION_HH
+#define MUPOSYS_CORE_EXCEPTION_HH
 
 /*
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
