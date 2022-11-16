@@ -1,7 +1,8 @@
 
-#ifndef MUPOSYS_APIDB
+#ifndef MUPOSYS_CORE_APIDB_HH
+#define MUPOSYS_CORE_APIDB_HH
 
-#ifdef MUPOSYS_APIDB_ENABLE_TDD
+#ifdef MUPOSYS_CORE_ENABLE_TDD
 	#include <muposysdb.hpp>
 #else
 	#include <muposys/core/muposysdb.hpp>
@@ -25,4 +26,6 @@ namespace mps
 #endif
 
 }
+
+
 #endif

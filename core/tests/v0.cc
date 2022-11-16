@@ -207,22 +207,20 @@ void v0_apidb()
 	//CU_ASSERT(ente_stocking2.insert(connector));
 	muposysdb::Stocking stoking2;
 	CU_ASSERT(stoking2.insert(connector,stock2,catItems2,1));
+
+	muposysdb::Version ver1(3);
+	CU_ASSERT(ver1.downName(connector));
+	CU_ASSERT(ver1.downMajor(connector));
+	CU_ASSERT(ver1.downMinor(connector));
+	CU_ASSERT(ver1.getName().compare("database") == 0);
+	//std::cout << "Major : " << ver1.getMajor() << "\n";
+	//std::cout << "Minor : " << ver1.getMinor() << "\n";
+	CU_ASSERT(ver1.getMajor() == 0);
+	CU_ASSERT(ver1.getMinor() == 2);
 	
-	/*try
-	{
-	muposysdb::Stocking_Production stoking_prod1s;
-	CU_ASSERT(stoking_prod1s.insert(connector,stoking1));
-	}
-	catch(const std::exception& e)
-	{
-		std::cout << "Error : " << e.what() << "\n";
-	}
 	
-	
-	randNumber = randInt(generator);
-	muposysdb::Stocking_Production stoking_prod2s;
-	CU_ASSERT(stoking_prod2s.insert(connector,stoking2));
-	stoking_prod2s.upStep(connector,1);*/
+	//muposysdb::Progress progress1;
+	//CU_ASSERT(progress1.insert(connector,stoking1,catItems2,1));
 	
 	
     connector.commit();

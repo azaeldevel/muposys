@@ -1,7 +1,8 @@
-## Process this file with automake to produce Makefile.in
-## Created by Anjuta
 
 SUBDIRS = src 
+if MUPOSYS_CORE_ENABLE_TDD
+SUBDIRS +=  tests
+endif
 
 dist_doc_DATA = \
 	README \

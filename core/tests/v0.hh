@@ -8,10 +8,10 @@
 #include <random>
 
 
-#ifdef MUPOSYS_APIDB_ENABLE_TDD
+#ifdef MUPOSYS_CORE_ENABLE_TDD
 	#include <apidb.hh>
 #else
-	#include <muposys/apidb.hh>
+	#include <muposys/core/apidb.hh>
 #endif
 
 

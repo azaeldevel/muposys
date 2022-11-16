@@ -170,7 +170,7 @@ bool TableSaling::on_key_press_event(GdkEventKey* key_event)
 
 bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
 {
-	std::cout << "key quantity : " << (char) key_event->keyval << "\n";
+	//std::cout << "key quantity : " << (char) key_event->keyval << "\n";
 	
 	return false;
 }

@@ -10,6 +10,7 @@ LT_INIT
 dnl STAGE=$(version -s $(PACKAGE_VERSION))
 dnl AM_CONDITIONAL(OCTETOS_MUPOSYS_CORE_STAGE, $(STAGE))
 dnl AC_DEFINE_UNQUOTED([MUPOSYS_APIDB], [true] ,[Signal for local compilation])
+PKG_CHECK_MODULES(OCTETOS, [octetos-core])
 
 AM_CONDITIONAL(OCTETOS_MUPOSYS_CORE_ARCH_LINUX_ARCH, false)
 AM_CONDITIONAL(OCTETOS_MUPOSYS_CORE_ARCH_LINUX_DEBIAN, false)
@@ -64,4 +65,5 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 src/muposys-core.pc
+tests/Makefile
 ])
