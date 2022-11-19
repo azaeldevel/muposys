@@ -161,12 +161,6 @@ float TableSaling::total() const
 	return tt;
 }
 
-bool TableSaling::on_key_press_event(GdkEventKey* key_event)
-{
-	std::cout << "key tree " << (char) key_event->keyval << "\n";
-	
-	return false;
-}
 
 bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
 {
@@ -374,6 +368,13 @@ void TableSaling::save()
 
 
 /*
+
+bool TableSaling::on_key_press_event(GdkEventKey* key_event)
+{
+	std::cout << "key tree " << (char) key_event->keyval << "\n";
+	
+	return false;
+}
 void TableSaling::treeviewcolumn_validated_on_cell_data( Gtk::CellRenderer* renderer , const Gtk::TreeModel::iterator& iter)
 {
 	//Get the value from the model and show it appropriately in the view:
