@@ -29,7 +29,7 @@ protected:
 	//void cellrenderer_validated_on_editing_started_quantity(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
 	void cellrenderer_validated_on_edited_quantity(const Glib::ustring& path_string, const Glib::ustring& new_text);
 	
-	bool on_key_press_event(GdkEventKey* key_event);
+	//bool on_key_press_event(GdkEventKey* key_event);
 	bool on_quantity_key_press_event(GdkEventKey* key_event);	
 	
 	float total()const;	
