@@ -35,7 +35,7 @@ Logout::~Logout()
 int Logout::main(std::ostream& out)
 {	
 	mps::contenttype(out,"text","html");
-	out << "Logout testing..\n";
+	//out << "Logout testing..\n";
 	try
 	{
 		//if(has_session()) 
