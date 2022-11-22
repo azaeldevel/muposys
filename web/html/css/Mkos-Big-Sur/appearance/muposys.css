@@ -22,9 +22,10 @@ body
 body > #menu
 {
 	background-color: black;
-	height: 6vh;
+	height: 2.2em;
 	width: 100%;
 	color: white;
+	font-size : 1em;
 }
 
 
@@ -37,7 +38,7 @@ body > #menu > #panel
 {
 	float : right;
 	height : 100%;
-	min-width : 15%;
+	min-width : 20%;
 }
 body > #menu > #programs
 {
@@ -50,7 +51,6 @@ body > #menu > #programs > div
 {
 	float: left;
 	height: 100%;
-	width: 30%;
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
@@ -67,7 +67,6 @@ body > #menu > #panel > div
 {
 	float: right;
 	height: 100%;
-	min-width: 25%;
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
@@ -85,7 +84,7 @@ body > #menu > #panel > div > a
 {
 	float: right;
 	height: 100%;
-	width: 10%;
+	width: 4%;
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
@@ -181,10 +180,10 @@ button:hover
 	form
 	{
 		width: 80%;	
-	}		
-	body > #menu > #programs > div
+	}	
+	body > #menu > #programs
 	{
-		max-width : 25%;
+		max-width : 50%;
 	}
 }
 @media screen and (min-width: 300px) and (max-width : 599px)
@@ -192,10 +191,10 @@ button:hover
 	form
 	{
 		width: 80%;	
-	}		
-	body > #menu > #programs > div
+	}	
+	body > #menu > #programs
 	{
-		max-width : 22%;
+		max-width : 50%;
 	}
 }
 @media screen and (min-width: 600px) and (max-width : 899px)
@@ -203,10 +202,10 @@ button:hover
 	form
 	{
 		width: 40%;	
-	}		
-	body > #menu > #programs > div
+	}	
+	body > #menu > #programs
 	{
-		max-width : 20%;
+		max-width : 50%;
 	}
 }
 @media screen and (min-width: 900px) and (max-width : 1199px)
@@ -215,9 +214,9 @@ button:hover
 	{
 		width: 40%;	
 	}		
-	body > #menu > #programs > div
+	body > #menu > #programs
 	{
-		max-width : 9%;
+		max-width : 50%;
 	}
 }
 @media screen and (min-width: 1200px)
@@ -226,9 +225,9 @@ button:hover
 	{
 		width: 35%;	
 	}		
-	body > #menu > #programs > div
+	body > #menu > #programs
 	{
-		max-width : 8%;
+		max-width : 50%;
 	}
 }
 
