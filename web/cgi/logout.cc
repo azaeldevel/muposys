@@ -43,12 +43,12 @@ int Logout::main(std::ostream& out)
 			//remove_session();
 		}
 		//head.redirect(0,"/login.html");
-		head >> out;
+		head.print(out);
 	}
 	catch(const std::exception& e)
 	{
 		head.redirect(0,"/login.html?error");
-		head >> out;
+		head.print(out);
 		return EXIT_FAILURE;
 	}
 	

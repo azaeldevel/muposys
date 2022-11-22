@@ -165,7 +165,7 @@ int Login::main(std::ostream& out)
 			//out << "Location:/login.html?failure\n\n";
 			head.redirect(0,"login.html?failure");
 		}
-		head >> out;
+		head.print(out);
 	}
 	catch(const std::exception& e)
 	{

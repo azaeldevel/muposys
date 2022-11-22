@@ -59,7 +59,7 @@ namespace mps
 
 	struct Tag
 	{
-		virtual std::ostream& operator >> (std::ostream& out) = 0;
+		virtual std::ostream& print (std::ostream& out) = 0;
 	};
 
 	struct meta : public Tag
@@ -69,7 +69,7 @@ namespace mps
 		std::string http_equiv;
 		std::string name;
 
-		virtual std::ostream& operator >> (std::ostream& out);
+		virtual std::ostream& print (std::ostream& out);
 	};
 
 	struct link
@@ -111,7 +111,7 @@ namespace mps
 		std::vector<link> links;
 		std::vector<script> scripts;
 
-		virtual std::ostream& operator >> (std::ostream& out);
+		virtual std::ostream& print (std::ostream& out);
 
 		void redirect(unsigned short time,const char* url);
 		void charset(const char*);
@@ -164,7 +164,7 @@ namespace mps
 		virtual ~Page();
 		
 		
-		virtual std::ostream& operator >> (std::ostream& out);
+		virtual std::ostream& print (std::ostream& out);
 		virtual int main(std::ostream& out)  = 0;
 	protected:		
 		Head head;

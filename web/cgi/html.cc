@@ -71,7 +71,7 @@ void Header::print_redirect(std::ostream& out) const
 	out << "Location : " << location << "\n";
 }
 	*/
-std::ostream& meta::operator >>  (std::ostream& out)
+std::ostream& meta::print  (std::ostream& out)
 {
 	out << "\t<meta";
 	if(not charset.empty())
@@ -140,12 +140,12 @@ void link::print(std::ostream& out) const
 
 
 
-std::ostream& Head::operator >> (std::ostream& out)
+std::ostream& Head::print (std::ostream& out)
 {
 	out << "<head>\n";
 	for(meta& m : metas)
 	{
-		m >> out;
+		m.print(out);
 	}
 	for(const link& l : links)
 	{
@@ -403,31 +403,31 @@ bool Service::register_session(const char* s)
 }
 std::string Service::get_user()
 {	
-	std::cout << "Service::get_user : Step 1\n<br>";
+	//std::cout << "Service::get_user : Step 1\n<br>";
 	std::string user;
 	if(variable.getID() > 0)
 	{
-		std::cout << "Service::get_user : Step 1.1\n<br>";
+		//std::cout << "Service::get_user : Step 1.1\n<br>";
 		if(variable.getValue().empty()) variable.downValue(connDB);
 		return variable.getValue();
 	}
 	else
 	{
-		std::cout << "Service::get_user : Step 1.2.1\n<br>";
+		//std::cout << "Service::get_user : Step 1.2.1\n<br>";
 		long session = get_session();
 		
-		std::cout << "Service::get_user : Step 1.2.2\n<br>";
+		//std::cout << "Service::get_user : Step 1.2.2\n<br>";
 		if(session < 1) return user;
 		
-		std::cout << "Service::get_user : Step 1.2.3\n<br>";
+		//std::cout << "Service::get_user : Step 1.2.3\n<br>";
 		std::string findSesion = "session = ";
 		findSesion += std::to_string(session);
 		findSesion += " and name = '";
 		findSesion += user_name_variable;
 		findSesion += "'";
-		std::cout << "SQL Service::get_user : " << findSesion << "<br>\n";
+		//std::cout << "SQL Service::get_user : " << findSesion << "<br>\n";
 		std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
-		std::cout << "Service::get_user : Step 1.2.4\n<br>";
+		//std::cout << "Service::get_user : Step 1.2.4\n<br>";
 		if(not varslst)
 		{
 		}
@@ -441,12 +441,12 @@ std::string Service::get_user()
 		}
 	}
 	
-	std::cout << "Service::get_user : Step 2\n<br>";
+	//std::cout << "Service::get_user : Step 2\n<br>";
 	return user;
 }
 bool Service::permission(const char* p)
 {
-	std::cout << "Service::permission : Step 1\n<br>";
+	//std::cout << "Service::permission : Step 1\n<br>";
 	
 	long userid = 0;
 	std::string user = get_user();
@@ -454,9 +454,9 @@ bool Service::permission(const char* p)
 	if(user.empty()) return false;
 	
 	//finding user id
-	std::cout << "Service::permission : Step 2\n<br>";
+	//std::cout << "Service::permission : Step 2\n<br>";
 	std::string findUser = "name = '" + user + "'";
-	std::cout << "SQL where : " << findUser << "<br>\n";
+	//std::cout << "SQL where : " << findUser << "<br>\n";
 	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,findUser,0);
 	bool flpermiss = false;
 	if(not userlst)
@@ -486,7 +486,7 @@ bool Service::permission(const char* p)
 	if(not flpermiss) return false;
 	
 	//finding user id
-	std::cout << "Service::permission : Step 3\n<br>";
+	//std::cout << "Service::permission : Step 3\n<br>";
 	std::string findPermission = "name = '";
 	findPermission += p;
 	findPermission += "'";
@@ -573,14 +573,14 @@ Page::~Page()
 {
 }
 
-std::ostream& Page::operator >> (std::ostream& out)
+std::ostream& Page::print (std::ostream& out)
 {
-	head >> out;
+	head.print(out);
 	out << "<html>\n";
 	if(body) 
 	{
 		out << "<body>\n";
-		(*body) >> out;
+		body->print(out);
 		out << "</body>\n";
 	}
 	out << "</html>\n";

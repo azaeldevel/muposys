@@ -22,7 +22,7 @@ void BodyApplication::panel(std::ostream& out)
 	
 	out << "\t\t\t<div id=\"system\"><a href=\"/system.html\"></a></div>\n";	
 }
-std::ostream& BodyApplication::operator >> (std::ostream& out)
+std::ostream& BodyApplication::print (std::ostream& out)
 {
 	out << "\t<div id=\"menu\">\n";		
 
@@ -65,9 +65,9 @@ void Application::init()
 	head.css("css/Mkos-Big-Sur/icons/application.css");
 	//head.addscript("tests.js");
 }
-std::ostream& Application::operator >> (std::ostream& out)
+std::ostream& Application::print (std::ostream& out)
 {
-	mps::Page::operator >>(out);
+	mps::Page::print(out);
 	
 	return out;
 }
@@ -78,11 +78,11 @@ int Application::main(std::ostream& out)
 	if(not has_session())
 	{
 		head.redirect(0,"login.html?failure");
-		head >> out;
+		head.print(out);
 		return EXIT_SUCCESS;
 	}
 	
-	(*this) >> out;
+	this->print(out);
 
 	return EXIT_SUCCESS;
 }
