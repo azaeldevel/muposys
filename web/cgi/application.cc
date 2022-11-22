@@ -61,8 +61,8 @@ void Application::init()
 {
 	head.charset("UTF-8");
 	head.responsive("viewport","width=device-width, initial-scale=1");
-	head.css("/css/Mkos-Big-Sur/appearance/muposys.css");
-	head.css("/css/Mkos-Big-Sur/icons/application.css");
+	head.css("css/Mkos-Big-Sur/appearance/muposys.css");
+	head.css("css/Mkos-Big-Sur/icons/application.css");
 	//head.addscript("tests.js");
 }
 std::ostream& Application::operator >> (std::ostream& out)
@@ -77,7 +77,7 @@ int Application::main(std::ostream& out)
 	
 	if(not has_session())
 	{
-		head.redirect(0,"/login.html?failure");
+		head.redirect(0,"login.html?failure");
 		head >> out;
 		return EXIT_SUCCESS;
 	}
