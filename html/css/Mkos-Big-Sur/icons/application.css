@@ -8,20 +8,20 @@
 	}
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
 	}
 	body > #menu > #panel > #user 
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
 	}
 
 	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 	body > #menu > #programs > #user_permiss_add
 	{
@@ -36,15 +36,15 @@
 	}
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
 	}
 	body > #menu > #panel > #user
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
 	}
 
 	body > #menu > #programs > #permission_add
@@ -53,80 +53,80 @@
 	}
 	body > #menu > #programs > #user_permiss_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
 	}
 }
 @media screen and (min-width: 600px) and (max-width : 899px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
 	}
 	body > #menu > #panel > #user
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
 	}
 
 	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 	body > #menu > #programs > #user_permiss_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
 	}
 }
 @media screen and (min-width: 900px) and (max-width : 1199px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
 	}
 	body > #menu > #panel > #user
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
 	}
 
 
 	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 	body > #menu > #programs > #user_permiss_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
 	}
 }
 @media screen and (min-width: 1200px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/run-build-configure.svg);
 	}
 	body > #menu > #panel > #user 
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/application-exit.svg);
 	}
 	
 	body > #menu > #programs > #permission_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/list-add.svg);
 	}
 	body > #menu > #programs > #user_permiss_add
 	{
-		background-image: url(/theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
+		background-image: url(theme/Mkos-Big-Sur/22x22/actions/database-change-key.svg);
 	}
 }
 
