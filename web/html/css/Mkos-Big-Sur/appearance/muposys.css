@@ -54,6 +54,7 @@ body > #menu > #programs > div
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
+	padding-left: 0.3em;
 }
 body > #menu > #programs > div > a
 {	

@@ -31,7 +31,7 @@ endif
 
 libmuposys_cgi_la_CXXFLAGS = -I$(top_builddir) -I$(top_builddir)/src $(FLAGS) 
 libmuposys_cgi_la_LDFLAGS = 
-libmuposys_cgi_la_SOURCES = html.cc login.cc application.cc logout.cc Exception.cc
+libmuposys_cgi_la_SOURCES = html.cc login.cc application.cc logout.cc
 libmuposys_cgi_la_LIBADD =  $(LIBS)
 
 login_cgi_CXXFLAGS = -I$(top_builddir) $(FLAGS) 
@@ -54,6 +54,6 @@ pkgconfig_DATA = muposys-cgi.pc
 EXTRA_DIST = muposys-cgi.pc.in
 
 muposys_includedir = $(includedir)/muposys/web
-muposys_include_HEADERS = Exception.hh html.hh login.hh application.hh logout.hh
+muposys_include_HEADERS = html.hh login.hh application.hh logout.hh
 
 

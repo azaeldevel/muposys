@@ -52,10 +52,21 @@ Exception::Exception(const std::string& m,const char* f, unsigned int l) : oct::
 {
 }
 
+	
+Exception::Exception(unsigned int c,const std::string& m) : oct::core::v3::Exception(c,m)
+{
+}
+Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned int l) : oct::core::v3::Exception(c,m,f,l)
+{
+}
+
 Exception::~Exception()
 {
 }
 
-
+const char* Exception::what() const throw ()
+{
+	return "Error desconocido.";
+}
 	
 }

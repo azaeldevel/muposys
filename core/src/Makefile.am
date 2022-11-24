@@ -12,7 +12,7 @@ AM_CFLAGS =\
 lib_LTLIBRARIES = libmuposys-core.la
 
 
-LIB = $(OCTETOS_LIBS)
+LIBS = $(OCTETOS_LIBS)
 FLAGS = $(OCTETOS_FLAGS)
 if OCTETOS_DB_MEDIUMWORD
 FLAGS += -DOCTETOS_DB_MEDIUMWORD -DLINUX_ARCH
@@ -29,7 +29,7 @@ BUILT_SOURCES = $(top_builddir)/src/muposysdb.cpp
 
 libmuposys_core_la_CXXFLAGS = -I$(top_builddir)/src $(FLAGS)
 libmuposys_core_la_SOURCES = $(top_builddir)/src/muposysdb.cpp Exception.cc
-libmuposys_core_la_LIBADD =  $(LIB)
+libmuposys_core_la_LIBADD =  $(LIBS)
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = muposys-core.pc
