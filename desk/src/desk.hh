@@ -72,6 +72,8 @@ public:
 	
 	static Login::Credential credential;
 	
+	const muposysdb::User& get_user() const;
+	
 protected:
 	Gtk::HeaderBar header;
 	Gtk::Toolbar tbMain;

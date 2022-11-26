@@ -34,7 +34,7 @@ protected:
 	
 	float total()const;	
 	void newrow();	
-	void clear();
+	virtual void clear();
     void mark_unsave();
     	
 #ifdef MUPOSYS_DESK_ENABLE_TDD

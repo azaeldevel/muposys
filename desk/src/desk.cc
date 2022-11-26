@@ -135,7 +135,10 @@ void Main::set_subtitle(const char* t )
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	
 #endif
-
+const muposysdb::User& Main::get_user() const
+{
+	return credential.userdb;
+}
 
 
 
