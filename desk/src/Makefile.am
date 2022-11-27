@@ -30,7 +30,7 @@ endif
 muposys-glade.c : $(top_srcdir)/resources.xml $(top_srcdir)/desk.ui
 	glib-compile-resources --generate-header --c-name rc_glade_muposys --target=muposys-glade.hh   --sourcedir=$(top_srcdir) $(top_srcdir)/resources.xml
 	glib-compile-resources --generate-source --c-name rc_glade_muposys --target=muposys-glade.c   --sourcedir=$(top_srcdir) $(top_srcdir)/resources.xml
-	
+
 libmuposys_desk_la_CXXFLAGS = $(FLAGS) 
 libmuposys_desk_la_LDFLAGS = 
 libmuposys_desk_la_SOURCES = desk.cc desk.hh TableSaling.cc

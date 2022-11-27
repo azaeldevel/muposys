@@ -6,7 +6,7 @@ namespace mps
 {
 
 
-TableSaling::TableSaling() : boxFloor(Gtk::ORIENTATION_VERTICAL),connDB_flag(false),notebook(NULL),notebook_page_index(0)
+TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0)
 {
 	init();
 }
@@ -61,9 +61,11 @@ void TableSaling::init()
 		
 	}
 	
+	pack_start(separator,false,true,5);
+	
 	pack_start(boxAditional,false,true);
 	
-	pack_start(boxFloor,false,true);
+	pack_start(boxFloor,false,true,5);
 	{
 		//agregando widgets de total
 		boxFloor.pack_start(boxTotal);
@@ -76,7 +78,7 @@ void TableSaling::init()
 		btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
 #endif
 		btSave.set_image_from_icon_name("filesave");
-		boxFloor.pack_start(btSave);
+		boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
 	}
 	
 	saved = true;
@@ -232,7 +234,7 @@ void TableSaling::save()
 	muposysdb::Stocking* stocking;
 	muposysdb::CatalogItem* cat_item;
 	muposysdb::Operation* operation;
-	//muposysdb::Progress* operationProgress;
+	muposysdb::Progress* operationProgress;
 	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
 	int quantity,item;
 	ente_service = new muposysdb::Ente;
@@ -251,13 +253,13 @@ void TableSaling::save()
 			dlg.run();
 			return;			
 	}
-	if(not operation->upStep(connDB,0))
+	/*if(not operation->upStep(connDB,0))
 	{
 			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
 			dlg.run();
 			return;		
-	}
+	}*/
 	
 	ente_operation = new muposysdb::Ente;
 	if(not ente_operation->insert(connDB))
@@ -292,8 +294,9 @@ void TableSaling::save()
 					dlg.run();
 					return;
 				}
+				muposysdb::User user(2);
 				operationProgress = new muposysdb::Progress;
-				if(not operationProgress->insert(connDB,*stocking,*operation,0))
+				if(not operationProgress->insert(connDB,*stocking,*operation,0,user))
 				{
 					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 					dlg.set_secondary_text("Durante la escritura de Stoking Production.");

@@ -36,14 +36,13 @@ protected:
 	void newrow();	
 	virtual void clear();
     void mark_unsave();
-    	
+	
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	void on_save_clicked();
     virtual void save();
 #else
     virtual void save() = 0;
 #endif
-    
 	class ModelColumns : public Gtk::TreeModel::ColumnRecord
 	{
 	public:
@@ -58,7 +57,6 @@ protected:
 		Gtk::TreeModelColumn<float> amount;
 	};
     
-    
 	ModelColumns columns;
 	Glib::RefPtr<Gtk::ListStore> tree_model;
 	bool saved;
@@ -67,9 +65,10 @@ protected:
     
 	Gtk::TreeView table;
 	Gtk::Button btSave;
-	Gtk::Label lbTotal,lbTotalAmount;
-	Gtk::ButtonBox boxTotal;
-	Gtk::ButtonBox boxFloor,boxAditional;
+	Gtk::Label lbTotal, lbTotalAmount;
+	Gtk::HBox boxTotal;
+	Gtk::VBox boxFloor,boxAditional;
+	Gtk::HSeparator separator;
 };
 
 
