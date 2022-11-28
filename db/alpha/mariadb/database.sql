@@ -1,5 +1,4 @@
 
-CREATE USER 'muposys'@localhost IDENTIFIED BY '123456';
-CREATE DATABASE `muposys-0-alpha`;
-GRANT ALL PRIVILEGES ON `muposys-0-alpha`.* TO 'muposys'@'localhost';
+CREATE USER 'application'@localhost IDENTIFIED BY '65094%?¡wrs';
+GRANT ALL PRIVILEGES ON `DBSSIIL`.* TO 'application'@'localhost';
 

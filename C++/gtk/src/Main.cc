@@ -1,111 +1,68 @@
-/**
- *
- *  This file is part of muposys.
- *  muposys is a Multi-Porpuse Software System GUI.
- *  Copyright (C) 2018  Azael Reyes
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- * */
+/*
+ * main.cc
+ * Copyright (C) 2020 Azael R. <azael.devel@gmail.com>
+ * 
+ * sysapp is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * sysapp is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+#include <gtkmm.h>
+#include <iostream>
+
+#include "config.h"
+
+
+#ifdef ENABLE_NLS
+#  include <libintl.h>
+#endif
 
 
 
-#include "muposysdb.hpp"
+/* For testing propose use the local (not installed) ui file */
+/* #define UI_FILE PACKAGE_DATA_DIR"/ui/sysapp.ui" */
+#define UI_FILE "src/muposys.ui"
+
+
+//#include "Login.hh"
 #include "Main.hh"
-#include "Login.hh"
-#include "constants.h"
-#include "Catalog.hh"
-#include "Buys.hh"
 
 
-
-namespace muposys
+int main (int argc, char *argv[])
 {
-
-AboutDialog::AboutDialog(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : builder(refGlade)
-{
-	
-}
+	Gtk::Main kit(argc, argv);
 
 
-
-
-
-
-Main::Main(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refGlade) : Gtk::Window(cobject), builder(refGlade)
-{
-	set_title(titleWindow());
-	
-	builder->get_widget("lbUser", lbUser);
-	builder->get_widget("lbSystem", lbSystem);
-	lbSystem->set_text(systemName());
-	signal_focus_in_event().connect(sigc::mem_fun(*this, &Main::on_windows_focus));
-	btStockCatalog = 0;
-	builder->get_widget("btStockCatalog", btStockCatalog);
-	btStockCatalog->signal_clicked().connect(sigc::mem_fun(*this,&Main::on_btStockCatalog_clicked));
-	builder->get_widget("btBuy", btBuy);
-	btBuy->signal_clicked().connect(sigc::mem_fun(*this,&Main::on_btBuy_clicked));
-	
-	wndLogin = 0;
-	user = NULL;
-	builder->get_widget_derived("wndLogin", wndLogin);
-	wndLogin->linkUser(&user);
-	wndLogin->show();
-}
-const char* Main::titleWindow()const
-{
-	return MIPOSYS_NAME_FULL;
-}
-const char* Main::systemName()const
-{
-	return MIPOSYS_NAME;
-}
-
-
-bool Main::on_button_press(GdkEventButton* event)
-{
-	return true;
-}
-
-
-bool Main::on_windows_focus(void* user_data)
-{
-	if(user != NULL)
+	//Load the Glade file and instiate its widgets:
+	Glib::RefPtr<Gtk::Builder> builder;
+	try
 	{
-		std::string strname;
-		if(!user->getPerson().getName1().empty()) strname += user->getPerson().getName1();
-		strname += " ";
-		if(!user->getPerson().getName3().empty()) strname += user->getPerson().getName3();
-		strname += "(";
-		strname += user->getName() + ")";
-		lbUser->set_text(strname);
-		//std::cout << "\n>>>>>>>>>>>>>lbUser->set_text(" << user->getName() << ")\n";
+		builder = Gtk::Builder::create_from_file(UI_FILE);
+	}
+	catch (const Glib::FileError & ex)
+	{
+		std::cerr << ex.what() << std::endl;
+		return 1;
 	}
 	
-	return true;
-}
-void Main::on_btStockCatalog_clicked()
-{
-	CatalogSupplier* wndCatalog = 0;
-	builder->get_widget_derived("wndCatalog", wndCatalog);
-	wndCatalog->show();
-}
-void Main::on_btBuy_clicked()
-{
-	Buys* wndBuys = 0;
-	builder->get_widget_derived("wndBuys", wndBuys);
-	wndBuys->show();
+	//Login* wndLogin = 0;
+	muposys::Main* wndMain = 0;
+	builder->get_widget_derived("wndMain", wndMain);
+
+	if (wndMain)
+	{
+		kit.run(*wndMain);
+	}
+	
+	return 0;
 }
 
-}
