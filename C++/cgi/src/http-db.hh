@@ -4,6 +4,10 @@
 #include <string>
 #include <vector>
 
+#include "Exception.hh"
+#include "config.h"
+
+
 namespace muposys
 {
 namespace http
@@ -11,12 +15,14 @@ namespace http
 namespace db
 {
 	class Variable;
-
-
+	
+	static const char* database_file = DATABASE;
+	
     class Conector
     {
     private:
         void* serverConnector;
+		
     public:
 
 		/**
@@ -76,6 +82,7 @@ namespace db
 		int getID()const;
 		bool updateSession(Conector& connect,const std::string& str);
 		bool remove(Conector& connect);
+		bool empty()const;
 		/**
 		*@brief Modifica el valor de la variable indicada
 		*@return true si existe y escribe el valor, falso en otro caso.

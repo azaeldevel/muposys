@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+includedir=@includedir@
+
+Name: muposys-cgi
+Description: Multi-Porpuse Software System CGI modules
+Version: @VERSION@
+Requires: cgicc sqlite3 
+Libs: -L${libdir} -lmuposys-cgi
+Cflags: -I${includedir}

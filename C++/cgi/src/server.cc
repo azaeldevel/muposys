@@ -1,6 +1,8 @@
 
 #include <muposysdb.hpp>
-
+#include "cgicc/Cgicc.h"
+#include "cgicc/HTTPHTMLHeader.h"
+#include "cgicc/HTMLClasses.h"
 
 #include "server.hh"
 
@@ -13,13 +15,12 @@ namespace muposys::server
 
 void Login::methode()
 {
-	std::cout << "Content-type:text/html\r\n\r\n";
-   	std::cout << "<html>\n";
-   	std::cout << "<head>\n";
-	
-   	//std::cout << "Step 1 : \n<br>";
-	
-   	cgicc::Cgicc formData;   	
+	/*std::cout << cgicc::HTTPHTMLHeader() << "\n";*/
+	std::cout << cgicc::html() << cgicc::head(cgicc::title("Multi-Porpuse Software System")) << "\n";
+    std::cout << cgicc::body() << "\n";
+   	//std::cout << "Step 1 : \n<br>";	
+   	
+	cgicc::Cgicc formData;   	
 	cgicc::form_iterator itUser = formData.getElement("user"); 
 	if( !itUser->isEmpty() && itUser != (*formData).end()) 
 	{
@@ -30,12 +31,12 @@ void Login::methode()
 		std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
 	}
 	
-   	//std::cout << "Step 2 : \n<br>";
+   	std::cout << "Step 2 : \n<br>";
 	
 	cgicc::form_iterator itPassword = formData.getElement("psw");  
 	if( !itPassword->isEmpty() && itPassword != (*formData).end()) 
 	{
-		//std::cout << "Contraseña : " << **itPassword << "<br>"; 
+		//std::cout << "Contrasena : " << **itPassword << "<br>"; 
 	} 
 	else 
 	{
@@ -44,33 +45,35 @@ void Login::methode()
 	
    	//std::cout << "Step 3 : \n<br>";
 		   		   	
-	bool flagSession = check(**itUser,**itPassword);
-	std::string strredirect = "/cgi/application?session=";
-	strredirect += getSessionID();
-	
+	bool flagSession = check(**itUser,**itPassword);	
    	//std::cout << "Step 4 : \n<br>";
 		   	
 	if(flagSession)
 	{
-		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=" << strredirect << "\"\n";
+		std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=/application.cgi\">\n";
 	}
-   	
-   	std::cout << "</head>\n";
-   	std::cout << "<body>\n";
-   	std::cout << "</body>\n";
-   	std::cout << "</html>\n";
+	else
+	{
+		std::cout << "Error : Usuario/contraseña incorrecta.\n";
+	}
+	
+   	std::cout << cgicc::body() << cgicc::html() << "\n";
 }
 muposys::http::Session& Login::getSession()
 {
 	return *session;
 }
-Login::Login(const std::string& s)
+/*Login::Login(const std::string& s)
 {
 	session = new muposys::http::Session(s);
-}
+}*/
 Login::Login()
 {
-	session = new muposys::http::Session("");
+	session = new muposys::http::Session;
+}
+Login::~Login()
+{
+	if(session) delete session;
 }
 const std::string& Login::getSessionID()const
 {
@@ -85,9 +88,11 @@ bool Login::check(const std::string& userstr,const std::string& password)
 #elif defined POSTGRESQL
 	octetos::db::postgresql::Connector conn;
 #else
-	#error "Base dedatos desconocida."
+	#error "Base de datos desconocida."
 #endif
 
+	//std::cout << "check : Step 1\n<br>";
+	
 	conn.connect(muposysdb::datconex);
 	
 	muposysdb::Users* userbd;
@@ -109,6 +114,7 @@ bool Login::check(const std::string& userstr,const std::string& password)
 	{
 		userbd = usrlst->at(0);
 	}
+	//std::cout << "check : Step 2\n<br>";
 	if(userbd->checkpass(conn))
 	{
 		//std::cout << "userbd ID : " << userbd->getUser().getPerson().getID() << "<br>";
@@ -117,7 +123,11 @@ bool Login::check(const std::string& userstr,const std::string& password)
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "Descargo : " << user.getRomoteAddress() << "<br>";
-			muposys::http::db::Conector connhttp("database");
+			muposys::http::db::Conector connhttp(muposys::http::db::database_file);
+			if(session->addregister(connhttp))
+			{
+				std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			}
 			muposys::http::db::Variable var;
 			if(var.insert(connhttp,session->getSession(),"user",userbd->getName()))
 			{

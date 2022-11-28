@@ -12,10 +12,10 @@ namespace muposys
 	}
 	bool Application::Body::print(std::ostream& out)
 	{		
-		muposys::server::Login* login;
+		//muposys::server::Login* login;
 		cgicc::Cgicc cgi;
 		//bool flagserror = false;
-		cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
+		/*cgicc::const_form_iterator it = muposys::http::search(cgi.getElements().begin(),cgi.getElements().end(),"session");
 		if(it != cgi.getElements().end())
 		{
 			//std::cout << "Sessión : " << (*it).getValue() << "<br>\n";
@@ -24,37 +24,38 @@ namespace muposys
 		else
 		{
 			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+		}*/
+		
+		muposys::http::db::Conector conn(muposys::http::db::database_file);
+		muposys::http::db::Session session;
+		if(not session.selectByRemoteAddr(conn,getenv("REMOTE_ADDR")))
+		{
+			std::cout << "<meta http-equiv=\"refresh\" content=\"0;url=login.html\"\n";
 		}
-		
-		
-		
 		
 		out << "<div id=\"menu\">";
 		
 		
-			out << "<div id=\"user\">";			
+			out << "<div id=\"panel\">";			
 				
-				out << "<div id=\"logout\"><a href=\"/cgi/logout?session=" << (*it).getValue() <<  "\" > ";
+				out << "<div id=\"logout\"><a href=\"/logout.cgi\" > ";
 				
 				out << "</a></div>\n";
 				out << "<div id=\"space\">";
 				
 				out << "</div></a>\n";
-				out << "<div id=\"photo\"><a href=\"#/user.html\" > ";
-				/*
-				sysapp::http::db::Conector connhttp("database");
-				sysapp::http::db::Variable var;
-				if(var.select(connhttp,login->getSession().getSession(),"user"))
-				{
-					out << var.getValue();				
-				}
-				else
-				{
-					flagserror = true;
-				}
-				connhttp.close();
-				*/
-				out << "</a></div>\n";
+
+				out << "<div id=\"user\">";
+					out << "<div id=\"photo\">"; //"</div>\n";
+						out << "<div id=\"name\">";						
+						muposys::http::db::Variable var;
+						if(var.select(conn,session,"user"))
+						{
+							out << var.getValue();				
+						}						
+						out << "</div>\n";
+					out << "</div>\n";
+				out << "</div>\n";
 				out << "<div id=\"system\"><a href=\"/system.html\" >";
 				
 				out << "</a></div>\n";			
@@ -62,13 +63,14 @@ namespace muposys
 			out << "</div>\n";
 		
 		out << "</div>\n";
+		conn.close();
 		
 		/*if(flagserror)
 		{
 			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 		}*/
 					
-		delete login;
+		//delete login;
 		return true;
 	}
 

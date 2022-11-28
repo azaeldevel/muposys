@@ -1,5 +1,5 @@
 
-SUBDIRS = src 
+SUBDIRS = src tests 
 
 
 
@@ -7,9 +7,14 @@ SUBDIRS = src
 uninstall-local:
 	-rm -r $(docdir)
 
-databasedir = $(datarootdir)
-database_DATA = database
+databasedir=$(datarootdir)
+database_DATA=database/http
 
 install-data-hook:
-	chown apache:apache -R /var/www/localhost
-	chmod -R u+w /var/www/localhost
+	chmod a+w $(DATABASE)
+	chown $(USER_GROUP) $(DATABASE)
+
+install-exec-hook:
+	chown $(USER_GROUP) $(bindir)/*.cgi
+	
+

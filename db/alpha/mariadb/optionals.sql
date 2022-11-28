@@ -1,2 +1,0 @@
-
-CREATE TABLE PersonsEmails (ente INT NOT NULL,mail VARCHAR(256) NOT NULL,FOREIGN KEY(ente) REFERENCES Entities(id)); 

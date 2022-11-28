@@ -1,0 +1,13 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+datarootdir=@datarootdir@
+datadir=@datadir@
+includedir=@includedir@
+
+Name: muposys-apidb
+Description: Multi-Porpuse Software System for connecting to DB
+Version: @VERSION@
+Requires: octetos-db-abstract 
+Libs: -L${libdir} -lmuposys-apidb
+Cflags: -I${includedir}

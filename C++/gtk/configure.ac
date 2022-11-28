@@ -1,7 +1,5 @@
-dnl Process this file with autoconf to produce a configure script.
-dnl Created by Anjuta application wizard.
 
-AC_INIT(muposys, 0.1)
+AC_INIT(muposys, 0.1.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -25,45 +23,46 @@ AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 AM_GLIB_GNU_GETTEXT
 
 
-AC_ARG_WITH([debian], AS_HELP_STRING([--with-debian], [Soporta para Debian.]))
-AM_CONDITIONAL(WITH_DEBIAN, test x"$with_debian" = "xyes")
 
-AC_ARG_WITH([arch], AS_HELP_STRING([--with-arch], [Soporta para ArchLinux.]))
-AM_CONDITIONAL(WITH_ARCH, test x"$with_arch" = "xyes")
+dnl ***************************************************************************
+dnl Check for Windows
+dnl ***************************************************************************
+AC_CANONICAL_HOST
+
+case $host_os in
+  *mingw*)
+    platform_win32=yes
+    native_win32=yes
+    ;;
+  pw32* | *cygwin*)
+    platform_win32=yes
+    native_win32=no
+    ;;
+  *)
+    platform_win32=no
+    native_win32=no
+    ;;
+esac
+AM_CONDITIONAL(PLATFORM_WIN32, test x"$platform_win32" = "xyes")
+AM_CONDITIONAL(NATIVE_WIN32, test x"$native_win32" = "xyes")
 
 
+LT_INIT([win32-dll])
 
-LT_INIT
 
+PKG_CHECK_MODULES(MUPOSYS, [gtkmm-3.0 ])
 
-PKG_CHECK_MODULES(GTKMM, [gtkmm-3.0 ])
-
-PKG_CHECK_MODULES(OCTETOS_DB_ABSTRACT, [octetos-db-abstract ])
-
-PKG_CHECK_MODULES(OCTETOS_DB_MARIA, [octetos-db-maria ])
-
-AC_ARG_WITH([mysql], AS_HELP_STRING([--with-mysql], [Soporta para MySQL.]))
-if test "x$with_mysql" = "xyes"; then 
-	PKG_CHECK_MODULES(OCTETOS_DB_MYSQL, [octetos-db-mysql])
+AM_CONDITIONAL(WITH_TESTS, test x"$with_tests" = "xyes")
+AC_ARG_WITH([tests], AS_HELP_STRING([--with-tests], [Compilando con soporte para Tests]))
+if test "x$with_tests" = "xyes"; then 
+	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
-AM_CONDITIONAL(WITH_MYSQL, test x"$with_mysql" = "xyes")
 
-AC_ARG_WITH([mariadb], AS_HELP_STRING([--with-mariadb], [Soporta para MariDB.]))
-if test "x$with_mariadb" = "xyes"; then 
-	PKG_CHECK_MODULES(OCTETOS_DB_MARIA, [octetos-db-maria])
-fi
-AM_CONDITIONAL(WITH_MARIADB, test x"$with_mariadb" = "xyes")
-
-
-AC_ARG_WITH([postgresql], AS_HELP_STRING([--with-postgresql], [Soporta para PostgreSQL.]))
-if test "x$with_postgresql" = "xyes"; then 
-	PKG_CHECK_MODULES(OCTETOS_DB_POSTGRESQL, [octetos-db-postgresql])
-fi
-AM_CONDITIONAL(WITH_POSTGRESQL, test x"$with_postgresql" = "xyes")
 
 
 AC_OUTPUT([
 Makefile
 src/Makefile
+tests/Makefile
 po/Makefile.in
 ])

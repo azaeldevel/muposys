@@ -87,8 +87,20 @@ int validRegister(cgicc::Cgicc& cgi)
 		std::cout << "<h1>Error : Usuario vacio</h1>\n";
 		return FAIL_EMTY_USERNAME;
 	}
+	muposysdb::Entities ente1;
+	if(not ente1.insert(conn))
+	{
+		std::cout << "<h1>Fallo insert ente</h1>\n";
+		return FAIL_CREATE_REGISTER;
+	}
+	muposysdb::Persons per1;
+	if(not per1.insert(conn,ente1,name1))
+	{
+		std::cout << "<h1>Fallo insert person</h1>\n";
+		return FAIL_CREATE_REGISTER;
+	}
 	muposysdb::Users user;	
-	if(not user.insert(conn,name1,userstr))
+	if(not user.insert(conn,per1,name1))
 	{
 		std::cout << "<h1>Fallo insert user</h1>\n";
 		return FAIL_CREATE_REGISTER;

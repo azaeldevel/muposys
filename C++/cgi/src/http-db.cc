@@ -244,6 +244,12 @@ namespace db
         if(id < 0) return false;
         return true;
     }
+	bool Session::empty() const
+	{
+		if(id > 0) return true;
+		return false;
+	}
+
 	
 	std::string Session::TABLE_NAME = "Session";
 		
@@ -308,6 +314,7 @@ namespace db
         if( rc != SQLITE_OK ) 			
         {
         	std::cout << "Fail : " << __FILE__ << ":" << __LINE__ << ":  " << str << "<br>";
+			std::cout << "database : " << muposys::http::db::database_file << "<br>\n";
         	std::cout << getErrorMessage() << "<br>";
             return false;			
         } 
@@ -322,9 +329,10 @@ namespace db
     bool Conector::query(const std::string& str, int (*callback)(void*,int,char**,char**),void* obj)
     {
         int rc = sqlite3_exec((sqlite3*)serverConnector, str.c_str(), callback, obj, NULL);
-        if( rc != SQLITE_OK ) 			
+        if( rc != SQLITE_OK )
         {
         	std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			std::cout << "database : " << muposys::http::db::database_file << "\n";
             return false;			
         } 
         else 
@@ -339,15 +347,20 @@ namespace db
     Conector::~Conector()
     {
         close();
-    }		
+    }
     Conector::Conector(const std::string& dbname)
     {
         serverConnector = NULL;
-        int rc = sqlite3_open(dbname.c_str(), (sqlite3**)&serverConnector);
-        if( rc ) 
+        int rc = sqlite3_open_v2(dbname.c_str(), (sqlite3**)&serverConnector,SQLITE_OPEN_READWRITE,NULL);
+        if(SQLITE_NOTFOUND == rc)
+		{
+			throw muposys::Exception(muposys::Exception::FAIL_OPEN_DATABASE,__FILE__,__LINE__);
+		}
+		else if(rc != SQLITE_OK) 
         {
 			//fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg((sqlite3*)serverConnector));
 			std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
+			throw muposys::Exception(muposys::Exception::FAIL_OPEN_DATABASE,__FILE__,__LINE__);
 			//return(0);
         } 
     }
