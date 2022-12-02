@@ -12,8 +12,8 @@
     #include <muposys/core/Exception.hh>
     #include <muposys/core/apidb.hh>
 #elif MSYS2
-    #include <Exception.hh>
-    #include <apidb.hh>
+    #include <muposys/core/src/Exception.hh>
+    #include <muposys/core/src/apidb.hh>
 #else
 	#error "Plataforma desconocida."
 #endif

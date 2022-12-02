@@ -37,6 +37,8 @@
 
 #if defined(__linux__)
     #include <octetos/core/Exception-v3.hh>
+#elif MSYS2
+    #include <core/src/Exception-v3.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <Exception-v3.hh>
 #else
@@ -49,21 +51,21 @@ namespace mps
 class Exception : public oct::core::v3::Exception
 {
 public:
-	
+
 public:
 	Exception();
 	Exception(const Exception&);
 	Exception(Exception&&);
-	
+
 	Exception(unsigned int code);
 	Exception(unsigned int code,const char* filename, unsigned int line);
-	
+
 	Exception(unsigned int code,const char* message);
 	Exception(unsigned int code,const char* message,const char* filename, unsigned int line);
 
 	Exception(const std::string& message);
 	Exception(const std::string& message,const char* filename, unsigned int line);
-	
+
 	Exception(unsigned int code,const std::string& message);
 	Exception(unsigned int code,const std::string& message,const char* filename, unsigned int line);
 	virtual ~Exception();

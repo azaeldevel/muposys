@@ -15,9 +15,7 @@
 					<Add option="-g" />
 					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
 					<Add option="-DMSYS2" />
-					<Add directory="../../core/src" />
-					<Add directory="../../db-abstract/src" />
-					<Add directory="../../db-maria/src" />
+					<Add directory="../../../octetos" />
 				</Compiler>
 				<Linker>
 					<Add library="octetos-core" />

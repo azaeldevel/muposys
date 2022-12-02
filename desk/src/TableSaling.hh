@@ -5,7 +5,7 @@
 #if __linux__
     #include <muposys/core/muposysdb.hpp>
 #elif MSYS2
-    #include <muposysdb.hpp>
+    #include <muposys/core/bin/muposysdb.hpp>
 #else
     #error "Plataforma desconocida."
 #endif

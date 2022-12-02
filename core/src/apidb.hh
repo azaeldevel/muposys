@@ -8,8 +8,8 @@
 	#if __linux__
         #include <muposys/core/muposysdb.hpp>
     #elif MSYS2
-        #include <muposysdb.hpp>
-        #include <apidb.hh>
+        #include <muposys/core/bin/muposysdb.hpp>
+        #include <muposys/core/src/apidb.hh>
     #else
         #error "Plataforma desconocida."
     #endif
