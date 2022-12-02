@@ -5,7 +5,14 @@
 #ifdef MUPOSYS_CORE_ENABLE_TDD
 	#include <muposysdb.hpp>
 #else
-	#include <muposys/core/muposysdb.hpp>
+	#if __linux__
+        #include <muposys/core/muposysdb.hpp>
+    #elif MSYS2
+        #include <muposysdb.hpp>
+        #include <apidb.hh>
+    #else
+        #error "Plataforma desconocida."
+    #endif
 #endif
 
 namespace mps

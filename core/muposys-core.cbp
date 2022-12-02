@@ -13,11 +13,19 @@
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+					<Add option="-DMSYS2" />
 					<Add directory="../../core/src" />
+					<Add directory="../../db-abstract/src" />
+					<Add directory="../../db-maria/src" />
 				</Compiler>
 				<Linker>
 					<Add library="octetos-core" />
+					<Add library="octetos-db-abstract" />
+					<Add library="octetos-db-maria" />
 					<Add directory="../../core/bin/Debug" />
+					<Add directory="../../db-abstract/bin/Debug" />
+					<Add directory="../../db-maria/bin/Debug" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -27,20 +35,31 @@
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+					<Add option="-DMSYS2" />
 					<Add directory="../../core/src" />
+					<Add directory="../../db-abstract/src" />
+					<Add directory="../../db-maria/src" />
 				</Compiler>
 				<Linker>
-					<Add option="-s" />
+					<Add option="-O2" />
 					<Add library="octetos-core" />
+					<Add library="octetos-db-maria" />
+					<Add library="octetos-db-abstract" />
 					<Add directory="../../core/bin/Release" />
+					<Add directory="../../db-abstract/bin/Release" />
+					<Add directory="../../db-maria/bin/Release" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="bin/muposysdb.cpp" />
+		<Unit filename="bin/muposysdb.hpp" />
 		<Unit filename="src/Exception.cc" />
 		<Unit filename="src/Exception.hh" />
+		<Unit filename="src/apidb.hh" />
 		<Unit filename="src/core.hh" />
 		<Extensions>
 			<lib_finder disable_auto="1" />

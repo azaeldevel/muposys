@@ -1,7 +1,14 @@
 
-#include <gtkmm/application.h>
-
 #include "desk.hh"
+
+#if __linux__
+	#include "config.h"
+#elif MSYS2
+    #include "config-cb.h"
+#else
+	#error "Plataforma desconocida."
+#endif
+
 
 namespace mps
 {
@@ -10,7 +17,7 @@ Login::Credential Main::credential;
 Main::Main() : devel(false)
 {
 	init();
-	
+
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();
@@ -19,7 +26,7 @@ Main::Main() : devel(false)
 Main::Main(bool d) : devel(d)
 {
 	init();
-		
+
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();
@@ -28,40 +35,40 @@ Main::Main(bool d) : devel(d)
 void Main::init()
 {
 	//if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
-	
-	add_events(Gdk::KEY_PRESS_MASK);		
-	
+
+	add_events(Gdk::KEY_PRESS_MASK);
+
 	set_title("Multi-Porpuse Software System");
 	set_subtitle("muposys");
 	header.set_show_close_button(true);
 	set_titlebar(header);
-	
+
 	header.pack_start(box_header);
 	box_header.pack_start(box_header_controls);
 	box_header.pack_start(sep_header,false,true,10);
 	box_header.pack_start(box_header_info);
-	
+
 	box_header_info.pack_start(lbUser);
-	
+
 	box_header_controls.pack_start(btHome);
 	box_header_controls.pack_start(btSysMang);
 	box_header_controls.pack_start(btLogout);
 	box_header_controls.pack_start(btAbout);
-	
+
 	btHome.set_image_from_icon_name("gtk-home");
 	btSysMang.set_image_from_icon_name("gtk-preferences");
 	btLogout.set_image_from_icon_name("lock");
 	btAbout.set_image_from_icon_name("gtk-about");
-	
+
 	btHome.set_tooltip_text("Aplicacion principal");
 	btSysMang.set_tooltip_text("Administración de MUPOSYS");
 	btLogout.set_tooltip_text("Cerrar seción de usuario actual");
 	btAbout.set_tooltip_text("Acerca de MUPOSYS");
-	
+
 	add(boxSlices);
 	boxSlices.pack_start(tbMain,false,true);
 	boxSlices.pack_start(nbMain,false,true);
-		
+
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	int page_index = nbMain.append_page(sales);
 	sales.set_info(nbMain,page_index);
@@ -83,16 +90,16 @@ void Main::check_session()
 		switch(res)
 		{
 		case Gtk::RESPONSE_OK:
-			break;	
+			break;
 		case Gtk::RESPONSE_CANCEL:
 			login.close();
-			return;	
+			return;
 		case Gtk::RESPONSE_NONE:
-			break;			
+			break;
 		}
 	}
 	while(not login.get_credential().valid);
-	
+
 	if(login.get_credential().valid)
 	{
 		credential = login.get_credential();
@@ -108,13 +115,13 @@ void Main::check_session()
 			Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text(e.what());
 			res = dlg.run();
-			return;		
+			return;
 		}
-		if(credential.userdb.downName(connDB)) lbUser.set_text(credential.userdb.getName());			
+		if(credential.userdb.downName(connDB)) lbUser.set_text(credential.userdb.getName());
 		if(credential.userdb.downPerson(connDB))
 		{
-			credential.userdb.getPerson().downName1(connDB);	
-			credential.userdb.getPerson().downName3(connDB);	
+			credential.userdb.getPerson().downName1(connDB);
+			credential.userdb.getPerson().downName3(connDB);
 		}
 		connDB.close();
 	}
@@ -122,7 +129,7 @@ void Main::check_session()
 }
 /*void Main::add_activity(Gtk::Widget& w)
 {
-	nbMain.append_page(w);	
+	nbMain.append_page(w);
 }*/
 void Main::set_title(const char* t )
 {
@@ -133,7 +140,7 @@ void Main::set_subtitle(const char* t )
 	header.set_subtitle(t);
 }
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	
+
 #endif
 const muposysdb::User& Main::get_user() const
 {
@@ -170,27 +177,27 @@ void Login::init()
 	get_vbox()->pack_start(boxPass,false,true);
 	get_vbox()->pack_start(lbMessage,false,true);
 	get_vbox()->pack_start(boxButtons,false,true);
-	
+
 	lbUser.set_text("Usuario         : ");
 	boxUser.pack_start(lbUser);
 	boxUser.pack_start(inUser);
-	
+
 	lbPass.set_text("Constraseña : ");
 	boxPass.pack_start(lbPass);
 	boxPass.pack_start(inPwd);
 	inPwd.set_visibility(false);
-	
+
 	boxButtons.pack_start(btOK);
 	boxButtons.pack_start(btCancel);
-	
+
 	btCancel.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
 	btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
 	signal_response().connect(sigc::mem_fun(*this, &Login::on_response) );
-	
+
 	btOK.set_image_from_icon_name("gtk-ok");
 	btCancel.set_image_from_icon_name("gtk-cancel");
-	
-	set_default_size(250,100);	
+
+	set_default_size(250,100);
 	show_all_children();
 }
 Login::~Login()
@@ -219,33 +226,33 @@ void Login::check_user()
 		Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
 		dlg.set_secondary_text(e.what());
 		res = dlg.run();
-		return;	
+		return;
 	}
-	
+
 	credential.valid = true;
-	
+
 	std::string strwhere = "name = ";
 	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 'autorizado'";
 	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,strwhere);
-	
+
 	//std::cout << "SQL str : " << strwhere << "\n";
-	
-	if(userlst == NULL) 
+
+	if(userlst == NULL)
 	{
 		credential.valid = false;
 		std::cout << "No hay resultado de la consulta\n";
 	}
-	if(userlst->size() == 0) 
-	{		
+	if(userlst->size() == 0)
+	{
 		credential.valid = false;
 		std::cout << "Hay 0 resultados de la consulta\n";
 	}
-	if(userlst->size() > 1) 
+	if(userlst->size() > 1)
 	{
 		credential.valid = false;
 		std::cout << "Hay " <<  userlst->size() << " resultados de la consulta\n";
-	}	
-	
+	}
+
 	if(not credential.valid)//si no es valido el usario liberar memorio y salir
 	{
 		lbMessage.set_text("Usuario/Contraseña incorrectos.");
@@ -265,7 +272,7 @@ void Login::check_user()
 			}
 			delete u;
 		}
-		delete userlst;		
+		delete userlst;
 		return;
 	}
 	//std::cout << "Usuario aceptado\n";
@@ -277,9 +284,9 @@ const Login::Credential& Login::get_credential() const
 	return credential;
 }
 void Login::set_session(const char* u,const char* p)
-{	
+{
 	inUser.set_text(u);
-	inPwd.set_text(p);	
+	inPwd.set_text(p);
 }
 void Login::on_response(int res)
 {
@@ -331,7 +338,7 @@ void Login::on_response(int res)
 
 
 
-Restaurant::Restaurant() 
+Restaurant::Restaurant()
 {
 }
 Restaurant::Restaurant(bool d) : Main(d)
