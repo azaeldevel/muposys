@@ -1,4 +1,21 @@
 
+/*
+ * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
+ *
+ * muposys is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * octetos-cc is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 
 #include "desk.hh"
 
@@ -23,48 +40,48 @@ void TableSaling::init()
 		dlg.run();
 		return;
 	}
-	
+
 	set_valign(Gtk::ALIGN_CENTER);
 	table.add_events(Gdk::KEY_PRESS_MASK);
 	//table.signal_key_press_event().connect(sigc::mem_fun(*this, &TableSaling::on_key_press_event));
 	pack_start(table,false,true);//
 	{
 		set_homogeneous(false);
-		
+
 		tree_model = Gtk::ListStore::create(columns);
 		tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
 		table.set_model(tree_model);
-		
+
 		table.append_column_editable("Cant.", columns.quantity);
 		Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
 		Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
 		cell_quantity->property_editable() = true;
 		//col_quantity->set_cell_data_func(*cell_quantity,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_quantity));
 		//cell_quantity->signal_editing_started().connect(sigc::mem_fun(*this,&TableSaling::cellrenderer_validated_on_editing_started_quantity));
-		//cell_quantity->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_quantity));	
-		
+		//cell_quantity->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_quantity));
+
 		table.append_column("Present.", columns.presentation);
-		
+
 		table.append_column_editable("Number", columns.number);
 		Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
 		Gtk::TreeViewColumn* col_number = table.get_column(table.get_n_columns() - 1);
 		//col_number->set_cell_data_func(*cell_number,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_number));
 		cell_number->property_editable() = true;
 		//cell_number->signal_editing_started().connect(sigc::mem_fun(*this,&TableSaling::cellrenderer_validated_on_editing_started_number));
-		cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));	
-		
+		cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));
+
 		table.append_column("Artículo", columns.name);
-		
+
 		table.append_column_numeric_editable("C/U", columns.cost_unit,"%.2f");
-		
+
 		table.append_column_numeric_editable("Monto", columns.amount,"%.2f");
-		
+
 	}
-	
+
 	pack_start(separator,false,true,5);
-	
+
 	pack_start(boxAditional,false,true);
-	
+
 	pack_start(boxFloor,false,true,5);
 	{
 		//agregando widgets de total
@@ -80,10 +97,10 @@ void TableSaling::init()
 		btSave.set_image_from_icon_name("filesave");
 		boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
 	}
-	
+
 	saved = true;
-	
-	newrow();	
+
+	newrow();
 }
 TableSaling::~TableSaling()
 {
@@ -102,31 +119,31 @@ TableSaling::ModelColumns::ModelColumns()
 }
 void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
 {
-	//std::cout << "Size : " << tree_model->children().size() << "\n";		
+	//std::cout << "Size : " << tree_model->children().size() << "\n";
 	const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
 	if(last == iter) newrow();
-	
+
 	lbTotalAmount.set_text(std::to_string(total()));
 	if(notebook) mark_unsave();
-	
+
 	saved = false;
 }
 void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text)
 {
 	Gtk::TreePath path(path_string);
-	
+
 	std::string where = "number = '" + new_text + "'";
 	std::vector<muposysdb::CatalogItem*>* lstCatItems = muposysdb::CatalogItem::select(connDB,where);
 	//std::cout << "where : " << where << "\n";
-	
+
 	if(not lstCatItems) return;
-	
+
 	if(lstCatItems->size() == 1)
 	{
 		lstCatItems->front()->downBrief(connDB);
 		lstCatItems->front()->downValue(connDB);
 		lstCatItems->front()->downPresentation(connDB);
-		
+
 			Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
 			if(iter)
 			{
@@ -167,7 +184,7 @@ float TableSaling::total() const
 bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
 {
 	//std::cout << "key quantity : " << (char) key_event->keyval << "\n";
-	
+
 	return false;
 }
 void TableSaling::clear()
@@ -179,7 +196,7 @@ void TableSaling::clear()
 void TableSaling::mark_unsave()
 {
 	if(not saved) return;//ya esta marcado como no guardado
-	
+
 	if(notebook)
 	{
 		std::cout << "Sin guardar\n";
@@ -235,7 +252,7 @@ void TableSaling::save()
 	muposysdb::CatalogItem* cat_item;
 	muposysdb::Operation* operation;
 	muposysdb::Progress* operationProgress;
-	const Gtk::TreeModel::iterator& last = (tree_model->children().end());	
+	const Gtk::TreeModel::iterator& last = (tree_model->children().end());
 	int quantity,item;
 	ente_service = new muposysdb::Ente;
 	if(not ente_service->insert(connDB))
@@ -251,16 +268,16 @@ void TableSaling::save()
 			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
 			dlg.run();
-			return;			
+			return;
 	}
 	/*if(not operation->upStep(connDB,0))
 	{
 			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
 			dlg.run();
-			return;		
+			return;
 	}*/
-	
+
 	ente_operation = new muposysdb::Ente;
 	if(not ente_operation->insert(connDB))
 	{
@@ -273,14 +290,14 @@ void TableSaling::save()
 	{
 		if(last == it) break;
 		row = *it;
-		
+
 		quantity = row[columns.quantity];
 		if(quantity == 0) break;
-		
+
 		item = row[columns.item];
-		
+
 		cat_item = new muposysdb::CatalogItem(item);
-		
+
 		cat_item->downType(connDB);
 		if(cat_item->getType().compare("service") == 0)
 		{
@@ -301,7 +318,7 @@ void TableSaling::save()
 					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 					dlg.set_secondary_text("Durante la escritura de Stoking Production.");
 					dlg.run();
-					return;			
+					return;
 				}
 				delete operationProgress;
 				delete stocking;
@@ -319,25 +336,25 @@ void TableSaling::save()
 			}
 			delete stocking;
 		}
-		
+
 		delete cat_item;
 	}
-	
+
 	delete ente_service;
-	delete ente_operation;	
-	
+	delete ente_operation;
+
 	muposysdb::Sale* sale;
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
 	{
 		if(last == it) break;
 		row = *it;
-		
+
 		quantity = row[columns.quantity];
 		if(quantity == 0) break;
-		
+
 		item = row[columns.item];
 		cat_item = new muposysdb::CatalogItem(item);
-		
+
 		sale = new muposysdb::Sale;
 		if(not sale->insert(connDB,*operation,stock,*cat_item,quantity))
 		{
@@ -346,15 +363,15 @@ void TableSaling::save()
 			dlg.run();
 			return;
 		}
-		
+
 		delete cat_item;
 	}
-	
+
 	delete operation;
-	
-	connDB.commit();	
+
+	connDB.commit();
 	clear();
-	
+
 	Gtk::MessageDialog dlg("Operacion completada.",true,Gtk::MESSAGE_INFO);
 	dlg.set_secondary_text("La Venta se realizo satisfactoriamente.");
 	dlg.run();
@@ -375,7 +392,7 @@ void TableSaling::save()
 bool TableSaling::on_key_press_event(GdkEventKey* key_event)
 {
 	std::cout << "key tree " << (char) key_event->keyval << "\n";
-	
+
 	return false;
 }
 void TableSaling::treeviewcolumn_validated_on_cell_data( Gtk::CellRenderer* renderer , const Gtk::TreeModel::iterator& iter)
@@ -398,14 +415,14 @@ void TableSaling::treeviewcolumn_validated_on_cell_data( Gtk::CellRenderer* rend
 }
 void TableSaling::cellrenderer_validated_on_editing_started( Gtk::CellEditable* cell_editable, const Glib::ustring&)
 {
-	
+
 	octetos::db::maria::Connector connector;
 	if(not connector.connect(muposysdb::datconex)) throw octetos::db::SQLException("Fallo la conexión a la Base de datos",__FILE__,__LINE__);
-	
+
 	if(validate_retry)
 	{
 		auto celleditable_validated = cell_editable;
-		
+
 		auto pEntry = dynamic_cast<Gtk::Entry*>(celleditable_validated);
 		if(pEntry)
 		{
@@ -418,14 +435,14 @@ void TableSaling::cellrenderer_validated_on_editing_started( Gtk::CellEditable* 
 void TableSaling::cellrenderer_validated_on_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
 {
 	Gtk::TreePath path(path_string);
-	
+
 	if(new_text.size() > 3)
 	{
 		std::cout << "Error : " << new_text << "\n";
-		
+
 		invalid_text_for_retry = new_text;
 		validate_retry = true;
-		
+
 		set_cursor(path, column_validated,cell_render, true);
 	}
 	else
@@ -441,10 +458,10 @@ void TableSaling::cellrenderer_validated_on_edited(const Glib::ustring& path_str
 void TableSaling::treeviewcolumn_validated_on_cell_data_number( Gtk::CellRenderer* renderer , const Gtk::TreeModel::iterator& iter)
 {
 	if(not connDB_flag) return;
-	
-	Gtk::TreeModel::Row row = *iter;	
+
+	Gtk::TreeModel::Row row = *iter;
 	std::vector<muposysdb::Catalog_Items*>* lstCatItems = NULL;
-	
+
 	auto cell = dynamic_cast<Gtk::CellRendererText*>(renderer);
 	if(cell)
 	{
@@ -462,10 +479,10 @@ void TableSaling::treeviewcolumn_validated_on_cell_data_number( Gtk::CellRendere
 			return;
 		}
 	}
-	
+
 	bool validated  = false;
 	if(not lstCatItems) return;
-	
+
 	if(lstCatItems->size() == 1)
 	{
 		validated = true;
@@ -492,23 +509,23 @@ void TableSaling::treeviewcolumn_validated_on_cell_data_number( Gtk::CellRendere
 		delete p;
 	}
 	delete lstCatItems;
-	
+
 	if(not validated)
 	{
 		//row[columns.name] = "";
 	}
-	
+
 }
 void TableSaling::cellrenderer_validated_on_editing_started_number( Gtk::CellEditable* cell_editable, const Glib::ustring& path)
 {
 	Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
 	Gtk::TreeModel::Row row = *iter;
-	
+
 	octetos::db::maria::Connector connector;
 	if(not connector.connect(muposysdb::datconex)) throw octetos::db::SQLException("Falló la conexión a la Base de datos",__FILE__,__LINE__);
-	
+
 	std::vector<muposysdb::Catalog_Items*>* lstCatItems = NULL;
-	
+
 	auto pEntry = dynamic_cast<Gtk::Entry*>(cell_editable);
 	if(pEntry)
 	{
@@ -516,12 +533,12 @@ void TableSaling::cellrenderer_validated_on_editing_started_number( Gtk::CellEdi
 		lstCatItems = muposysdb::Catalog_Items::select(connector,where);
 		//std::cout << "where : " << where << "\n";
 	}
-	
+
 	row[columns.number_validated]  = false;
 	if(not lstCatItems) return;
-	
+
 	if(lstCatItems->size() == 1)
-	{			
+	{
 		if(lstCatItems->front()->downName(connector))
 		{
 			row[columns.name] = lstCatItems->front()->getName();
@@ -540,7 +557,7 @@ void TableSaling::treeviewcolumn_validated_on_cell_data_quantity( Gtk::CellRende
 	Gtk::CellRendererText* cell = dynamic_cast<Gtk::CellRendererText*>(cell_editable);
 	Gtk::TreeModel::Row row = *iter;
 	row[columns.quantity_valid] = false;
-	
+
 	unsigned long number;
 	try
 	{
@@ -556,12 +573,12 @@ void TableSaling::treeviewcolumn_validated_on_cell_data_quantity( Gtk::CellRende
 	{
 		row[columns.quantity_valid] = false;
 		cell->property_text() = "";
-		return;		
+		return;
 	}
-	
+
 	row[columns.quantity] = number;
 	row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
-	
+
 }
 void TableSaling::cellrenderer_validated_on_editing_started_quantity( Gtk::CellEditable* cell_editable, const Glib::ustring& path)
 {
@@ -569,7 +586,7 @@ void TableSaling::cellrenderer_validated_on_editing_started_quantity( Gtk::CellE
 	Gtk::Entry* entry = dynamic_cast<Gtk::Entry*>(cell_editable);
 	Gtk::TreeModel::Row row = *iter;
 	row[columns.quantity_valid] = false;
-	
+
 	unsigned long number;
 	try
 	{
@@ -583,15 +600,15 @@ void TableSaling::cellrenderer_validated_on_editing_started_quantity( Gtk::CellE
 	catch(const std::out_of_range& e)
 	{
 		row[columns.quantity_valid] = false;
-		return;		
+		return;
 	}
-	
+
 	row[columns.quantity_valid] = true;
 }
 void TableSaling::cellrenderer_validated_on_edited_quantity(const Glib::ustring& path_string, const Glib::ustring& new_text)
 {
 	Gtk::TreePath path(path_string);
-	
+
 	Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
 	if(iter)
 	{
