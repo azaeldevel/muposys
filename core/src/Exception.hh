@@ -19,9 +19,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if __linux__
+#ifdef __linux__
     #include <octetos/core/Exception-v3.hh>
-#elif MSYS2
+#elif defined MSYS2
     #include <core/src/Exception-v3.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <Exception-v3.hh>

@@ -20,9 +20,9 @@
 #include <gtkmm.h>
 #include <iostream>
 
-#if __linux__
+#ifdef __linux__
 	#include "config.h"
-#elif MSYS2
+#elif defiuned MSYS2
     #include "config-cb.h"
 #else
 	#error "Plataforma desconocida."
