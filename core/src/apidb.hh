@@ -38,15 +38,19 @@ namespace mps
 #if defined DATABASE_ENGINE_MARIA
 	typedef octetos::db::maria::Connector Connector;
 	typedef octetos::db::maria::Datconnect Datconnect;
+	typedef octetos::db::maria::Datresult Datresult;
 #elif defined DATABASE_ENGINE_MYSQL
 	typedef octetos::db::mysql::Connector Connector;
 	typedef octetos::db::mysql::Datconnect Datconnect;
+	typedef octetos::db::mysql::Datresult Datresult;
 #elif defined DATABASE_ENGINE_POSTGRESQL
 	typedef octetos::db::postgresql::Connector Connector;
-	typedef octetos::db::mysql::Datconnect Datconnect;
+	typedef octetos::db::postgresql::Datconnect Datconnect;
+	typedef octetos::db::postgresql::Datresult Datresult;
 #else
 	typedef octetos::db::Connector Connector;
 	typedef octetos::db::Datconnect Datconnect;
+	typedef octetos::db::Datresult Datresult;
 #endif
 
 }
