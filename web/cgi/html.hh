@@ -3,14 +3,8 @@
 
 #include <iostream>
 #include <vector>
-#include <cgicc/HTTPContentHeader.h>
-#include <cgicc/HTTPRedirectHeader.h>
-#include <cgicc/HTTPHTMLHeader.h>
-#include <cgicc/HTTPResponseHeader.h>
-#include <cgicc/HTTPStatusHeader.h>
 #include <filesystem>
 #include <iostream>
-#include <cgicc/Cgicc.h>
 #include <muposys/core/apidb.hh>
 #include <map>
 

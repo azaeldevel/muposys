@@ -17,7 +17,7 @@ dnl AC_SUBST(GETTEXT_PACKAGE)
 dnl AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE,"$GETTEXT_PACKAGE", [GETTEXT package name])
 dnl AM_GLIB_GNU_GETTEXT
 
-PKG_CHECK_MODULES(MUPOSYS_WEB, [cgicc muposys-core])
+PKG_CHECK_MODULES(MUPOSYS_WEB, [muposys-core])
 
 
 AC_ARG_ENABLE([os],[AS_HELP_STRING([--enable-os],[Enable configuration for particular OS])])
