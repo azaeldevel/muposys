@@ -1,0 +1,7 @@
+
+
+CREATE TABLE "Versions" (id serial PRIMARY KEY, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT NOT NULL,patch SMALLINT NOT NULL);
+INSERT INTO "Versions"(name,major,minor,patch) VALUES('database',0,1,0);
+
+
+GRANT ALL PRIVILEGES ON TABLE Versions to sysapp;

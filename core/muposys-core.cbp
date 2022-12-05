@@ -75,7 +75,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="msys2_x86_64_gcc" />
-				<Option parameters="--repository C:\Users\Azael\Documents\develop\octetos\muposys\db\alpha\mariadb --package muposys-full.mpk --password 4dm1nK3y" />
+				<Option parameters="--repository C:\Users\Azael\Documents\develop\octetos\muposys\db\beta\mariadb --package muposys-full.mpk --password 4dm1nK3y --muposys-password 123456" />
 				<Compiler>
 					<Add option="-g" />
 					<Add option="-DMSYS2" />

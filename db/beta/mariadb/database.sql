@@ -1,9 +1,9 @@
 
 CREATE  USER IF NOT EXISTS 'muposys'@localhost IDENTIFIED BY '123456';
-CREATE DATABASE `muposys-0-alpha`;
-GRANT ALL PRIVILEGES ON `muposys-0-alpha`.* TO 'muposys'@'localhost';
+CREATE DATABASE `muposys`;
+GRANT ALL PRIVILEGES ON `muposys`.* TO 'muposys'@'localhost';
 
-USE `muposys-0-alpha`;
+USE `muposys`;
 
 CREATE TABLE Ente (id BIGINT, created datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Hora de creacion de Ente'); 
 ALTER TABLE Ente MODIFY id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'Identificador global de Objeto';
@@ -12,6 +12,7 @@ ALTER TABLE Ente MODIFY id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY COMMENT 'I
 CREATE TABLE Version (ente BIGINT NOT NULL, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT NULL,patch SMALLINT NULL, FOREIGN KEY(ente) REFERENCES Ente(id)); 
 ALTER TABLE Version ADD CONSTRAINT fk_ente_Version_id FOREIGN KEY(ente) REFERENCES Ente(id);
 ALTER TABLE Version ADD CONSTRAINT version_pk PRIMARY KEY(ente) ;
+
 
 CREATE TABLE Person (ente BIGINT PRIMARY KEY NOT NULL,name1 VARCHAR(30) NOT NULL,name2 VARCHAR(30),name3 VARCHAR(30),name4 VARCHAR(30));
 ALTER TABLE Person ADD CONSTRAINT fk_Person_ente_Ente_id FOREIGN KEY(ente) REFERENCES Ente(id);

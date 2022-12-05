@@ -28,7 +28,6 @@
 #include <muposys/core/bin/muposysdb.hpp>
 #include <muposys/core/src/apidb.hh>
 
-const char* cmdbegin = "";
 int main(int argc, char* argv[])
 {
     std::filesystem::path repository;
@@ -104,30 +103,34 @@ int main(int argc, char* argv[])
         std::cerr << "No se espesifico un contraseña para trabajar" << std::endl;
         return EXIT_FAILURE;
     }
-    if(muposys_password.empty())
-    {
-        std::cerr << "No se espesifico un contraseña para base de datos muposys" << std::endl;
-        return EXIT_FAILURE;
-    }
 
     std::fstream mpk(repository/pakage, std::ios::in);
 
-    std::cout << "Cargado desde : " << repository << std::endl;
+    /*mps::Datconnect datconn(host,port,"",user,password);
+    mps::Connector connDB;
+    mps::Datresult datres;
+    bool connDB_flag;
+    try
+    {
+        connDB_flag = connDB.connect(datconn);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        return EXIT_FAILURE;
+    }*/
 
-    std::string cmdbegin = "mysql ";
-    cmdbegin += "--host=\"" + host + "\" ";
-    cmdbegin += "--user=\"" + user + "\" ";
-    cmdbegin += "--password=\"" + password + "\" ";
+    std::cout << "Cargado desde : " << repository << std::endl;
 
     std::string strline,strcmd,strparams,cmdsql;
     std::list<std::string> cmdlist;
 
-    cmdsql = "CREATE  USER IF NOT EXISTS `" + muposys_user + "`@localhost IDENTIFIED BY `" + muposys_password + "`;";
-    cmdlist.push_back(cmdbegin + " --execute '" + cmdsql + "'");
+    cmdsql = "CREATE  USER IF NOT EXISTS '" + muposys_user + "'@localhost IDENTIFIED BY '" + muposys_password + "';";
+    cmdlist.push_back(cmdsql);
     cmdsql = "CREATE DATABASE `" + muposys_database + "`";
-    cmdlist.push_back(cmdbegin + " --execute '" + cmdsql + "'");
-    cmdsql = "GRANT ALL PRIVILEGES ON `" + muposys_database + "`.* TO `" + muposys_user + "`@`localhost`;";
-    cmdlist.push_back(cmdbegin + " --execute '" + cmdsql + "'");
+    cmdlist.push_back(cmdsql);
+    cmdsql = "GRANT ALL PRIVILEGES ON `" + muposys_database + "`.* TO '" + muposys_user + "'@'localhost';";
+    cmdlist.push_back(cmdsql);
 
     std::stringstream sline;
     int retcmd;
@@ -157,14 +160,8 @@ int main(int argc, char* argv[])
             //(retcmd == EXIT_SUCCESS) ? std::cout << " - done." : std::cout << " - fail.";
         }
     }*/
-
-    for(const std::string& s : cmdlist)
-    {
-        std::cout << s ;
-        retcmd = system(s.c_str());
-        std::cout << ((retcmd == EXIT_SUCCESS) ? " - done." : " - fail.") << std::endl;
-    }
-
+    //connDB.commit();
+    //if(connDB_flag) connDB.close();
 	return EXIT_SUCCESS;
 }
 
