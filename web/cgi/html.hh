@@ -10,17 +10,17 @@
 #include <cgicc/HTTPStatusHeader.h>
 #include <filesystem>
 #include <iostream>
-#include <cgicc/Cgicc.h> 
+#include <cgicc/Cgicc.h>
 #include <muposys/core/apidb.hh>
 
 namespace mps
 {
 	void contenttype(std::ostream& out,const char* content,const char* type);
-	
-	void doctype(std::ostream& out,const char * type);	
+
+	void doctype(std::ostream& out,const char * type);
 
 	/*
-	
+
 	struct ContentType
 	{
 		const char* content;
@@ -33,10 +33,10 @@ namespace mps
 	{
 		unsigned short code;
 		const char* brief;
-	
+
 		Status();
 		Status(unsigned short);
-		
+
 		void message();
 		virtual void print(std::ostream& out) const;
 	};
@@ -54,7 +54,7 @@ namespace mps
 
 		void redirect(const std::string&);
 	};
-	
+
 	*/
 
 	struct Tag
@@ -100,13 +100,13 @@ namespace mps
 		std::string content;
 
 		virtual void print(std::ostream& out) const;
-		
+
 		void source(const char*);
 	};
 	struct Head : public Tag
 	{
 		std::string title;
-		
+
 		std::vector<meta> metas;
 		std::vector<link> links;
 		std::vector<script> scripts;
@@ -118,21 +118,21 @@ namespace mps
 		void responsive(const char* name,const char* content);
 		void css(const char*);
 		void addscript(const char*);
-		
+
 	};
 	struct Body : public Tag
 	{
 		std::vector<script> scripts;
-		 
+
 	};
-	
+
 	class Service
 	{
-	public:	
+	public:
 		Service();
 		Service(const Datconnect&);
 		virtual ~Service();
-		
+
 		bool create_session();
 		bool remove_session();
 		bool has_session();
@@ -142,12 +142,12 @@ namespace mps
 		bool permission(const char*);
 		bool register_session(const char*);
 		std::string get_user();
-		
+
 		static const char* user_name_variable;
-		
+
 	private:
 		muposysdb::Variable variable;
-		
+
 	protected:
 		bool is_open_DB;
 		Connector connDB;
@@ -162,32 +162,32 @@ namespace mps
 		Page(Body&,const std::string& title,const Datconnect&);
 
 		virtual ~Page();
-		
-		
+
+
 		virtual std::ostream& print (std::ostream& out);
 		virtual int main(std::ostream& out)  = 0;
-	protected:		
+	protected:
 		Head head;
 		Body* body;
-		
+
 	private:
 	};
-	
+
 	class CGI : public Service
 	{
 	public:
 		CGI();
 
-		CGI(const std::filesystem::path&);		
+		CGI(const std::filesystem::path&);
 		CGI(const Datconnect&);
 		CGI(const std::filesystem::path&,const Datconnect&);
 
 		~CGI();
-		
+
 		virtual int main(std::ostream& out)  = 0;
-		
+
 	private:
-		
+
 	protected:
 		Head head;
 	};
