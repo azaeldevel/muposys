@@ -41,7 +41,7 @@ bool Login::check()
 	//std::cout << "Login::check : Step 1.0<br>\n";
 	std::string userstr, password;
 	//std::cout << "Login::check : Step 1.1<br>\n";
-	try
+	/*try
 	{
 		//std::cout << "Login::check : Step 1.2<br>\n";
 		cgicc::Cgicc cgi;
@@ -78,7 +78,10 @@ bool Login::check()
 	catch(const std::exception& e)
 	{
 		//std::cout << "Fail : " << e.what() << __FILE__ << ":" << __LINE__<< "<br>";  
-	}
+	}*/
+	PostParams postparams;
+	if(postparams.find("user")) userstr = postparams.find("user");
+	if(postparams.find("psw")) password = postparams.find("psw");
 	
 	//std::cout << "check : Step 6<br>\n";	
 	

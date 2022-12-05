@@ -1,3 +1,4 @@
+#include <algorithm>
 
 #include "html.hh"
 
@@ -600,5 +601,71 @@ CGI::~CGI()
 }
 
 
+Parameters::Parameters(EnviromentCGI env)
+{
+	if(env == EnviromentCGI::QUERY_STRING) build_query_string();
+}
+Parameters::Parameters(std::istream& in)
+{
+	build(in);
+}
+void Parameters::build_query_string()
+{
+	std::string qs, str,param_pair,param,name,value,param_element;
+	qs = getenv("QUERY_STRING");
+	std::stringstream sqs(qs);
+		
+	//std::cout << qs << "\n";
+	if(not std::getline(sqs,str,'?')) return;
+	//std::cout << "GetParams::build str "<< str << "\n<br>";
+	std::stringstream sparam_list(str),sparam_pair;
+	while(std::getline(sparam_list,param_pair,'&'))
+	{
+		sparam_pair.clear();
+		name="";
+		value="";
+		sparam_pair << param_pair;
+		//std::cout << "GetParams::build param_pair "<< param_pair << "\n<br>";
+		if(std::getline(sparam_pair,name,'=')) std::getline(sparam_pair,value,'=');
+		//std::cout << " name : " << name << "\n";
+		//std::cout << " value : " << value << "\n";		
+		insert(make_pair(name,value));
+	}
+}
+void Parameters::build(std::istream& in)
+{
+	std::string param_pair,name,value;
+	std::stringstream sparam_pair;
+	while(std::getline(in,param_pair,'&'))
+	{
+		sparam_pair.clear();
+		name="";
+		value="";
+		sparam_pair << param_pair;
+		//std::cout << "GetParams::build param_pair "<< param_pair << "\n<br>";
+		if(std::getline(sparam_pair,name,'=')) std::getline(sparam_pair,value,'=');
+		//std::cout << "<br><br>name : ->>" << name << "\n";
+		//std::cout << " value : " << value << "\n";		
+		insert(make_pair(name,value));
+	}
+}
+
+const char* Parameters::find(const char* k) const
+{
+	const_iterator it = std::map<std::string, std::string>::find(k);
+		
+	if(it != end()) return it->second.c_str();
+		
+	return NULL;
+}
+
+
+GetParams::GetParams() : Parameters(EnviromentCGI::QUERY_STRING)
+{
+}
+
+PostParams::PostParams() : Parameters(std::cin)
+{
+}
 
 }

@@ -12,6 +12,7 @@
 #include <iostream>
 #include <cgicc/Cgicc.h>
 #include <muposys/core/apidb.hh>
+#include <map>
 
 namespace mps
 {
@@ -190,6 +191,38 @@ namespace mps
 
 	protected:
 		Head head;
+	};
+
+
+
+	enum class EnviromentCGI
+	{
+		NONE,
+		QUERY_STRING,
+	};
+	class Parameters : public std::map<std::string, std::string>
+	{
+
+	public:
+		Parameters(EnviromentCGI);
+		Parameters(std::istream&);
+
+		const char* find(const char*)const;
+		
+	private:
+		void build_query_string();
+		void build(std::istream&);
+	};
+
+	class GetParams : public Parameters
+	{
+	public:
+		GetParams();
+	};
+	class PostParams : public Parameters
+	{
+	public:
+		PostParams();
 	};
 }
 

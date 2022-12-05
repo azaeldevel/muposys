@@ -25,5 +25,15 @@ int main ()
 {
 	mps::server::Login login;
 	return login.main();
+	/*
+	printf("Content-type: text/html\n\n");
+ 	printf("<html><title>Hello</title><body>\n");
+	
+	std::cout << "Presesando...\n";
+	mps::Parameters params(std::cin);
+
+	
+ 	printf("<br><br>\n");
+ 	printf("</body></html>");*/	
 }
 
