@@ -71,10 +71,10 @@
 					<Add library="octetos-db-abstract" />
 					<Add library="octetos-db-maria" />
 					<Add library="muposys-core" />
-					<Add directory="../../core/bin/Debug" />
 					<Add directory="../../db-abstract/bin/Debug" />
 					<Add directory="../../db-maria/bin/Debug" />
 					<Add directory="../core/bin/Debug" />
+					<Add directory="../../core/bin/Debug" />
 				</Linker>
 			</Target>
 			<Target title="muposys-desk-dbg">

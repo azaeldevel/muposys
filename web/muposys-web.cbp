@@ -13,7 +13,18 @@
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="../../../octetos" />
 				</Compiler>
+				<Linker>
+					<Add library="octetos-core" />
+					<Add library="muposys-core" />
+					<Add library="octetos-db-abstract" />
+					<Add library="octetos-db-maria" />
+					<Add directory="../../core/bin/Debug" />
+					<Add directory="../core/bin/Debug" />
+					<Add directory="../../db-abstract/bin/Debug" />
+					<Add directory="../../db-maria/bin/Debug" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/muposys-web" prefix_auto="1" extension_auto="1" />
@@ -31,6 +42,14 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="cgi/application.cc" />
+		<Unit filename="cgi/application.hh" />
+		<Unit filename="cgi/html.cc" />
+		<Unit filename="cgi/html.hh" />
+		<Unit filename="cgi/login.cc" />
+		<Unit filename="cgi/login.hh" />
+		<Unit filename="cgi/logout.cc" />
+		<Unit filename="cgi/logout.hh" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
