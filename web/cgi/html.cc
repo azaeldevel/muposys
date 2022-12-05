@@ -318,30 +318,25 @@ long Service::get_session()
 	//std::cout << "Service::get_session : Step 4<br>\n";
 	return session;
 }
-
-bool Service::register_session(const char* s)
+bool Service::create_session(const char* s)
 {
-	std::cout << "Service::register_session : Step 1<br>\n";
+	//std::cout << "Service::register_session : Step 1<br>\n";
+
+	muposysdb::Session session;
+	session.insert(connDB,getenv("REMOTE_ADDR"));
+	std::string strs = "MD5SUM(" + std::to_string(session.getID()) + ")";
+	session.upSession(connDB,strs);
 	
-	long session = get_session();
-	if(session < 1)
-	{
-		muposysdb::Session session;
-		session.insert(connDB,getenv("REMOTE_ADDR"));
-	}
 	
-	session = get_session();
-	if(session < 1) return false;
-	
-	std::cout << "Service::register_session : Step 2<br>\n";
+	//std::cout << "Service::register_session : Step 2<br>\n";
 	
 	std::string findSesion = "id = '";
-	findSesion += std::to_string(session);
+	findSesion += std::to_string(session.getID());
 	findSesion = findSesion + "' and name = '" + user_name_variable + "'";
 	//std::cout << "Service::register_session : " << findSesion << "<br>\n";
 	std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
 	bool flag_op,flag_main,flag_name,flag_val,flag_session;
-	std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
+	//std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
 	if(not varslst)
 	{
 		flag_main = variable.insert(connDB);
@@ -352,21 +347,106 @@ bool Service::register_session(const char* s)
 	}
 	else if(varslst->size() == 0)
 	{
-		std::cout << "Service::register_session inserting..<br>\n";
+		//std::cout << "Service::register_session inserting..<br>\n";
 		flag_main = variable.insert(connDB);
-		std::cout << "Service::register_session inserting 1<br>\n";
+		//std::cout << "Service::register_session inserting 1<br>\n";
 		flag_name = variable.upName(connDB,user_name_variable);
-		std::cout << "Service::register_session inserting 2<br>\n";
+		//std::cout << "Service::register_session inserting 2<br>\n";
 		flag_val = variable.upValue(connDB,s);
-		std::cout << "Service::register_session inserting 3<br>\n";
+		//std::cout << "Service::register_session inserting 3<br>\n";
 		flag_session = variable.upSession(connDB,session);
-		std::cout << "Service::register_session inserting 4<br>\n";
+		//std::cout << "Service::register_session inserting 4<br>\n";
 		flag_op = true;
-		std::cout << "Service::register_session updated..<br>\n";
+		//std::cout << "Service::register_session updated..<br>\n";
 	}
 	else if(varslst->size() == 1)
 	{
-		std::cout << "Service::register_session updating..<br>\n";
+		//std::cout << "Service::register_session updating..<br>\n";
+		flag_name = true;
+		flag_main = true;
+		flag_val = varslst->front()->upValue(connDB,s);
+		flag_session = varslst->front()->upSession(connDB,session);
+		flag_op = true;
+	}/*
+	else
+	{
+		for(int i = 1; i < varslst->size(); i++)
+		{
+			varslst->at(i)->remove(connDB);
+		}
+		flag_name = true;
+		flag_main = true;
+		flag_val = varslst->front()->upValue(connDB,s);
+		flag_session = varslst->front()->upSession(connDB,session);
+		flag_op = true;
+	}*/
+	
+	std::cout << "Service::register_session done<br>\n";
+	
+	if(varslst != NULL)
+	{
+		for(auto u : *varslst)
+		{
+			delete u;
+		}
+		delete varslst;
+	}
+	connDB.commit();
+	
+	if(flag_main and flag_name and flag_val and flag_session and flag_op) return true;
+	
+	return false;
+}
+bool Service::register_session(const char* s)
+{
+	//std::cout << "Service::register_session : Step 1<br>\n";
+	
+	long session = get_session();
+	if(session < 1)
+	{
+		muposysdb::Session session;
+		session.insert(connDB,getenv("REMOTE_ADDR"));
+		std::string strs = "MD5SUM(" + std::to_string(session.getID()) + ")";
+		session.upSession(connDB,strs);
+	}
+	
+	session = get_session();
+	if(session < 1) return false;
+	
+	//std::cout << "Service::register_session : Step 2<br>\n";
+	
+	std::string findSesion = "id = '";
+	findSesion += std::to_string(session);
+	findSesion = findSesion + "' and name = '" + user_name_variable + "'";
+	//std::cout << "Service::register_session : " << findSesion << "<br>\n";
+	std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+	bool flag_op,flag_main,flag_name,flag_val,flag_session;
+	//std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
+	if(not varslst)
+	{
+		flag_main = variable.insert(connDB);
+		flag_name = variable.upName(connDB,user_name_variable);
+		flag_val = variable.upValue(connDB,s);
+		flag_session = variable.upSession(connDB,session);
+		flag_op = true;
+	}
+	else if(varslst->size() == 0)
+	{
+		//std::cout << "Service::register_session inserting..<br>\n";
+		flag_main = variable.insert(connDB);
+		//std::cout << "Service::register_session inserting 1<br>\n";
+		flag_name = variable.upName(connDB,user_name_variable);
+		//std::cout << "Service::register_session inserting 2<br>\n";
+		flag_val = variable.upValue(connDB,s);
+		//std::cout << "Service::register_session inserting 3<br>\n";
+		flag_session = variable.upSession(connDB,session);
+		//std::cout << "Service::register_session inserting 4<br>\n";
+		flag_op = true;
+		//std::cout << "Service::register_session updated..<br>\n";
+	}
+	else if(varslst->size() == 1)
+	{
+		//std::cout << "Service::register_session updating..<br>\n";
 		flag_name = true;
 		flag_main = true;
 		flag_val = varslst->front()->upValue(connDB,s);
@@ -666,6 +746,16 @@ GetParams::GetParams() : Parameters(EnviromentCGI::QUERY_STRING)
 
 PostParams::PostParams() : Parameters(std::cin)
 {
+}
+
+Params::Params()
+{
+	const char* check;
+
+	check = find("session");
+	if(check) session = check;
+
+	
 }
 
 }

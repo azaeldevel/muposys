@@ -128,7 +128,7 @@ namespace mps
 		Service(const Datconnect&);
 		virtual ~Service();
 
-		bool create_session();
+		bool create_session(const char*);
 		bool remove_session();
 		bool has_session();
 		long get_session();
@@ -194,6 +194,7 @@ namespace mps
 		NONE,
 		QUERY_STRING,
 	};
+	
 	class Parameters : public std::map<std::string, std::string>
 	{
 
@@ -213,10 +214,18 @@ namespace mps
 	public:
 		GetParams();
 	};
+	
 	class PostParams : public Parameters
 	{
 	public:
 		PostParams();
+	};
+
+	struct Params : public GetParams
+	{
+		std::string session;
+
+		Params();
 	};
 }
 
