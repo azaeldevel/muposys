@@ -6,54 +6,72 @@
 		<Option pch_mode="2" />
 		<Option compiler="msys2_x86_64_gcc" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/muposys-web" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+			<Target title="libmuposys-web-dbg">
+				<Option output="bin/Debug/muposys-web" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="msys2_x86_64_gcc" />
+			</Target>
+			<Target title="login-dbg.cgi">
+				<Option output="bin/Debug/login.cgi" prefix_auto="0" extension_auto="0" />
+				<Option working_dir="bin/Debug" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="msys2_x86_64_gcc" />
+				<Option use_console_runner="0" />
 				<Compiler>
-					<Add option="-g" />
-					<Add option="-DMSYS2" />
-					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
-					<Add option="-DDATABASE_ENGINE_MARIA" />
 					<Add directory="../../../octetos" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-core" />
-					<Add library="muposys-core" />
-					<Add library="octetos-db-abstract" />
-					<Add library="octetos-db-maria" />
-					<Add directory="../../core/bin/Debug" />
-					<Add directory="../core/bin/Debug" />
-					<Add directory="../../db-abstract/bin/Debug" />
-					<Add directory="../../db-maria/bin/Debug" />
-				</Linker>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/muposys-web" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
-				<Option type="1" />
-				<Option compiler="msys2_x86_64_gcc" />
-				<Compiler>
-					<Add option="-O2" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
+					<Add library="muposys-web" />
+					<Add directory="bin/Debug" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-DMSYS2" />
+			<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+			<Add option="-DDATABASE_ENGINE_MARIA" />
 			<Add directory="../../../octetos" />
 		</Compiler>
-		<Unit filename="cgi/application.cc" />
-		<Unit filename="cgi/application.hh" />
-		<Unit filename="cgi/html.cc" />
-		<Unit filename="cgi/html.hh" />
-		<Unit filename="cgi/login.cc" />
-		<Unit filename="cgi/login.hh" />
-		<Unit filename="cgi/logout.cc" />
-		<Unit filename="cgi/logout.hh" />
+		<Linker>
+			<Add library="octetos-core" />
+			<Add library="muposys-core" />
+			<Add library="octetos-db-abstract" />
+			<Add library="octetos-db-maria" />
+			<Add directory="../../core/bin/Debug" />
+			<Add directory="../core/bin/Debug" />
+			<Add directory="../../db-abstract/bin/Debug" />
+			<Add directory="../../db-maria/bin/Debug" />
+		</Linker>
+		<Unit filename="cgi/application.cc">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/application.hh">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/html.cc">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/html.hh">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/login-main.cc">
+			<Option target="login-dbg.cgi" />
+		</Unit>
+		<Unit filename="cgi/login.cc">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/login.hh">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/logout.cc">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
+		<Unit filename="cgi/logout.hh">
+			<Option target="libmuposys-web-dbg" />
+		</Unit>
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>
