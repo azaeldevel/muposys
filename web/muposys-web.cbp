@@ -7,12 +7,15 @@
 		<Option compiler="msys2_x86_64_gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/muposys-web" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/muposys-web" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
-				<Option type="1" />
+				<Option type="3" />
 				<Option compiler="msys2_x86_64_gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DMSYS2" />
+					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+					<Add option="-DDATABASE_ENGINE_MARIA" />
 					<Add directory="../../../octetos" />
 				</Compiler>
 				<Linker>
@@ -41,6 +44,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../../../octetos" />
 		</Compiler>
 		<Unit filename="cgi/application.cc" />
 		<Unit filename="cgi/application.hh" />

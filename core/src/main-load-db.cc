@@ -25,8 +25,15 @@
 #include <stdlib.h>
 #include <list>
 
-#include <muposys/core/bin/muposysdb.hpp>
-#include <muposys/core/src/apidb.hh>
+#ifdef __linux__
+    #include <muposys/core/muposysdb.hh>
+#elif defined MSYS2
+    #include <muposys/core/bin/muposysdb.hpp>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <muposysdb.hh>
+#else
+	#error "Plataforma desconocida"
+#endif
 
 const char* cmdbegin = "";
 int main(int argc, char* argv[])

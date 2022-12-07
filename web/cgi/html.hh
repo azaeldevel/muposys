@@ -1,12 +1,21 @@
-#ifndef MUPOSYS_HTML_HH
-#define MUPOSYS_HTML_HH
+#ifndef MUPOSYS_WEB_HTML_HH
+#define MUPOSYS_WEB_HTML_HH
 
 #include <iostream>
 #include <vector>
 #include <filesystem>
 #include <iostream>
-#include <muposys/core/apidb.hh>
 #include <map>
+
+#ifdef __linux__
+    include <muposys/web/application.hh>
+#elif defined MSYS2
+    #include <muposys/core/src/apidb.hh>
+#elif defined(_WIN32) || defined(_WIN64)
+
+#else
+	#error "Plataforma desconocida"
+#endif
 
 namespace mps
 {
@@ -98,6 +107,7 @@ namespace mps
 
 		void source(const char*);
 	};
+
 	struct Head : public Tag
 	{
 		std::string title;
@@ -115,6 +125,7 @@ namespace mps
 		void addscript(const char*);
 
 	};
+
 	struct Body : public Tag
 	{
 		std::vector<script> scripts;
@@ -194,7 +205,7 @@ namespace mps
 		NONE,
 		QUERY_STRING,
 	};
-	
+
 	class Parameters : public std::map<std::string, std::string>
 	{
 
@@ -203,7 +214,7 @@ namespace mps
 		Parameters(std::istream&);
 
 		const char* find(const char*)const;
-		
+
 	private:
 		void build_query_string();
 		void build(std::istream&);
@@ -214,7 +225,7 @@ namespace mps
 	public:
 		GetParams();
 	};
-	
+
 	class PostParams : public Parameters
 	{
 	public:

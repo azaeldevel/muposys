@@ -4,7 +4,7 @@
 
 
 #include "html.hh"
-#include <muposys/core/apidb.hh>
+
 
 namespace mps::server
 {
@@ -12,11 +12,13 @@ namespace mps::server
 
 class Logout : public mps::CGI
 {
-private:	
+private:
+
+
 public:
 	Logout();
 	virtual ~Logout();
-	
+
 	virtual int main(std::ostream& out = std::cout);
 };
 
