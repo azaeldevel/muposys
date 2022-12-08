@@ -35,7 +35,10 @@ namespace mps
 class Exception : public oct::core::v3::Exception
 {
 public:
-
+	enum ErrosCodes
+	{
+		NotYet,
+	};
 public:
 	Exception();
 	Exception(const Exception&);

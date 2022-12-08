@@ -7,10 +7,13 @@
 #include <iostream>
 #include <map>
 
+
 #ifdef __linux__
-    include <muposys/web/application.hh>
+    #include <muposys/core/apidb.hh>
+    #include <muposys/core/core.hh>
 #elif defined MSYS2
     #include <muposys/core/src/apidb.hh>
+    #include <muposys/core/src/core.hh>
 #elif defined(_WIN32) || defined(_WIN64)
 
 #else
@@ -22,44 +25,6 @@ namespace mps
 	void contenttype(std::ostream& out,const char* content,const char* type);
 
 	void doctype(std::ostream& out,const char * type);
-
-	/*
-
-	struct ContentType
-	{
-		const char* content;
-		const char* type;
-
-		ContentType();
-		virtual void print(std::ostream& out) const;
-	};
-	struct Status
-	{
-		unsigned short code;
-		const char* brief;
-
-		Status();
-		Status(unsigned short);
-
-		void message();
-		virtual void print(std::ostream& out) const;
-	};
-	void status(std::ostream& out,const Status&);
-
-	//https://www.httpdebugger.com/http/http_header.html#:~:text=The%20general%20HTTP%20header%20format,the%20end%20of%20the%20header.
-	struct Header
-	{
-		ContentType contenttype;
-		Status status;
-		std::string location;
-
-		virtual void print(std::ostream& out) const;
-		virtual void print_redirect(std::ostream& out) const;
-
-		void redirect(const std::string&);
-	};
-
-	*/
 
 	struct Tag
 	{
@@ -139,7 +104,7 @@ namespace mps
 		Service(const Datconnect&);
 		virtual ~Service();
 
-		bool create_session(const char*);
+		bool create_session(const char*,std::string&);
 		bool remove_session();
 		bool has_session();
 		long get_session();
@@ -238,6 +203,7 @@ namespace mps
 
 		Params();
 	};
+
 }
 
 

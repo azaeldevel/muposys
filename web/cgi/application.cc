@@ -6,7 +6,10 @@
 namespace mps
 {
 
-
+BodyApplication::BodyApplication(const GetParams& p) : params(p)
+{
+	
+}
 void BodyApplication::programs(std::ostream& out) 
 {
 	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi\">" << "logout" << "</a></div>\n";
@@ -48,12 +51,12 @@ std::ostream& BodyApplication::print (std::ostream& out)
 Application::~Application()
 {
 }
-Application::Application(BodyApplication& b) : mps::Page(b,muposysdb::datconex)
+Application::Application(BodyApplication& b,const GetParams& p) : mps::Page(b,muposysdb::datconex),params(p)
 {
 	head.title = "Multi-Porpuse Software System";
 	init();
 }
-Application::Application(BodyApplication& b,const std::string& t) : mps::Page(b,t,muposysdb::datconex)
+Application::Application(BodyApplication& b,const std::string& t,const GetParams& p) : mps::Page(b,t,muposysdb::datconex),params(p)
 {
 	init();
 }

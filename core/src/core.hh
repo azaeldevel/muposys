@@ -19,9 +19,38 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <random>
+
 namespace mps
 {
+	class RandomString
+	{
+	public:
+		enum Type
+		{
+			alpha,
+			numeric,
+			alphanumeric,
+			md5
+		};
+	public:
+		RandomString(unsigned short leng,Type);
+		~RandomString();
+		void generate();
 
+		operator const char*() const;
+
+	private:
+		std::random_device generator;
+		std::uniform_int_distribution<int>* number;
+		unsigned short leng;
+		char* buffer;
+		Type type; 
+
+		char generate_md5();
+	};
+	
+	
 }
 
 #endif

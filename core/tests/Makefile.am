@@ -16,5 +16,5 @@ endif
 
 v0_LDFLAGS =
 v0_LDADD = $(LIB) $(top_builddir)/src/libmuposys-core.la
-v0_CXXFLAGS = $(FLAGS) -I$(top_builddir)/src -I$(top_srcdir)/src
+v0_CXXFLAGS = $(FLAGS) -I$(top_builddir) -I$(top_srcdir)
 v0_SOURCES = main.cc v0.cc

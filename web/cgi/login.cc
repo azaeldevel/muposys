@@ -36,49 +36,12 @@ Login::~Login()
 }
 
 
-bool Login::check()
+bool Login::check(std::string& strs)
 {
 	//std::cout << "Login::check : Step 1.0<br>\n";
 	std::string userstr, password;
 	//std::cout << "Login::check : Step 1.1<br>\n";
-	/*try
-	{
-		//std::cout << "Login::check : Step 1.2<br>\n";
-		cgicc::Cgicc cgi;
-		//std::cout << "Login::check : Step 1.3<br>\n";
-		//std::cout << "Login::check  : Step 2<br>\n";
-		cgicc::form_iterator itUser = cgi.getElement("user");
-		//std::cout << "Login::check  : Step 3<br>\n";
-		//std::cout << "Login::check  : Step 4<br>\n";
-		if(itUser != (*cgi).end()) 
-		{
-			//std::cout << "Usuario : " << **itUser << "<br>"; 
-			userstr = **itUser;
-		}
-		else 
-		{
-			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-			return false;
-		}
-		
-		//std::cout << "check : Step 5<br>\n";
-		
-		cgicc::form_iterator itPassword = cgi.getElement("psw");  
-		if(itPassword != (*cgi).end()) 
-		{
-			//std::cout << "Contraseña : " << **itPassword << "<br>"; 
-			password = **itPassword;
-		}
-		else 
-		{
-			//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";  
-			return false;
-		}
-	}
-	catch(const std::exception& e)
-	{
-		//std::cout << "Fail : " << e.what() << __FILE__ << ":" << __LINE__<< "<br>";  
-	}*/
+	
 	PostParams postparams;
 	if(postparams.find("user")) userstr = postparams.find("user");
 	if(postparams.find("psw")) password = postparams.find("psw");
@@ -89,24 +52,21 @@ bool Login::check()
 	std::string strwhere = "name = ";
 	strwhere += "'" + userstr + "' and status = 'autorizado'";
 	std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
-	bool fluser;
+	bool fluser = false;
 	if(usrlst->size() == 0)
 	{
 		//no se encontro elusuario en la BD.
 		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-		fluser = false;
 	}
 	else if(usrlst->size() > 1) 
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de 
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
 		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>"; 
-		fluser = false;
 	}
 	else
 	{
 		userbd = usrlst->at(0);
-		fluser = true;
 	}
 	
 	//std::cout << "check : Step 4\n<br>";
@@ -116,7 +76,7 @@ bool Login::check()
 		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
 		{
 			//std::cout << "check pass : Step\n<br>";
-			if(register_session(userbd->getName().c_str()))
+			if(create_session(userbd->getName().c_str(),strs))
 			{
 				//std::cout << "Step login permission\n<br>";
 				if(permission("login"))
@@ -127,20 +87,18 @@ bool Login::check()
 				else
 				{
 					//std::cout << "Not permission\n<br>";
-					fluser = false;
 				}
 			}
 			else
 			{
-				//std::cout << "Fallo registro de secion<br>";		
-				fluser = false;
+				//std::cout << "Fallo registro de secion<br>";
 			}
 			//std::cout << "Done check \n<br>";	
 		}
 		else
 		{
-			if(userstr.compare(userbd->getName()) != 0) std::cout << userstr << " != " << userbd->getName () << "<br>";
-			if(password.compare(userbd->getPwdtxt()) != 0)std::cout << password << " != " << userbd->getPwdtxt () << "<br>";
+			//if(userstr.compare(userbd->getName()) != 0) std::cout << userstr << " != " << userbd->getName () << "<br>";
+			//if(password.compare(userbd->getPwdtxt()) != 0)std::cout << password << " != " << userbd->getPwdtxt () << "<br>";
 		}
 	}
 	if(usrlst)
@@ -151,17 +109,20 @@ bool Login::check()
 		}
 		delete usrlst;
 	}
+	
+	std::cout << (fluser? "check pass" : "check fail") << "\n"; 
 	return fluser;
 }
 int Login::main(std::ostream& out)
 {
 	mps::contenttype(out,"text","html");
+	std::string strsession;
 	try
 	{
-		if(check())
+		if(check(strsession))
 		{
-			//out << "Location:/application.cgi\n\n";
-			head.redirect(0,"application.cgi");
+			std::string url = "application.cgi?session=" + strsession;
+			head.redirect(0,url.c_str());
 		}
 		else
 		{

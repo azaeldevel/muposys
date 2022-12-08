@@ -34,3 +34,5 @@ INSERT INTO Stock(stock,brief) VALUES(8,'Principal');
 
 INSERT INTO Stock(stock,brief) VALUES(9,'Producción');
 
+
+INSERT INTO UserManagement(um) VALUES(10);

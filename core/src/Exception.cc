@@ -66,6 +66,11 @@ Exception::~Exception()
 
 const char* Exception::what() const throw ()
 {
+	switch(code())
+	{
+	case NotYet:
+		return "Esta funcion esta en desarrollo aún.";
+	}
 	return "Error desconocido.";
 }
 

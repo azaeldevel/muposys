@@ -135,11 +135,12 @@ void Main::check_session()
 			res = dlg.run();
 			return;
 		}
-		if(credential.userdb.downName(connDB)) lbUser.set_text(credential.userdb.getName());
+		if(credential.userdb.downName(connDB)) 
 		if(credential.userdb.downPerson(connDB))
 		{
-			credential.userdb.getPerson().downName1(connDB);
-			credential.userdb.getPerson().downName3(connDB);
+			if(credential.userdb.getPerson().downName1(connDB)) credential.name = credential.userdb.getPerson().getName1();
+			if(credential.userdb.getPerson().downName3(connDB)) credential.name += " " + credential.userdb.getPerson().getName3();
+			lbUser.set_text(credential.name);
 		}
 		connDB.close();
 	}

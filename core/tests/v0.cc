@@ -230,4 +230,8 @@ void v0_apidb()
 
 void v0_develop()
 {	
+	mps::RandomString ranstr(32,mps::RandomString::md5);
+	ranstr.generate();
+	std::cout << ranstr << "\n";
+	
 }

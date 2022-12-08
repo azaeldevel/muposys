@@ -1,15 +1,15 @@
 
 
-#ifndef MUPOSYS_APIDB_HH
-#define MUPOSYS_APIDB_HH
+#ifndef MUPOSYS_CORE_TESTS_HH
+#define MUPOSYS_CORE_TESTS_HH
 
 #include <filesystem>
 #include <CUnit/Basic.h>
 #include <random>
 
-
 #ifdef MUPOSYS_CORE_ENABLE_TDD
-	#include <apidb.hh>
+	#include <src/apidb.hh>
+	#include <src/core.hh>
 #else
 	#include <muposys/core/apidb.hh>
 #endif

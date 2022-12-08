@@ -28,7 +28,7 @@ $(top_builddir)/src/muposysdb.cpp : Makefile.am
 BUILT_SOURCES = $(top_builddir)/src/muposysdb.cpp 
 
 libmuposys_core_la_CXXFLAGS = -I$(top_builddir)/src $(FLAGS)
-libmuposys_core_la_SOURCES = $(top_builddir)/src/muposysdb.cpp Exception.cc
+libmuposys_core_la_SOURCES = $(top_builddir)/src/muposysdb.cpp Exception.cc core.cc
 libmuposys_core_la_LIBADD =  $(LIBS)
 
 pkgconfigdir = $(libdir)/pkgconfig
@@ -37,6 +37,6 @@ pkgconfig_DATA = muposys-core.pc
 EXTRA_DIST = muposys-core.pc.in
 
 muposys_includedir = $(includedir)/muposys/core
-muposys_include_HEADERS = $(top_builddir)/src/muposysdb.hpp apidb.hh Exception.hh
+muposys_include_HEADERS = $(top_builddir)/src/muposysdb.hpp apidb.hh Exception.hh core.hh
 
 

@@ -44,9 +44,9 @@ public:
 	struct Credential
 	{
 		bool valid;
-		std::string user;
-		std::string name;
-		muposysdb::User userdb;
+		std::string user; //user name
+		std::string name; //person name
+		muposysdb::User userdb; 
 	};
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);

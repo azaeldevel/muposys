@@ -12,7 +12,7 @@ class Login : public mps::CGI
 {
 private:
 	
-	bool check();
+	bool check(std::string&);
 
 public:
 	Login();

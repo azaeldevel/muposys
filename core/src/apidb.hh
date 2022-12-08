@@ -20,7 +20,7 @@
  */
 
 #ifdef MUPOSYS_CORE_ENABLE_TDD
-	#include <muposysdb.hpp>
+	#include <src/muposysdb.hpp>
 #else
 	#if __linux__
         #include <muposys/core/muposysdb.hpp>

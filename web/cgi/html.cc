@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <ctime>
 
 #include "html.hh"
 
@@ -275,6 +276,8 @@ bool Service::has_session()
 }
 long Service::get_session()
 {
+	Params params;
+	
 	//std::cout << "Service::get_session : Step 1.0<br>\n";
 	const char* host = getenv("REMOTE_ADDR");
 	//std::cout << "Service::get_session : Step 1.1<br>\n";
@@ -285,6 +288,8 @@ long Service::get_session()
 	findSesion += host;
 	//std::cout << "Service::get_session : Step 1.4<br>\n";
 	findSesion += "'";
+	findSesion += " and session = '" + params.session + "'";
+	
 	std::vector<muposysdb::Session*>* clientlst = muposysdb::Session::select(connDB,findSesion,0);
 	
 	//std::cout << "Service::get_session : Step 2<br>\n";
@@ -318,15 +323,26 @@ long Service::get_session()
 	//std::cout << "Service::get_session : Step 4<br>\n";
 	return session;
 }
-bool Service::create_session(const char* s)
+bool Service::create_session(const char* s,std::string& strsession)
 {
 	//std::cout << "Service::register_session : Step 1<br>\n";
-
+	
 	muposysdb::Session session;
 	session.insert(connDB,getenv("REMOTE_ADDR"));
-	std::string strs = "MD5SUM(" + std::to_string(session.getID()) + ")";
-	session.upSession(connDB,strs);
+	RandomString ranstr(32,RandomString::md5);
+	ranstr.generate();
+	session.upSession(connDB,(const char*)ranstr);
 	
+	if(session.downSession(connDB))
+	{
+		//std::cout << "Session : " << (const char*)ranstr << "<br>\n";
+		strsession = session.getSession();
+	}
+	else
+	{
+		//std::cout << "Session : failed<br>\n";
+		return false;
+	}
 	
 	//std::cout << "Service::register_session : Step 2<br>\n";
 	
@@ -406,7 +422,7 @@ bool Service::register_session(const char* s)
 	{
 		muposysdb::Session session;
 		session.insert(connDB,getenv("REMOTE_ADDR"));
-		std::string strs = "MD5SUM(" + std::to_string(session.getID()) + ")";
+		std::string strs = "MD5SUM('" + std::to_string(session.getID()) + ")";
 		session.upSession(connDB,strs);
 	}
 	
@@ -757,5 +773,7 @@ Params::Params()
 
 	
 }
+
+
 
 }
