@@ -79,7 +79,7 @@ bool Login::check(std::string& strs)
 			if(create_session(userbd->getName().c_str(),strs))
 			{
 				//std::cout << "Step login permission\n<br>";
-				if(permission("login"))
+				if(permission("login",userbd->getName().c_str()))
 				{
 					//std::cout << "Step permission\n<br>";
 					fluser = true;
@@ -110,7 +110,7 @@ bool Login::check(std::string& strs)
 		delete usrlst;
 	}
 	
-	std::cout << (fluser? "check pass" : "check fail") << "\n"; 
+	//std::cout << (fluser? "check pass" : "check fail") << "\n"; 
 	return fluser;
 }
 int Login::main(std::ostream& out)
@@ -122,6 +122,7 @@ int Login::main(std::ostream& out)
 		if(check(strsession))
 		{
 			std::string url = "application.cgi?session=" + strsession;
+			//out << "url : " << url << "\n";
 			head.redirect(0,url.c_str());
 		}
 		else

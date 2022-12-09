@@ -6,12 +6,14 @@
 
 namespace mps
 {
+class Application;
+
 
 class BodyApplication : public mps::Body
 {
 private:
 	const GetParams& params;
-	
+
 public:
 	BodyApplication(const GetParams&);
 	
@@ -19,7 +21,12 @@ public:
 	virtual void programs(std::ostream& out);
 	virtual void panel(std::ostream& out);
 	
+	void set(mps::Connector& connDB);
+	void set(Application&);
+
 protected:
+	mps::Connector* connDB;	
+	Application* application;
 	
 };
 

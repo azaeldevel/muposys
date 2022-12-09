@@ -110,14 +110,14 @@ namespace mps
 		long get_session();
 		bool add(const char* varible,const char* value);
 		bool add(const std::string& varible,const std::string& value);
-		bool permission(const char*);
+		bool permission(const char* permision,const char* user);
 		bool register_session(const char*);
 		std::string get_user();
 
 		static const char* user_name_variable;
-
+		
 	private:
-		muposysdb::Variable variable;
+		//muposysdb::Variable variable;
 
 	protected:
 		bool is_open_DB;
@@ -195,6 +195,7 @@ namespace mps
 	{
 	public:
 		PostParams();
+
 	};
 
 	struct Params : public GetParams
@@ -202,6 +203,7 @@ namespace mps
 		std::string session;
 
 		Params();
+		operator std::string()const;
 	};
 
 }

@@ -44,6 +44,14 @@ std::ostream& BodyApplication::print (std::ostream& out)
 	return out;
 }
 
+void BodyApplication::set(mps::Connector& c)
+{
+	connDB = &c;
+}
+void BodyApplication::set(Application& a)
+{
+	application = &a;
+}
 
 
 
