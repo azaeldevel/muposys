@@ -25,14 +25,14 @@ void v0_apidb()
 		
     int randNumber = randInt(generator);
 	
-    muposysdb::Ente ente1;
-    CU_ASSERT(ente1.insert(connector));    
+    //muposysdb::Ente ente1;
+    //CU_ASSERT(ente1.insert(connector));    
     muposysdb::Person person1;
     std::string n1 = "n1-";
     n1 += std::to_string(randNumber);
     std::string country = "MEX";
     //ap += std::to_string(random);
-    CU_ASSERT(person1.insert(connector,ente1,n1));
+    CU_ASSERT(person1.insert(connector,n1));
     	
     std::vector<muposysdb::Person*>* lst = muposysdb::Person::select(connector,"name1 like 'n1-%8'",5,'D');
     CU_ASSERT(lst != NULL);
@@ -82,29 +82,29 @@ void v0_apidb()
     muposysdb::Permission permss;
     std::string name_perss = "permss-" + std::to_string(randNumber);
     std::string brief_perss = "Prueba de muposys " + std::to_string(randNumber);
-    muposysdb::Ente ente2;
-    CU_ASSERT(ente2.insert(connector)); 
-	muposysdb::UserManagement ente2_um;
-    CU_ASSERT(ente2_um.insert(connector,ente2)); 
-    CU_ASSERT(permss.insert(connector,ente2_um,name_perss,brief_perss));
+    //muposysdb::Ente ente2;
+    //CU_ASSERT(ente2.insert(connector)); 
+	//muposysdb::UserManagement ente2_um;
+    //CU_ASSERT(ente2_um.insert(connector)); 
+    CU_ASSERT(permss.insert(connector,name_perss,brief_perss));
 		
     randNumber = randInt(generator);    
-    muposysdb::Ente ente3;
-    CU_ASSERT(ente3.insert(connector));		
+    //muposysdb::Ente ente3;
+    //CU_ASSERT(ente3.insert(connector));		
     muposysdb::Person person;
     std::string name_person = "person-" + std::to_string(randNumber);
-    CU_ASSERT(person.insert(connector,ente3,name_person));
+    CU_ASSERT(person.insert(connector,name_person));
     name_person = "ap-" + std::to_string(randNumber);
     CU_ASSERT(person.upName3(connector,name_person));
     
-    muposysdb::Ente ente_user;
-    CU_ASSERT(ente_user.insert(connector));	
-	muposysdb::UserManagement usermang;
-	CU_ASSERT(usermang.insert(connector,ente_user));
+    //muposysdb::Ente ente_user;
+    //CU_ASSERT(ente_user.insert(connector));	
+	//muposysdb::UserManagement usermang;
+	//CU_ASSERT(usermang.insert(connector));
     muposysdb::User user;
     randNumber = randInt(generator);
     std::string name_user = "user-" + std::to_string(randNumber);
-    CU_ASSERT(user.insert(connector,usermang,person,name_user));
+    CU_ASSERT(user.insert(connector,person,name_user));
     CU_ASSERT(user.downName(connector));
     //std::cout << "User name : " << user.getName() << "\n";
 	
@@ -113,6 +113,8 @@ void v0_apidb()
     //CU_ASSERT(ente_up.insert(connector));
     muposysdb::UserPermission usr_permss;
     CU_ASSERT(usr_permss.insert(connector,user,permss));
+
+	
 	std::vector<muposysdb::UserPermission*>* userpermsslst = muposysdb::UserPermission::select(connector,"",0);
     CU_ASSERT(userpermsslst != NULL)
 	for(auto p : *userpermsslst)
@@ -127,27 +129,27 @@ void v0_apidb()
     delete userpermsslst;
     
     randNumber = randInt(generator);
-    muposysdb::Ente ente_catalog;
-    CU_ASSERT(ente_catalog.insert(connector));
+    //muposysdb::Ente ente_catalog;
+    //CU_ASSERT(ente_catalog.insert(connector));
     muposysdb::Catalog catalog1;
     std::string catalog_name = "catalog-" + std::to_string(randNumber);
-    CU_ASSERT(catalog1.insert(connector,ente_catalog,catalog_name));
+    CU_ASSERT(catalog1.insert(connector,catalog_name));
     
     randNumber = randInt(generator);
-    muposysdb::Ente ente_cataloging;
-    CU_ASSERT(ente_cataloging.insert(connector));
+    //muposysdb::Ente ente_cataloging;
+    //CU_ASSERT(ente_cataloging.insert(connector));
     muposysdb::CatalogItem  catItems1;
     std::string item_number = "item-" + std::to_string(randNumber);
     std::string item_name = "name-" + std::to_string(randNumber);
-    CU_ASSERT(catItems1.insert(connector,ente_cataloging,catalog1,item_number,item_name));
+    CU_ASSERT(catItems1.insert(connector,catalog1,item_number,item_name));
     
     randNumber = randInt(generator);
-    muposysdb::Ente ente_cataloging2;
-    CU_ASSERT(ente_cataloging2.insert(connector));
+    //muposysdb::Ente ente_cataloging2;
+    //CU_ASSERT(ente_cataloging2.insert(connector));
     muposysdb::CatalogItem  catItems2;
     std::string item_number2 = "item-" + std::to_string(randNumber);
     std::string item_name2 = "name-" + std::to_string(randNumber);
-    CU_ASSERT(catItems2.insert(connector,ente_cataloging2,catalog1,item_number2,item_name2));
+    CU_ASSERT(catItems2.insert(connector,catalog1,item_number2,item_name2));
 
 	std::vector<muposysdb::CatalogItem *>* lstCatItems = muposysdb::CatalogItem ::select(connector,"");
     CU_ASSERT(lstCatItems != NULL);
@@ -171,27 +173,27 @@ void v0_apidb()
 	if(lstCatItems) delete lstCatItems;
 
 	randNumber = randInt(generator);
-    muposysdb::Ente ente_cataloging3;
-    CU_ASSERT(ente_cataloging3.insert(connector));
+    //muposysdb::Ente ente_cataloging3;
+    //CU_ASSERT(ente_cataloging3.insert(connector));
     muposysdb::CatalogItem  catItems3;
     std::string item_number3 = "item-" + std::to_string(randNumber);
     std::string item_name3 = "name-" + std::to_string(randNumber);
-    CU_ASSERT(catItems3.insert(connector,ente_cataloging3,catalog1,item_number3,item_name3));
+    CU_ASSERT(catItems3.insert(connector,catalog1,item_number3,item_name3));
 
 	randNumber = randInt(generator);
-    muposysdb::Ente ente_stock1;
-	CU_ASSERT(ente_stock1.insert(connector));
+    //muposysdb::Ente ente_stock1;
+	//CU_ASSERT(ente_stock1.insert(connector));
 	muposysdb::Stock stock1;
-	CU_ASSERT(stock1.insert(connector,ente_stock1));	
+	CU_ASSERT(stock1.insert(connector));	
     std::string stock1_name = "stock-" + std::to_string(randNumber);
     std::string stock1_label = "Stock " + std::to_string(randNumber);
 	CU_ASSERT(stock1.upBrief(connector,stock1_name));
 		
 	randNumber = randInt(generator);
-    muposysdb::Ente ente_stock2;
-	CU_ASSERT(ente_stock2.insert(connector));
+    //muposysdb::Ente ente_stock2;
+	//CU_ASSERT(ente_stock2.insert(connector));
 	muposysdb::Stock stock2;
-	CU_ASSERT(stock2.insert(connector,ente_stock2));	
+	CU_ASSERT(stock2.insert(connector));	
     std::string stock2_name = "stock-" + std::to_string(randNumber);
     std::string stock2_label = "Stock " + std::to_string(randNumber);
 	CU_ASSERT(stock2.upBrief(connector,stock2_name));
@@ -208,7 +210,7 @@ void v0_apidb()
 	muposysdb::Stocking stoking2;
 	CU_ASSERT(stoking2.insert(connector,stock2,catItems2,1));
 
-	muposysdb::Version ver1(3);
+	muposysdb::Version ver1(1);
 	CU_ASSERT(ver1.downName(connector));
 	CU_ASSERT(ver1.downMajor(connector));
 	CU_ASSERT(ver1.downMinor(connector));

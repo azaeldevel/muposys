@@ -12,10 +12,10 @@
 
 INSERT INTO Person(id,name1,name3) VALUES(1,'Azael','Reyes');
 
-INSERT INTO UserManagement(id) VALUES(1);
-INSERT INTO User(user,person,name) VALUES(1,1,'root');
-UPDATE User SET pwdtxt='123456' WHERE user = 1;
-UPDATE User SET status='autorizado' WHERE user = 1;
+-- INSERT INTO UserManagement(id) VALUES(1);
+INSERT INTO User(id,person,name) VALUES(1,1,'root');
+UPDATE User SET pwdtxt='123456' WHERE id = 1;
+UPDATE User SET status='autorizado' WHERE id = 1;
 
 INSERT INTO Version(id,name,major,minor,patch) VALUES(1,'database',0,2,0);
 
