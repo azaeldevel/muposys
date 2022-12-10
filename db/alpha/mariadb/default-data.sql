@@ -1,38 +1,36 @@
 
-INSERT INTO Ente(id) VALUES(1);
-INSERT INTO Ente(id) VALUES(2);
-INSERT INTO Ente(id) VALUES(3);
-INSERT INTO Ente(id) VALUES(4);
-INSERT INTO Ente(id) VALUES(5);
-INSERT INTO Ente(id) VALUES(6);
-INSERT INTO Ente(id) VALUES(7);
-INSERT INTO Ente(id) VALUES(8);
-INSERT INTO Ente(id) VALUES(9);
-INSERT INTO Ente(id) VALUES(10);-- <<<--- last use
+-- INSERT INTO Ente(id) VALUES(1);
+-- INSERT INTO Ente(id) VALUES(2);
+-- INSERT INTO Ente(id) VALUES(3);
+-- INSERT INTO Ente(id) VALUES(4);
+-- INSERT INTO Ente(id) VALUES(5);
+-- INSERT INTO Ente(id) VALUES(6);
+-- INSERT INTO Ente(id) VALUES(7);
+-- INSERT INTO Ente(id) VALUES(8);
+-- INSERT INTO Ente(id) VALUES(9);
+-- INSERT INTO Ente(id) VALUES(10);-- <<<--- last use
 
-INSERT INTO Person(ente,name1,name3) VALUES(1,'Azael','Reyes');
+INSERT INTO Person(id,name1,name3) VALUES(1,'Azael','Reyes');
 
-INSERT INTO UserManagement(um) VALUES(2);
-INSERT INTO User(user,person,name) VALUES(2,1,'root');
-UPDATE User SET pwdtxt='123456' WHERE user = 2;
-UPDATE User SET status='autorizado' WHERE user = 2;
+INSERT INTO UserManagement(id) VALUES(1);
+INSERT INTO User(user,person,name) VALUES(1,1,'root');
+UPDATE User SET pwdtxt='123456' WHERE user = 1;
+UPDATE User SET status='autorizado' WHERE user = 1;
 
-INSERT INTO Version(ente,name,major,minor,patch) VALUES(3,'database',0,2,0);
+INSERT INTO Version(id,name,major,minor,patch) VALUES(1,'database',0,2,0);
 
-INSERT INTO UserManagement(um) VALUES(3);
-INSERT INTO Permission(permission,name,brief) VALUES(3,'login','Permisos para acceder a muposys.');
+-- INSERT INTO UserManagement(id) VALUES(2);
+INSERT INTO Permission(id,name,brief) VALUES(1,'login','Permisos para acceder a muposys.');
 
-INSERT INTO UserPermission(user,permission) VALUES(2,3);
+INSERT INTO UserPermission(id,user,permission) VALUES(1,1,1);
 
-INSERT INTO Catalog(catalog,brief) VALUES(5,'Insumos');
+INSERT INTO Catalog(id,brief) VALUES(1,'Insumos');
 
-INSERT INTO Catalog(catalog,brief) VALUES(6,'Interno');
+INSERT INTO Catalog(id,brief) VALUES(2,'Interno');
 
-INSERT INTO Catalog(catalog,brief) VALUES(7,'Oferta');
+INSERT INTO Catalog(id,brief) VALUES(3,'Oferta');
 
-INSERT INTO Stock(stock,brief) VALUES(8,'Principal');
+INSERT INTO Stock(id,brief) VALUES(1,'Principal');
 
-INSERT INTO Stock(stock,brief) VALUES(9,'Producción');
+INSERT INTO Stock(id,brief) VALUES(2,'Producción');
 
-
-INSERT INTO UserManagement(um) VALUES(10);
