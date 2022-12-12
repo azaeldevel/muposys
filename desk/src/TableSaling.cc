@@ -148,7 +148,7 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 			if(iter)
 			{
 				Gtk::TreeModel::Row row = *iter;
-				row[columns.item] = lstCatItems->front()->getItem().getID();
+				row[columns.item] = lstCatItems->front()->getID();
 				row[columns.number] = new_text;
 				row[columns.name] = lstCatItems->front()->getBrief();
 				row[columns.presentation] = lstCatItems->front()->getPresentation();
@@ -246,7 +246,7 @@ void TableSaling::save()
 {
 	//std::cout << "saving..\n";
 	Gtk::TreeModel::Row row;
-	muposysdb::Ente *ente_service,*ente_operation;
+	//muposysdb::Ente *ente_service,*ente_operation;
 	muposysdb::Stock stock(9);
 	muposysdb::Stocking* stocking;
 	muposysdb::CatalogItem* cat_item;
@@ -254,16 +254,16 @@ void TableSaling::save()
 	muposysdb::Progress* operationProgress;
 	const Gtk::TreeModel::iterator& last = (tree_model->children().end());
 	int quantity,item;
-	ente_service = new muposysdb::Ente;
+	/*ente_service = new muposysdb::Ente;
 	if(not ente_service->insert(connDB))
 	{
 			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
 			dlg.run();
 			return;
-	}
+	}*/
 	operation = new muposysdb::Operation;
-	if(not operation->insert(connDB,*ente_service))
+	if(not operation->insert(connDB))
 	{
 			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
@@ -278,14 +278,14 @@ void TableSaling::save()
 			return;
 	}*/
 
-	ente_operation = new muposysdb::Ente;
+	/*ente_operation = new muposysdb::Ente;
 	if(not ente_operation->insert(connDB))
 	{
 			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
 			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
 			dlg.run();
 			return;
-	}
+	}*/
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
 	{
 		if(last == it) break;
@@ -311,9 +311,9 @@ void TableSaling::save()
 					dlg.run();
 					return;
 				}
-				muposysdb::User user(2);
+				//muposysdb::User user(2);
 				operationProgress = new muposysdb::Progress;
-				if(not operationProgress->insert(connDB,*stocking,*operation,0,user))
+				if(not operationProgress->insert(connDB,*stocking,*operation,0))
 				{
 					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
 					dlg.set_secondary_text("Durante la escritura de Stoking Production.");
@@ -340,8 +340,8 @@ void TableSaling::save()
 		delete cat_item;
 	}
 
-	delete ente_service;
-	delete ente_operation;
+	//delete ente_service;
+	//delete ente_operation;
 
 	muposysdb::Sale* sale;
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())

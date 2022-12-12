@@ -478,7 +478,7 @@ bool Service::permission(const char* p,const char* user)
 	{
 		if(userlst->front()->downPerson(connDB)) 
 		{
-			userid = userlst->front()->getUser().getUm().getID();
+			userid = userlst->front()->getID();
 			flpermiss = true;
 		}
 	}
@@ -510,7 +510,7 @@ bool Service::permission(const char* p,const char* user)
 	}
 	else if(permsslst->size() == 1)
 	{
-		permss = permsslst->front()->getPermission().getUm().getID();
+		permss = permsslst->front()->getID();
 		flpermiss = true;
 	}
 	if(permsslst)
