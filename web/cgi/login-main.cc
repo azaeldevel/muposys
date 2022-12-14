@@ -17,9 +17,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include "login.hh"
-
 
 int main ()
 {
@@ -34,6 +32,7 @@ int main ()
 
 	
  	printf("<br><br>\n");
- 	printf("</body></html>");*/	
+ 	printf("</body></html>");
+	*/	
 }
 

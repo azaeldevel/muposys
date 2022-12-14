@@ -105,7 +105,7 @@ namespace mps
 		virtual ~Service();
 
 		bool create_session(const char*,std::string&);
-		bool remove_session();
+		void remove_session(const char*);
 		bool has_session();
 		long get_session();
 		bool add(const char* varible,const char* value);

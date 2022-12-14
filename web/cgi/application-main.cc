@@ -4,7 +4,7 @@
 
 int main()
 {	
-	mps::GetParams params;
+	mps::Params params;
 	//mps::contenttype(std::cout,"text","html");
 	//std::cout << "Step 1.\n";
 	mps::BodyApplication body(params);

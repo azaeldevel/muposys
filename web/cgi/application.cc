@@ -1,4 +1,4 @@
-
+	
 
 #include "application.hh"
 
@@ -6,16 +6,16 @@
 namespace mps
 {
 
-BodyApplication::BodyApplication(const GetParams& p) : params(p)
+BodyApplication::BodyApplication(const Params& p) : params(p)
 {
 	
 }
 void BodyApplication::programs(std::ostream& out) 
 {
-	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi\">" << "logout" << "</a></div>\n";
-	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi\">" << "logout" << "</a></div>\n";
-	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi\">" << "logout" << "</a></div>\n";
-	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
 }
 void BodyApplication::panel(std::ostream& out)
 {
@@ -59,12 +59,12 @@ void BodyApplication::set(Application& a)
 Application::~Application()
 {
 }
-Application::Application(BodyApplication& b,const GetParams& p) : mps::Page(b,muposysdb::datconex),params(p)
+Application::Application(BodyApplication& b,const Params& p) : mps::Page(b,muposysdb::datconex),params(p)
 {
 	head.title = "Multi-Porpuse Software System";
 	init();
 }
-Application::Application(BodyApplication& b,const std::string& t,const GetParams& p) : mps::Page(b,t,muposysdb::datconex),params(p)
+Application::Application(BodyApplication& b,const std::string& t,const Params& p) : mps::Page(b,t,muposysdb::datconex),params(p)
 {
 	init();
 }

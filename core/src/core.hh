@@ -33,6 +33,7 @@ namespace mps
 			alphanumeric,
 			md5
 		};
+		
 	public:
 		RandomString(unsigned short leng,Type);
 		~RandomString();
@@ -50,7 +51,13 @@ namespace mps
 		char generate_md5();
 	};
 	
-	
+	enum class UserStatus
+	{
+		none,
+		registrado,
+		pendiente,
+		autorizado,
+	};
 }
 
 #endif

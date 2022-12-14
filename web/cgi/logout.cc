@@ -21,11 +21,12 @@
 #include "logout.hh"
 
 
-namespace mps::server
+namespace mps
 {
 
-Logout::Logout()
+Logout::Logout(const Params& p) : CGI(muposysdb::datconex), params(p)
 {
+	
 }
 Logout::~Logout()
 {
@@ -38,16 +39,16 @@ int Logout::main(std::ostream& out)
 	//out << "Logout testing..\n";
 	try
 	{
-		//if(has_session()) 
+		if(has_session()) 
 		{
-			//remove_session();
+			remove_session(params.session.c_str());
 		}
-		//head.redirect(0,"/login.html");
+		head.redirect(0,"login.html");
 		head.print(out);
 	}
 	catch(const std::exception& e)
 	{
-		head.redirect(0,"/login.html?error");
+		head.redirect(0,"login.html?error");
 		head.print(out);
 		return EXIT_FAILURE;
 	}

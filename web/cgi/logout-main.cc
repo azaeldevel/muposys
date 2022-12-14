@@ -23,7 +23,9 @@
 
 int main ()
 {
-	mps::server::Logout logout;
+	mps::Params params;
+	
+	mps::Logout logout(params);
 	logout.main();
 	
 	return 0;

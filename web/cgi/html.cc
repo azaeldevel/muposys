@@ -251,23 +251,68 @@ Service::Service(const Datconnect& dat)
 }
 Service::~Service()
 {
-	//if(is_open_DB) connDB.close();
+}
+void Service::remove_session(const char* session)
+{
+	if(not is_open_DB) return;
+	
+	//std::cout << "Service::remove_session : Step 1.0<br>\n";
+	const char* host = getenv("REMOTE_ADDR");
+	//std::cout << "Service::remove_session : Step 1.1<br>\n";
+	if(not host) return;
+	//std::cout << "Service::remove_session : Step 1.2<br>\n";
+	std::string findSesion = "client = '";
+	//std::cout << "Service::remove_session : Step 1.3<br>\n";
+	findSesion += host;
+	//std::cout << "Service::remove_session : Step 1.4<br>\n";
+	findSesion += "'";
+	findSesion += " and session = '";
+	findSesion += session;
+	findSesion += "'";
+	
+	//std::cout << "Service::remove_session : Step 1.5<br>\n";
+	
+	std::vector<muposysdb::Session*>* sesionlst = muposysdb::Session::select(connDB,findSesion,0);	
+	if(sesionlst and sesionlst)
+	{
+		//std::cout << "Service::remove_session : Step 1.5.1<br>\n";
+		std::cout << "size : " << sesionlst->size() << "<br>\n";
+		std::string findSesion = "id = ";
+		findSesion += std::to_string(sesionlst->front()->getID());
+		std::cout << "findSesion : " << findSesion << "<br>\n";
+		std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+		
+		//std::cout << "Service::remove_session : Step 1.5.2<br>\n";
+		if(varslst)
+		{
+			for(muposysdb::Variable* v : *varslst)
+			{
+				v->remove(connDB);
+			}
+			
+			
+			for(auto u : *varslst)
+			{
+					delete u;
+			}
+			delete varslst;
+		}
+		//std::cout << "Service::remove_session : Step 1.5.3<br>\n";
+		
+		sesionlst->front()->remove(connDB);
+		
+		for(auto u : *sesionlst)
+		{
+			delete u;
+		}
+		//std::cout << "Service::remove_session : Step 1.5.4<br>\n";
+		delete sesionlst;
+		connDB.commit();
+	}
+	
+	//std::cout << "Service::remove_session : Step 1.6<br>\n";
 }
 
-/*
-bool Service::add(const char* varible,const char* value)
-{
-	muposysdb::Variable var;
-	bool res =  var.insert(connDB,getenv("REMOTE_ADDR"),varible,value);
-	return res;
-}
-bool Service::add(const std::string& varible,const std::string& value)
-{
-	muposys::http::db::Variable var;
-	bool res =  var.insert(connHttp,getenv("REMOTE_ADDR"),varible.c_str(),value.c_str());
-	return res;
-}
-*/
 bool Service::has_session()
 {
 	if(get_session() > 0) return true;
@@ -478,7 +523,7 @@ bool Service::permission(const char* p,const char* user)
 	{
 		if(userlst->front()->downPerson(connDB)) 
 		{
-			userid = userlst->front()->getID();
+			userid = userlst->front()->getID().getID();
 			flpermiss = true;
 		}
 	}

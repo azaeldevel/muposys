@@ -50,7 +50,7 @@ bool Login::check(std::string& strs)
 	
 	muposysdb::User* userbd;
 	std::string strwhere = "name = ";
-	strwhere += "'" + userstr + "' and status = 'autorizado'";
+	strwhere += "'" + userstr + "' and status = 3";
 	std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
 	bool fluser = false;
 	if(usrlst->size() == 0)

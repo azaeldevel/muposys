@@ -251,7 +251,7 @@ void Login::check_user()
 	credential.valid = true;
 
 	std::string strwhere = "name = ";
-	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 'autorizado'";
+	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 3";
 	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,strwhere);
 
 	//std::cout << "SQL str : " << strwhere << "\n";

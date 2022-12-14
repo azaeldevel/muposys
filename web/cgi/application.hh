@@ -12,10 +12,10 @@ class Application;
 class BodyApplication : public mps::Body
 {
 private:
-	const GetParams& params;
+	const Params& params;
 
 public:
-	BodyApplication(const GetParams&);
+	BodyApplication(const Params&);
 	
 	virtual std::ostream& print (std::ostream& out);
 	virtual void programs(std::ostream& out);
@@ -36,13 +36,13 @@ public:
 	virtual std::ostream& print (std::ostream& out);
 	virtual int main(std::ostream& out = std::cout);
 	
-	Application(BodyApplication&,const GetParams&);
-	Application(BodyApplication&,const std::string& title,const GetParams&);
+	Application(BodyApplication&,const Params&);
+	Application(BodyApplication&,const std::string& title,const Params&);
 	void init();
 	virtual ~Application();
 	
 private:	
-	const GetParams& params;
+	const Params& params;
 	
 protected:
 	
