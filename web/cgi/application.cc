@@ -23,9 +23,9 @@ void BodyApplication::panel(std::ostream& out)
 {
 	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\"></a></div>\n";
 
-	out << "\t\t\t<div class=\"space\"></div>\n";
+	//out << "\t\t\t<div class=\"space\"></div>\n";
 	
-	out << "\t\t\t<div id=\"system\"><a href=\"system.html\"></a></div>\n";	
+	out << "\t\t\t<div id=\"system\"><a href=\"system.html?session=" << params.session << "\"></a></div>\n";	
 }
 std::ostream& BodyApplication::print (std::ostream& out)
 {
@@ -35,7 +35,7 @@ std::ostream& BodyApplication::print (std::ostream& out)
 			this->panel(out);
 		out << "\t\t</div>\n";	
 
-		out << "\t\t<div class=\"space\"></div>\n";
+		//out << "\t\t<div class=\"space\"></div>\n";
 
 		out << "\t\t<div id=\"programs\">\n";
 			this->programs(out);

@@ -39,56 +39,39 @@ body > #menu
 body > #menu > #programs
 {
 	float : left;
-	height : 100%;
+	min-height : 100%;
 	min-width : 50%;
 }
 
-body > #menu > #programs > div
+body > #menu > #programs > div, body > #menu > #panel > div
 {
 	float: left;
-	height: 100%;
+	min-height: 100%;
+    min-width: var(--theme-menu-default-size);
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
-	padding-left: var(--theme-menu-default-padding);
 }
-body > #menu > #programs > div > a
-{	
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
+body > #menu > #programs > div > a, body > #menu > #panel > div > a
+{
+    min-height: 100%;
+    min-width: 100%;
+	display: block;
+	background-repeat: no-repeat;
 }
 
 body > #menu > #panel
 {
 	float : right;
-	height : 100%;
+	min-height : 100%;
 	min-width : 20%;
-}
-body > #menu > #panel > div
-{
-	float: right;
-	height: 100%;
-	min-width : var(--theme-menu-default-size);
-	background-repeat : no-repeat;
-	background-size : contain;
-	background-position: center;
-}
-
-body > #menu > #panel > div > a
-{	
-    display: block;
-    height: 100%;
-    width: 100%;
-    text-decoration: none;
 }
 
 .space
 {
 	float: right;
-	height: 100%;
-	width: 4%;
+	min-height: 100%;
+	min-width: 1em;
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;

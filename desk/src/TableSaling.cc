@@ -63,12 +63,12 @@ void TableSaling::init()
 		table.append_column("Present.", columns.presentation);
 
 		table.append_column_editable("Number", columns.number);
-		Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
-		Gtk::TreeViewColumn* col_number = table.get_column(table.get_n_columns() - 1);
+		//Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
+		//Gtk::TreeViewColumn* col_number = table.get_column(table.get_n_columns() - 1);
 		//col_number->set_cell_data_func(*cell_number,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_number));
-		cell_number->property_editable() = true;
+		//cell_number->property_editable() = true;
 		//cell_number->signal_editing_started().connect(sigc::mem_fun(*this,&TableSaling::cellrenderer_validated_on_editing_started_number));
-		cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));
+		//cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));
 
 		table.append_column("Artículo", columns.name);
 
