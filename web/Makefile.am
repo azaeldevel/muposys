@@ -59,13 +59,15 @@ install-data-hook:
 	chown $(USER_GROUP) $(DATABASE_DIR)
 	chown $(USER_GROUP) $(DATABASE_DIR)/$(DATABASE_FN)
 	chmod a+w $(DATABASE_DIR)/$(DATABASE_FN)
+	mkdir -p $(bindir)/theme
+	tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz -C $(bindir)/theme
+	cp $(top_srcdir)/icons/exit.svg $(bindir)/theme/Mkos-Big-Sur/24x24/actions
+	cp $(top_srcdir)/icons/configure.svg $(bindir)/theme/Mkos-Big-Sur/24x24/actions
+	chown $(USER_GROUP) -R $(bindir)/theme/Mkos-Big-Sur/
 	chown $(USER_GROUP) $(bindir)/*.html
 	chown $(USER_GROUP) -R $(bindir)/css
 	chown $(USER_GROUP) -R $(bindir)/js
 	chown $(USER_GROUP) -R $(bindir)/user-mang
-	mkdir -p $(bindir)/theme
-	tar -xf $(top_srcdir)/html/Mkos-Big-Sur.tar.xz -C $(bindir)/theme
-	chown $(USER_GROUP) -R $(bindir)/theme
 
 install-exec-hook:
 	chown $(USER_GROUP) $(bindir)/*.cgi

@@ -12,14 +12,16 @@ BodyApplication::BodyApplication(const Params& p) : params(p)
 }
 void BodyApplication::programs(std::ostream& out) 
 {
+	/*
 	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
 	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
 	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
 	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\">" << "logout" << "</a></div>\n";
+	*/
 }
 void BodyApplication::panel(std::ostream& out)
 {
-	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi\"></a></div>\n";
+	out << "\t\t\t<div id=\"logout\"><a href=\"logout.cgi?session=" << params.session << "\"></a></div>\n";
 
 	out << "\t\t\t<div class=\"space\"></div>\n";
 	

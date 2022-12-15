@@ -4,6 +4,8 @@
 	--theme-background-color : #79869B;
 	--theme-cancel-color : #E3943B;	
 	--theme-funtion-color: #275AAD;	
+	--theme-menu-default-size : 3.0em;
+	--theme-menu-default-padding : 0.3em;
 }
 
 body 
@@ -22,7 +24,7 @@ body
 body > #menu
 {
 	background-color: black;
-	height: 2.2em;
+	height: var(--theme-menu-default-size);
 	width: 100%;
 	color: white;
 	font-size : 1em;
@@ -48,7 +50,7 @@ body > #menu > #programs > div
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
-	padding-left: 0.3em;
+	padding-left: var(--theme-menu-default-padding);
 }
 body > #menu > #programs > div > a
 {	
@@ -68,7 +70,7 @@ body > #menu > #panel > div
 {
 	float: right;
 	height: 100%;
-	min-width : 2.2em;
+	min-width : var(--theme-menu-default-size);
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
