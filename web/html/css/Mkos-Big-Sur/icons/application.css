@@ -12,7 +12,7 @@
 	}
 	body > #menu > #panel > #logout > a
 	{
-		background : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 300px) and (max-width : 599px)
@@ -25,9 +25,9 @@
 	{
 		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
-	body > #menu > #panel > #logout
+	body > #menu > #panel > #logout> a
 	{
-		background : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 600px) and (max-width : 899px)
@@ -42,7 +42,7 @@
 	}
 	body > #menu > #panel > #logout
 	{
-		background : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 900px) and (max-width : 1199px)
@@ -55,9 +55,9 @@
 	{
 		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
-	body > #menu > #panel > #logout
+	body > #menu > #panel > #logout > a
 	{
-		background : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 1200px)
@@ -70,9 +70,9 @@
 	{
 		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
 	}
-	body > #menu > #panel > #logout
+	body > #menu > #panel > #logout > a
 	{
-		background : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
 	}
 	
 }

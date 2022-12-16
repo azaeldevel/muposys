@@ -4,7 +4,7 @@
 	--theme-background-color : #79869B;
 	--theme-cancel-color : #E3943B;	
 	--theme-funtion-color: #275AAD;	
-	--theme-menu-default-size : 3.0em;
+	--theme-menu-default-size : 2.0em;
 	--theme-menu-default-padding : 0.3em;
 }
 
@@ -58,6 +58,7 @@ body > #menu > #programs > div > a, body > #menu > #panel > div > a
     min-width: 100%;
 	display: block;
 	background-repeat: no-repeat;
+	text-decoration: none;
 }
 
 body > #menu > #panel
