@@ -16,7 +16,6 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <octetos/core/Exception.hh>
 
 
 #include "Exception.hh"
@@ -32,13 +31,13 @@ namespace mps
 		switch(t)
 		{
 		case Type::md5:
-			number = new std::uniform_int_distribution<int>(0,15);		
+			number = new std::uniform_int_distribution<int>(0,15);
 			break;
 		default:
 			throw Exception(Exception::NotYet,__FILE__,__LINE__);
 		}
 	}
-	 
+
 	RandomString::~RandomString()
 	{
 		delete[] buffer;
@@ -58,7 +57,7 @@ namespace mps
 		}
 		buffer[leng] = '\0'; // leng + 1 => i
 	}
-	
+
 	char RandomString::generate_md5()
 	{
 		switch(number->operator()(generator))
@@ -68,10 +67,10 @@ namespace mps
 			case 2: return '2';
 			case 3: return '3';
 			case 4: return '4';
-			case 5: return '5';	
-			case 6: return '6';	
-			case 7: return '7';	
-			case 8: return '8';	
+			case 5: return '5';
+			case 6: return '6';
+			case 7: return '7';
+			case 8: return '8';
 			case 9: return '9';
 			case 10: return 'a';
 			case 11: return 'b';
@@ -80,10 +79,10 @@ namespace mps
 			case 14: return 'e';
 			case 15: return 'f';
 		}
-		
+
 		return '0';
 	}
-	
+
 	RandomString:: operator const char *() const
 	{
 		return buffer;

@@ -16,7 +16,6 @@
 					<Add option="-DMSYS2" />
 					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
 					<Add option="-DDATABASE_ENGINE_MARIA" />
-					<Add directory="../../../octetos" />
 				</Compiler>
 				<Linker>
 					<Add library="octetos-core" />
@@ -38,11 +37,6 @@
 					<Add option="-DMSYS2" />
 					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
 					<Add option="-DDATABASE_ENGINE_MARIA" />
-					<Add directory="../../core/src" />
-					<Add directory="../../db-abstract/src" />
-					<Add directory="../../db-maria/src" />
-					<Add directory="../core/src" />
-					<Add directory="../core/bin" />
 				</Compiler>
 				<Linker>
 					<Add library="octetos-core" />
@@ -60,6 +54,7 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config gtkmm-3.0 --libs`" />

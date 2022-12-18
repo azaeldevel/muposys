@@ -122,6 +122,10 @@
 			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
+		<Unit filename="src/core.cc">
+			<Option target="libmuopsys-core-dbg" />
+			<Option target="load-db-dbg" />
+		</Unit>
 		<Unit filename="src/core.hh">
 			<Option target="Debug" />
 			<Option target="Release" />
