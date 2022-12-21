@@ -4,75 +4,75 @@
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/configure.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/configure.svg);
 	}
 	body > #menu > #panel > #user 
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout > a
 	{
-		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/24x24/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 300px) and (max-width : 599px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/configure.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/configure.svg);
 	}
 	body > #menu > #panel > #user
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout> a
 	{
-		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/24x24/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 600px) and (max-width : 899px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/configure.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/configure.svg);
 	}
 	body > #menu > #panel > #user
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout
 	{
-		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/24x24/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 900px) and (max-width : 1199px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/configure.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/configure.svg);
 	}
 	body > #menu > #panel > #user
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout > a
 	{
-		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/24x24/actions/exit.svg);
 	}
 }
 @media screen and (min-width: 1200px)
 {
 	body > #menu > #panel > #system
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/configure.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/configure.svg);
 	}
 	body > #menu > #panel > #user 
 	{
-		background-image: url(../../../theme/Mkos-Big-Sur/22x22/actions/user-properties.svg);
+		background-image: url(../../../theme/Mkos-Big-Sur/24x24/actions/user-properties.svg);
 	}
 	body > #menu > #panel > #logout > a
 	{
-		background-image : url(../../../theme/Mkos-Big-Sur/22x22/actions/exit.svg);
+		background-image : url(../../../theme/Mkos-Big-Sur/24x24/actions/exit.svg);
 	}
 	
 }

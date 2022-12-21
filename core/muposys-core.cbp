@@ -8,49 +8,6 @@
 		<Option compiler="msys2_x86_64_gcc" />
 		<Option extended_obj_names="1" />
 		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/muposys-core" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="3" />
-				<Option compiler="msys2_x86_64_gcc" />
-				<Compiler>
-					<Add option="-g" />
-					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
-					<Add option="-DMSYS2" />
-					<Add directory="../../../octetos" />
-				</Compiler>
-				<Linker>
-					<Add library="octetos-core" />
-					<Add library="octetos-db-abstract" />
-					<Add library="octetos-db-maria" />
-					<Add directory="../../core/bin/Debug" />
-					<Add directory="../../db-abstract/bin/Debug" />
-					<Add directory="../../db-maria/bin/Debug" />
-				</Linker>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/muposys-core" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
-				<Option type="3" />
-				<Option compiler="msys2_x86_64_gcc" />
-				<Compiler>
-					<Add option="-O2" />
-					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
-					<Add option="-DMSYS2" />
-					<Add directory="../../core/src" />
-					<Add directory="../../db-abstract/src" />
-					<Add directory="../../db-maria/src" />
-				</Compiler>
-				<Linker>
-					<Add option="-O2" />
-					<Add library="octetos-core" />
-					<Add library="octetos-db-maria" />
-					<Add library="octetos-db-abstract" />
-					<Add directory="../../core/bin/Release" />
-					<Add directory="../../db-abstract/bin/Release" />
-					<Add directory="../../db-maria/bin/Release" />
-				</Linker>
-			</Target>
 			<Target title="libmuopsys-core-dbg">
 				<Option output="bin/Debug/muposys-core" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
@@ -63,9 +20,6 @@
 					<Add directory="../../../octetos" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-core" />
-					<Add library="octetos-db-abstract" />
-					<Add library="octetos-db-maria" />
 					<Add directory="../../core/bin/Debug" />
 					<Add directory="../../db-abstract/bin/Debug" />
 					<Add directory="../../db-maria/bin/Debug" />
@@ -85,9 +39,6 @@
 					<Add directory="../../../octetos" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-core" />
-					<Add library="octetos-db-abstract" />
-					<Add library="octetos-db-maria" />
 					<Add directory="../../core/bin/Debug" />
 					<Add directory="../../db-abstract/bin/Debug" />
 					<Add directory="../../db-maria/bin/Debug" />
@@ -96,39 +47,33 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-DMSYS2" />
+			<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+			<Add option="-DDATABASE_ENGINE_MARIA" />
+			<Add directory="../../../octetos" />
 		</Compiler>
+		<Linker>
+			<Add library="octetos-core" />
+			<Add library="octetos-db-abstract" />
+			<Add library="octetos-db-maria" />
+		</Linker>
 		<Unit filename="bin/muposysdb.cpp">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
 		<Unit filename="bin/muposysdb.hpp">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception.cc">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
 		<Unit filename="src/Exception.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
 		<Unit filename="src/apidb.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
-		<Unit filename="src/core.cc">
-			<Option target="libmuopsys-core-dbg" />
-			<Option target="load-db-dbg" />
-		</Unit>
+		<Unit filename="src/core.cc" />
 		<Unit filename="src/core.hh">
-			<Option target="Debug" />
-			<Option target="Release" />
 			<Option target="libmuopsys-core-dbg" />
 		</Unit>
 		<Unit filename="src/main-load-db.cc">

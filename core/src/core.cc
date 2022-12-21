@@ -33,8 +33,8 @@ namespace mps
 		case Type::md5:
 			number = new std::uniform_int_distribution<int>(0,15);
 			break;
-		default:
-			throw Exception(Exception::NotYet,__FILE__,__LINE__);
+		//default:
+			//throw Exception(Exception::NotYet,__FILE__,__LINE__);
 		}
 	}
 
