@@ -5,7 +5,7 @@
 	--theme-cancel-color : #E3943B;	
 	--theme-funtion-color: #275AAD;	
 	--theme-menu-default-size : 2.0em;
-	--theme-menu-default-padding : 0.3em;
+	--theme-menu-default-padding : 0.1em;
 }
 
 body 
@@ -51,6 +51,7 @@ body > #menu > #programs > div, body > #menu > #panel > div
 	background-repeat : no-repeat;
 	background-size : contain;
 	background-position: center;
+	padding-left : calc(2 * var(--theme-menu-default-padding));
 }
 body > #menu > #programs > div > a, body > #menu > #panel > div > a
 {
