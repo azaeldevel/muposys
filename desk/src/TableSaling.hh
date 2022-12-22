@@ -72,7 +72,7 @@ protected:
 	virtual void clear();
     void mark_unsave();
 
-    void download(long order);
+    virtual void download(long order);
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	void on_save_clicked();

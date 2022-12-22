@@ -229,7 +229,18 @@ void TableSaling::download(long order)
     std::string whereOrder;
     whereOrder = "operation = ";
     whereOrder += std::to_string(order);
-    std::vector<muposysdb::Sale*>* lstOprs = muposysdb::Sale::select(connDB,whereOrder,0,'A');
+    std::vector<muposysdb::Sale*>* lstSales = muposysdb::Sale::select(connDB,whereOrder,0,'A');
+    if(lstSales)
+    {
+
+
+        for(auto s : *lstSales)
+        {
+            delete s;
+        }
+        delete lstSales;
+    }
+
 }
 
 
