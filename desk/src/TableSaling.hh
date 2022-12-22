@@ -36,12 +36,21 @@ class TableSaling : public Gtk::VBox
 {
 public:
 	TableSaling();
+	TableSaling(long order);
 	void init();
 	virtual ~TableSaling();
 
     void set_info(Gtk::Notebook& parent,int page_index);
 
 protected:
+
+    enum class Mode
+    {
+        capture,
+        view,
+    };
+
+
 	Connector connDB;
 	bool connDB_flag;
 
@@ -95,6 +104,7 @@ protected:
 	Gtk::HBox boxTotal;
 	Gtk::VBox boxFloor,boxAditional;
 	Gtk::HSeparator separator;
+	Mode mode;
 };
 
 

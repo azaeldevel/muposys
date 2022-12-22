@@ -23,7 +23,11 @@ namespace mps
 {
 
 
-TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0)
+TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::capture)
+{
+	init();
+}
+TableSaling::TableSaling(long order) : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::view)
 {
 	init();
 }
@@ -52,17 +56,19 @@ void TableSaling::init()
 		tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
 		table.set_model(tree_model);
 
-		table.append_column_editable("Cant.", columns.quantity);
+		if(mode == Mode::capture) table.append_column_editable("Cant.", columns.quantity);
+		else table.append_column("Cant.", columns.quantity);
 		Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
 		Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
-		cell_quantity->property_editable() = true;
+		if(mode == Mode::capture) cell_quantity->property_editable() = true;
 		//col_quantity->set_cell_data_func(*cell_quantity,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_quantity));
 		//cell_quantity->signal_editing_started().connect(sigc::mem_fun(*this,&TableSaling::cellrenderer_validated_on_editing_started_quantity));
 		//cell_quantity->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_quantity));
 
 		table.append_column("Present.", columns.presentation);
 
-		table.append_column_editable("Number", columns.number);
+		if(mode == Mode::capture)table.append_column_editable("Number", columns.number);
+		else table.append_column("Number", columns.number);
 		//Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
 		//Gtk::TreeViewColumn* col_number = table.get_column(table.get_n_columns() - 1);
 		//col_number->set_cell_data_func(*cell_number,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_number));
@@ -72,10 +78,11 @@ void TableSaling::init()
 
 		table.append_column("Artículo", columns.name);
 
-		table.append_column_numeric_editable("C/U", columns.cost_unit,"%.2f");
+		if(mode == Mode::capture) table.append_column_numeric_editable("C/U", columns.cost_unit,"%.2f");
+		else table.append_column_numeric("C/U", columns.cost_unit,"%.2f");
 
-		table.append_column_numeric_editable("Monto", columns.amount,"%.2f");
-
+		if(mode == Mode::capture)table.append_column_numeric_editable("Monto", columns.amount,"%.2f");
+		else table.append_column_numeric("Monto", columns.amount,"%.2f");
 	}
 
 	pack_start(separator,false,true,5);
