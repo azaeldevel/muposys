@@ -23,11 +23,11 @@ namespace mps
 {
 
 
-TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::capture)
+TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::capture),order(-1)
 {
 	init();
 }
-TableSaling::TableSaling(long order) : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::view)
+TableSaling::TableSaling(long o) : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::view),order(o)
 {
 	init();
 }
@@ -224,7 +224,13 @@ void TableSaling::set_info(Gtk::Notebook& parent,int page_index)
 	notebook = &parent;
 	notebook_page_index = page_index;
 }
-
+void TableSaling::download(long order)
+{
+    std::string whereOrder;
+    whereOrder = "operation = ";
+    whereOrder += std::to_string(order);
+    std::vector<muposysdb::Sale*>* lstOprs = muposysdb::Sale::select(connDB,whereOrder,0,'A');
+}
 
 
 
