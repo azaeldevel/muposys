@@ -146,10 +146,10 @@ void Main::check_session()
 	}
 	login.close();
 }
-/*void Main::add_activity(Gtk::Widget& w)
+void Main::add_activity(Gtk::Widget& w)
 {
 	nbMain.append_page(w);
-}*/
+}
 void Main::set_title(const char* t )
 {
 	header.set_title(t);
