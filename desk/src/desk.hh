@@ -89,7 +89,7 @@ public:
 
 	void set_title(const char* );
 	void set_subtitle(const char* );
-	//void add_activity(Gtk::Widget&);
+	void add_activity(Gtk::Widget&);
 
 	static Login::Credential credential;
 
