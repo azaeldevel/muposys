@@ -19,18 +19,22 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef MUPOSYS_CORE_ENABLE_TDD
-	#include <src/muposysdb.hpp>
-#else
-	#if __linux__
-        #include <muposys/core/muposysdb.hpp>
-    #elif MSYS2
+
+#if __linux__
+    #ifdef MUPOSYS_CORE_ENABLE_TDD
+        #include <src/muposysdb.hpp>
+    #else
+
+    #endif
+#elif MSYS2
+   #ifdef MUPOSYS_CORE_ENABLE_TDD
         #include <muposys/core/bin/muposysdb.hpp>
     #else
-        #error "Plataforma desconocida."
-    #endif
-#endif
 
+    #endif
+#else
+        #error "Plataforma desconocida."
+#endif
 namespace mps
 {
 
