@@ -1,9 +1,9 @@
 
 CREATE  USER IF NOT EXISTS 'muposys'@localhost IDENTIFIED BY '123456';
-CREATE DATABASE `muposys-0-alpha`;
-GRANT ALL PRIVILEGES ON `muposys-0-alpha`.* TO 'muposys'@'localhost';
+CREATE DATABASE `muposys`;
+GRANT ALL PRIVILEGES ON `muposys`.* TO 'muposys'@'localhost';
 
-USE `muposys-0-alpha`;
+USE `muposys`;
 
 CREATE TABLE Version (id BIGINT NOT NULL, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT,patch SMALLINT); 
 ALTER TABLE Version MODIFY id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY;
@@ -30,7 +30,7 @@ ALTER TABLE User MODIFY id BIGINT NOT NULL PRIMARY KEY;
 ALTER TABLE User ADD CONSTRAINT fk_id_UserManagement_id FOREIGN KEY(id) REFERENCES UserManagement(id);
 ALTER TABLE User ADD CONSTRAINT fk_person_Person_ente FOREIGN KEY(person) REFERENCES Person(id);
 ALTER TABLE User ADD CONSTRAINT users_unique UNIQUE (name);
-ALTER TABLE User ADD COLUMN status SMALLINT;--ENUM('registrado','pendiente','autorizado');
+ALTER TABLE User ADD COLUMN status SMALLINT;
 
 CREATE TABLE Operation(id BIGINT NOT NULL);
 ALTER TABLE Operation MODIFY id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY;
