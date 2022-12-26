@@ -214,7 +214,7 @@ void v0_apidb()
 	CU_ASSERT(ver1.downMinor(connector));
 	CU_ASSERT(ver1.getName().compare("database") == 0);
 	//std::cout << "Major : " << ver1.getMajor() << "\n";
-	//std::cout << "Minor : " << ver1.getMinor() << "\n";
+	std::cout << "Minor : " << ver1.getMinor() << "\n";
 	CU_ASSERT(ver1.getMajor() == 0);
 	CU_ASSERT(ver1.getMinor() == 2);
 
