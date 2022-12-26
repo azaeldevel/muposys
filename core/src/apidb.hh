@@ -24,14 +24,10 @@
     #ifdef MUPOSYS_CORE_ENABLE_TDD
         #include <src/muposysdb.hpp>
     #else
-
+		#include <muposys/core/muposysdb.hpp>
     #endif
 #elif MSYS2
-   #ifdef MUPOSYS_CORE_ENABLE_TDD
-        #include <muposys/core/bin/muposysdb.hpp>
-    #else
-
-    #endif
+   #include <muposys/core/bin/muposysdb.hpp>
 #else
         #error "Plataforma desconocida."
 #endif
