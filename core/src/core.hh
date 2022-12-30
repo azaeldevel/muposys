@@ -58,6 +58,15 @@ namespace mps
 		pendiente,
 		autorizado,
 	};
+
+	enum class Crud
+	{
+		none,
+		create,
+		read,
+		update,
+		remove,		
+	};
 }
 
 #endif
