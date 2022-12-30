@@ -46,6 +46,7 @@ protected:
 
     enum class Mode
     {
+        none,
         capture,
         view,
     };

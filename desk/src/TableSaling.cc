@@ -25,14 +25,17 @@ namespace mps
 
 TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::capture),order(-1)
 {
+    std::cout << "mps::TableSaling::TableSaling()\n";
 	init();
 }
 TableSaling::TableSaling(long o) : connDB_flag(false),notebook(NULL),notebook_page_index(0),mode(Mode::view),order(o)
 {
+    std::cout << "mps::TableSaling::TableSaling(long)\n";
 	init();
 }
 void TableSaling::init()
 {
+    std::cout << "mps::TableSaling::init mode : " << (short)mode << "\n";
 	try
 	{
 		connDB_flag = connDB.connect(muposysdb::datconex);
@@ -107,7 +110,7 @@ void TableSaling::init()
 
 	saved = true;
 
-	newrow();
+	if(mode == Mode::capture)  newrow();
 }
 TableSaling::~TableSaling()
 {
