@@ -22,8 +22,10 @@
 
 #if __linux__
     #include <muposys/core/muposysdb.hpp>
+    #include <muposys/core/core.hh>
 #elif MSYS2
     #include <muposys/core/bin/muposysdb.hpp>
+    #include <muposys/core/src/core.hpp>
 #else
     #error "Plataforma desconocida."
 #endif
@@ -43,14 +45,6 @@ public:
     void set_info(Gtk::Notebook& parent,int page_index);
 
 protected:
-
-    enum class Mode
-    {
-        none,
-        capture,
-        view,
-    };
-
 
 	Connector connDB;
 	bool connDB_flag;
@@ -107,7 +101,7 @@ protected:
 	Gtk::HBox boxTotal;
 	Gtk::VBox boxFloor,boxAditional;
 	Gtk::HSeparator separator;
-	Mode mode;
+	Crud crud;
 	long order;
 };
 
