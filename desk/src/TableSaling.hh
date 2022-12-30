@@ -25,7 +25,7 @@
     #include <muposys/core/core.hh>
 #elif MSYS2
     #include <muposys/core/bin/muposysdb.hpp>
-    #include <muposys/core/src/core.hpp>
+    #include <muposys/core/src/core.hh>
 #else
     #error "Plataforma desconocida."
 #endif

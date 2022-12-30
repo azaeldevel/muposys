@@ -35,7 +35,6 @@ TableSaling::TableSaling(long o) : connDB_flag(false),notebook(NULL),notebook_pa
 }
 void TableSaling::init()
 {
-    std::cout << "mps::TableSaling::init mode : " << (short)mode << "\n";
 	try
 	{
 		connDB_flag = connDB.connect(muposysdb::datconex);
