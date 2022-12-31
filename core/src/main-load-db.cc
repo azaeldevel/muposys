@@ -1,4 +1,4 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*-  */
+
 /*
  * main.cc
  * Copyright (C) 2022 Azael Reyes <azael.devel@gmail.com>
@@ -19,6 +19,7 @@
 
 #include <iostream>
 #include <string>
+#include <cstring>
 #include <sstream>
 #include <fstream>
 #include <filesystem>
@@ -26,7 +27,7 @@
 #include <list>
 
 #ifdef __linux__
-    #include <muposys/core/muposysdb.hh>
+    #include <muposysdb.hpp>
 #elif defined MSYS2
     #include <muposys/core/bin/muposysdb.hpp>
 #elif defined(_WIN32) || defined(_WIN64)
@@ -41,7 +42,7 @@ int main(int argc, char* argv[])
     std::filesystem::path repository;
     std::string user = "root", password, host = "localhost",pakage;
     int port = 3306;
-    std::string muposys_database = "muposys",muposys_user = "muposys",muposys_password;
+    std::string muposys_database = "muposys", muposys_user = "muposys", muposys_password;
 
     for(int i = 0; i < argc; i++)
     {
@@ -117,6 +118,24 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
+	/*
+	mps::Datconnect datconn(host,port,"",user,password);
+    mps::Connector connDB;
+    mps::Datresult datres;
+    bool connDB_flag;
+    try
+    if(muposys_password.empty())
+    {
+        connDB_flag = connDB.connect(datconn);
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "No se espesifico un contrase?a para base de datos muposys" << std::endl;
+        return EXIT_FAILURE;
+    }
+	*/
+	
     std::fstream mpk(repository/pakage, std::ios::in);
 
     std::cout << "Cargado desde : " << repository << std::endl;
@@ -129,7 +148,7 @@ int main(int argc, char* argv[])
     std::string strline,strcmd,strparams,cmdsql;
     std::list<std::string> cmdlist;
 
-    cmdsql = "CREATE  USER IF NOT EXISTS `" + muposys_user + "`@localhost IDENTIFIED BY `" + muposys_password + "`;";
+    cmdsql = "CREATE USER IF NOT EXISTS `" + muposys_user + "`@localhost IDENTIFIED BY `" + muposys_password + "`;";
     cmdlist.push_back(cmdbegin + " --execute '" + cmdsql + "'");
     cmdsql = "CREATE DATABASE `" + muposys_database + "`";
     cmdlist.push_back(cmdbegin + " --execute '" + cmdsql + "'");
@@ -172,6 +191,13 @@ int main(int argc, char* argv[])
         std::cout << ((retcmd == EXIT_SUCCESS) ? " - done." : " - fail.") << std::endl;
     }
 
+	
+    /*if(connDB_flag) 
+	{
+		connDB.commit();
+		connDB.close();
+	}*/
+	
 	return EXIT_SUCCESS;
 }
 

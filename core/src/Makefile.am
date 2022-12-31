@@ -9,8 +9,9 @@ AM_CFLAGS =\
 	 -g
 
 
-lib_LTLIBRARIES = libmuposys-core.la
+bin_PROGRAMS = load-db
 
+lib_LTLIBRARIES = libmuposys-core.la
 
 LIBS = $(OCTETOS_LIBS)
 FLAGS = $(OCTETOS_FLAGS)
@@ -31,6 +32,10 @@ libmuposys_core_la_CXXFLAGS = -I$(top_builddir)/src $(FLAGS)
 libmuposys_core_la_SOURCES = $(top_builddir)/src/muposysdb.cpp Exception.cc core.cc
 libmuposys_core_la_LIBADD =  $(LIBS)
 
+load_db_LDADD = $(LIBS) $(top_builddir)/src/libmuposys-core.la
+load_db_CXXFLAGS = $(FLAGS)  -I$(top_builddir)/src
+load_db_SOURCES = main-load-db.cc
+
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = muposys-core.pc
 
@@ -38,5 +43,3 @@ EXTRA_DIST = muposys-core.pc.in
 
 muposys_includedir = $(includedir)/muposys/core
 muposys_include_HEADERS = $(top_builddir)/src/muposysdb.hpp apidb.hh Exception.hh core.hh
-
-
