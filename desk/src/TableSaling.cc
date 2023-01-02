@@ -25,12 +25,12 @@ namespace mps
 
 TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::create),order(-1)
 {
-    std::cout << "mps::TableSaling::TableSaling()\n";
+    //std::cout << "mps::TableSaling::TableSaling()\n";
 	init();
 }
 TableSaling::TableSaling(long o) : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::read),order(o)
 {
-    std::cout << "mps::TableSaling::TableSaling(long)\n";
+    //std::cout << "mps::TableSaling::TableSaling(long)\n";
 	init();
 }
 void TableSaling::init()
@@ -103,7 +103,7 @@ void TableSaling::init()
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 		btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
 #endif
-		btSave.set_image_from_icon_name("filesave");
+		btSave.set_image_from_icon_name("document-save");
 		boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
 	}
 
