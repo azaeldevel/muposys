@@ -130,7 +130,7 @@ void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeM
 {
 	//std::cout << "Size : " << tree_model->children().size() << "\n";
 	const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
-	if(last == iter) newrow();
+	if(last == iter and crud == Crud::create) newrow();
 
 	lbTotalAmount.set_text(std::to_string(total()));
 	if(notebook) mark_unsave();
