@@ -728,6 +728,10 @@ Params::Params()
 
 	
 }
+Params::Params(const Params& p)
+{
+	session = p.session;
+}
 Params::operator std::string()const
 {
 	if(not session.empty()) return "session=" + session;

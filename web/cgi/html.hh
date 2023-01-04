@@ -203,6 +203,7 @@ namespace mps
 		std::string session;
 
 		Params();
+		Params(const Params&);
 		operator std::string()const;
 	};
 
