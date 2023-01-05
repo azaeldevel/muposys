@@ -73,10 +73,10 @@ void Main::init()
 	box_header_controls.pack_start(btLogout);
 	box_header_controls.pack_start(btAbout);
 
-	btHome.set_image_from_icon_name("gtk-home");
+	btHome.set_image_from_icon_name("go-home");
 	btSysMang.set_image_from_icon_name("gtk-preferences");
-	btLogout.set_image_from_icon_name("lock");
-	btAbout.set_image_from_icon_name("gtk-about");
+	btLogout.set_image_from_icon_name("system-log-out");
+	btAbout.set_image_from_icon_name("help-about");
 
 	btHome.set_tooltip_text("Aplicacion principal");
 	btSysMang.set_tooltip_text("Administración de MUPOSYS");
@@ -135,7 +135,7 @@ void Main::check_session()
 			res = dlg.run();
 			return;
 		}
-		if(credential.userdb.downName(connDB)) 
+		if(credential.userdb.downName(connDB))
 		if(credential.userdb.downPerson(connDB))
 		{
 			if(credential.userdb.getPerson().downName1(connDB)) credential.name = credential.userdb.getPerson().getName1();
