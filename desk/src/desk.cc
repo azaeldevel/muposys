@@ -45,15 +45,13 @@ Main::Main(bool d) : devel(d)
 {
 	init();
 
-	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
+	signal_show().connect(sigc::mem_fun(*this,this->check_session));
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();
 #endif
 }
 void Main::init()
 {
-	//if(is_visible()) throw Exception(Exception::VISIBLE_MAIN,__FILE__,__LINE__);
-
 	add_events(Gdk::KEY_PRESS_MASK);
 
 	set_title("Multi-Porpuse Software System");
@@ -74,7 +72,7 @@ void Main::init()
 	box_header_controls.pack_start(btAbout);
 
 	btHome.set_image_from_icon_name("go-home");
-	btSysMang.set_image_from_icon_name("gtk-preferences");
+	btSysMang.set_image_from_icon_name("preferences-system");
 	btLogout.set_image_from_icon_name("system-log-out");
 	btAbout.set_image_from_icon_name("help-about");
 

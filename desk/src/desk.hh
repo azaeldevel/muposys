@@ -46,7 +46,7 @@ public:
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
-		muposysdb::User userdb; 
+		muposysdb::User userdb;
 	};
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
@@ -101,7 +101,7 @@ protected:
 	Gtk::Notebook nbMain;
 
 	void init();
-	void check_session();
+	virtual void check_session();
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	//bool on_key_press_event(GdkEventKey* key_event) override;

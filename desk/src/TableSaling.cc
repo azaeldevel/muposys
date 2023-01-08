@@ -133,8 +133,12 @@ TableSaling::ModelColumns::ModelColumns()
 }
 void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
 {
+    Gtk::TreeModel::Row row = *iter;
+    //if(int(row[columns.quantity]) > 0) row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
+
 	//std::cout << "Size : " << tree_model->children().size() << "\n";
 	const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
+
 	if(last == iter and crud == Crud::create) newrow();
 
 	lbTotalAmount.set_text(std::to_string(total()));
@@ -158,17 +162,17 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 		lstCatItems->front()->downValue(connDB);
 		lstCatItems->front()->downPresentation(connDB);
 
-			Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
-			if(iter)
-			{
-				Gtk::TreeModel::Row row = *iter;
-				row[columns.item] = lstCatItems->front()->getID();
-				row[columns.number] = new_text;
-				row[columns.name] = lstCatItems->front()->getBrief();
-				row[columns.presentation] = lstCatItems->front()->getPresentation();
-				row[columns.cost_unit] = lstCatItems->front()->getValue();
-				row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
-			}
+        Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
+        if(iter)
+        {
+            Gtk::TreeModel::Row row = *iter;
+            row[columns.item] = lstCatItems->front()->getID();
+            row[columns.number] = new_text;
+            row[columns.name] = lstCatItems->front()->getBrief();
+            row[columns.presentation] = lstCatItems->front()->getPresentation();
+            row[columns.cost_unit] = lstCatItems->front()->getValue();
+            row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
+        }
 	}
 	for(muposysdb::CatalogItem* p : *lstCatItems)
 	{
@@ -179,7 +183,12 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 
 void TableSaling::newrow()
 {
-	tree_model->append();
+	Gtk::TreeModel::Row row = *tree_model->append();
+	/*
+	row[columns.quantity] = 0;
+	row[columns.cost_unit] = 0.0;
+	row[columns.amount] = 0.0;
+	*/
 }
 
 float TableSaling::total() const
@@ -198,7 +207,6 @@ float TableSaling::total() const
 bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
 {
 	//std::cout << "key quantity : " << (char) key_event->keyval << "\n";
-
 	return false;
 }
 void TableSaling::clear()
@@ -213,7 +221,7 @@ void TableSaling::mark_unsave()
 
 	if(notebook)
 	{
-		std::cout << "Sin guardar\n";
+		//std::cout << "Sin guardar\n";
 		if(notebook_page_index < 0) return; //no is a child of nb.
 		Widget* page = notebook->get_nth_page(notebook_page_index);
 		Glib::ustring text = notebook->get_tab_label_text(*page);
@@ -239,8 +247,6 @@ void TableSaling::download(long order)
     std::vector<muposysdb::Sale*>* lstSales = muposysdb::Sale::select(connDB,whereOrder,0,'A');
     if(lstSales)
     {
-
-
         for(auto s : *lstSales)
         {
             delete s;
