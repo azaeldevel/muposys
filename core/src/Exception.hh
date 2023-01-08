@@ -38,7 +38,13 @@ public:
 	enum ErrosCodes
 	{
 		NotYet,
+		NotCopiableObject,
+		NotVoidObject,
+		Database_Error,
+		
+		top,
 	};
+	
 public:
 	Exception();
 	Exception(const Exception&);

@@ -39,6 +39,7 @@ class TableSaling : public Gtk::VBox
 public:
 	TableSaling();
 	TableSaling(long order);
+	TableSaling(long order,mps::Crud);
 	void init();
 	virtual ~TableSaling();
 

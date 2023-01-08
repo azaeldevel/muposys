@@ -33,6 +33,11 @@ TableSaling::TableSaling(long o) : connDB_flag(false),notebook(NULL),notebook_pa
     //std::cout << "mps::TableSaling::TableSaling(long)\n";
 	init();
 }
+TableSaling::TableSaling(long o,mps::Crud c) : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(c),order(o)
+{
+    //std::cout << "mps::TableSaling::TableSaling(long)\n";
+	init();
+}
 void TableSaling::init()
 {
 	try
