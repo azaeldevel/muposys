@@ -1,9 +1,10 @@
 
-AC_INIT(muposys-desk, 0.1.0-alpha, azael.devel@gmail.com)
+AC_INIT(muposys-desk, 0.2.0-alpha, azael.devel@gmail.com)
 AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([1.11])
 AM_SILENT_RULES([yes])
 AC_PROG_CXX
+AX_CXX_COMPILE_STDCXX(20)
 
 LT_INIT
 

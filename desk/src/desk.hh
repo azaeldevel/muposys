@@ -102,6 +102,7 @@ protected:
 
 	void init();
 	virtual void check_session();
+	virtual void notific_session();
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	//bool on_key_press_event(GdkEventKey* key_event) override;

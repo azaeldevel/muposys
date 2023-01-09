@@ -44,8 +44,8 @@ Main::Main() : devel(false)
 Main::Main(bool d) : devel(d)
 {
 	init();
-
-	signal_show().connect(sigc::mem_fun(*this,this->check_session));
+	
+	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();
 #endif
@@ -143,6 +143,7 @@ void Main::check_session()
 		connDB.close();
 	}
 	login.close();
+	this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
 {
@@ -163,7 +164,9 @@ const muposysdb::User& Main::get_user() const
 {
 	return credential.userdb;
 }
-
+void Main::notific_session()
+{
+}
 
 
 
