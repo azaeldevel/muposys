@@ -60,6 +60,15 @@ Exception::Exception(unsigned int c,const std::string& m,const char* f, unsigned
 {
 }
 
+Exception::Exception(const char* m) : oct::core::v3::Exception(m)
+{
+
+}
+Exception::Exception(const char* m,const char* f, unsigned int l) : oct::core::v3::Exception(m,f,l)
+{
+
+}
+
 Exception::~Exception()
 {
 }
@@ -72,6 +81,23 @@ const char* Exception::what() const throw ()
 		return "Esta funcion esta en desarrollo aún.";
 	}
 	return "Error desconocido.";
+}
+
+
+
+
+
+ExceptionQuery::ExceptionQuery(const char* m) : oct::core::v3::Exception(m)
+{
+
+}
+ExceptionQuery::ExceptionQuery(const char* m,const char* f, unsigned int l) : oct::core::v3::Exception(m,f,l)
+{
+
+}
+ExceptionQuery::~ExceptionQuery()
+{
+
 }
 
 }

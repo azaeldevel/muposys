@@ -41,10 +41,10 @@ public:
 		NotCopiableObject,
 		NotVoidObject,
 		Database_Error,
-		
+
 		top,
 	};
-	
+
 public:
 	Exception();
 	Exception(const Exception&);
@@ -61,12 +61,36 @@ public:
 
 	Exception(unsigned int code,const std::string& message);
 	Exception(unsigned int code,const std::string& message,const char* filename, unsigned int line);
+
+	Exception(const char* message);
+	Exception(const char* message,const char* filename, unsigned int line);
+
 	virtual ~Exception();
 
 	virtual const char* what() const throw ();
 
 private:
 };
+
+
+class ExceptionQuery : public oct::core::v3::Exception
+{
+public:
+
+public:
+	ExceptionQuery();
+	ExceptionQuery(const Exception&);
+
+	ExceptionQuery(const char* message);
+	ExceptionQuery(const char* message,const char* filename, unsigned int line);
+
+	virtual ~ExceptionQuery();
+
+	//virtual const char* what() const throw ();
+
+private:
+};
+
 
 }
 

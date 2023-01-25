@@ -1,9 +1,9 @@
 
 CREATE  USER IF NOT EXISTS 'muposys'@localhost IDENTIFIED BY '123456';
-CREATE DATABASE `muposys`;
-GRANT ALL PRIVILEGES ON `muposys`.* TO 'muposys'@'localhost';
+CREATE DATABASE `muposys-dev`;
+GRANT ALL PRIVILEGES ON `muposys-dev`.* TO 'muposys'@'localhost';
 
-USE `muposys`;
+USE `muposys-dev`;
 
 CREATE TABLE Version (id BIGINT NOT NULL, name VARCHAR(20) UNIQUE, major SMALLINT NOT NULL,minor SMALLINT,patch SMALLINT); 
 ALTER TABLE Version MODIFY id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY;
