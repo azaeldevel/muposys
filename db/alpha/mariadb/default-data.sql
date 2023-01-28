@@ -20,5 +20,5 @@ INSERT INTO Catalog(id,brief) VALUES(3,'Oferta');
 
 
 INSERT INTO Stock(id,brief) VALUES(1,'Principal');
-INSERT INTO Stock(id,brief) VALUES(2,'Producción');
+INSERT INTO Stock(id,brief) VALUES(2,'Produccion');
 

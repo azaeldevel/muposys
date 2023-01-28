@@ -1,6 +1,8 @@
 
 source C:\Users\azael\Documents\develop\muposys\db\beta\mariadb\database.sql
 
+source C:\Users\azael\Documents\develop\muposys\db\beta\mariadb\base.sql
+
 source C:\Users\azael\Documents\develop\muposys\db\beta\mariadb\stock.sql
 
 source C:\Users\azael\Documents\develop\muposys\db\beta\mariadb\user-mang.sql
