@@ -23,10 +23,10 @@
 #include <glibmm/i18n.h>
 #include <gtkmm.h>
 
-#if __linux__
+#ifdef __linux__
     #include <muposys/core/Exception.hh>
     #include <muposys/core/apidb.hh>
-#elif MSYS2
+#elif defined(_WIN32) || defined(_WIN64)
     #include <muposys/core/src/Exception.hh>
     #include <muposys/core/src/apidb.hh>
 #else

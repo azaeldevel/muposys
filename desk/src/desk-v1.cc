@@ -17,12 +17,10 @@
  */
 
 
-#include "desk.hh"
+#include "desk-v1.hh"
 
-#if __linux__
+#ifdef __linux__
 	#include "config.h"
-#elif MSYS2
-    #include "config-cb.h"
 #elif defined(_WIN32) || defined(_WIN64)
 
 #else
@@ -30,11 +28,11 @@
 #endif
 
 
-namespace mps::v1
+namespace mps
 {
 
-Login::Credential Main::credential;
-Main::Main() : devel(false)
+//Login::Credential Main::credential;
+Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL)
 {
 	init();
 
@@ -54,24 +52,24 @@ Main::Main(bool d) : devel(d)
 }
 void Main::init()
 {
-	add_events(Gdk::KEY_PRESS_MASK);
+	//add_events(Gdk::KEY_PRESS_MASK);
 
 	set_title("Multi-Porpuse Software System");
-	set_subtitle("muposys");
-	header.set_show_close_button(true);
+	//set_subtitle("muposys");
+	header.set_show_title_buttons(true);
 	set_titlebar(header);
 
 	header.pack_start(box_header);
-	//box_header.pack_start(box_header_controls);
-	//box_header.pack_start(sep_header,false,true,10);
-	box_header.pack_start(box_header_info);
+	box_header.prepend(box_header_controls);
+	box_header.prepend(sep_header);//,false,true,10
+	box_header.prepend(box_header_info);
 
-	box_header_info.pack_start(lbUser);
+	box_header_info.prepend(lbUser);
 
-	box_header_controls.pack_start(btHome);
-	box_header_controls.pack_start(btSysMang);
-	box_header_controls.pack_start(btLogout);
-	box_header_controls.pack_start(btAbout);
+	box_header_controls.prepend(btHome);
+	box_header_controls.prepend(btSysMang);
+	box_header_controls.prepend(btLogout);
+	box_header_controls.prepend(btAbout);
 
 	btHome.set_image_from_icon_name("go-home");
 	btSysMang.set_image_from_icon_name("preferences-system");
@@ -83,15 +81,15 @@ void Main::init()
 	btLogout.set_tooltip_text("Cerrar seción de usuario actual");
 	btAbout.set_tooltip_text("Acerca de MUPOSYS");
 
-	add(boxSlices);
-	boxSlices.pack_start(tbMain,false,true);
-	boxSlices.pack_start(nbMain,false,true);
+	//add(boxSlices);
+	//boxSlices.prepend(tbMain);//,false,true
+	boxSlices.prepend(nbMain);//,false,true
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	int page_index = nbMain.append_page(sales);
+	/*int page_index = nbMain.append_page(sales);
 	sales.set_info(nbMain,page_index);
 	set_default_size(800,640);
-	show_all_children();
+	show_all_children();*/
 #endif
 }
 Main::~Main()
@@ -99,7 +97,7 @@ Main::~Main()
 }
 void Main::check_session()
 {
-	login.set_transient_for(*this);
+	/*login.set_transient_for(*this);
 	if(devel) login.set_session("root","123456");
 	int res = Gtk::RESPONSE_NONE;
 	do
@@ -145,26 +143,26 @@ void Main::check_session()
 		connDB.close();
 	}
 	login.close();
-	this->notific_session();
+	this->notific_session();*/
 }
 void Main::add_activity(Gtk::Widget& w)
 {
 	nbMain.append_page(w);
 }
-void Main::set_title(const char* t )
+/*void Main::set_title(const char* t )
 {
 	header.set_title(t);
 }
 void Main::set_subtitle(const char* t )
 {
 	header.set_subtitle(t);
-}
+}*/
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 
 #endif
 const User& Main::get_user() const
 {
-	return credential.userdb;
+
 }
 void Main::notific_session()
 {
@@ -184,7 +182,7 @@ void Main::notific_session()
 
 
 
-
+/*
 Login::Login()
 {
 	init();
@@ -327,7 +325,7 @@ void Login::on_response(int res)
 			break;
 		}
 	}
-}
+}*/
 
 
 

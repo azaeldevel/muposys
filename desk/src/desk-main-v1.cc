@@ -20,20 +20,24 @@
 #include <gtkmm.h>
 #include <iostream>
 
-#if __linux__
-    #include "config.h"
+#ifdef __linux__
+	#include "config.h"
 #elif defined(_WIN32) || defined(_WIN64)
 
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#include "desk.hh"
+#ifdef ENABLE_NLS
+#  include <libintl.h>
+#endif
+
+#include "desk-v1.hh"
 
 
 int main (int argc, char *argv[])
 {
-    auto app = Gtk::Application::create("org.gtkmm.examples.base");
+	auto app = Gtk::Application::create("org.gtkmm.examples.base");
 
-    return app->make_window_and_run<mps::v1::Main>(argc, argv);
+    return app->make_window_and_run<mps::Main>(argc, argv);
 }

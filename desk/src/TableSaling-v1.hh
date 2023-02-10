@@ -19,14 +19,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <gtkmm.h>
 
 #if __linux__
-    #include <octetos/cave/maria.hh>
+    #include <muposys/core/muposysdb.hpp>
+    #include <muposys/core/core.hh>
 #elif MSYS2
-    #include <cave/src/maria.hh>
-#elif defined(_WIN32) || defined(_WIN64)
-    #include <cave/src/maria.hh>
+    #include <muposys/core/bin/muposysdb.hpp>
     #include <muposys/core/src/core.hh>
 #else
     #error "Plataforma desconocida."
@@ -36,7 +34,7 @@ namespace mps
 {
 
 
-class TableSaling : public Gtk::Box
+class TableSaling : public Gtk::VBox
 {
 public:
 	TableSaling();
@@ -49,7 +47,7 @@ public:
 
 protected:
 
-	//Connector connDB;
+	Connector connDB;
 	bool connDB_flag;
 
 	void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
@@ -101,9 +99,9 @@ protected:
 	Gtk::TreeView table;
 	Gtk::Button btSave;
 	Gtk::Label lbTotal, lbTotalAmount;
-	Gtk::Box boxTotal;
-	Gtk::Box boxFloor,boxAditional;
-	Gtk::Separator separator;
+	Gtk::HBox boxTotal;
+	Gtk::VBox boxFloor,boxAditional;
+	Gtk::HSeparator separator;
 	Crud crud;
 	long order;
 };

@@ -23,9 +23,9 @@
 #include <glibmm/i18n.h>
 #include <gtkmm.h>
 
-#if __linux__
+#ifdef __linux__
     #include <muposys/core/Exception.hh>
-    #include <octetos/cave/maria.hh>
+    #include <cave/maria.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <muposys/core/src/Exception.hh>
     #include <cave/src/maria.hh>
@@ -33,24 +33,18 @@
 	#error "Plataforma desconocida."
 #endif
 
-#include "TableSaling.hh"
+//#include "TableSaling.hh"
 
-namespace mps::v1
+namespace mps
 {
 
 struct User
 {
-    std::string name,name1,name3,pwdtxt;
 
-    User(const char** result)
-    {
-        name = result[0];
-        name1 = result[1];
-        name3 = result[2];
-        pwdtxt = result[3];
-    }
 };
 
+
+/*
 class Login : public Gtk::Dialog
 {
 public:
@@ -59,7 +53,7 @@ public:
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
-		User userdb;
+		muposysdb::User userdb;
 	};
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
@@ -83,12 +77,12 @@ private:
 	Gtk::Entry inUser,inPwd;
 	Gtk::Label lbUser,lbPass;
 	Gtk::Box boxUser,boxPass;
-	Gtk::Box boxButtons;
+	Gtk::ButtonBox boxButtons;
 
 	void check_user();
 	Credential credential;
 };
-
+*/
 
 class Main : public Gtk::Window
 {
@@ -100,17 +94,17 @@ public:
 	**/
 	virtual ~Main();
 
-	void set_title(const char* );
-	void set_subtitle(const char* );
+	//void set_title(const char* );
+	//void set_subtitle(const char* );
 	void add_activity(Gtk::Widget&);
 
-	static Login::Credential credential;
+	//static Login::Credential credential;
 
 	const User& get_user() const;
 
 protected:
 	Gtk::HeaderBar header;
-	Gtk::Toolbar tbMain;
+	//Gtk::Toolbar tbMain;
 	Gtk::Notebook nbMain;
 
 	void init();
@@ -122,7 +116,7 @@ protected:
 #endif
 
 private:
-	Login login;
+	//Login login;
 	Gtk::Label lbUser;
 	bool devel;
 	Gtk::Box boxSlices;
@@ -134,8 +128,8 @@ private:
 	Gtk::Separator sep_header;
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	TableSaling sales;
-	Gtk::ToolButton btSales;
+	//TableSaling sales;
+	//Gtk::ToolButton btSales;
 #endif
 };
 

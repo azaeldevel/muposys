@@ -20,14 +20,14 @@
  */
 
 
-#if __linux__
+#ifdef __linux__
     #ifdef MUPOSYS_CORE_ENABLE_TDD
         #include <src/muposysdb.hpp>
     #else
 		#include <muposys/core/muposysdb.hpp>
     #endif
-#elif MSYS2
-   #include <muposys/core/bin/muposysdb.hpp>
+#elif defined(_WIN32) || defined(_WIN64)
+   #include <cave/src/maria.hh>
 #else
         #error "Plataforma desconocida."
 #endif
