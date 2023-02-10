@@ -44,16 +44,6 @@ struct User
 };
 
 
-class Splash : public Gtk::Window
-{
-public:
-    Splash();
-    void init();
-
-private:
-    Gtk::Label message;
-    Gtk::Box controls;
-};
 
 /*
 class Login : public Gtk::Dialog

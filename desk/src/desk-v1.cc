@@ -30,16 +30,7 @@
 
 namespace mps::v1
 {
-Splash::Splash() : controls(Gtk::Orientation::VERTICAL)
-{
-    init();
-}
 
-void Splash::init()
-{
-    controls.prepend(message);
-    message.set_text("Iniciando...");
-}
 
 //Login::Credential Main::credential;
 Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL)

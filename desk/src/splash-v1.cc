@@ -17,8 +17,7 @@
  */
 
 
-#include <gtkmm.h>
-#include <iostream>
+#include "splash-v1.hh"
 
 #ifdef __linux__
 	#include "config.h"
@@ -28,17 +27,32 @@
 	#error "Plataforma desconocida."
 #endif
 
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#endif
 
-#include "desk-v1.hh"
-#include "splash-v1.hh"
-
-
-int main (int argc, char *argv[])
+namespace mps::v1
 {
-	auto app = Gtk::Application::create("octetos.muposys.desk");
-
-    return app->make_window_and_run<mps::v1::Main>(argc, argv);
+Splash::Splash() : controls(Gtk::Orientation::VERTICAL)
+{
+    init();
 }
+
+void Splash::init()
+{
+    set_child(controls);
+    controls.prepend(message);
+    message.set_text("Iniciando...");
+    //set_decorated(false);
+    //show_all();
+}
+
+
+
+
+
+
+
+
+
+
+
+}
+

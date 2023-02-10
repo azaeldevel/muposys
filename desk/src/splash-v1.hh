@@ -1,4 +1,7 @@
 
+#ifndef MUPOSYS_SPLASH_HH
+#define MUPOSYS_SPLASH_HH
+
 /*
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
  *
@@ -16,29 +19,38 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #include <gtkmm.h>
-#include <iostream>
+#include <glibmm/i18n.h>
+#include <gtkmm.h>
 
 #ifdef __linux__
-	#include "config.h"
+    #include <muposys/core/Exception.hh>
+    #include <cave/maria.hh>
 #elif defined(_WIN32) || defined(_WIN64)
-
+    #include <muposys/core/src/Exception.hh>
+    #include <cave/src/maria.hh>
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#endif
+//#include "TableSaling.hh"
 
-#include "desk-v1.hh"
-#include "splash-v1.hh"
-
-
-int main (int argc, char *argv[])
+namespace mps::v1
 {
-	auto app = Gtk::Application::create("octetos.muposys.desk");
 
-    return app->make_window_and_run<mps::v1::Main>(argc, argv);
+
+class Splash : public Gtk::Window
+{
+public:
+    Splash();
+    void init();
+
+private:
+    Gtk::Label message;
+    Gtk::Box controls;
+};
+
+
 }
+
+#endif
