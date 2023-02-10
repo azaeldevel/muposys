@@ -116,10 +116,11 @@ public:
     public:
         Title();
         Title(const Glib::ustring& t);
-        Title(const Glib::ustring& t, const Glib::ustring st);
+        Title(const Glib::ustring& t, const Glib::ustring& st);
 
     private:
         void init();
+
     private:
         Gtk::Label title,subtitle;
     };

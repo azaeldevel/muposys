@@ -106,13 +106,14 @@ void Main::check_session()
 {
 	login.set_transient_for(*this);
 	login.set_modal(true);
+	login.show();
 	//login.show_all_children();
 	if(devel) login.set_session("root","123456");
 
-    int response = login.run();
+    //int response = login.run();
 
 	//login.close();
-	//this->notific_session();
+	this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
 {
@@ -149,7 +150,7 @@ Main::Title::Title(const Glib::ustring& t) : Box(Gtk::Orientation::VERTICAL),tit
 {
     init();
 }
-Main::Title::Title(const Glib::ustring& t, const Glib::ustring st) : Box(Gtk::Orientation::VERTICAL),title(t),subtitle(st)
+Main::Title::Title(const Glib::ustring& t, const Glib::ustring& st) : Box(Gtk::Orientation::VERTICAL),title(t),subtitle(st)
 {
     init();
 }
@@ -338,7 +339,7 @@ void Login::on_response(int res)
         if(check_user()) close();
         else
         {
-            lbMessage.set_text("Usuario/Contrasenas incorrectos...");
+            lbMessage.set_text("Usuario/Contraseña incorrectos...");
         }
     }
     else if(res == CANCEL)
