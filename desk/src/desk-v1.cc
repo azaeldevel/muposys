@@ -185,6 +185,7 @@ Login::Login(const Glib::ustring& t, Gtk::Window& p, bool m) : Gtk::Dialog(t,p,m
 void Login::init()
 {
     set_child(childs);
+    childs.set_margin(10);
 	childs.append(boxUser);//,false,true
 	childs.append(boxPass);
 	childs.append(lbMessage);
@@ -212,7 +213,7 @@ void Login::init()
 	//btCancel.set_image_from_icon_name("gtk-cancel");
     btCancel.set_label("Cancel");
 
-	set_default_size(250,100);
+	set_default_size(300,150);
 }
 Login::~Login()
 {
