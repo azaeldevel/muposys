@@ -107,7 +107,7 @@ void Main::check_session()
 
     login.run();
 
-	login.close();
+	//login.close();
 	this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
@@ -159,22 +159,23 @@ Login::Login(const Glib::ustring& t, Gtk::Window& p, bool m) : Gtk::Dialog(t,p,m
 void Login::init()
 {
     set_child(childs);
-	childs.prepend(boxUser);//,false,true
-	childs.prepend(boxPass);
-	childs.prepend(lbMessage);
-	childs.prepend(boxButtons);
+	childs.append(boxUser);//,false,true
+	childs.append(boxPass);
+	childs.append(lbMessage);
+	childs.append(boxButtons);
 
 	lbUser.set_text("Usuario         : ");
-	boxUser.prepend(lbUser);
-	boxUser.prepend(inUser);
+	boxUser.append(lbUser);
+	boxUser.append(inUser);
 
 	lbPass.set_text("Constraseña : ");
-	boxPass.prepend(lbPass);
-	boxPass.prepend(inPwd);
+	boxPass.append(lbPass);
+	boxPass.append(inPwd);
 	inPwd.set_visibility(false);
 
-	boxButtons.prepend(btOK);
-	boxButtons.prepend(btCancel);
+	boxButtons.set_spacing(20);
+	boxButtons.append(btOK);
+	boxButtons.append(btCancel);
 
 	btCancel.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
 	btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
@@ -261,15 +262,12 @@ void Login::set_session(const char* u,const char* p)
 }
 void Login::on_response(int res)
 {
-	if(credential.valid and res == 1)
-	{
-		close();
-	}
+
 }
 int Login::run()
 {
     show();
-    //Gtk::Main::run();
+
     return 0;
 }
 

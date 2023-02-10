@@ -50,15 +50,20 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall -std=c++20 `pkg-config --cflags gtkmm-4.0 `" />
+			<Add option="-Wall -std=c++20 `pkg-config --cflags gtkmm-4.0 ` `pkg-config --cflags libmariadb`" />
 			<Add option="-DOCTETOS_CAVE_DRIVER=maria" />
 			<Add option="-DMUPOSYS_DESK_ENABLE_TDD" />
 			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config gtkmm-4.0 --libs`" />
+			<Add option="`pkg-config gtkmm-4.0 --libs` `pkg-config --libs libmariadb`" />
+			<Add library="octetos-cave-mmsql" />
 			<Add directory="bin/Debug" />
+			<Add directory="../../cave/bin/Debug" />
 		</Linker>
+		<ExtraCommands>
+			<Add before='cmd /c copy &quot;..\..\core\$(TARGET_OUTPUT_DIR)\octetos-core.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+		</ExtraCommands>
 		<Unit filename="src/desk-main-v1.cc">
 			<Option target="muposys-desk-v1-dbg" />
 		</Unit>
