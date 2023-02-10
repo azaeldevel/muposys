@@ -83,7 +83,7 @@ public:
 	void init();
 	virtual ~Login();
 
-	//int run();
+	int run();
 	const Credential& get_credential() const;
 	void set_session(const char*,const char*);
 
@@ -103,7 +103,7 @@ private:
 	Gtk::Box boxUser,boxPass;
 	Gtk::Box boxButtons;
 
-	void check_user();
+	bool check_user();
 	Credential credential;
 };
 

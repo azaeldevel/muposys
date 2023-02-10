@@ -101,10 +101,11 @@ Main::~Main()
 void Main::check_session()
 {
 	login.set_transient_for(*this);
-	login.show();
+	login.set_modal(true);
+	//login.show_all_children();
 	if(devel) login.set_session("root","123456");
 
-
+    login.run();
 
 	login.close();
 	this->notific_session();
@@ -183,6 +184,7 @@ void Login::init()
 	btCancel.set_image_from_icon_name("gtk-cancel");
 
 	set_default_size(250,100);
+	//set_modal(true);
 	//show_all_children();
 }
 Login::~Login()
@@ -194,10 +196,9 @@ void Login::on_bt_cancel_clicked()
 }
 void Login::on_bt_ok_clicked()
 {
-	check_user();
-	response(OK);
+	if(check_user()) response(OK);
 }
-void Login::check_user()
+bool Login::check_user()
 {
 	cave_current::OCTETOS_CAVE_DRIVER::Connection connDB;
 	bool flag = false;
@@ -211,7 +212,7 @@ void Login::check_user()
 	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
         dlg.set_secondary_text(e.what());
         //dlg->show(*this);
-		return;
+		return false;
 	}
 
 	credential.valid = true;
@@ -229,13 +230,13 @@ void Login::check_user()
 	{
 		credential.valid = false;
 		std::cout << "Hay 0 resultados de la consulta\n";
-		return;
+		return false;
 	}
 	if(userlst.size() > 1)
 	{
 		credential.valid = false;
 		std::cout << "Hay " <<  userlst.size() << " resultados de la consulta\n";
-		return;
+		return false;
 	}
 
 	strwhere = "id = " + std::to_string(userlst.front().person);
@@ -264,6 +265,12 @@ void Login::on_response(int res)
 	{
 		close();
 	}
+}
+int Login::run()
+{
+    show();
+    //Gtk::Main::run();
+    return 0;
 }
 
 
