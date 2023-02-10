@@ -56,11 +56,14 @@ Main::Main(bool d) : devel(d),box_header(Gtk::Orientation::HORIZONTAL),box_heade
 void Main::init()
 {
 	//add_events(Gdk::KEY_PRESS_MASK);
-
-	set_title("Multi-Porpuse Software System");
-	//set_subtitle("muposys");
+    title = "Multi-Porpuse Software System";
+	set_title(title);
+	//header.set_title_widget(title);
 	header.set_show_title_buttons(true);
 	set_titlebar(header);
+	//set_subtitle("muposys");
+	//set_titlebar(title);
+	//title.show();
 
 	header.pack_start(box_header);
 	box_header.prepend(box_header_controls);
@@ -87,6 +90,7 @@ void Main::init()
 	//add(boxSlices);
 	//boxSlices.prepend(tbMain);//,false,true
 	boxSlices.prepend(nbMain);//,false,true
+	login.set_title(title);
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	//int page_index = nbMain.append_page(sales);
@@ -129,12 +133,34 @@ const User& Main::get_user() const
 {
 
 }
+const Glib::ustring& Main::get_title()const
+{
+    return title;
+}
 void Main::notific_session()
 {
 }
 
+Main::Title::Title() : Box(Gtk::Orientation::VERTICAL),title("Multi-porpuse Sofware System"),subtitle("MUPOSYS")
+{
+    init();
+}
+Main::Title::Title(const Glib::ustring& t) : Box(Gtk::Orientation::VERTICAL),title(t),subtitle("MUPOSYS")
+{
+    init();
+}
+Main::Title::Title(const Glib::ustring& t, const Glib::ustring st) : Box(Gtk::Orientation::VERTICAL),title(t),subtitle(st)
+{
+    init();
+}
+void Main::Title::init()
+{
+    append(title);
+    append(subtitle);
 
+	Cairo::FontOptions font = subtitle.get_font_options();
 
+}
 
 
 
@@ -173,7 +199,7 @@ void Login::init()
 	boxPass.append(inPwd);
 	inPwd.set_visibility(false);
 
-	boxButtons.set_spacing(20);
+	boxButtons.set_spacing(10);
 	boxButtons.append(btOK);
 	boxButtons.append(btCancel);
 
@@ -181,29 +207,29 @@ void Login::init()
 	btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
 	signal_response().connect(sigc::mem_fun(*this, &Login::on_response) );
 
-	btOK.set_image_from_icon_name("gtk-ok");
-	btCancel.set_image_from_icon_name("gtk-cancel");
+	//btOK.set_image_from_icon_name("gtk-ok");
+	btOK.set_label("O.K.");
+	//btCancel.set_image_from_icon_name("gtk-cancel");
+    btCancel.set_label("Cancel");
 
 	set_default_size(250,100);
-	//set_modal(true);
-	//show_all_children();
 }
 Login::~Login()
 {
 }
 void Login::on_bt_cancel_clicked()
 {
-    std::cout << "\tCANCEL\n";
+    //std::cout << "\tCANCEL\n";
 	response(CANCEL);
 }
 void Login::on_bt_ok_clicked()
 {
-    std::cout << "\tOK\n";
+    //std::cout << "\tOK\n";
 	response(OK);
 }
 bool Login::check_user()
 {
-    std::cout << "Checking 1..\n";
+    //std::cout << "Checking 1..\n";
 	cave_current::OCTETOS_CAVE_DRIVER::Connection connDB;
 	bool flag = false;
 	int res = 0;
@@ -218,11 +244,11 @@ bool Login::check_user()
         dlg.show();
 		return false;
 	}
-    std::cout << "Checking 2..\n";
+    //std::cout << "Checking 2..\n";
 
 	credential.valid = true;
 
-    std::cout << "Checking 3..\n";
+    //std::cout << "Checking 3..\n";
 
 	std::string strwhere = "name = ";
 	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 3";
@@ -234,32 +260,32 @@ bool Login::check_user()
 	}
 	catch(const std::exception& e)
 	{
-	    std::cout << "Error detedtado..\n";
+	    //std::cout << "Error detedtado..\n";
 	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
         dlg.set_secondary_text(e.what());
         dlg.show();
 		return false;
 	}
 
-	std::cout << "SQL str : " << strwhere << "\n";
+	//std::cout << "SQL str : " << strwhere << "\n";
 
 	if(userlst.size() == 0)
 	{
 		credential.valid = false;
-		std::cout << "Hay 0 resultados de la consulta\n";
+		//std::cout << "Hay 0 resultados de la consulta\n";
 		return false;
 	}
 	if(userlst.size() > 1)
 	{
 		credential.valid = false;
-		std::cout << "Hay " <<  userlst.size() << " resultados de la consulta\n";
+		//std::cout << "Hay " <<  userlst.size() << " resultados de la consulta\n";
 		return false;
 	}
 
-    std::cout << "Checking 4..\n";
+    //std::cout << "Checking 4..\n";
 
 	strwhere = "id = " + std::to_string(userlst.front().person);
-	std::cout << "SQL str : " << strwhere << "\n";
+	//std::cout << "SQL str : " << strwhere << "\n";
 	std::vector<Person> personslst;
 	try
 	{
@@ -268,7 +294,7 @@ bool Login::check_user()
 	}
 	catch(const std::exception& e)
 	{
-	    std::cout << "Error detedtado..\n";
+	    //std::cout << "Error detedtado..\n";
 	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
         dlg.set_secondary_text(e.what());
         dlg.show();
@@ -277,13 +303,13 @@ bool Login::check_user()
     if(personslst.size() == 0)
 	{
 		credential.valid = false;
-		std::cout << "Hay 0 resultados de la consulta\n";
+		//std::cout << "Hay 0 resultados de la consulta\n";
 		return false;
 	}
 	if(personslst.size() > 1)
 	{
 		credential.valid = false;
-		std::cout << "Hay " <<  personslst.size() << " resultados de la consulta\n";
+		//std::cout << "Hay " <<  personslst.size() << " resultados de la consulta\n";
 		return false;
 	}
 
@@ -292,7 +318,7 @@ bool Login::check_user()
 	if(not personslst.front().name3.empty()) credential.name += " " + personslst.front().name3;
 	credential.user = inUser.get_text();
 	credential.userdb = userlst.front();
-    std::cout << "Checking 5..\n";
+    //std::cout << "Checking 5..\n";
 }
 const Login::Credential& Login::get_credential() const
 {
@@ -305,10 +331,14 @@ void Login::set_session(const char* u,const char* p)
 }
 void Login::on_response(int res)
 {
-    std::cout << "Response detected\n";
+    //std::cout << "Response detected\n";
     if(res == OK)
     {
         if(check_user()) close();
+        else
+        {
+            lbMessage.set_text("Usuario/Contrasenas incorrectos...");
+        }
     }
     else if(res == CANCEL)
     {

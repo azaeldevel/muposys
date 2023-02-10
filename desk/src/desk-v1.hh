@@ -111,6 +111,20 @@ private:
 class Main : public Gtk::ApplicationWindow
 {
 public:
+    class Title : public Gtk::Box
+    {
+    public:
+        Title();
+        Title(const Glib::ustring& t);
+        Title(const Glib::ustring& t, const Glib::ustring st);
+
+    private:
+        void init();
+    private:
+        Gtk::Label title,subtitle;
+    };
+
+public:
 	Main();
 	Main(bool devel);
 	/**
@@ -125,6 +139,7 @@ public:
 	//static Login::Credential credential;
 
 	const User& get_user() const;
+	const Glib::ustring& get_title()const;
 
 protected:
 	Gtk::HeaderBar header;
@@ -150,6 +165,8 @@ private:
 	Gtk::Box box_header_info;
 	Gtk::Box box_header_controls;
 	Gtk::Separator sep_header;
+    //Title title;
+    Glib::ustring title;
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	//TableSaling sales;
