@@ -105,10 +105,10 @@ void Main::check_session()
 	//login.show_all_children();
 	if(devel) login.set_session("root","123456");
 
-    login.run();
+    int response = login.run();
 
 	//login.close();
-	this->notific_session();
+	//this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
 {
@@ -193,14 +193,17 @@ Login::~Login()
 }
 void Login::on_bt_cancel_clicked()
 {
+    std::cout << "\tCANCEL\n";
 	response(CANCEL);
 }
 void Login::on_bt_ok_clicked()
 {
-	if(check_user()) response(OK);
+    std::cout << "\tOK\n";
+	response(OK);
 }
 bool Login::check_user()
 {
+    std::cout << "Checking 1..\n";
 	cave_current::OCTETOS_CAVE_DRIVER::Connection connDB;
 	bool flag = false;
 	int res = 0;
@@ -212,20 +215,33 @@ bool Login::check_user()
 	{
 	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
         dlg.set_secondary_text(e.what());
-        //dlg->show(*this);
+        dlg.show();
 		return false;
 	}
+    std::cout << "Checking 2..\n";
 
 	credential.valid = true;
+
+    std::cout << "Checking 3..\n";
 
 	std::string strwhere = "name = ";
 	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 3";
 	std::vector<User> userlst;
-	auto resutl = connDB.select("person,name","User",strwhere);
-	resutl.store(userlst);
+	try
+	{
+		auto resutl = connDB.select("person,name","User",strwhere);
+        resutl.store(userlst);
+	}
+	catch(const std::exception& e)
+	{
+	    std::cout << "Error detedtado..\n";
+	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
+        dlg.set_secondary_text(e.what());
+        dlg.show();
+		return false;
+	}
 
-	//std::cout << "SQL str : " << strwhere << "\n";
-
+	std::cout << "SQL str : " << strwhere << "\n";
 
 	if(userlst.size() == 0)
 	{
@@ -240,16 +256,43 @@ bool Login::check_user()
 		return false;
 	}
 
+    std::cout << "Checking 4..\n";
+
 	strwhere = "id = " + std::to_string(userlst.front().person);
+	std::cout << "SQL str : " << strwhere << "\n";
 	std::vector<Person> personslst;
-	auto resutlPerson = connDB.select("name1,name3","Person",strwhere);
-	resutl.store(personslst);
+	try
+	{
+		auto resutlPerson = connDB.select("name1,name3","Person",strwhere);
+        resutlPerson.store(personslst);
+	}
+	catch(const std::exception& e)
+	{
+	    std::cout << "Error detedtado..\n";
+	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
+        dlg.set_secondary_text(e.what());
+        dlg.show();
+		return false;
+	}
+    if(personslst.size() == 0)
+	{
+		credential.valid = false;
+		std::cout << "Hay 0 resultados de la consulta\n";
+		return false;
+	}
+	if(personslst.size() > 1)
+	{
+		credential.valid = false;
+		std::cout << "Hay " <<  personslst.size() << " resultados de la consulta\n";
+		return false;
+	}
 
 	//std::cout << "Usuario aceptado\n";
 	credential.name = personslst.front().name1;
 	if(not personslst.front().name3.empty()) credential.name += " " + personslst.front().name3;
 	credential.user = inUser.get_text();
 	credential.userdb = userlst.front();
+    std::cout << "Checking 5..\n";
 }
 const Login::Credential& Login::get_credential() const
 {
@@ -262,14 +305,17 @@ void Login::set_session(const char* u,const char* p)
 }
 void Login::on_response(int res)
 {
-
+    std::cout << "Response detected\n";
+    if(res == OK)
+    {
+        if(check_user()) close();
+    }
+    else if(res == CANCEL)
+    {
+        close();
+    }
 }
-int Login::run()
-{
-    show();
 
-    return 0;
-}
 
 
 

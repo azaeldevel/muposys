@@ -46,7 +46,7 @@ struct User
     User() = default;
     User(const char** r)
     {
-        name = oct::core::atoi<long>(r[0]);
+        person = oct::core::atoi<long>(r[0]);
         name = r[1];
     }
 };
