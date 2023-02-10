@@ -40,21 +40,43 @@ namespace mps::v1
 
 struct User
 {
+    long person;
+    std::string name;
 
+    User() = default;
+    User(const char** r)
+    {
+        name = oct::core::atoi<long>(r[0]);
+        name = r[1];
+    }
+};
+struct Person
+{
+    std::string name1,name3;
+
+    Person() = default;
+    Person(const char** r)
+    {
+        name1 = r[0];
+        name3 = r[1];
+    }
 };
 
 
 
-/*
 class Login : public Gtk::Dialog
 {
+public:
+    static const int NONE = 0;
+    static const int CANCEL = 1;
+    static const int OK = 2;
 public:
 	struct Credential
 	{
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
-		muposysdb::User userdb;
+		User userdb;
 	};
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
@@ -73,17 +95,18 @@ protected:
 
 private:
 	//int retcode;
+	Gtk::Box childs;
 	Gtk::Button btOK;
 	Gtk::Button btCancel;
 	Gtk::Entry inUser,inPwd;
 	Gtk::Label lbUser,lbPass;
 	Gtk::Box boxUser,boxPass;
-	Gtk::ButtonBox boxButtons;
+	Gtk::Box boxButtons;
 
 	void check_user();
 	Credential credential;
 };
-*/
+
 
 class Main : public Gtk::ApplicationWindow
 {
@@ -117,7 +140,7 @@ protected:
 #endif
 
 private:
-	//Login login;
+	Login login;
 	Gtk::Label lbUser;
 	bool devel;
 	Gtk::Box boxSlices;

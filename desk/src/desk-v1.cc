@@ -16,8 +16,10 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 
 #include "desk-v1.hh"
+#include "ds-v1.hh"
 
 #ifdef __linux__
 	#include "config.h"
@@ -98,53 +100,14 @@ Main::~Main()
 }
 void Main::check_session()
 {
-	/*login.set_transient_for(*this);
+	login.set_transient_for(*this);
+	login.show();
 	if(devel) login.set_session("root","123456");
-	int res = Gtk::RESPONSE_NONE;
-	do
-	{
-		res = login.run();
-		switch(res)
-		{
-		case Gtk::RESPONSE_OK:
-			break;
-		case Gtk::RESPONSE_CANCEL:
-			login.close();
-			return;
-		case Gtk::RESPONSE_NONE:
-			break;
-		}
-	}
-	while(not login.get_credential().valid);
 
-	if(login.get_credential().valid)
-	{
-		credential = login.get_credential();
-		Connector connDB;
-		bool flag = false;
-		int res = 0;
-		try
-		{
-			flag = connDB.connect(muposysdb::datconex);
-		}
-		catch(const std::exception& e)
-		{
-			Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text(e.what());
-			res = dlg.run();
-			return;
-		}
-		if(credential.userdb.downName(connDB))
-		if(credential.userdb.downPerson(connDB))
-		{
-			if(credential.userdb.getPerson().downName1(connDB)) credential.name = credential.userdb.getPerson().getName1();
-			if(credential.userdb.getPerson().downName3(connDB)) credential.name += " " + credential.userdb.getPerson().getName3();
-			lbUser.set_text(credential.name);
-		}
-		connDB.close();
-	}
+
+
 	login.close();
-	this->notific_session();*/
+	this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
 {
@@ -183,8 +146,8 @@ void Main::notific_session()
 
 
 
-/*
-Login::Login()
+
+Login::Login() : childs(Gtk::Orientation::VERTICAL)
 {
 	init();
 }
@@ -194,22 +157,23 @@ Login::Login(const Glib::ustring& t, Gtk::Window& p, bool m) : Gtk::Dialog(t,p,m
 }
 void Login::init()
 {
-	get_vbox()->pack_start(boxUser,false,true);
-	get_vbox()->pack_start(boxPass,false,true);
-	get_vbox()->pack_start(lbMessage,false,true);
-	get_vbox()->pack_start(boxButtons,false,true);
+    set_child(childs);
+	childs.prepend(boxUser);//,false,true
+	childs.prepend(boxPass);
+	childs.prepend(lbMessage);
+	childs.prepend(boxButtons);
 
 	lbUser.set_text("Usuario         : ");
-	boxUser.pack_start(lbUser);
-	boxUser.pack_start(inUser);
+	boxUser.prepend(lbUser);
+	boxUser.prepend(inUser);
 
 	lbPass.set_text("Constraseña : ");
-	boxPass.pack_start(lbPass);
-	boxPass.pack_start(inPwd);
+	boxPass.prepend(lbPass);
+	boxPass.prepend(inPwd);
 	inPwd.set_visibility(false);
 
-	boxButtons.pack_start(btOK);
-	boxButtons.pack_start(btCancel);
+	boxButtons.prepend(btOK);
+	boxButtons.prepend(btCancel);
 
 	btCancel.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
 	btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
@@ -219,34 +183,34 @@ void Login::init()
 	btCancel.set_image_from_icon_name("gtk-cancel");
 
 	set_default_size(250,100);
-	show_all_children();
+	//show_all_children();
 }
 Login::~Login()
 {
 }
 void Login::on_bt_cancel_clicked()
 {
-	response(Gtk::RESPONSE_CANCEL);
+	response(CANCEL);
 }
 void Login::on_bt_ok_clicked()
 {
 	check_user();
-	response(Gtk::RESPONSE_OK);
+	response(OK);
 }
 void Login::check_user()
 {
-	Connector connDB;
+	cave_current::OCTETOS_CAVE_DRIVER::Connection connDB;
 	bool flag = false;
 	int res = 0;
 	try
 	{
-		flag = connDB.connect(muposysdb::datconex);
+		flag = connDB.connect(ds,true);
 	}
 	catch(const std::exception& e)
 	{
-		Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text(e.what());
-		res = dlg.run();
+	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
+        dlg.set_secondary_text(e.what());
+        //dlg->show(*this);
 		return;
 	}
 
@@ -254,51 +218,36 @@ void Login::check_user()
 
 	std::string strwhere = "name = ";
 	strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 3";
-	std::vector<muposysdb::User*>* userlst = muposysdb::User::select(connDB,strwhere);
+	std::vector<User> userlst;
+	auto resutl = connDB.select("person,name","User",strwhere);
+	resutl.store(userlst);
 
 	//std::cout << "SQL str : " << strwhere << "\n";
 
-	if(userlst == NULL)
-	{
-		credential.valid = false;
-		std::cout << "No hay resultado de la consulta\n";
-	}
-	if(userlst->size() == 0)
+
+	if(userlst.size() == 0)
 	{
 		credential.valid = false;
 		std::cout << "Hay 0 resultados de la consulta\n";
-	}
-	if(userlst->size() > 1)
-	{
-		credential.valid = false;
-		std::cout << "Hay " <<  userlst->size() << " resultados de la consulta\n";
-	}
-
-	if(not credential.valid)//si no es valido el usario liberar memorio y salir
-	{
-		lbMessage.set_text("Usuario/Contraseña incorrectos.");
-		for(auto u : *userlst)
-		{
-			u->downPerson(connDB);
-			if(u->getPerson().downName1(connDB))
-			{
-				if(u->getPerson().downName3(connDB))
-				{
-					credential.name = u->getPerson().getName1() + " " + u->getPerson().getName3();
-				}
-			}
-			else
-			{
-				credential.name = u->getPerson().getName1();
-			}
-			delete u;
-		}
-		delete userlst;
 		return;
 	}
+	if(userlst.size() > 1)
+	{
+		credential.valid = false;
+		std::cout << "Hay " <<  userlst.size() << " resultados de la consulta\n";
+		return;
+	}
+
+	strwhere = "id = " + std::to_string(userlst.front().person);
+	std::vector<Person> personslst;
+	auto resutlPerson = connDB.select("name1,name3","Person",strwhere);
+	resutl.store(personslst);
+
 	//std::cout << "Usuario aceptado\n";
+	credential.name = personslst.front().name1;
+	if(not personslst.front().name3.empty()) credential.name += " " + personslst.front().name3;
 	credential.user = inUser.get_text();
-	credential.userdb = *userlst->front();
+	credential.userdb = userlst.front();
 }
 const Login::Credential& Login::get_credential() const
 {
@@ -311,22 +260,11 @@ void Login::set_session(const char* u,const char* p)
 }
 void Login::on_response(int res)
 {
-	if(credential.valid and res == Gtk::RESPONSE_OK)
+	if(credential.valid and res == 1)
 	{
-		hide();
+		close();
 	}
-	else
-	{
-		switch (res)
-		{
-		case Gtk::RESPONSE_CLOSE:
-		case Gtk::RESPONSE_CANCEL:
-		case Gtk::RESPONSE_DELETE_EVENT:
-			hide();
-			break;
-		}
-	}
-}*/
+}
 
 
 
