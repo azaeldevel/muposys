@@ -35,7 +35,7 @@
 
 //#include "TableSaling.hh"
 
-namespace mps
+namespace mps::v1
 {
 
 struct User
@@ -43,6 +43,17 @@ struct User
 
 };
 
+
+class Splash : public Gtk::Window
+{
+public:
+    Splash();
+    void init();
+
+private:
+    Gtk::Label message;
+    Gtk::Box controls;
+};
 
 /*
 class Login : public Gtk::Dialog
@@ -84,7 +95,7 @@ private:
 };
 */
 
-class Main : public Gtk::Window
+class Main : public Gtk::ApplicationWindow
 {
 public:
 	Main();

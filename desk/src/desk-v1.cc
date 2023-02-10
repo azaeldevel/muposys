@@ -28,8 +28,18 @@
 #endif
 
 
-namespace mps
+namespace mps::v1
 {
+Splash::Splash() : controls(Gtk::Orientation::VERTICAL)
+{
+    init();
+}
+
+void Splash::init()
+{
+    controls.prepend(message);
+    message.set_text("Iniciando...");
+}
 
 //Login::Credential Main::credential;
 Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL)
@@ -41,7 +51,7 @@ Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_
 	show();
 #endif
 }
-Main::Main(bool d) : devel(d)
+Main::Main(bool d) : devel(d),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL)
 {
 	init();
 
@@ -86,10 +96,10 @@ void Main::init()
 	boxSlices.prepend(nbMain);//,false,true
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	/*int page_index = nbMain.append_page(sales);
-	sales.set_info(nbMain,page_index);
+	//int page_index = nbMain.append_page(sales);
+	//sales.set_info(nbMain,page_index);
 	set_default_size(800,640);
-	show_all_children();*/
+	//show_all_children();
 #endif
 }
 Main::~Main()
