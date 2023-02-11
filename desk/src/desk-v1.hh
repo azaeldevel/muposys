@@ -144,7 +144,7 @@ public:
 
 protected:
 	Gtk::HeaderBar header;
-	//Gtk::Toolbar tbMain;
+	Gtk::Box tbMain;
 	Gtk::Notebook nbMain;
 
 	void init();

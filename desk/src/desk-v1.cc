@@ -35,7 +35,7 @@ namespace mps::v1
 
 
 //Login::Credential Main::credential;
-Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL)
+Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL),tbMain(Gtk::Orientation::VERTICAL)
 {
 	init();
 
@@ -44,7 +44,7 @@ Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_
 	show();
 #endif
 }
-Main::Main(bool d) : devel(d),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL)
+Main::Main(bool d) : devel(d),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL),tbMain(Gtk::Orientation::VERTICAL)
 {
 	init();
 
@@ -87,8 +87,8 @@ void Main::init()
 	btLogout.set_tooltip_text("Cerrar seción de usuario actual");
 	btAbout.set_tooltip_text("Acerca de MUPOSYS");
 
-	//add(boxSlices);
-	//boxSlices.prepend(tbMain);//,false,true
+	set_child(boxSlices);
+	boxSlices.prepend(tbMain);//,false,true
 	boxSlices.prepend(nbMain);//,false,true
 	login.set_title(title);
 
@@ -107,26 +107,14 @@ void Main::check_session()
 	login.set_transient_for(*this);
 	login.set_modal(true);
 	login.show();
-	//login.show_all_children();
 	if(devel) login.set_session("root","123456");
-
-    //int response = login.run();
-
-	//login.close();
-	this->notific_session();
+	//this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
 {
 	nbMain.append_page(w);
 }
-/*void Main::set_title(const char* t )
-{
-	header.set_title(t);
-}
-void Main::set_subtitle(const char* t )
-{
-	header.set_subtitle(t);
-}*/
+
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 
 #endif
