@@ -46,6 +46,15 @@ struct CatalogItem
     CatalogItem(const char** r);
 };
 
+struct CatalogItem_Save
+{
+    long id;
+    short type;
+
+    CatalogItem_Save() = default;
+    CatalogItem_Save(const char** r);
+    CatalogItem_Save(long id,cave_current::OCTETOS_CAVE_DRIVER::Connection& connDB);
+};
 struct Sale
 {
     long id,operation,stock,item,amount;
@@ -64,6 +73,30 @@ struct Stock
     Stock(long id);
 };
 
+
+struct Stocking
+{
+
+    Stocking() = default;
+    Stocking(const char** r);
+    Stocking(long id);
+};
+
+struct Operation
+{
+    long id;
+    Operation() = default;
+    Operation(const char** r);
+
+    static std::string fields();
+};
+
+struct Progress
+{
+
+    Progress() = default;
+    Progress(const char** r);
+};
 
 class TableSaling : public Gtk::Box
 {

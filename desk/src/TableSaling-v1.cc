@@ -58,6 +58,10 @@ Stock::Stock(long l) : id(l)
 }
 
 
+std::string Operation::fields()
+{
+    return "";
+}
 
 TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::create),order(-1)
 {
@@ -312,114 +316,7 @@ void TableSaling::on_save_clicked()
 }
 void TableSaling::save()
 {
-	//std::cout << "saving..\n";
-	Gtk::TreeModel::Row row;
 
-	const Stock stock(9);
-	Stocking* stocking;
-	CatalogItem* cat_item;
-	Operation* operation;
-	Progress* operationProgress;
-	const Gtk::TreeModel::iterator& last = (tree_model->children().end());
-	int quantity,item;
-	operation = new muposysdb::Operation;
-	if(not operation->insert(connDB))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking Production.");
-			dlg.run();
-			return;
-	}
-
-	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
-	{
-		if(last == it) break;
-		row = *it;
-
-		quantity = row[columns.quantity];
-		if(quantity == 0) break;
-
-		item = row[columns.item];
-
-		cat_item = new muposysdb::CatalogItem(item);
-
-		cat_item->downType(connDB);
-		if(cat_item->getType().compare("service") == 0)
-		{
-			for(unsigned int i = 0; i < quantity; i++ )
-			{
-				stocking = new muposysdb::Stocking;
-				if(not stocking->insert(connDB,stock,*cat_item,-1))
-				{
-					Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-					dlg.set_secondary_text("Durante la escritura de Stoking.");
-					dlg.run();
-					return;
-				}
-				//muposysdb::User user(2);
-				operationProgress = new muposysdb::Progress;
-				if(not operationProgress->insert(connDB,*stocking,*operation,0))
-				{
-					Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-					dlg.set_secondary_text("Durante la escritura de Stoking Production.");
-					dlg.run();
-					return;
-				}
-				delete operationProgress;
-				delete stocking;
-			}
-		}
-		else
-		{
-			stocking = new muposysdb::Stocking;
-			if(not stocking->insert(connDB,stock,*cat_item,-quantity))
-			{
-				Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-				dlg.set_secondary_text("Durante la escritura de Stoking.");
-				dlg.run();
-				return;
-			}
-			delete stocking;
-		}
-
-		delete cat_item;
-	}
-
-	//delete ente_service;
-	//delete ente_operation;
-
-	muposysdb::Sale* sale;
-	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
-	{
-		if(last == it) break;
-		row = *it;
-
-		quantity = row[columns.quantity];
-		if(quantity == 0) break;
-
-		item = row[columns.item];
-		cat_item = new muposysdb::CatalogItem(item);
-
-		sale = new muposysdb::Sale;
-		if(not sale->insert(connDB,*operation,stock,*cat_item,quantity))
-		{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking.");
-			dlg.run();
-			return;
-		}
-
-		delete cat_item;
-	}
-
-	delete operation;
-
-	connDB.commit();
-	clear();
-
-	Gtk::MessageDialog dlg("Operacion completada.",true,Gtk::MESSAGE_INFO);
-	dlg.set_secondary_text("La Venta se realizo satisfactoriamente.");
-	dlg.show();
 }
 #endif
 

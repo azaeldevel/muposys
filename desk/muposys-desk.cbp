@@ -76,6 +76,14 @@
 		<ExtraCommands>
 			<Add before='cmd /c copy &quot;..\..\core\$(TARGET_OUTPUT_DIR)\octetos-core.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
 		</ExtraCommands>
+		<Unit filename="src/TableSaling-v1.cc">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
+		</Unit>
+		<Unit filename="src/TableSaling-v1.hh">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
+		</Unit>
 		<Unit filename="src/desk-main-devel-v1.cc">
 			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
