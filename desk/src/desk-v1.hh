@@ -20,12 +20,11 @@
  */
 
 #include <gtkmm.h>
-#include <glibmm/i18n.h>
-#include <gtkmm.h>
+
 
 #ifdef __linux__
     #include <muposys/core/Exception.hh>
-    #include <cave/maria.hh>
+    #include <muposys/cave/maria.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <muposys/core/src/Exception.hh>
     #include <cave/src/maria.hh>
@@ -33,7 +32,7 @@
 	#error "Plataforma desconocida."
 #endif
 
-//#include "TableSaling.hh"
+#include "TableSaling-v1.hh"
 
 namespace mps::v1
 {
@@ -44,22 +43,16 @@ struct User
     std::string name;
 
     User() = default;
-    User(const char** r)
-    {
-        person = oct::core::atoi<long>(r[0]);
-        name = r[1];
-    }
+    User(const char** r);
 };
+
+
 struct Person
 {
     std::string name1,name3;
 
     Person() = default;
-    Person(const char** r)
-    {
-        name1 = r[0];
-        name3 = r[1];
-    }
+    Person(const char** r);
 };
 
 
@@ -144,7 +137,7 @@ public:
 
 protected:
 	Gtk::HeaderBar header;
-	Gtk::Box tbMain;
+	Gtk::Box toolbars,tbMain;
 	Gtk::Notebook nbMain;
 
 	void init();

@@ -48,6 +48,18 @@
 					<Add library="muposys-desk" />
 				</Linker>
 			</Target>
+			<Target title="muposys-desk-v1-devel-dbg">
+				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="muposys-desk" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall -std=c++20 `pkg-config --cflags gtkmm-4.0 ` `pkg-config --cflags libmariadb`" />
@@ -64,23 +76,31 @@
 		<ExtraCommands>
 			<Add before='cmd /c copy &quot;..\..\core\$(TARGET_OUTPUT_DIR)\octetos-core.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
 		</ExtraCommands>
+		<Unit filename="src/desk-main-devel-v1.cc">
+			<Option target="muposys-desk-v1-devel-dbg" />
+		</Unit>
 		<Unit filename="src/desk-main-v1.cc">
 			<Option target="muposys-desk-v1-dbg" />
 		</Unit>
 		<Unit filename="src/desk-v1.cc">
 			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Unit filename="src/desk-v1.hh">
 			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Unit filename="src/ds-v1.hh">
 			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Unit filename="src/splash-v1.cc">
 			<Option target="muposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Unit filename="src/splash-v1.hh">
 			<Option target="muposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />

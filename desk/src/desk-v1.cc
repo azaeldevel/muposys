@@ -33,9 +33,20 @@
 namespace mps::v1
 {
 
+User::User(const char** r)
+{
+    person = oct::core::atoi<long>(r[0]);
+    name = r[1];
+}
+
+Person::Person(const char** r)
+{
+    name1 = r[0];
+    name3 = r[1];
+}
 
 //Login::Credential Main::credential;
-Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL),tbMain(Gtk::Orientation::VERTICAL)
+Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL),toolbars(Gtk::Orientation::VERTICAL)
 {
 	init();
 
@@ -44,7 +55,7 @@ Main::Main() : devel(false),box_header(Gtk::Orientation::HORIZONTAL),box_header_
 	show();
 #endif
 }
-Main::Main(bool d) : devel(d),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL),tbMain(Gtk::Orientation::VERTICAL)
+Main::Main(bool d) : devel(d),box_header(Gtk::Orientation::HORIZONTAL),box_header_info(Gtk::Orientation::HORIZONTAL),box_header_controls(Gtk::Orientation::HORIZONTAL),boxSlices(Gtk::Orientation::VERTICAL),toolbars(Gtk::Orientation::VERTICAL)
 {
 	init();
 
@@ -88,7 +99,8 @@ void Main::init()
 	btAbout.set_tooltip_text("Acerca de MUPOSYS");
 
 	set_child(boxSlices);
-	boxSlices.prepend(tbMain);//,false,true
+	boxSlices.prepend(toolbars);//,false,true
+	toolbars.prepend(tbMain);
 	boxSlices.prepend(nbMain);//,false,true
 	login.set_title(title);
 
@@ -146,9 +158,6 @@ void Main::Title::init()
 {
     append(title);
     append(subtitle);
-
-	Cairo::FontOptions font = subtitle.get_font_options();
-
 }
 
 
@@ -222,7 +231,6 @@ bool Login::check_user()
     //std::cout << "Checking 1..\n";
 	cave_current::OCTETOS_CAVE_DRIVER::Connection connDB;
 	bool flag = false;
-	int res = 0;
 	try
 	{
 		flag = connDB.connect(ds,true);

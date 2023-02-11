@@ -19,22 +19,53 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gtkmm.h>
 
 #if __linux__
-    #include <muposys/core/muposysdb.hpp>
+    #include <muposys/cave/maria.hh>
     #include <muposys/core/core.hh>
-#elif MSYS2
-    #include <muposys/core/bin/muposysdb.hpp>
+#elif defined(_WIN32) || defined(_WIN64)
+    #include <cave/src/maria.hh>
     #include <muposys/core/src/core.hh>
 #else
     #error "Plataforma desconocida."
 #endif
 
-namespace mps
+namespace mps::v1
 {
 
 
-class TableSaling : public Gtk::VBox
+struct CatalogItem
+{
+    long id;
+    std::string number,brief,presentation;
+    short station;
+    float value;
+
+    CatalogItem() = default;
+    CatalogItem(const char** r);
+};
+
+struct Sale
+{
+    long id,operation,stock,item,amount;
+
+    Sale() = default;
+    Sale(const char** r);
+};
+
+struct Stock
+{
+    long id;
+    std::string brief;
+
+    Stock() = default;
+    Stock(const char** r);
+    Stock(long id);
+};
+
+
+class TableSaling : public Gtk::Box
 {
 public:
 	TableSaling();
@@ -47,7 +78,7 @@ public:
 
 protected:
 
-	Connector connDB;
+	cave_current::OCTETOS_CAVE_DRIVER::Connection connDB;
 	bool connDB_flag;
 
 	void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
@@ -61,7 +92,7 @@ protected:
 	void cellrenderer_validated_on_edited_quantity(const Glib::ustring& path_string, const Glib::ustring& new_text);
 
 	//bool on_key_press_event(GdkEventKey* key_event);
-	bool on_quantity_key_press_event(GdkEventKey* key_event);
+	//bool on_quantity_key_press_event(GdkEventKey* key_event);
 
 	float total()const;
 	void newrow();
@@ -99,9 +130,9 @@ protected:
 	Gtk::TreeView table;
 	Gtk::Button btSave;
 	Gtk::Label lbTotal, lbTotalAmount;
-	Gtk::HBox boxTotal;
-	Gtk::VBox boxFloor,boxAditional;
-	Gtk::HSeparator separator;
+	Gtk::Box boxTotal;
+	Gtk::Box boxFloor,boxAditional;
+	Gtk::Separator separator;
 	Crud crud;
 	long order;
 };

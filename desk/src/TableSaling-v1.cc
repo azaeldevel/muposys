@@ -17,10 +17,46 @@
  */
 
 
-#include "desk.hh"
+#include "TableSaling-v1.hh"
+#include "ds-v1.hh"
 
-namespace mps
+
+namespace mps::v1
 {
+
+
+CatalogItem::CatalogItem(const char** r)
+{
+    id = oct::core::atoi<long>(r[0]);
+    number = r[1];
+    brief = r[2];
+    presentation = r[3];
+    station = oct::core::atoi<short>(r[4]);
+    value = std::stof(r[5]);
+}
+
+
+
+
+Sale::Sale(const char** r)
+{
+    id = oct::core::atoi<long>(r[0]);
+    operation = oct::core::atoi<long>(r[1]);
+    stock = oct::core::atoi<long>(r[2]);
+    item = oct::core::atoi<long>(r[3]);
+    amount = oct::core::atoi<short>(r[4]);
+}
+
+
+Stock::Stock(const char** r)
+{
+    id = oct::core::atoi<long>(r[0]);
+    brief = r[1];
+}
+Stock::Stock(long l) : id(l)
+{
+}
+
 
 
 TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::create),order(-1)
@@ -40,22 +76,26 @@ TableSaling::TableSaling(long o,mps::Crud c) : connDB_flag(false),notebook(NULL)
 }
 void TableSaling::init()
 {
+    bool flag;
 	try
 	{
-		connDB_flag = connDB.connect(muposysdb::datconex);
+		flag = connDB.connect(ds,true);
 	}
 	catch(const std::exception& e)
 	{
-		Gtk::MessageDialog dlg("Error detectado durante conexion a BD",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text(e.what());
-		dlg.run();
+	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
+        dlg.set_secondary_text(e.what());
+        dlg.show();
 		return;
 	}
 
-	set_valign(Gtk::ALIGN_CENTER);
-	table.add_events(Gdk::KEY_PRESS_MASK);
+	set_orientation(Gtk::Orientation::VERTICAL);
+	boxFloor.set_orientation(Gtk::Orientation::VERTICAL);
+	boxAditional.set_orientation(Gtk::Orientation::VERTICAL);
+	//set_valign(Gtk::ALIGN_CENTER);
+	//table.add_events(Gdk::KEY_PRESS_MASK);
 	//table.signal_key_press_event().connect(sigc::mem_fun(*this, &TableSaling::on_key_press_event));
-	pack_start(table,false,true);//
+	prepend(table);//,false,true
 	{
 		set_homogeneous(false);
 
@@ -92,24 +132,24 @@ void TableSaling::init()
 		else table.append_column_numeric("Monto", columns.amount,"%.2f");
 	}
 
-	pack_start(separator,false,true,5);
+	prepend(separator);
 
-	pack_start(boxAditional,false,true);
+	prepend(boxAditional);
 
-	pack_start(boxFloor,false,true,5);
+	prepend(boxFloor);
 	{
 		//agregando widgets de total
-		boxFloor.pack_start(boxTotal);
+		boxFloor.prepend(boxTotal);
 		{
-			boxTotal.pack_start(lbTotal);
-			boxTotal.pack_start(lbTotalAmount);
+			boxTotal.prepend(lbTotal);
+			boxTotal.prepend(lbTotalAmount);
 			lbTotal.set_text("Total : $");
 		}
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 		btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
 #endif
 		btSave.set_image_from_icon_name("document-save");
-		boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
+		boxFloor.prepend(btSave);
 	}
 
 	saved = true;
@@ -151,34 +191,36 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 	Gtk::TreePath path(path_string);
 
 	std::string where = "number = '" + new_text + "'";
-	std::vector<muposysdb::CatalogItem*>* lstCatItems = muposysdb::CatalogItem::select(connDB,where);
+	std::vector<CatalogItem> lstCatItems;
+	bool flag = false;
+	try
+	{
+		auto result = connDB.select("id,number,brief,presentation,station,value","CatalogItem",where);
+		result.store(lstCatItems);
+	}
+	catch(const std::exception& e)
+	{
+	    Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
+        dlg.set_secondary_text(e.what());
+        dlg.show();
+		return;
+	}
 	//std::cout << "where : " << where << "\n";
 
-	if(not lstCatItems) return;
-
-	if(lstCatItems->size() == 1)
+	if(lstCatItems.size() == 1)
 	{
-		lstCatItems->front()->downBrief(connDB);
-		lstCatItems->front()->downValue(connDB);
-		lstCatItems->front()->downPresentation(connDB);
-
         Gtk::TreeModel::iterator iter = tree_model->get_iter(path);
         if(iter)
         {
             Gtk::TreeModel::Row row = *iter;
-            row[columns.item] = lstCatItems->front()->getID();
+            row[columns.item] = lstCatItems.front().id;
             row[columns.number] = new_text;
-            row[columns.name] = lstCatItems->front()->getBrief();
-            row[columns.presentation] = lstCatItems->front()->getPresentation();
-            row[columns.cost_unit] = lstCatItems->front()->getValue();
+            row[columns.name] = lstCatItems.front().brief;
+            row[columns.presentation] = lstCatItems.front().presentation;
+            row[columns.cost_unit] = lstCatItems.front().value;
             row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
         }
 	}
-	for(muposysdb::CatalogItem* p : *lstCatItems)
-	{
-		delete p;
-	}
-	delete lstCatItems;
 }
 
 void TableSaling::newrow()
@@ -193,22 +235,20 @@ void TableSaling::newrow()
 
 float TableSaling::total() const
 {
-	Gtk::TreeModel::Row row;
 	float tt = 0;
-	for(const Gtk::TreeModel::iterator& it : tree_model->children())
+	for(auto row : tree_model->children())
 	{
-		row = *it;
 		tt += row[columns.amount];
 	}
 	return tt;
 }
 
 
-bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
+/*bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
 {
 	//std::cout << "key quantity : " << (char) key_event->keyval << "\n";
 	return false;
-}
+}*/
 void TableSaling::clear()
 {
 	tree_model->clear();
@@ -229,9 +269,9 @@ void TableSaling::mark_unsave()
 	}
 	else //if other type parent
 	{
-		Gtk::MessageDialog dlg("Error Interno",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text("No se reconoce el tipo de contenedor.");
-		dlg.run();
+		Gtk::MessageDialog dlg("Error detectado.",false,Gtk::MessageType::ERROR,Gtk::ButtonsType::OK_CANCEL,true);
+        dlg.set_secondary_text("No se reconoce el tipo de contenedor.");
+        dlg.show();
 	}
 }
 void TableSaling::set_info(Gtk::Notebook& parent,int page_index)
@@ -244,15 +284,6 @@ void TableSaling::download(long order)
     std::string whereOrder;
     whereOrder = "operation = ";
     whereOrder += std::to_string(order);
-    std::vector<muposysdb::Sale*>* lstSales = muposysdb::Sale::select(connDB,whereOrder,0,'A');
-    if(lstSales)
-    {
-        for(auto s : *lstSales)
-        {
-            delete s;
-        }
-        delete lstSales;
-    }
 
 }
 
@@ -283,22 +314,14 @@ void TableSaling::save()
 {
 	//std::cout << "saving..\n";
 	Gtk::TreeModel::Row row;
-	//muposysdb::Ente *ente_service,*ente_operation;
-	muposysdb::Stock stock(9);
-	muposysdb::Stocking* stocking;
-	muposysdb::CatalogItem* cat_item;
-	muposysdb::Operation* operation;
-	muposysdb::Progress* operationProgress;
+
+	const Stock stock(9);
+	Stocking* stocking;
+	CatalogItem* cat_item;
+	Operation* operation;
+	Progress* operationProgress;
 	const Gtk::TreeModel::iterator& last = (tree_model->children().end());
 	int quantity,item;
-	/*ente_service = new muposysdb::Ente;
-	if(not ente_service->insert(connDB))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
-			dlg.run();
-			return;
-	}*/
 	operation = new muposysdb::Operation;
 	if(not operation->insert(connDB))
 	{
@@ -307,22 +330,7 @@ void TableSaling::save()
 			dlg.run();
 			return;
 	}
-	/*if(not operation->upStep(connDB,0))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acceso a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura de Stoking Production para step.");
-			dlg.run();
-			return;
-	}*/
 
-	/*ente_operation = new muposysdb::Ente;
-	if(not ente_operation->insert(connDB))
-	{
-			Gtk::MessageDialog dlg("Error detectado en acces a BD",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text("Durante la escritura del ID Stoking.");
-			dlg.run();
-			return;
-	}*/
 	for(const Gtk::TreeModel::const_iterator& it : tree_model->children())
 	{
 		if(last == it) break;
@@ -411,7 +419,7 @@ void TableSaling::save()
 
 	Gtk::MessageDialog dlg("Operacion completada.",true,Gtk::MESSAGE_INFO);
 	dlg.set_secondary_text("La Venta se realizo satisfactoriamente.");
-	dlg.run();
+	dlg.show();
 }
 #endif
 
