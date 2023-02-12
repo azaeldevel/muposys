@@ -24,7 +24,7 @@
 #elif defined MSYS2
     #include <core/src/Exception-v3.hh>
 #elif defined(_WIN32) || defined(_WIN64)
-    #include <Exception-v3.hh>
+    #include <core/src/Exception-v3.hh>
 #else
 	#error "Plataforma desconocida"
 #endif
