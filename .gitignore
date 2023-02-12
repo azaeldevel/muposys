@@ -182,3 +182,4 @@ web/html/Mkos-Big-Sur
 
 core/.vs
 core/muposys-core/.vs
+*-old.*
