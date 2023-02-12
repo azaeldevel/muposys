@@ -4,83 +4,114 @@
 	<Project>
 		<Option title="muposys-desk" />
 		<Option pch_mode="2" />
-		<Option compiler="msys2_x86_64_gcc" />
+		<Option compiler="gcc" />
 		<Build>
-			<Target title="libmuposys-desk-dbg">
-				<Option output="bin/Debug/muposys-desk" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+			<Target title="Debug">
+				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
-				<Option type="3" />
-				<Option compiler="msys2_x86_64_gcc" />
+				<Option type="1" />
+				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="`pkg-config  --cflags gtkmm-3.0`" />
-					<Add option="-DMSYS2" />
-					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
-					<Add option="-DDATABASE_ENGINE_MARIA" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/muposys-desk" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-core" />
-					<Add library="octetos-db-abstract" />
-					<Add library="octetos-db-maria" />
-					<Add library="muposys-core" />
-					<Add directory="../../db-abstract/bin/Debug" />
-					<Add directory="../../db-maria/bin/Debug" />
-					<Add directory="../core/bin/Debug" />
-					<Add directory="../../core/bin/Debug" />
+					<Add option="-s" />
 				</Linker>
 			</Target>
-			<Target title="muposys-desk-dbg">
-				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
-				<Option object_output="bin/Debug/" />
-				<Option type="0" />
-				<Option compiler="msys2_x86_64_gcc" />
+			<Target title="libmuposys-desk-v1-dbg">
+				<Option output="bin/Debug/muposys-desk" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/obj/Debug/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-DMSYS2" />
-					<Add option="-DOCTETOS_DB_MEDIUMWORD" />
-					<Add option="-DDATABASE_ENGINE_MARIA" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="muposys-desk-v1-dbg">
+				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-core" />
-					<Add library="octetos-db-abstract" />
-					<Add library="octetos-db-maria" />
-					<Add library="muposys-core" />
 					<Add library="muposys-desk" />
-					<Add directory="../../core/bin/Debug" />
-					<Add directory="../../db-abstract/bin/Debug" />
-					<Add directory="../../db-maria/bin/Debug" />
-					<Add directory="../core/bin/Debug" />
-					<Add directory="bin/Debug" />
+				</Linker>
+			</Target>
+			<Target title="muposys-desk-v1-devel-dbg">
+				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="muposys-desk" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
+			<Add option="-Wall -std=c++20 `pkg-config --cflags gtkmm-4.0 ` `pkg-config --cflags libmariadb`" />
+			<Add option="-DOCTETOS_CAVE_DRIVER=maria" />
+			<Add option="-DMUPOSYS_DESK_ENABLE_TDD" />
 			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config gtkmm-3.0 --libs`" />
+			<Add option="`pkg-config gtkmm-4.0 --libs` `pkg-config --libs libmariadb`" />
+			<Add library="octetos-cave-mmsql" />
+			<Add directory="bin/Debug" />
+			<Add directory="../../cave/bin/Debug" />
 		</Linker>
-		<Unit filename="src/TableSaling.cc">
-			<Option target="libmuposys-desk-dbg" />
+		<ExtraCommands>
+			<Add before='cmd /c copy &quot;..\..\core\$(TARGET_OUTPUT_DIR)\octetos-core.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
+		</ExtraCommands>
+		<Unit filename="src/TableSaling-v1.cc">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/TableSaling.hh">
-			<Option target="libmuposys-desk-dbg" />
+		<Unit filename="src/TableSaling-v1.hh">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/config-cb.h">
-			<Option target="libmuposys-desk-dbg" />
+		<Unit filename="src/desk-main-devel-v1.cc">
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/desk-main.cc">
-			<Option target="muposys-desk-dbg" />
+		<Unit filename="src/desk-main-v1.cc">
+			<Option target="muposys-desk-v1-dbg" />
 		</Unit>
-		<Unit filename="src/desk.cc">
-			<Option target="libmuposys-desk-dbg" />
+		<Unit filename="src/desk-v1.cc">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/desk.hh">
-			<Option target="libmuposys-desk-dbg" />
+		<Unit filename="src/desk-v1.hh">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
+		</Unit>
+		<Unit filename="src/ds-v1.hh">
+			<Option target="libmuposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
+		</Unit>
+		<Unit filename="src/splash-v1.cc">
+			<Option target="muposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
+		</Unit>
+		<Unit filename="src/splash-v1.hh">
+			<Option target="muposys-desk-v1-dbg" />
+			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Extensions>
-			<lib_finder>
-				<lib name="gtkmm-3.0" />
-			</lib_finder>
+			<lib_finder disable_auto="1" />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

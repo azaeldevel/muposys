@@ -20,40 +20,63 @@
  */
 
 #include <gtkmm.h>
-#include <glibmm/i18n.h>
-#include <gtkmm.h>
+
 
 #ifdef __linux__
     #include <muposys/core/Exception.hh>
-    #include <muposys/core/apidb.hh>
+    #include <muposys/cave/maria.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <muposys/core/src/Exception.hh>
-    #include <muposys/core/src/apidb.hh>
+    #include <cave/src/maria.hh>
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#include "TableSaling.hh"
+#include "TableSaling-v1.hh"
 
-namespace mps
+namespace mps::v1
 {
+
+struct User
+{
+    long person;
+    std::string name;
+
+    User() = default;
+    User(const char** r);
+};
+
+
+struct Person
+{
+    std::string name1,name3;
+
+    Person() = default;
+    Person(const char** r);
+};
+
+
 
 class Login : public Gtk::Dialog
 {
+public:
+    static const int NONE = 0;
+    static const int CANCEL = 1;
+    static const int OK = 2;
 public:
 	struct Credential
 	{
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
-		muposysdb::User userdb;
+		User userdb;
 	};
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
 	void init();
 	virtual ~Login();
 
-	//int run();
+	int run();
 	const Credential& get_credential() const;
 	void set_session(const char*,const char*);
 
@@ -65,20 +88,36 @@ protected:
 
 private:
 	//int retcode;
+	Gtk::Box childs;
 	Gtk::Button btOK;
 	Gtk::Button btCancel;
 	Gtk::Entry inUser,inPwd;
 	Gtk::Label lbUser,lbPass;
 	Gtk::Box boxUser,boxPass;
-	Gtk::ButtonBox boxButtons;
+	Gtk::Box boxButtons;
 
-	void check_user();
+	bool check_user();
 	Credential credential;
 };
 
 
-class Main : public Gtk::Window
+class Main : public Gtk::ApplicationWindow
 {
+public:
+    class Title : public Gtk::Box
+    {
+    public:
+        Title();
+        Title(const Glib::ustring& t);
+        Title(const Glib::ustring& t, const Glib::ustring& st);
+
+    private:
+        void init();
+
+    private:
+        Gtk::Label title,subtitle;
+    };
+
 public:
 	Main();
 	Main(bool devel);
@@ -87,17 +126,18 @@ public:
 	**/
 	virtual ~Main();
 
-	void set_title(const char* );
-	void set_subtitle(const char* );
+	//void set_title(const char* );
+	//void set_subtitle(const char* );
 	void add_activity(Gtk::Widget&);
 
-	static Login::Credential credential;
+	//static Login::Credential credential;
 
-	const muposysdb::User& get_user() const;
+	const User& get_user() const;
+	const Glib::ustring& get_title()const;
 
 protected:
 	Gtk::HeaderBar header;
-	Gtk::Toolbar tbMain;
+	Gtk::Box toolbars,tbMain;
 	Gtk::Notebook nbMain;
 
 	void init();
@@ -112,17 +152,19 @@ private:
 	Login login;
 	Gtk::Label lbUser;
 	bool devel;
-	Gtk::VBox boxSlices;
+	Gtk::Box boxSlices;
 	//Gtk::Button btUserMang;
 	Gtk::Button btHome,btSysMang,btLogout,btAbout;
-	Gtk::HBox box_header;
-	Gtk::HBox box_header_info;
-	Gtk::HBox box_header_controls;
+	Gtk::Box box_header;
+	Gtk::Box box_header_info;
+	Gtk::Box box_header_controls;
 	Gtk::Separator sep_header;
+    //Title title;
+    Glib::ustring title;
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	TableSaling sales;
-	Gtk::ToolButton btSales;
+	//TableSaling sales;
+	//Gtk::ToolButton btSales;
 #endif
 };
 
