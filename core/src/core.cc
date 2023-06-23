@@ -33,8 +33,9 @@ namespace mps
 		case Type::md5:
 			number = new std::uniform_int_distribution<int>(0,15);
 			break;
-		//default:
+		default:
 			//throw Exception(Exception::NotYet,__FILE__,__LINE__);
+			;
 		}
 	}
 
@@ -54,6 +55,8 @@ namespace mps
 				buffer[i] = generate_md5();
 			}
 			break;
+        default:
+            ;
 		}
 		buffer[leng] = '\0'; // leng + 1 => i
 	}
