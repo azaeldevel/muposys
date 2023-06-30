@@ -24,8 +24,8 @@
 #include <gtkmm.h>
 
 #ifdef __linux__
-    #include <muposys/core/Exception.hh>
-    #include <muposys/core/apidb.hh>
+    #include <octetos/core/Exception.hh>
+    #include <octetos/apidb/apidb.hpp>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <muposys/core/src/Exception.hh>
     #include <muposys/core/src/apidb.hh>
