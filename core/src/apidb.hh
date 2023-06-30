@@ -21,7 +21,9 @@
 
 
 #ifdef __linux__
-    #ifdef MUPOSYS_CORE_ENABLE_TDD
+    #ifdef CODEBLOCKS
+        #include <muposys/desk/bin/Debug/apidb/muposysdb.hpp>
+    #elif  defined MUPOSYS_CORE_ENABLE_TDD
         #include <src/muposysdb.hpp>
     #else
 		#include <muposys/core/muposysdb.hpp>

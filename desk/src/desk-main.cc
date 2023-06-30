@@ -21,7 +21,7 @@
 #include <iostream>
 
 #ifdef __linux__
-	#include "config.h"
+	//#include "config.h"
 #elif defined MSYS2
     #include "config-cb.h"
 #else

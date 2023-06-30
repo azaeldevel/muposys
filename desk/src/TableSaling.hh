@@ -19,10 +19,12 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gtkmm.h>
 
 #ifdef __linux__
-    #include <muposys/core/muposysdb.hpp>
-    #include <muposys/core/core.hh>
+    #include <muposysdb.hpp>
+    #include <muposys/core/src/core.hh>
+    #include <muposys/core/src/apidb.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <cave/src/maria.hh>
     #include <muposys/core/src/core.hh>

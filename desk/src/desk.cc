@@ -20,7 +20,7 @@
 #include "desk.hh"
 
 #if __linux__
-	#include "config.h"
+	//#include "config.h"
 #elif MSYS2
     #include "config-cb.h"
 #else
@@ -44,7 +44,7 @@ Main::Main() : devel(false)
 Main::Main(bool d) : devel(d)
 {
 	init();
-	
+
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 	show();

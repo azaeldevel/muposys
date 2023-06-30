@@ -33,7 +33,7 @@ namespace mps
 			alphanumeric,
 			md5
 		};
-		
+
 	public:
 		RandomString(unsigned short leng,Type);
 		~RandomString();
@@ -46,11 +46,11 @@ namespace mps
 		std::uniform_int_distribution<int>* number;
 		unsigned short leng;
 		char* buffer;
-		Type type; 
+		Type type;
 
 		char generate_md5();
 	};
-	
+
 	enum class UserStatus
 	{
 		none,
@@ -65,7 +65,14 @@ namespace mps
 		create,
 		read,
 		update,
-		remove,		
+		remove,
+	};
+
+	enum class catalog_type : unsigned char
+	{
+	    none,
+	    service,
+        matter,
 	};
 }
 

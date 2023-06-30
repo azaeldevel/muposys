@@ -336,7 +336,7 @@ void TableSaling::save()
 		cat_item = new muposysdb::CatalogItem(item);
 
 		cat_item->downType(connDB);
-		if(cat_item->getType().compare("service") == 0)
+		if((catalog_type)cat_item->getType() == catalog_type::service)
 		{
 			for(unsigned int i = 0; i < quantity; i++ )
 			{
