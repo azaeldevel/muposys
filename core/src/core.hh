@@ -67,13 +67,6 @@ namespace mps
 		update,
 		remove,
 	};
-
-	enum class catalog_type : unsigned char
-	{
-	    none,
-	    service,
-        matter,
-	};
 }
 
 #endif
