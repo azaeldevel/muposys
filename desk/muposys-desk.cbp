@@ -33,8 +33,13 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-fPIC" />
 					<Add option="-g" />
+					<Add directory="$(TARGET_OUTPUT_DIR)apidb" />
 				</Compiler>
+				<ExtraCommands>
+					<Add before="apidb-build --project-file /home/azael/develop/octetos/muposys/C++/apidb/muposys-dev.apidb --out-build $(TARGET_OUTPUT_DIR)apidb" />
+				</ExtraCommands>
 			</Target>
 			<Target title="muposys-desk-v1-dbg">
 				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
@@ -43,9 +48,12 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add directory="$(TARGET_OUTPUT_DIR)apidb" />
 				</Compiler>
 				<Linker>
+					<Add option="`pkg-config octetos-db-maria --libs`" />
 					<Add library="muposys-desk" />
+					<Add directory="$(TARGET_OUTPUT_DIR)" />
 				</Linker>
 			</Target>
 			<Target title="muposys-desk-v1-devel-dbg">
@@ -62,53 +70,40 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall -std=c++20 `pkg-config --cflags gtkmm-4.0 ` `pkg-config --cflags libmariadb`" />
-			<Add option="-DOCTETOS_CAVE_DRIVER=maria" />
+			<Add option="-Wall -std=c++20 `pkg-config gtkmm-3.0 --cflags ` `pkg-config libmariadb --cflags`   `pkg-config libxml-2.0 --cflags`" />
 			<Add option="-DMUPOSYS_DESK_ENABLE_TDD" />
+			<Add option="-DLINUX_ARCH" />
+			<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+			<Add option="-DDATABASE_ENGINE_MARIA" />
+			<Add option="-DCODEBLOCKS" />
 			<Add directory="../../../octetos" />
+			<Add directory="bin/Debug" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config gtkmm-4.0 --libs` `pkg-config --libs libmariadb`" />
-			<Add library="octetos-cave-mmsql" />
+			<Add option="`pkg-config gtkmm-3.0 --libs` `pkg-config libmariadb libmariadb --libs` `pkg-config libxml-2.0 --libs` `pkg-config octetos-core --libs`" />
 			<Add directory="bin/Debug" />
 			<Add directory="../../cave/bin/Debug" />
 		</Linker>
-		<ExtraCommands>
-			<Add before='cmd /c copy &quot;..\..\core\$(TARGET_OUTPUT_DIR)\octetos-core.dll&quot; &quot;$(TARGET_OUTPUT_DIR)&quot;' />
-		</ExtraCommands>
-		<Unit filename="src/TableSaling-v1.cc">
+		<Unit filename="bin/Debug/apidb/muposysdb.cpp">
 			<Option target="libmuposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/TableSaling-v1.hh">
+		<Unit filename="bin/Debug/apidb/muposysdb.hpp">
 			<Option target="libmuposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/desk-main-devel-v1.cc">
-			<Option target="muposys-desk-v1-devel-dbg" />
+		<Unit filename="src/TableSaling.cc">
+			<Option target="libmuposys-desk-v1-dbg" />
 		</Unit>
-		<Unit filename="src/desk-main-v1.cc">
+		<Unit filename="src/TableSaling.hh">
+			<Option target="libmuposys-desk-v1-dbg" />
+		</Unit>
+		<Unit filename="src/desk-main.cc">
 			<Option target="muposys-desk-v1-dbg" />
 		</Unit>
-		<Unit filename="src/desk-v1.cc">
+		<Unit filename="src/desk.cc">
 			<Option target="libmuposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
-		<Unit filename="src/desk-v1.hh">
+		<Unit filename="src/desk.hh">
 			<Option target="libmuposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
-		</Unit>
-		<Unit filename="src/ds-v1.hh">
-			<Option target="libmuposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
-		</Unit>
-		<Unit filename="src/splash-v1.cc">
-			<Option target="muposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
-		</Unit>
-		<Unit filename="src/splash-v1.hh">
-			<Option target="muposys-desk-v1-dbg" />
-			<Option target="muposys-desk-v1-devel-dbg" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
