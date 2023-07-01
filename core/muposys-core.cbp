@@ -28,10 +28,11 @@
 				</Linker>
 			</Target>
 			<Target title="libmuposys-core-dbg">
-				<Option output="bin/Debug/muposys-core" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/libmuposys-core.so" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="0" extension_auto="0" />
 				<Option object_output="bin/obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
+				<Option projectCompilerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-fPIC" />
 					<Add option="-g" />
