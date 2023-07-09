@@ -9,8 +9,8 @@
 
 
 #ifdef __linux__
-    #include <muposys/core/apidb.hh>
-    #include <muposys/core/core.hh>
+    #include <muposys/core/src/apidb.hh>
+    #include <muposys/core/src/core.hh>
 #elif defined MSYS2
     #include <muposys/core/src/apidb.hh>
     #include <muposys/core/src/core.hh>
@@ -115,7 +115,7 @@ namespace mps
 		std::string get_user();
 
 		static const char* user_name_variable;
-		
+
 	private:
 		//muposysdb::Variable variable;
 
