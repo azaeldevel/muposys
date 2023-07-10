@@ -32,25 +32,49 @@
 				<Option object_output="bin/obj/Debug/" />
 				<Option type="3" />
 				<Option compiler="gcc" />
-				<Option projectCompilerOptionsRelation="1" />
 				<Compiler>
-					<Add option="-fPIC" />
-					<Add option="-g" />
+					<Add option="-fPIC -g" />
 				</Compiler>
+				<Linker>
+					<Add library="octetos-core" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="apidb-build --project-file /home/azael/develop/octetos/muposys/C++/apidb/muposys-dev.apidb --out-build $(PROJECT_DIR)src" />
+				</ExtraCommands>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
+			<Add option="-Wall -std=c++20" />
+			<Add option="-DLINUX_ARCH" />
+			<Add option="-DOCTETOS_DB_MEDIUMWORD" />
+			<Add option="-DDATABASE_ENGINE_MARIA" />
 			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
-			<Add library="octetos-core" />
 			<Add directory="../../core/bin/Debug" />
 		</Linker>
+		<Unit filename="1/core.cc">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="1/core.hh">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="1/muposysdb.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="1/muposysdb.hpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="src/Exception.cc" />
 		<Unit filename="src/Exception.hh" />
 		<Unit filename="src/core.cc" />
 		<Unit filename="src/core.hh" />
+		<Unit filename="src/muposysdb.cpp">
+			<Option target="libmuposys-core-dbg" />
+		</Unit>
+		<Unit filename="src/muposysdb.hpp">
+			<Option target="libmuposys-core-dbg" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

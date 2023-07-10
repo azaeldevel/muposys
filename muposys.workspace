@@ -3,5 +3,6 @@
 	<Workspace title="Workspace">
 		<Project filename="core/muposys-core.cbp" />
 		<Project filename="desk/muposys-desk.cbp" />
+		<Project filename="web/muposys-web.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
