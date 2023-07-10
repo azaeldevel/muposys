@@ -9,10 +9,10 @@
 
 
 #ifdef __linux__
-    #include <muposys/core/src/apidb.hh>
+    #include <muposys/core/src/muposys-db.hh>
     #include <muposys/core/src/core.hh>
 #elif defined MSYS2
-    #include <muposys/core/src/apidb.hh>
+    #include <muposys/core/src/muposys-db.hh>
     #include <muposys/core/src/core.hh>
 #elif defined(_WIN32) || defined(_WIN64)
 
