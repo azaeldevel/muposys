@@ -1,0 +1,60 @@
+#!/bin/bash
+
+#WEBDIRECTORY="/var/www/localhost/htdocs"
+#WEBDIRECTORY="/var/www/muposys"
+#WEBDIRECTORY="/var/www/vhosts/muposys/html"
+#WEBDIRECTORY="/srv/http/"
+
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+    Redcore)
+        
+    ;;
+    manjareland)
+        
+    ;;
+    Gentoo)
+        WEBDIRECTORY="/var/www/localhost/htdocs"
+    ;;
+    debland)
+        
+        
+    ;;
+    Ubuntu)
+        
+    ;;
+	ManjaroLinux)
+	WEBDIRECTORY="/srv/http"
+	
+	;;
+    
+    *)
+esac
+
+case $DISTRO in
+    Redcore)
+        
+    ;;
+    manjareland)
+        
+    ;;
+    Gentoo)
+            
+    ;;
+    debland)
+        
+        
+    ;;
+    Ubuntu)
+        
+    ;;
+	ManjaroLinux)
+		cp core/bin/Debug/libmuposys-core.so $WEBDIRECTORY/
+		cp web/bin/Debug/libmuposys-web.so $WEBDIRECTORY/
+		cp web/bin/Debug/login.cgi $WEBDIRECTORY/
+		cp web/bin/Debug/logout.cgi $WEBDIRECTORY/
+	;;
+    *)
+esac
+
+
