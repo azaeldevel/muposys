@@ -30,7 +30,7 @@
 
 int main (int argc, char *argv[])
 {
-	auto app = Gtk::Application::create("org.gtkmm.examples.base");
+	auto app = Gtk::Application::create("octetos.muposys.desk");
 
-    return app->make_window_and_run<mps::v1::Main<Gtk::Window>>(argc, argv);
+    return app->make_window_and_run<mps::v1::Main>(argc, argv);
 }

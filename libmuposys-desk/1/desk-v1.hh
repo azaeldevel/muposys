@@ -33,15 +33,36 @@
 
 namespace mps::v1
 {
-    template<typename T>
-    class Main : public T
+
+    class Login : public Gtk::Window
+    {
+    public:
+        Login() = default;
+
+    private:
+
+    };
+
+    class Sales : public Gtk::Window
+    {
+    public:
+        Sales() = default;
+
+    private:
+
+    };
+
+    class Main : public Gtk::Window
     {
     public:
         Main();
 
     private:
+        Gtk::HeaderBar header;
 
     };
+
+
 
 }
 

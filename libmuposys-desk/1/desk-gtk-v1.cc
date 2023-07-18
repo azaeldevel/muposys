@@ -30,8 +30,11 @@
 
 namespace mps::v1
 {
-    template<> Main<Gtk::Window>::Main()
+    Main::Main()
     {
+        header.set_show_title_buttons();
+        set_titlebar(header);
+
         set_title("Multi-Porpuse Software System");
         set_default_size(800, 640);
     }
