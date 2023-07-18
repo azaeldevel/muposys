@@ -25,12 +25,12 @@
 	#error "Plataforma desconocida."
 #endif
 
-#include "desk-gtk-v1.hh"
+#include "desk-v1.hh"
 
 
 int main (int argc, char *argv[])
 {
 	auto app = Gtk::Application::create("org.gtkmm.examples.base");
 
-    return app->make_window_and_run<mps::v1::gtk::Main>(argc, argv);
+    return app->make_window_and_run<mps::v1::Main<Gtk::Window>>(argc, argv);
 }

@@ -17,7 +17,7 @@
  */
 
 
-#include "desk-gtk-v1.hh"
+#include "desk-v1.hh"
 
 #ifdef __linux__
 
@@ -28,9 +28,9 @@
 #endif
 
 
-namespace mps::v1::gtk
+namespace mps::v1
 {
-    Main::Main()
+    template<> Main<Gtk::Window>::Main()
     {
         set_title("Multi-Porpuse Software System");
         set_default_size(800, 640);

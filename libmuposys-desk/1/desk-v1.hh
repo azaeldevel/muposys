@@ -31,9 +31,10 @@
 #endif
 
 
-namespace mps::v1::gtk
+namespace mps::v1
 {
-    class Main : public Gtk::Window
+    template<typename T>
+    class Main : public T
     {
     public:
         Main();
