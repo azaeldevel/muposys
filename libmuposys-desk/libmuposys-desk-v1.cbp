@@ -31,6 +31,9 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="1/desk-main.cc" />
+		<Unit filename="1/desk-v1.cc" />
+		<Unit filename="1/desk-v1.hh" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

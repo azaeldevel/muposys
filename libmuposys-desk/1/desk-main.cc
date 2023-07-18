@@ -17,22 +17,15 @@
  */
 
 
-#include <gtkmm.h>
-#include <iostream>
-
 #ifdef __linux__
-	//#include "config.h"
-#elif defined MSYS2
-    #include "config-cb.h"
+
+#elif defined(_WIN32) || defined(_WIN64)
+
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#endif
-
-#include "desk.hh"
+#include "desk-v1.hh"
 
 
 int main (int argc, char *argv[])
