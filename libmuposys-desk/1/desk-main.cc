@@ -25,12 +25,12 @@
 	#error "Plataforma desconocida."
 #endif
 
-#include "desk-v1.hh"
+#include "desk-gtk-v1.hh"
 
 
 int main (int argc, char *argv[])
 {
 	auto app = Gtk::Application::create("octetos.muposys.desk");
 
-    return app->make_window_and_run<mps::v1::Main>(argc, argv);
+    return app->make_window_and_run<mps::v1::gtk::Main>(argc, argv);
 }

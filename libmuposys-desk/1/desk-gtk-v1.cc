@@ -17,7 +17,7 @@
  */
 
 
-#include "desk-v1.hh"
+#include "desk-gtk-v1.hh"
 
 #ifdef __linux__
 
@@ -28,15 +28,36 @@
 #endif
 
 
-namespace mps::v1
+namespace mps::v1::gtk
 {
-    Main::Main()
+    Login::Login()
+    {
+        set_title("Inicio de Session");
+        set_default_size(250, 100);
+        set_hide_on_close();
+
+
+    }
+
+
+
+    Main::Main() : login(true)
     {
         header.set_show_title_buttons();
         set_titlebar(header);
 
         set_title("Multi-Porpuse Software System");
         set_default_size(800, 640);
+        signal_show().connect(sigc::mem_fun(*this, &Main::on_login));
+
+    }
+
+
+    void Main::on_login()
+    {
+        l.set_transient_for(*this);
+        l.set_modal();
+        l.show();
     }
 }
 

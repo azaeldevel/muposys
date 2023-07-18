@@ -31,11 +31,44 @@
 #endif
 
 
-namespace mps::v1
+namespace mps::v1::gtk
 {
+    class Login : public Gtk::Dialog
+    {
+    public:
+        Login();
 
+    private:
+        Gtk::Button btOK;
+        Gtk::Button btCancel;
+        Gtk::Entry inUser,inPwd;
+        Gtk::Label lbUser,lbPass;
+        Gtk::Box boxUser,boxPass;
+        Gtk::ButtonBox boxButtons;
+    };
 
+    class Sales : public Gtk::Window
+    {
+    public:
+        Sales() = default;
 
+    private:
+
+    };
+
+    class Main : public Gtk::Window
+    {
+    public:
+        Main();
+
+        void on_login();
+
+    private:
+        Gtk::HeaderBar header;
+        bool login;
+        Login l;
+
+    };
 }
 
 #endif
