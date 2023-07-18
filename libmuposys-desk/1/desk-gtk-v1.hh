@@ -31,24 +31,16 @@
 #endif
 
 
-namespace mps::v1
+namespace mps::v1::gtk
 {
-    namespace gtk
+    class Main : public Gtk::Window
     {
-        class Main : Gtk::Window
-        {
-        public:
+    public:
+        Main();
 
-        private:
+    private:
 
-        };
-    }
-
-
-    namespace qt
-    {
-
-    }
+    };
 
 }
 

@@ -17,6 +17,8 @@
  */
 
 
+#include "desk-gtk-v1.hh"
+
 #ifdef __linux__
 
 #elif defined(_WIN32) || defined(_WIN64)
@@ -25,12 +27,13 @@
 	#error "Plataforma desconocida."
 #endif
 
-#include "desk-gtk-v1.hh"
 
-
-int main (int argc, char *argv[])
+namespace mps::v1::gtk
 {
-	auto app = Gtk::Application::create("org.gtkmm.examples.base");
-
-    return app->make_window_and_run<mps::v1::gtk::Main>(argc, argv);
+    Main::Main()
+    {
+        set_title("Multi-Porpuse Software System");
+        set_default_size(800, 640);
+    }
 }
+

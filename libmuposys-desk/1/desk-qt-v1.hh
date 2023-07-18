@@ -1,4 +1,7 @@
 
+#ifndef MUPOSYS_DESK_V1_HH
+#define MUPOSYS_DESK_V1_HH
+
 /*
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
  *
@@ -16,6 +19,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gtkmm.h>
+
 
 #ifdef __linux__
 
@@ -25,12 +30,14 @@
 	#error "Plataforma desconocida."
 #endif
 
-#include "desk-gtk-v1.hh"
 
-
-int main (int argc, char *argv[])
+namespace mps::v1
 {
-	auto app = Gtk::Application::create("org.gtkmm.examples.base");
+    namespace qt
+    {
 
-    return app->make_window_and_run<mps::v1::gtk::Main>(argc, argv);
+    }
+
 }
+
+#endif
