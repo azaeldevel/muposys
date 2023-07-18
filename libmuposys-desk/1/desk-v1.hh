@@ -19,6 +19,8 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <gtkmm.h>
+
 
 #ifdef __linux__
 
@@ -31,6 +33,22 @@
 
 namespace mps::v1
 {
+    namespace gtk
+    {
+        class Main : Gtk::Window
+        {
+        public:
+
+        private:
+
+        };
+    }
+
+
+    namespace qt
+    {
+
+    }
 
 }
 
