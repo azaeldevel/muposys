@@ -120,11 +120,18 @@ void Main::set_subtitle(const char* t )
 
 void Main::login_check(const Credential& c)
 {
+    if(c.valid)
+    {
 
+    }
+    else
+    {
+
+    }
 }
 void Main::login_cancel()
 {
-
+    close();
 }
 
 

@@ -19,13 +19,14 @@
 
 #include "desk.hh"
 
-#if __linux__
+#ifdef __linux__
 
-#elif MSYS2
+#elif defined(_WIN32) || defined(_WIN64)
 
 #else
 	#error "Plataforma desconocida."
 #endif
+
 #ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
     #include <iostream>
 #endif
@@ -58,8 +59,8 @@ void Login::init()
 	boxPass.pack_start(inPwd);
 	inPwd.set_visibility(false);
 
-    btOK = add_button("O.K.",Gtk::RESPONSE_OK);
-    btCancel = add_button("Cancel",Gtk::RESPONSE_CANCEL);
+    btOK = add_button("O.K.",Gtk::RESPONSE_OK);//TODO:  Gtk-CRITICAL .. gtk_box_pack: assertion '_gtk_widget_get_parent (child) == NULL' failed
+    btCancel = add_button("Cancel",Gtk::RESPONSE_CANCEL);//TODO:  Gtk-CRITICAL .. gtk_box_pack: assertion '_gtk_widget_get_parent (child) == NULL' failed
 
 	get_action_area()->pack_start(*btOK);
 	get_action_area()->pack_start(*btCancel);
@@ -97,7 +98,12 @@ void Login::on_bt_cancel_clicked()
 void Login::on_bt_ok_clicked()
 {
 	//std::cout << "O.K.\n";
+	lbMessage.set_text("");
 	validating();
+	if(not credential.valid)
+	{
+        lbMessage.set_text("Usuario/Contrseña invalidos.");
+	}
 	main->login_check(credential);
 }
 void Login::set_session(const char* u,const char* p)
