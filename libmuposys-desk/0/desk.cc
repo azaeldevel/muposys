@@ -20,9 +20,9 @@
 #include "desk.hh"
 
 #if __linux__
-	//#include "config.h"
+
 #elif MSYS2
-    #include "config-cb.h"
+
 #else
 	#error "Plataforma desconocida."
 #endif
@@ -31,13 +31,12 @@
 namespace mps
 {
 
-//Login::Credential Main::credential;
+
 Main::Main() : devel(false)
 {
 	init();
 
-	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-#ifdef MUPOSYS_DESK_ENABLE_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
 	show();
 #endif
 }
@@ -45,19 +44,19 @@ Main::Main(bool d) : devel(d)
 {
 	init();
 
-	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-#ifdef MUPOSYS_DESK_ENABLE_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
 	show();
 #endif
 }
 void Main::init()
 {
-	add_events(Gdk::KEY_PRESS_MASK);
+	//add_events(Gdk::KEY_PRESS_MASK);
+	signal_show().connect(sigc::mem_fun(*this,&Main::on_login));
 
+	set_titlebar(header);
 	set_title("Multi-Porpuse Software System");
 	set_subtitle("muposys");
 	header.set_show_close_button(true);
-	set_titlebar(header);
 
 	header.pack_start(box_header);
 	box_header.pack_start(box_header_controls);
@@ -85,9 +84,9 @@ void Main::init()
 	boxSlices.pack_start(tbMain,false,true);
 	boxSlices.pack_start(nbMain,false,true);
 
-#ifdef MUPOSYS_DESK_ENABLE_TDD
-	int page_index = nbMain.append_page(sales);
-	sales.set_info(nbMain,page_index);
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
+	//int page_index = nbMain.append_page(sales);
+	//sales.set_info(nbMain,page_index);
 	set_default_size(800,640);
 	show_all_children();
 #endif
@@ -95,10 +94,13 @@ void Main::init()
 Main::~Main()
 {
 }
-void Main::check_session()
+void Main::on_login()
 {
 	login.set_transient_for(*this);
-	if(devel) login.set_session("root","123456");
+	login.set_modal();
+	login.show();
+
+	//if(devel) login.set_session("root","123456");
 	int res = Gtk::RESPONSE_NONE;
 	/*do
 	{
@@ -143,7 +145,7 @@ void Main::check_session()
 		connDB.close();
 	}
 	login.close();*/
-	this->notific_session();
+	//this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
 {
@@ -157,7 +159,7 @@ void Main::set_subtitle(const char* t )
 {
 	header.set_subtitle(t);
 }
-#ifdef MUPOSYS_DESK_ENABLE_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
 
 #endif
 /*const muposysdb::User& Main::get_user() const

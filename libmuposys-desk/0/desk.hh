@@ -99,10 +99,10 @@ protected:
 	Gtk::Notebook nbMain;
 
 	void init();
-	virtual void check_session();
+	virtual void on_login();
 	virtual void notific_session();
 
-#ifdef MUPOSYS_DESK_ENABLE_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
 	//bool on_key_press_event(GdkEventKey* key_event) override;
 #endif
 
@@ -118,8 +118,8 @@ private:
 	Gtk::HBox box_header_controls;
 	Gtk::Separator sep_header;
 
-#ifdef MUPOSYS_DESK_ENABLE_TDD
-	TableSaling sales;
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
+	//TableSaling sales;
 	Gtk::ToolButton btSales;
 #endif
 };
