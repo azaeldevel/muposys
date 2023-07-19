@@ -38,8 +38,8 @@ int main (int argc, char *argv[])
 	mps::v0::Main* _main_ = NULL;
 	try
 	{
-#ifdef MUPOSYS_DESK_ENABLE_TDD
-		_main_ = new mps::Main(true);
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
+		_main_ = new mps::v0::Main(true);
 #else
 		_main_ = new mps::v0::Main;
 #endif

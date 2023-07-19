@@ -26,25 +26,28 @@
 #else
 	#error "Plataforma desconocida."
 #endif
-
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
+    #include <iostream>
+#endif
 
 namespace mps::v0
 {
 
-Login::Login()
+Login::Login(Main& m) : main(&m)
 {
 	init();
 }
-Login::Login(const Glib::ustring& t, Gtk::Window& p, bool m) : Gtk::Dialog(t,p,m)
+Login::Login(const Glib::ustring& t, Gtk::Window& p, bool m,Main& mapp) : Gtk::Dialog(t,p,m),main(&mapp)
 {
 	init();
 }
 void Login::init()
 {
-	get_vbox()->pack_start(boxUser,false,true);
-	get_vbox()->pack_start(boxPass,false,true);
-	get_vbox()->pack_start(lbMessage,false,true);
-	get_vbox()->pack_start(boxButtons,false,true);
+    set_title("Inicio de Session");
+	get_content_area ()->pack_start(boxUser,false,true);
+	get_content_area ()->pack_start(boxPass,false,true);
+	get_content_area ()->pack_start(lbMessage,false,true);
+	//get_action_area()->pack_start(boxButtons,false,true);
 
 	lbUser.set_text("Usuario         : ");
 	boxUser.pack_start(lbUser);
@@ -55,15 +58,18 @@ void Login::init()
 	boxPass.pack_start(inPwd);
 	inPwd.set_visibility(false);
 
-	boxButtons.pack_start(btOK);
-	boxButtons.pack_start(btCancel);
+    btOK = add_button("O.K.",Gtk::RESPONSE_OK);
+    btCancel = add_button("Cancel",Gtk::RESPONSE_CANCEL);
 
-	btCancel.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
-	btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
+	get_action_area()->pack_start(*btOK);
+	get_action_area()->pack_start(*btCancel);
+
+	btCancel->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
+	btOK->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
 	signal_response().connect(sigc::mem_fun(*this, &Login::on_response) );
 
-	btOK.set_image_from_icon_name("gtk-ok");
-	btCancel.set_image_from_icon_name("gtk-cancel");
+	btOK->set_image_from_icon_name("gtk-ok");
+	btCancel->set_image_from_icon_name("gtk-cancel");
 
 	set_default_size(250,100);
 	show_all_children();
@@ -71,18 +77,42 @@ void Login::init()
 Login::~Login()
 {
 }
+
+
+const Credential& Login::validating()
+{
+    credential.valid = false;
+    return credential;
+}
+
+
+
 void Login::on_bt_cancel_clicked()
 {
-	response(Gtk::RESPONSE_CANCEL);
+	//std::cout << "Cancel\n";
+	//response(Gtk::RESPONSE_CANCEL);
+	hide();
+	main->login_cancel();
 }
 void Login::on_bt_ok_clicked()
 {
-	check_user();
-	response(Gtk::RESPONSE_OK);
+	//std::cout << "O.K.\n";
+	validating();
+	main->login_check(credential);
 }
-void Login::check_user()
+void Login::set_session(const char* u,const char* p)
 {
-	/*Connector connDB;
+	inUser.set_text(u);
+	inPwd.set_text(p);
+}
+
+
+
+
+
+/*void Login::check_user()
+{
+	Connector connDB;
 	bool flag = false;
 	int res = 0;
 	try
@@ -145,20 +175,15 @@ void Login::check_user()
 	}
 	//std::cout << "Usuario aceptado\n";
 	credential.user = inUser.get_text();
-	credential.userdb = *userlst->front();*/
-}
+	credential.userdb = *userlst->front();
+}*/
 /*const Login::Credential& Login::get_credential() const
 {
 	return credential;
 }*/
-void Login::set_session(const char* u,const char* p)
+/*void Login::on_response(int res)
 {
-	inUser.set_text(u);
-	inPwd.set_text(p);
-}
-void Login::on_response(int res)
-{
-	/*if(credential.valid and res == Gtk::RESPONSE_OK)
+	if(credential.valid and res == Gtk::RESPONSE_OK)
 	{
 		hide();
 	}
@@ -172,8 +197,8 @@ void Login::on_response(int res)
 			hide();
 			break;
 		}
-	}*/
-}
+	}
+}*/
 
 
 

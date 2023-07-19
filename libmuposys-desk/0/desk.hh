@@ -35,112 +35,111 @@
 
 namespace mps::v0
 {
+    class Main;
 
-class Login : public Gtk::Dialog
-{
-public:
-	/*struct Credential
+    struct Credential
 	{
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
-		muposysdb::User userdb;
-	};*/
-	Login();
-	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
-	void init();
-	virtual ~Login();
 
-	//int run();
-	//const Credential& get_credential() const;
-	void set_session(const char*,const char*);
+	};
 
-protected:
-	Gtk::Label lbMessage;
-	void on_bt_ok_clicked();
-	void on_bt_cancel_clicked();
-	void on_response(int);
+    class Login : public Gtk::Dialog
+    {
+    public:
+        /**/
+        Login(Main&);
+        Login(const Glib::ustring& title, Gtk::Window& parent, bool modal,Main&);
+        void init();
+        virtual ~Login();
 
-private:
-	//int retcode;
-	Gtk::Button btOK;
-	Gtk::Button btCancel;
-	Gtk::Entry inUser,inPwd;
-	Gtk::Label lbUser,lbPass;
-	Gtk::Box boxUser,boxPass;
-	Gtk::ButtonBox boxButtons;
+        const Credential& validating();
+        void set_session(const char*,const char*);
 
-	void check_user();
-	//Credential credential;
-};
+    protected:
+
+    protected:
+        Gtk::Label lbMessage;
+        void on_bt_ok_clicked();
+        void on_bt_cancel_clicked();
+
+    private:
+        Gtk::Button *btOK,*btCancel;
+        Gtk::Entry inUser,inPwd;
+        Gtk::Label lbUser,lbPass;
+        Gtk::Box boxUser,boxPass;
+
+        Main* main;
+        Credential credential;
+    };
 
 
-class Main : public Gtk::Window
-{
-public:
-	Main();
-	Main(bool devel);
-	/**
-	*
-	**/
-	virtual ~Main();
+    class Main : public Gtk::Window
+    {
+    public:
+        Main();
+        Main(bool devel);
+        /**
+        *
+        **/
+        virtual ~Main();
 
-	//void set_title(const char* );
-	void set_subtitle(const char* );
-	//void add_activity(Gtk::Widget&);
+        //void set_title(const char* );
+        void set_subtitle(const char* );
+        //void add_activity(Gtk::Widget&);
 
-	//static Login::Credential credential;
+        //Credential credential;
 
-	//const muposysdb::User& get_user() const;
+        //const muposysdb::User& get_user() const;
+        void login_check(const Credential&);
+        void login_cancel();
 
-protected:
-	Gtk::HeaderBar header;
-	Gtk::Toolbar tbMain;
-	Gtk::Notebook nbMain;
+    protected:
+        Gtk::HeaderBar header;
+        Gtk::Toolbar tbMain;
+        Gtk::Notebook nbMain;
 
-	void on_login();
-	virtual void notific_session();
+        void on_login();
 
+    private:
+        Login login;
+        Gtk::Label lbUser;
+        Gtk::VBox boxSlices;
+        //Gtk::Button btUserMang;
+        Gtk::Button btHome,btSysMang,btLogout,btAbout;
+        Gtk::HBox box_header;
+        Gtk::HBox box_header_info;
+        Gtk::HBox box_header_controls;
+        Gtk::Separator sep_header;
+
+    private:
+        void init();
 #ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
-	//bool on_key_press_event(GdkEventKey* key_event) override;
+        //bool on_key_press_event(GdkEventKey* key_event) override;
+    private:
+        bool devel;
+        //TableSaling sales;
+        //Gtk::ToolButton btSales;
 #endif
 
-private:
-	Login login;
-	Gtk::Label lbUser;
-	bool devel;
-	Gtk::VBox boxSlices;
-	//Gtk::Button btUserMang;
-	Gtk::Button btHome,btSysMang,btLogout,btAbout;
-	Gtk::HBox box_header;
-	Gtk::HBox box_header_info;
-	Gtk::HBox box_header_controls;
-	Gtk::Separator sep_header;
+    };
 
-#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
-	//TableSaling sales;
-	Gtk::ToolButton btSales;
-#endif
-private:
-	void init();
+    class Restaurant : public Main
+    {
+    public:
+        /**
+        *
+        **/
+        Restaurant();
+        Restaurant(bool devel);
+        virtual ~Restaurant();
 
-};
+    protected:
 
-class Restaurant : public Main
-{
-public:
-	/**
-	*
-	**/
-	Restaurant();
-	Restaurant(bool devel);
-	virtual ~Restaurant();
+    private:
 
-protected:
-
-private:
-
-};
+    };
 
 }
 

@@ -26,13 +26,15 @@
 #else
 	#error "Plataforma desconocida."
 #endif
-
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
+    #include <iostream>
+#endif
 
 namespace mps::v0
 {
 
 
-Main::Main() : devel(false)
+Main::Main() : login(*this),devel(false)
 {
 	init();
 
@@ -40,7 +42,7 @@ Main::Main() : devel(false)
 	show();
 #endif
 }
-Main::Main(bool d) : devel(d)
+Main::Main(bool d) : login(*this),devel(d)
 {
 	init();
 
@@ -96,56 +98,12 @@ Main::~Main()
 }
 void Main::on_login()
 {
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
+	if(devel) login.set_session("root","123456");
+#endif
 	login.set_transient_for(*this);
 	login.set_modal();
 	login.show();
-
-	//if(devel) login.set_session("root","123456");
-	int res = Gtk::RESPONSE_NONE;
-	/*do
-	{
-		res = login.run();
-		switch(res)
-		{
-		case Gtk::RESPONSE_OK:
-			break;
-		case Gtk::RESPONSE_CANCEL:
-			login.close();
-			return;
-		case Gtk::RESPONSE_NONE:
-			break;
-		}
-	}
-	while(not login.get_credential().valid);*/
-
-	/*if(login.get_credential().valid)
-	{
-		credential = login.get_credential();
-		Connector connDB;
-		bool flag = false;
-		int res = 0;
-		try
-		{
-			flag = connDB.connect(muposysdb::datconex);
-		}
-		catch(const std::exception& e)
-		{
-			Gtk::MessageDialog dlg(*this,"Error detectado.",true,Gtk::MESSAGE_ERROR);
-			dlg.set_secondary_text(e.what());
-			res = dlg.run();
-			return;
-		}
-		if(credential.userdb.downName(connDB))
-		if(credential.userdb.downPerson(connDB))
-		{
-			if(credential.userdb.getPerson().downName1(connDB)) credential.name = credential.userdb.getPerson().getName1();
-			if(credential.userdb.getPerson().downName3(connDB)) credential.name += " " + credential.userdb.getPerson().getName3();
-			lbUser.set_text(credential.name);
-		}
-		connDB.close();
-	}
-	login.close();*/
-	//this->notific_session();
 }
 /*void Main::add_activity(Gtk::Widget& w)
 {
@@ -159,19 +117,20 @@ void Main::set_subtitle(const char* t )
 {
 	header.set_subtitle(t);
 }
-#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
 
-#endif
-/*const muposysdb::User& Main::get_user() const
+void Main::login_check(const Credential& c)
 {
-	return credential.userdb;
-}*/
-void Main::notific_session()
+
+}
+void Main::login_cancel()
 {
+
 }
 
 
+#ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
 
+#endif
 
 
 
