@@ -33,7 +33,7 @@
 
 #include "TableSaling.hh"
 
-namespace mps
+namespace mps::v0
 {
 
 class Login : public Gtk::Dialog
@@ -85,9 +85,9 @@ public:
 	**/
 	virtual ~Main();
 
-	void set_title(const char* );
+	//void set_title(const char* );
 	void set_subtitle(const char* );
-	void add_activity(Gtk::Widget&);
+	//void add_activity(Gtk::Widget&);
 
 	//static Login::Credential credential;
 
@@ -98,8 +98,7 @@ protected:
 	Gtk::Toolbar tbMain;
 	Gtk::Notebook nbMain;
 
-	void init();
-	virtual void on_login();
+	void on_login();
 	virtual void notific_session();
 
 #ifdef OCTETOS_MUPOSYS_DESK_TDD_V0
@@ -122,6 +121,9 @@ private:
 	//TableSaling sales;
 	Gtk::ToolButton btSales;
 #endif
+private:
+	void init();
+
 };
 
 class Restaurant : public Main
