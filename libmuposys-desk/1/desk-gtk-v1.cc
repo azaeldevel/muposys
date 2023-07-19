@@ -36,6 +36,33 @@ namespace mps::v1::gtk
         set_default_size(250, 100);
         set_hide_on_close();
 
+        get_content_area()->append(boxUser);
+        get_content_area()->append(boxPass);
+        get_content_area()->append(lbMessage);
+        get_content_area()->append(boxButtons);
+
+        lbUser.set_text("Usuario         : ");
+        boxUser.append(lbUser);
+        boxUser.append(inUser);
+
+        lbPass.set_text("Constraseña : ");
+        boxPass.append(lbPass);
+        boxPass.append(inPwd);
+        inPwd.set_visibility(false);
+
+        //boxButtons.append(btOK);
+        btOK = add_button("O.K.",(int)Buttons::OK);
+        boxButtons.append(*btOK);
+        //boxButtons.append(btCancel);
+        btCancel = add_button("Cancel",(int)Buttons::Cancel);
+        boxButtons.append(*btCancel);
+
+        //btCancel.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
+        //btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
+        //signal_response().connect(sigc::mem_fun(*this, &Login::on_response) );
+
+        btOK->set_image_from_icon_name("gtk-ok");
+        btCancel->set_image_from_icon_name("gtk-cancel");
 
     }
 

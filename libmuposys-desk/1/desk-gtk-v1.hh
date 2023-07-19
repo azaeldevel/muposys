@@ -36,15 +36,20 @@ namespace mps::v1::gtk
     class Login : public Gtk::Dialog
     {
     public:
+        enum class Buttons
+        {
+            OK,
+            Cancel,
+        };
+
+    public:
         Login();
 
     private:
-        Gtk::Button btOK;
-        Gtk::Button btCancel;
+        Gtk::Button *btOK,*btCancel;
         Gtk::Entry inUser,inPwd;
-        Gtk::Label lbUser,lbPass;
-        Gtk::Box boxUser,boxPass;
-        Gtk::ButtonBox boxButtons;
+        Gtk::Label lbUser,lbPass,lbMessage;
+        Gtk::Box boxUser,boxPass,boxButtons;
     };
 
     class Sales : public Gtk::Window
