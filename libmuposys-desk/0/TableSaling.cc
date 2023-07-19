@@ -40,7 +40,7 @@ TableSaling::TableSaling(long o,mps::Crud c) : connDB_flag(false),notebook(NULL)
 }
 void TableSaling::init()
 {
-	try
+	/*try
 	{
 		connDB_flag = connDB.connect(muposysdb::datconex);
 	}
@@ -50,7 +50,7 @@ void TableSaling::init()
 		dlg.set_secondary_text(e.what());
 		dlg.run();
 		return;
-	}
+	}*/
 
 	set_valign(Gtk::ALIGN_CENTER);
 	table.add_events(Gdk::KEY_PRESS_MASK);
@@ -118,7 +118,7 @@ void TableSaling::init()
 }
 TableSaling::~TableSaling()
 {
-	if(connDB_flag) connDB.close();
+	//if(connDB_flag) connDB.close();
 }
 TableSaling::ModelColumns::ModelColumns()
 {
@@ -150,7 +150,7 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 {
 	Gtk::TreePath path(path_string);
 
-	std::string where = "number = '" + new_text + "'";
+	/*std::string where = "number = '" + new_text + "'";
 	std::vector<muposysdb::CatalogItem*>* lstCatItems = muposysdb::CatalogItem::select(connDB,where);
 	//std::cout << "where : " << where << "\n";
 
@@ -178,7 +178,7 @@ void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& p
 	{
 		delete p;
 	}
-	delete lstCatItems;
+	delete lstCatItems;*/
 }
 
 void TableSaling::newrow()
@@ -244,7 +244,7 @@ void TableSaling::download(long order)
     std::string whereOrder;
     whereOrder = "operation = ";
     whereOrder += std::to_string(order);
-    std::vector<muposysdb::Sale*>* lstSales = muposysdb::Sale::select(connDB,whereOrder,0,'A');
+    /*std::vector<muposysdb::Sale*>* lstSales = muposysdb::Sale::select(connDB,whereOrder,0,'A');
     if(lstSales)
     {
         for(auto s : *lstSales)
@@ -252,7 +252,7 @@ void TableSaling::download(long order)
             delete s;
         }
         delete lstSales;
-    }
+    }*/
 
 }
 

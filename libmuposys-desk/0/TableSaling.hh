@@ -22,11 +22,8 @@
 #include <gtkmm.h>
 
 #ifdef __linux__
-    #include <muposysdb.hpp>
     #include <muposys/core/src/core.hh>
-    #include <muposys/core/src/apidb.hh>
 #elif defined(_WIN32) || defined(_WIN64)
-    #include <cave/src/maria.hh>
     #include <muposys/core/src/core.hh>
 #else
     #error "Plataforma desconocida."
@@ -49,7 +46,7 @@ public:
 
 protected:
 
-	Connector connDB;
+	//Connector connDB;
 	bool connDB_flag;
 
 	void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);

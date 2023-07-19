@@ -1,6 +1,6 @@
 
-#ifndef MUPOSYS_MAIN_HH
-#define MUPOSYS_MAIN_HH
+#ifndef OCTETOS_MUPOSYS_DESK_V0_HH
+#define OCTETOS_MUPOSYS_DESK_V0_HH
 
 /*
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
@@ -24,11 +24,9 @@
 #include <gtkmm.h>
 
 #ifdef __linux__
-    #include <octetos/core/Exception.hh>
-    #include <octetos/apidb/apidb.hpp>
+    #include <core/3/Exception.hh>
 #elif defined(_WIN32) || defined(_WIN64)
     #include <muposys/core/src/Exception.hh>
-    #include <muposys/core/src/apidb.hh>
 #else
 	#error "Plataforma desconocida."
 #endif
@@ -41,20 +39,20 @@ namespace mps
 class Login : public Gtk::Dialog
 {
 public:
-	struct Credential
+	/*struct Credential
 	{
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
 		muposysdb::User userdb;
-	};
+	};*/
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
 	void init();
 	virtual ~Login();
 
 	//int run();
-	const Credential& get_credential() const;
+	//const Credential& get_credential() const;
 	void set_session(const char*,const char*);
 
 protected:
@@ -73,7 +71,7 @@ private:
 	Gtk::ButtonBox boxButtons;
 
 	void check_user();
-	Credential credential;
+	//Credential credential;
 };
 
 
@@ -91,9 +89,9 @@ public:
 	void set_subtitle(const char* );
 	void add_activity(Gtk::Widget&);
 
-	static Login::Credential credential;
+	//static Login::Credential credential;
 
-	const muposysdb::User& get_user() const;
+	//const muposysdb::User& get_user() const;
 
 protected:
 	Gtk::HeaderBar header;

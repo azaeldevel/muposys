@@ -31,7 +31,7 @@
 namespace mps
 {
 
-Login::Credential Main::credential;
+//Login::Credential Main::credential;
 Main::Main() : devel(false)
 {
 	init();
@@ -100,7 +100,7 @@ void Main::check_session()
 	login.set_transient_for(*this);
 	if(devel) login.set_session("root","123456");
 	int res = Gtk::RESPONSE_NONE;
-	do
+	/*do
 	{
 		res = login.run();
 		switch(res)
@@ -114,9 +114,9 @@ void Main::check_session()
 			break;
 		}
 	}
-	while(not login.get_credential().valid);
+	while(not login.get_credential().valid);*/
 
-	if(login.get_credential().valid)
+	/*if(login.get_credential().valid)
 	{
 		credential = login.get_credential();
 		Connector connDB;
@@ -142,7 +142,7 @@ void Main::check_session()
 		}
 		connDB.close();
 	}
-	login.close();
+	login.close();*/
 	this->notific_session();
 }
 void Main::add_activity(Gtk::Widget& w)
@@ -160,10 +160,10 @@ void Main::set_subtitle(const char* t )
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 
 #endif
-const muposysdb::User& Main::get_user() const
+/*const muposysdb::User& Main::get_user() const
 {
 	return credential.userdb;
-}
+}*/
 void Main::notific_session()
 {
 }
@@ -234,7 +234,7 @@ void Login::on_bt_ok_clicked()
 }
 void Login::check_user()
 {
-	Connector connDB;
+	/*Connector connDB;
 	bool flag = false;
 	int res = 0;
 	try
@@ -297,12 +297,12 @@ void Login::check_user()
 	}
 	//std::cout << "Usuario aceptado\n";
 	credential.user = inUser.get_text();
-	credential.userdb = *userlst->front();
+	credential.userdb = *userlst->front();*/
 }
-const Login::Credential& Login::get_credential() const
+/*const Login::Credential& Login::get_credential() const
 {
 	return credential;
-}
+}*/
 void Login::set_session(const char* u,const char* p)
 {
 	inUser.set_text(u);
@@ -310,7 +310,7 @@ void Login::set_session(const char* u,const char* p)
 }
 void Login::on_response(int res)
 {
-	if(credential.valid and res == Gtk::RESPONSE_OK)
+	/*if(credential.valid and res == Gtk::RESPONSE_OK)
 	{
 		hide();
 	}
@@ -324,7 +324,7 @@ void Login::on_response(int res)
 			hide();
 			break;
 		}
-	}
+	}*/
 }
 
 
