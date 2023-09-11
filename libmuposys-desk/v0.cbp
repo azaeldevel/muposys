@@ -7,21 +7,23 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/libmuposys-desk-v0" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
+				<Option output="bin/Debug/muposys-desk-v0" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/Debug/obj" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-DOCTETOS_MUPOSYS_DESK_TDD_V0" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/libmuposys-desk-v0" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/muposys-desk-v0" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
-				<Option type="1" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add option="-DOCTETOS_MUPOSYS_DESK_TDD_V0" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -29,8 +31,18 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall" />
+			<Add option="-Wall -pedantic --std=c++20 `pkg-config gtkmm-3.0 --cflags`" />
+			<Add directory="../../../octetos" />
 		</Compiler>
+		<Linker>
+			<Add option="`pkg-config gtkmm-3.0 --libs`" />
+		</Linker>
+		<Unit filename="0/TableSaling.cc" />
+		<Unit filename="0/TableSaling.hh" />
+		<Unit filename="0/desk-Login.cc" />
+		<Unit filename="0/desk-main.cc" />
+		<Unit filename="0/desk.cc" />
+		<Unit filename="0/desk.hh" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

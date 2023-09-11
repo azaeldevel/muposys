@@ -70,7 +70,7 @@
 			<Target title="muposys-desk-v0-devel-dbg">
 				<Option output="bin/Debug/muposys-desk" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/obj/Debug/" />
-				<Option type="1" />
+				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
