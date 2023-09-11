@@ -22,7 +22,7 @@
 #if __linux__
 	//#include "config.h"
 #elif MSYS2
-    #include "config-cb.h"
+    //#include "config-cb.h"
 #else
 	#error "Plataforma desconocida."
 #endif
@@ -86,8 +86,8 @@ void Main::init()
 	boxSlices.pack_start(nbMain,false,true);
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	int page_index = nbMain.append_page(sales);
-	sales.set_info(nbMain,page_index);
+	/*int page_index = nbMain.append_page(sales);
+	sales.set_info(nbMain,page_index);*/
 	set_default_size(800,640);
 	show_all_children();
 #endif
@@ -97,7 +97,7 @@ Main::~Main()
 }
 void Main::check_session()
 {
-	login.set_transient_for(*this);
+	/*login.set_transient_for(*this);
 	if(devel) login.set_session("root","123456");
 	int res = Gtk::RESPONSE_NONE;
 	do
@@ -143,7 +143,7 @@ void Main::check_session()
 		connDB.close();
 	}
 	login.close();
-	this->notific_session();
+	this->notific_session();*/
 }
 void Main::add_activity(Gtk::Widget& w)
 {
@@ -160,10 +160,10 @@ void Main::set_subtitle(const char* t )
 #ifdef MUPOSYS_DESK_ENABLE_TDD
 
 #endif
-const muposysdb::User& Main::get_user() const
+/*const muposysdb::User& Main::get_user() const
 {
 	return credential.userdb;
-}
+}*/
 void Main::notific_session()
 {
 }
@@ -234,7 +234,7 @@ void Login::on_bt_ok_clicked()
 }
 void Login::check_user()
 {
-	Connector connDB;
+	/*Connector connDB;
 	bool flag = false;
 	int res = 0;
 	try
@@ -297,7 +297,7 @@ void Login::check_user()
 	}
 	//std::cout << "Usuario aceptado\n";
 	credential.user = inUser.get_text();
-	credential.userdb = *userlst->front();
+	credential.userdb = *userlst->front();*/
 }
 const Login::Credential& Login::get_credential() const
 {

@@ -23,7 +23,7 @@
 #ifdef __linux__
 	//#include "config.h"
 #elif defined MSYS2
-    #include "config-cb.h"
+    //#include "config-cb.h"
 #else
 	#error "Plataforma desconocida."
 #endif

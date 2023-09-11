@@ -24,16 +24,14 @@
 #include <gtkmm.h>
 
 #ifdef __linux__
-    #include <octetos/core/Exception.hh>
-    #include <octetos/apidb/apidb.hpp>
+
 #elif defined(_WIN32) || defined(_WIN64)
-    #include <muposys/core/src/Exception.hh>
-    #include <muposys/core/src/apidb.hh>
+
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#include "TableSaling.hh"
+//#include "TableSaling.hh"
 
 namespace mps
 {
@@ -46,7 +44,7 @@ public:
 		bool valid;
 		std::string user; //user name
 		std::string name; //person name
-		muposysdb::User userdb;
+		//muposysdb::User userdb;
 	};
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
@@ -93,7 +91,7 @@ public:
 
 	static Login::Credential credential;
 
-	const muposysdb::User& get_user() const;
+	//const muposysdb::User& get_user() const;
 
 protected:
 	Gtk::HeaderBar header;
@@ -121,7 +119,7 @@ private:
 	Gtk::Separator sep_header;
 
 #ifdef MUPOSYS_DESK_ENABLE_TDD
-	TableSaling sales;
+	//TableSaling sales;
 	Gtk::ToolButton btSales;
 #endif
 };
