@@ -42,7 +42,7 @@ int main (int argc, char *argv[])
 	mps::Main* _main_ = NULL;
 	try
 	{
-#ifdef MUPOSYS_DESK_ENABLE_TDD
+#ifdef MUPOSYS_DESK_V0_ENABLE_TDD
 		_main_ = new mps::Main(true);
 #else
 		_main_ = new mps::Main;

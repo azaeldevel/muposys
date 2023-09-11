@@ -1,7 +1,7 @@
 
-CREATE  USER IF NOT EXISTS 'muposys'@localhost IDENTIFIED BY '123456';
-CREATE DATABASE `muposys-dev` character set ASCII collate ASCII_BIN;
-GRANT ALL PRIVILEGES ON `muposys-dev`.* TO 'muposys'@'localhost';
+CREATE  USER IF NOT EXISTS 'develop'@localhost IDENTIFIED BY '123456';
+CREATE DATABASE `muposys-dev`;
+GRANT ALL PRIVILEGES ON `muposys-dev`.* TO 'develop'@'localhost';
 
 USE `muposys-dev`;
 
