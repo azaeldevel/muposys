@@ -17,20 +17,46 @@
  */
 
 
+#include <gtkmm.h>
+#include <iostream>
+
 #ifdef __linux__
-
-#elif defined(_WIN32) || defined(_WIN64)
-
+	//#include "config.h"
+#elif defined MSYS2
+    //#include "config-cb.h"
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#include "desk-gtk-v1.hh"
+#ifdef ENABLE_NLS
+#  include <libintl.h>
+#endif
+
+#include "desk.hh"
 
 
 int main (int argc, char *argv[])
 {
-	auto app = Gtk::Application::create("octetos.muposys.desk");
+	Gtk::Main kit(argc, argv);
 
-    return app->make_window_and_run<mps::v1::gtk::Main>(argc, argv);
+	mps::Main* _main_ = NULL;
+	try
+	{
+#ifdef MUPOSYS_DESK_V0_ENABLE_TDD
+		_main_ = new mps::Main(true);
+#else
+		_main_ = new mps::Main;
+#endif
+		if (_main_) kit.run(*_main_);
+	}
+	catch (const std::exception& e)
+	{
+		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
+		dlg.set_secondary_text(e.what());
+		dlg.run();
+		return EXIT_FAILURE;
+	}
+	//if(_main_) delete _main_;
+
+	return EXIT_SUCCESS;
 }
