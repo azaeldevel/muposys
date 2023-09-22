@@ -17,46 +17,18 @@
  */
 
 
-#include <gtkmm.h>
-#include <iostream>
 
-#ifdef __linux__
-	//#include "config.h"
-#elif defined MSYS2
-    //#include "config-cb.h"
-#else
-	#error "Plataforma desconocida."
-#endif
+#include "core.hh"
 
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#endif
-
-#include "desk.hh"
-
-
-int main (int argc, char *argv[])
+namespace mps::v1
 {
-	Gtk::Main kit(argc, argv);
-
-	mps::v1::Main* _main_ = NULL;
-	try
-	{
-#ifdef MUPOSYS_DESK_V0_ENABLE_TDD
-		_main_ = new mps::Main(true);
+    cave::mmsql::Data default_dtm()
+    {
+#ifdef MUPOSYS_CORE_V1_TDD
+        return cave::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
 #else
-		_main_ = new mps::v1::Main;
+        return cave::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
 #endif
-		if (_main_) kit.run(*_main_);
-	}
-	catch (const std::exception& e)
-	{
-		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text(e.what());
-		dlg.run();
-		return EXIT_FAILURE;
-	}
-	//if(_main_) delete _main_;
+    }
 
-	return EXIT_SUCCESS;
 }

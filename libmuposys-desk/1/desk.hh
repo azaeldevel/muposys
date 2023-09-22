@@ -32,8 +32,9 @@
 #endif
 
 //#include "TableSaling.hh"
+#include <muposys/core/1/core.hh>
 
-namespace mps
+namespace mps::v1
 {
 
 class Login : public Gtk::Dialog

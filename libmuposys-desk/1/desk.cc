@@ -40,7 +40,7 @@
 
 namespace cave = oct::cave::v0;
 
-namespace mps
+namespace mps::v1
 {
 
 Login::Credential Main::credential;
@@ -203,7 +203,7 @@ void Login::on_bt_ok_clicked()
 }
 void Login::check_user()
 {
-	//cave::mmsql::Data dtm("localhost","develop","123456", "INFORMATION_SCHEMA", 3306);
+	cave::mmsql::Data dtm = default_dtm();
 }
 const Login::Credential& Login::get_credential() const
 {

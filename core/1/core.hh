@@ -1,4 +1,7 @@
 
+#ifndef MUPOSYS_CORE_V1_HH
+#define MUPOSYS_CORE_V1_HH
+
 /*
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
  *
@@ -17,46 +20,31 @@
  */
 
 
-#include <gtkmm.h>
-#include <iostream>
 
-#ifdef __linux__
-	//#include "config.h"
-#elif defined MSYS2
-    //#include "config-cb.h"
+#if __linux__
+    #if defined LINUX_ARCH
+        #include <mysql/mysql.h>
+    #elif defined LINUX_GENTOO
+        #include <mariadb/mysql.h>
+    #elif defined LINUX_DEBIAN
+        #include <mariadb/mysql.h>
+    #elif LINUX_MSYS2
+        #include <mariadb/mysql.h>
+        #error "Plataforma desconocida."
+    #endif
+#elif (defined(_WIN32) || defined(_WIN64))
+        #include <mysql/mysql.h>
 #else
 	#error "Plataforma desconocida."
 #endif
 
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#endif
+#include <cave/src/mmsql.hh>
+namespace cave = oct::cave::v0;
 
-#include "desk.hh"
-
-
-int main (int argc, char *argv[])
+namespace mps::v1
 {
-	Gtk::Main kit(argc, argv);
+	cave::mmsql::Data default_dtm();
 
-	mps::v1::Main* _main_ = NULL;
-	try
-	{
-#ifdef MUPOSYS_DESK_V0_ENABLE_TDD
-		_main_ = new mps::Main(true);
-#else
-		_main_ = new mps::v1::Main;
-#endif
-		if (_main_) kit.run(*_main_);
-	}
-	catch (const std::exception& e)
-	{
-		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text(e.what());
-		dlg.run();
-		return EXIT_FAILURE;
-	}
-	//if(_main_) delete _main_;
-
-	return EXIT_SUCCESS;
 }
+
+#endif
