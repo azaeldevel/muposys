@@ -36,24 +36,71 @@
 
 namespace mps::v1
 {
+struct Person
+{
+    unsigned long id;
+
+    std::string name1,name3; //person name
+
+    Person() = default;
+    Person(const char** s)
+    {
+        name1 = s[0];
+    }
+    Person(cave::Row<char,cave::mmsql::Data> s)
+    {
+        name1 = s[0];
+    }
+
+	static std::string fields()
+	{
+        return "id,name1,name3";
+	}
+
+	static std::string table()
+	{
+        return "User";
+	}
+};
+struct User
+{
+    bool valid;
+    unsigned long id;
+    Person person;
+    std::string name; //person name
+
+    User() = default;
+    User(const char** s)
+    {
+        name = s[0];
+    }
+    User(cave::Row<char,cave::mmsql::Data> s)
+    {
+        name = s[0];
+    }
+
+
+	static std::string fields()
+	{
+        return "id,person,name";
+	}
+
+	static std::string table()
+	{
+        return "User";
+	}
+};
 
 class Login : public Gtk::Dialog
 {
 public:
-	struct Credential
-	{
-		bool valid;
-		std::string user; //user name
-		std::string name; //person name
-		//muposysdb::User userdb;
-	};
+
 	Login();
 	Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
 	void init();
 	virtual ~Login();
 
 	//int run();
-	const Credential& get_credential() const;
 	void set_session(const char*,const char*);
 
 protected:
@@ -70,9 +117,10 @@ private:
 	Gtk::Label lbUser,lbPass;
 	Gtk::Box boxUser,boxPass;
 	Gtk::ButtonBox boxButtons;
+	User actual_user;
 
 	void check_user();
-	Credential credential;
+
 };
 
 
@@ -90,7 +138,6 @@ public:
 	void set_subtitle(const char* );
 	void add_activity(Gtk::Widget&);
 
-	static Login::Credential credential;
 
 	//const muposysdb::User& get_user() const;
 
