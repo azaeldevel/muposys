@@ -137,7 +137,10 @@ void Main::set_subtitle(const char* t )
 void Main::notific_session()
 {
 }
-
+const User& Main::get_user()const
+{
+    return login.get_user();
+}
 
 
 
@@ -230,7 +233,7 @@ void Login::check_user()
 
     std::vector<User> lst_dbs2;
     std::string strsql = " name ='" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "'";
-    bool lst_dbs2flag;
+    bool lst_dbs2flag = false;
     try
     {
  		 lst_dbs2flag = conn.select(lst_dbs2,strsql);
@@ -278,6 +281,11 @@ void Login::on_response(int res)
 		hide();
 	}
 }
+const User& Login::get_user()const
+{
+    return actual_user;
+}
+
 
 
 

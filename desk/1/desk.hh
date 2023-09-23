@@ -102,6 +102,7 @@ public:
 
 	//int run();
 	void set_session(const char*,const char*);
+	const User& get_user()const;
 
 protected:
 	Gtk::Label lbMessage;
@@ -137,6 +138,7 @@ public:
 	void set_title(const char* );
 	void set_subtitle(const char* );
 	void add_activity(Gtk::Widget&);
+	const User& get_user()const;
 
 
 	//const muposysdb::User& get_user() const;
