@@ -17,7 +17,9 @@
 				</Compiler>
 				<Linker>
 					<Add library="octetos-cave-mmsql" />
+					<Add library="muposys-core" />
 					<Add directory="../../cave/bin/Debug" />
+					<Add directory="../core/bin/Debug" />
 				</Linker>
 			</Target>
 			<Target title="Release">

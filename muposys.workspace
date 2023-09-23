@@ -2,7 +2,7 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
 		<Project filename="../cave/cave-v0.cbp" />
-		<Project filename="core/muposys-core.cbp" />
+		<Project filename="core/core-v1.cbp" />
 		<Project filename="libmuposys-desk/mps-desk-v1.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

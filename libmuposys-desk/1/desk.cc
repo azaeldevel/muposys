@@ -16,6 +16,7 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+ #include <iostream>
 
 #include "desk.hh"
 #include <cave/src/mmsql.hh>
@@ -43,7 +44,7 @@ namespace cave = oct::cave::v0;
 namespace mps::v1
 {
 
-Login::Credential Main::credential;
+
 Main::Main() : devel(false)
 {
 	init();
@@ -188,6 +189,7 @@ void Login::init()
 
 	set_default_size(250,100);
 	show_all_children();
+	actual_user.valid = false;
 }
 Login::~Login()
 {
@@ -204,10 +206,55 @@ void Login::on_bt_ok_clicked()
 void Login::check_user()
 {
 	cave::mmsql::Data dtm = default_dtm();
-}
-const Login::Credential& Login::get_credential() const
-{
-	return credential;
+	bool conectfl = false;
+	cave::mmsql::Connection conn;
+	try
+	{
+		conectfl = conn.connect(dtm, true);
+	}
+	catch (const cave::ExceptionDriver& e)
+	{
+		return;
+	}
+	catch (const std::exception& e)
+	{
+		return;
+	}
+	catch (...)
+	{
+	}
+	if(conectfl)
+    {
+
+    }
+
+    std::vector<User> lst_dbs2;
+    std::string strsql = " name ='" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "'";
+    bool lst_dbs2flag;
+    try
+    {
+ 		 lst_dbs2flag = conn.select(lst_dbs2,strsql);
+	}
+	catch (const cave::ExceptionDriver&)
+	{
+	}
+	catch (...)
+	{
+	}
+
+	if(lst_dbs2flag)
+	{
+	    //std::cout << "Register : " + std::to_string(lst_dbs2.size()) + "\n";
+	    if(lst_dbs2.size() == 1)
+        {
+            actual_user = lst_dbs2[0];
+        }
+        else
+        {
+
+        }
+	}
+
 }
 void Login::set_session(const char* u,const char* p)
 {
@@ -216,11 +263,17 @@ void Login::set_session(const char* u,const char* p)
 }
 void Login::on_response(int res)
 {
-	if(credential.valid and res == Gtk::RESPONSE_OK)
+
+    if(not actual_user.valid)
+    {
+        lbMessage.set_text("Usuario/Contrasena invalido...");
+    }
+
+	if(actual_user.valid and res == Gtk::RESPONSE_OK)
 	{
 		hide();
 	}
-	else if(credential.valid and res == Gtk::RESPONSE_CANCEL)
+	else if(actual_user.valid and res == Gtk::RESPONSE_CANCEL)
 	{
 		hide();
 	}
