@@ -19,29 +19,9 @@
  #include <iostream>
 
 #include "desk.hh"
-#include <cave/src/mmsql.hh>
 
 
-#if __linux__
-    #if defined LINUX_ARCH
-        #include <mysql/mysql.h>
-    #elif defined LINUX_GENTOO
-        #include <mariadb/mysql.h>
-    #elif defined LINUX_DEBIAN
-        #include <mariadb/mysql.h>
-    #elif LINUX_MSYS2
-        #include <mariadb/mysql.h>
-        #error "Plataforma desconocida."
-    #endif
-#elif (defined(_WIN32) || defined(_WIN64))
-        #include <mysql/mysql.h>
-#else
-	#error "Plataforma desconocida."
-#endif
-
-namespace cave = oct::cave::v0;
-
-namespace mps::v1
+namespace oct::mps::v1
 {
 
 

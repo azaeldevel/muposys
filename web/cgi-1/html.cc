@@ -3,7 +3,7 @@
 
 #include "html.hh"
 
-namespace mps::v1
+namespace oct::mps::v1
 {
 void contenttype(std::ostream& out,const char* content,const char* type)
 {

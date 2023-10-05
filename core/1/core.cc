@@ -20,7 +20,7 @@
 
 #include "core.hh"
 
-namespace mps::v1
+namespace oct::mps::v1
 {
     cave::mmsql::Data default_dtm()
     {

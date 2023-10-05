@@ -5,7 +5,7 @@
 
 #include "html.hh"
 
-namespace mps::v1::server
+namespace oct::mps::v1::server
 {
 
 class Login : public CGI

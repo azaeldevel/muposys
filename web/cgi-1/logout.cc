@@ -21,7 +21,7 @@
 #include "logout.hh"
 
 
-namespace mps::v1
+namespace oct::mps::v1
 {
 
 Logout::Logout(const Params& p) : CGI(default_dtm()), params(p)

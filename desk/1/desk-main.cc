@@ -39,13 +39,13 @@ int main (int argc, char *argv[])
 {
 	Gtk::Main kit(argc, argv);
 
-	mps::v1::Main* _main_ = NULL;
+	oct::mps::v1::Main* _main_ = NULL;
 	try
 	{
 #ifdef MUPOSYS_DESK_V0_ENABLE_TDD
 		_main_ = new mps::Main(true);
 #else
-		_main_ = new mps::v1::Main;
+		_main_ = new oct::mps::v1::Main;
 #endif
 		if (_main_) kit.run(*_main_);
 	}

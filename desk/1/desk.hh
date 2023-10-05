@@ -34,8 +34,10 @@
 //#include "TableSaling.hh"
 #include <muposys/core/1/core.hh>
 
-namespace mps::v1
+namespace oct::mps::v1
 {
+    namespace cave = oct::cave::v0;
+
 struct Person
 {
     unsigned long id;

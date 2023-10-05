@@ -38,11 +38,12 @@
 	#error "Plataforma desconocida."
 #endif
 
-#include <cave/src/mmsql.hh>
-namespace cave = oct::cave::v0;
+#include <cave/0/mmsql.hh>
 
-namespace mps::v1
+namespace oct::mps::v1
 {
+    namespace cave = oct::cave::v0;
+
 	cave::mmsql::Data default_dtm();
 
 }

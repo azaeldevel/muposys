@@ -3,7 +3,7 @@
 #include "application.hh"
 
 
-namespace mps::v1
+namespace oct::mps::v1
 {
 
 BodyApplication::BodyApplication(const Params& p) : params(p)
