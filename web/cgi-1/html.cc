@@ -577,7 +577,7 @@ bool Service::permission(const char* p,const char* user)
 {
 	//std::cout << "Service::permission : Step 1\n<br>";
 
-	long userid = 0;
+	ID userid = 0;
 
 	//finding user id
 	//std::cout << "Service::permission : Step 2\n<br>";
