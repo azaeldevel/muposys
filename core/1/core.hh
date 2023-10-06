@@ -77,18 +77,21 @@ namespace oct::mps::v1
 
     struct Person
     {
-        unsigned long id;
-
+        ID id;
         std::string name1,name3; //person name
 
         Person() = default;
         Person(const char** s)
         {
-            name1 = s[0];
+            id = std::atoll(s[0]);
+            name1 = s[1];
+            name3 = s[2];
         }
         Person(cave::Row<char,cave::mmsql::Data> s)
         {
-            name1 = s[0];
+            id = std::atoll(s[0]);
+            name1 = s[1];
+            name3 = s[2];
         }
 
         static std::string fields()
@@ -99,6 +102,18 @@ namespace oct::mps::v1
         static std::string table()
         {
             return "User";
+        }
+        bool down(cave::mmsql::Connection& conn)
+        {
+            cave::mmsql::Result rs = conn.select("name1,name3", table(),"id = " + std::to_string(id));
+            if(rs.size() > 0)
+            {
+                name1 = rs.next()[0];
+                name3 = rs.next()[1];
+                return true;
+            }
+
+            return false;
         }
     };
     struct User
@@ -112,10 +127,14 @@ namespace oct::mps::v1
         User(const char** s)
         {
             name = s[0];
+            person.id = std::atoll(s[1]);
+            name = s[2];
         }
         User(cave::Row<char,cave::mmsql::Data> s)
         {
             name = s[0];
+            person.id = std::atoll(s[1]);
+            name = s[2];
         }
 
 
@@ -128,6 +147,7 @@ namespace oct::mps::v1
         {
             return "User";
         }
+
     };
     struct Session
     {
@@ -167,7 +187,7 @@ namespace oct::mps::v1
         {
             return conn.update("client = '" + client + "'", table());
         }
-        bool select_session(cave::mmsql::Connection& conn)
+        bool downSession(cave::mmsql::Connection& conn)
         {
             cave::mmsql::Result rs = conn.select("client = '" + client + "'", table(),"session = " + session);
             return rs;

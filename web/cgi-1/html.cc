@@ -439,7 +439,7 @@ bool Service::create_session(const char* s,std::string& strsession)
 	session.session = (const char*)ranstr;
 	session.upSession(connDB);
 
-	if(session.select_session(connDB))
+	if(session.downSession(connDB))
 	{
 		//std::cout << "Session : " << (const char*)ranstr << "<br>\n";
 		strsession = session.session;
