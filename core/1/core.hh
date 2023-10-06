@@ -115,6 +115,13 @@ namespace oct::mps::v1
 
             return false;
         }
+        void fullname(std::string& c)const
+        {
+            if(name1.empty()) return;
+            c = name1;
+            if(name3.empty()) return;
+            c += " " + name3;
+        }
     };
     struct User
     {
