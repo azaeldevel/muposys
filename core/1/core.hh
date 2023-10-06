@@ -43,10 +43,9 @@
 namespace oct::mps::v1
 {
     namespace cave = oct::cave::v0;
+    typedef unsigned long ID;
 
 	cave::mmsql::Data default_dtm();
-
-
 
     class RandomString
 	{
@@ -105,7 +104,7 @@ namespace oct::mps::v1
     struct User
     {
         bool valid;
-        unsigned long id;
+        ID id;
         Person person;
         std::string name; //person name
 
@@ -132,7 +131,7 @@ namespace oct::mps::v1
     };
     struct Session
     {
-        unsigned long id;
+        ID id;
         std::string client,session;
 
         Session() = default;
@@ -164,7 +163,7 @@ namespace oct::mps::v1
         {
             return conn.insert(std::string("client"),client,table());
         }
-        cave::mmsql::Result upSession(cave::mmsql::Connection& conn,std::string const& client)
+        cave::mmsql::Result upSession(cave::mmsql::Connection& conn)
         {
             return conn.update("client = '" + client + "'", table());
         }
@@ -177,7 +176,7 @@ namespace oct::mps::v1
     };
     struct Variable
     {
-        unsigned long id;
+        ID id;
         std::string name,value,session;
 
         Variable() = default;
@@ -212,6 +211,29 @@ namespace oct::mps::v1
             RandomString ranstr(32,RandomString::md5);
             ranstr.generate();
             return conn.insert("name,value,session","'" + name + "','" + value + "','" + (const char*)ranstr + "'" ,table());
+        }
+        cave::mmsql::Result upName(cave::mmsql::Connection& conn)
+        {
+            return conn.update("name = '" + name + "'", table());
+        }
+        cave::mmsql::Result upValue(cave::mmsql::Connection& conn)
+        {
+            return conn.update("value = '" + value + "'", table());
+        }
+        cave::mmsql::Result upSession(cave::mmsql::Connection& conn)
+        {
+            return conn.update("session = '" + session + "'", table());
+        }
+        bool downValue(cave::mmsql::Connection& conn)
+        {
+            cave::mmsql::Result rs = conn.select("value", table(),"session = " + session);
+            if(rs.size() > 0)
+            {
+                value = rs.next()[0];
+                return true;
+            }
+
+            return false;
         }
     };
 

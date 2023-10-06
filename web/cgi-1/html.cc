@@ -395,6 +395,7 @@ long Service::get_session()
 	{
 
 	}
+	if(not clientlst_flag) return -1;
 
 	//std::cout << "Service::get_session : Step 2<br>\n";
 
@@ -435,7 +436,8 @@ bool Service::create_session(const char* s,std::string& strsession)
 	session.insert(connDB,getenv("REMOTE_ADDR"));
 	RandomString ranstr(32,RandomString::md5);
 	ranstr.generate();
-	session.upSession(connDB,(const char*)ranstr);
+	session.session = (const char*)ranstr;
+	session.upSession(connDB);
 
 	if(session.select_session(connDB))
 	{
@@ -483,11 +485,14 @@ bool Service::create_session(const char* s,std::string& strsession)
 		//std::cout << "Service::register_session inserting..<br>\n";
 		flag_main = variable.insert(connDB);
 		//std::cout << "Service::register_session inserting 1<br>\n";
-		flag_name = variable.upName(connDB,user_name_variable);
+		variable.name = user_name_variable;
+		flag_name = variable.upName(connDB);
 		//std::cout << "Service::register_session inserting 2<br>\n";
-		flag_val = variable.upValue(connDB,s);
+		variable.value = s;
+		flag_val = variable.upValue(connDB);
 		//std::cout << "Service::register_session inserting 3<br>\n";
-		flag_session = variable.upSession(connDB,session);
+		variable.session = session.session;
+		flag_session = variable.upSession(connDB);
 		//std::cout << "Service::register_session inserting 4<br>\n";
 		flag_op = true;
 		//std::cout << "Service::register_session updated..<br>\n";
@@ -497,21 +502,22 @@ bool Service::create_session(const char* s,std::string& strsession)
 		//std::cout << "Service::register_session updating..<br>\n";
 		flag_name = true;
 		flag_main = true;
-		flag_val = varslst.front().upValue(connDB,s);
-		flag_session = varslst.front()->upSession(connDB,session);
+		varslst.front().value = s;
+		flag_val = varslst.front().upValue(connDB);
+		flag_session = varslst.front().upSession(connDB);
 		flag_op = true;
 	}
 
 	//std::cout << "Service::register_session done<br>\n";
 
-	if(varslst != NULL)
+	/*if(varslst != NULL)
 	{
 		for(auto u : *varslst)
 		{
 			delete u;
 		}
 		delete varslst;
-	}
+	}*/
 	connDB.commit();
 
 	if(flag_main and flag_name and flag_val and flag_session and flag_op) return true;
@@ -523,7 +529,7 @@ std::string Service::get_user()
 {
 	//std::cout << "Service::get_user : Step 1\n<br>";
 	std::string user;
-	muposysdb::Variable variable;
+	Variable variable;
 
     //std::cout << "Service::get_user : Step 1.2.1\n<br>";
     long session = get_session();
@@ -552,9 +558,8 @@ std::string Service::get_user()
         {
         }
 		//std::cout << "Service::get_user : Step 1.2.4\n<br>";
-		if(not varslst)
+		if(clientlst.size() == 0)
 		{
-
 		}
 		else if(clientlst.size() == 1)
 		{
