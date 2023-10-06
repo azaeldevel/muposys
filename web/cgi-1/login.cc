@@ -48,17 +48,29 @@ bool Login::check(std::string& strs)
 
 	//std::cout << "check : Step 6<br>\n";
 
-	/*muposysdb::User* userbd;
+	User* userbd;
 	std::string strwhere = "name = ";
 	strwhere += "'" + userstr + "' and status = 3";
-	std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
+	//std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
+	std::vector<User> usrlst;
+    bool usrlst_flag = false;
+    try
+    {
+ 		 usrlst_flag = connDB.select(usrlst,strwhere);
+	}
+	catch (const cave::ExceptionDriver&)
+	{
+	}
+	catch (...)
+	{
+	}
 	bool fluser = false;
-	if(usrlst->size() == 0)
+	if(usrlst.size() == 0)
 	{
 		//no se encontro elusuario en la BD.
 		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
 	}
-	else if(usrlst->size() > 1)
+	else if(usrlst.size() > 1)
 	{
 		//hay muchas coincidencian, este es un error en el diseño de la base de
 		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
@@ -66,20 +78,20 @@ bool Login::check(std::string& strs)
 	}
 	else
 	{
-		userbd = usrlst->at(0);
+		userbd = &usrlst.at(0);
 	}
 
 	//std::cout << "check : Step 4\n<br>";
 
-	if(userbd->downName(connDB) and userbd->downPwdtxt(connDB))
+	//if(userbd->size() == 1)
 	{
-		if(userstr.compare(userbd->getName()) == 0  and password.compare(userbd->getPwdtxt()) == 0)
+		if(userbd->valid and  usrlst_flag)
 		{
 			//std::cout << "check pass : Step\n<br>";
-			if(create_session(userbd->getName().c_str(),strs))
+			if(create_session(userbd->name.c_str(),strs))
 			{
 				//std::cout << "Step login permission\n<br>";
-				if(permission("login",userbd->getName().c_str()))
+				if(permission("login",userbd->name.c_str()))
 				{
 					//std::cout << "Step permission\n<br>";
 					fluser = true;
@@ -101,7 +113,7 @@ bool Login::check(std::string& strs)
 			//if(password.compare(userbd->getPwdtxt()) != 0)std::cout << password << " != " << userbd->getPwdtxt () << "<br>";
 		}
 	}
-	if(usrlst)
+	/*if(usrlst)
 	{
 		for(auto u : *usrlst)
 		{
@@ -111,7 +123,7 @@ bool Login::check(std::string& strs)
 	}*/
 
 	//std::cout << (fluser? "check pass" : "check fail") << "\n";
-	//return fluser;
+	return fluser;
 }
 int Login::main(std::ostream& out)
 {

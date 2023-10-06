@@ -247,7 +247,26 @@ Service::Service() : is_open_DB(false)
 }
 Service::Service(const cave::mmsql::Data& dat)
 {
-	is_open_DB = connDB.connect(dat,true);
+	bool conectfl = false;
+	try
+	{
+		is_open_DB = connDB.connect(dat, true);
+	}
+	catch (const cave::ExceptionDriver& e)
+	{
+		return;
+	}
+	catch (const std::exception& e)
+	{
+		return;
+	}
+	catch (...)
+	{
+	}
+	if(conectfl)
+    {
+
+    }
 }
 Service::~Service()
 {
@@ -272,43 +291,69 @@ void Service::remove_session(const char* session)
 
 	//std::cout << "Service::remove_session : Step 1.5<br>\n";
 
-	/*std::vector<muposysdb::Session*>* sesionlst = muposysdb::Session::select(connDB,findSesion,0);
-	if(sesionlst and sesionlst)
+    std::vector<Session> sesionlst;
+    bool sesionlst_flag = false;
+    try
+    {
+ 		 sesionlst_flag = connDB.select(sesionlst,findSesion);
+	}
+	catch (const cave::ExceptionDriver&)
+	{
+	}
+	catch (...)
+	{
+	}
+
+	//std::vector<muposysdb::Session*>* sesionlst = muposysdb::Session::select(connDB,findSesion,0);
+	if(sesionlst_flag and sesionlst.size() == 1)
 	{
 		//std::cout << "Service::remove_session : Step 1.5.1<br>\n";
-		std::cout << "size : " << sesionlst->size() << "<br>\n";
+		std::cout << "size : " << sesionlst.size() << "<br>\n";
 		std::string findSesion = "id = ";
-		findSesion += std::to_string(sesionlst->front()->getID());
+		findSesion += std::to_string(sesionlst.front().id);
 		std::cout << "findSesion : " << findSesion << "<br>\n";
-		std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+		//std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+		std::vector<Variable> varslst;
+        bool varslst_flag = false;
+        try
+        {
+             varslst_flag = connDB.select(sesionlst,findSesion);
+        }
+        catch (const cave::ExceptionDriver&)
+        {
+        }
+        catch (...)
+        {
+        }
 
 		//std::cout << "Service::remove_session : Step 1.5.2<br>\n";
-		if(varslst)
+		if(!varslst.empty() and varslst_flag)
 		{
-			for(muposysdb::Variable* v : *varslst)
+			for(Variable& v : varslst)
 			{
-				v->remove(connDB);
+				v.remove(connDB);
 			}
 
-
-			for(auto u : *varslst)
+			/*
+			for(auto u : varslst)
 			{
-					delete u;
+                delete u;
 			}
-			delete varslst;
+			*/
+			//delete varslst;
 		}
 		//std::cout << "Service::remove_session : Step 1.5.3<br>\n";
 
-		sesionlst->front()->remove(connDB);
+		sesionlst.front().remove(connDB);
 
-		for(auto u : *sesionlst)
+		/*for(auto u : *sesionlst)
 		{
 			delete u;
-		}
+		}*/
 		//std::cout << "Service::remove_session : Step 1.5.4<br>\n";
-		delete sesionlst;
+		//delete sesionlst;
 		connDB.commit();
-	}*/
+	}
 
 	//std::cout << "Service::remove_session : Step 1.6<br>\n";
 }
@@ -336,24 +381,38 @@ long Service::get_session()
 	findSesion += " and session = '" + params.session + "'";
 
 	//std::vector<muposysdb::Session*>* clientlst = muposysdb::Session::select(connDB,findSesion,0);
+	std::vector<Session> clientlst;
+    bool clientlst_flag = false;
+    try
+    {
+        clientlst_flag = connDB.select(clientlst,findSesion);
+	}
+	catch (const cave::ExceptionDriver&)
+	{
+
+	}
+	catch (...)
+	{
+
+	}
 
 	//std::cout << "Service::get_session : Step 2<br>\n";
 
 	long session = -1;
-	/*bool flag_op;
-	if(clientlst->size() == 0)
+	bool flag_op;
+	if(clientlst.size() == 0)
 	{
 		flag_op = false;
 	}
-	else if(clientlst->size() > 1)
+	else if(clientlst.size() > 1)
 	{
 		flag_op = false;
 	}
-	else if(clientlst->size() == 1)
+	else if(clientlst.size() == 1)
 	{
 		flag_op = true;
-		session = clientlst->front()->getID();
-	}*/
+		session = clientlst.front().id;
+	}
 
 	//std::cout << "Service::get_session : Step 3<br>\n";
 	/*if(clientlst != NULL)
@@ -372,16 +431,16 @@ bool Service::create_session(const char* s,std::string& strsession)
 {
 	//std::cout << "Service::register_session : Step 1<br>\n";
 
-	/*muposysdb::Session session;
+	Session session;
 	session.insert(connDB,getenv("REMOTE_ADDR"));
 	RandomString ranstr(32,RandomString::md5);
 	ranstr.generate();
 	session.upSession(connDB,(const char*)ranstr);
 
-	if(session.downSession(connDB))
+	if(session.select_session(connDB))
 	{
 		//std::cout << "Session : " << (const char*)ranstr << "<br>\n";
-		strsession = session.getSession();
+		strsession = session.session;
 	}
 	else
 	{
@@ -391,15 +450,27 @@ bool Service::create_session(const char* s,std::string& strsession)
 
 	//std::cout << "Service::register_session : Step 2<br>\n";
 
-	muposysdb::Variable variable;
+	Variable variable;
 	std::string findSesion = "id = '";
-	findSesion += std::to_string(session.getID());
+	findSesion += std::to_string(session.id);
 	findSesion = findSesion + "' and name = '" + user_name_variable + "'";
 	//std::cout << "Service::register_session : " << findSesion << "<br>\n";
-	std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+	//std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+	std::vector<Variable> varslst;
+    bool varslst_flag = false;
+    try
+    {
+        varslst_flag = connDB.select(varslst,findSesion);
+	}
+	catch (const cave::ExceptionDriver&)
+	{
+	}
+	catch (...)
+	{
+	}
 	bool flag_op,flag_main,flag_name,flag_val,flag_session;
 	//std::cout << "Service::register_session size : " << varslst->size() << "<br>\n";
-	if(not varslst)
+	/*if(varslst.size() > 0)
 	{
 		flag_main = variable.insert(connDB);
 		flag_name = variable.upName(connDB,user_name_variable);
@@ -407,7 +478,7 @@ bool Service::create_session(const char* s,std::string& strsession)
 		flag_session = variable.upSession(connDB,session);
 		flag_op = true;
 	}
-	else if(varslst->size() == 0)
+	else */if(varslst.size() == 0)
 	{
 		//std::cout << "Service::register_session inserting..<br>\n";
 		flag_main = variable.insert(connDB);
@@ -421,13 +492,13 @@ bool Service::create_session(const char* s,std::string& strsession)
 		flag_op = true;
 		//std::cout << "Service::register_session updated..<br>\n";
 	}
-	else if(varslst->size() == 1)
+	else if(varslst.size() == 1)
 	{
 		//std::cout << "Service::register_session updating..<br>\n";
 		flag_name = true;
 		flag_main = true;
-		flag_val = varslst->front()->upValue(connDB,s);
-		flag_session = varslst->front()->upSession(connDB,session);
+		flag_val = varslst.front().upValue(connDB,s);
+		flag_session = varslst.front()->upSession(connDB,session);
 		flag_op = true;
 	}
 
@@ -445,14 +516,14 @@ bool Service::create_session(const char* s,std::string& strsession)
 
 	if(flag_main and flag_name and flag_val and flag_session and flag_op) return true;
 
-	return false;*/
+	return false;
 }
 
 std::string Service::get_user()
 {
 	//std::cout << "Service::get_user : Step 1\n<br>";
 	std::string user;
-	/*muposysdb::Variable variable;
+	muposysdb::Variable variable;
 
     //std::cout << "Service::get_user : Step 1.2.1\n<br>";
     long session = get_session();
@@ -467,23 +538,35 @@ std::string Service::get_user()
 		findSesion += user_name_variable;
 		findSesion += "'";
 		//std::cout << "SQL Service::get_user : " << findSesion << "<br>\n";
-		std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+		//std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
+		std::vector<Variable> clientlst;
+        bool clientlst_flag = false;
+        try
+        {
+             clientlst_flag = connDB.select(clientlst,findSesion);
+        }
+        catch (const cave::ExceptionDriver&)
+        {
+        }
+        catch (...)
+        {
+        }
 		//std::cout << "Service::get_user : Step 1.2.4\n<br>";
 		if(not varslst)
 		{
 
 		}
-		else if(varslst->size() == 1)
+		else if(clientlst.size() == 1)
 		{
-			if(varslst->front()->downValue(connDB)) user = varslst->front()->getValue();
+			if(clientlst.front().downValue(connDB)) user = clientlst.front().value;
 		}
-		for(auto d : *varslst)
+		/*for(auto d : *varslst)
 		{
 			delete d;
-		}
+		}*/
 
 	//std::cout << "Service::get_user : Step 2\n<br>";
-	return user;*/
+	return user;
 }
 bool Service::permission(const char* p,const char* user)
 {

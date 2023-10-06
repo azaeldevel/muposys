@@ -38,60 +38,7 @@ namespace oct::mps::v1
 {
     namespace cave = oct::cave::v0;
 
-struct Person
-{
-    unsigned long id;
 
-    std::string name1,name3; //person name
-
-    Person() = default;
-    Person(const char** s)
-    {
-        name1 = s[0];
-    }
-    Person(cave::Row<char,cave::mmsql::Data> s)
-    {
-        name1 = s[0];
-    }
-
-	static std::string fields()
-	{
-        return "id,name1,name3";
-	}
-
-	static std::string table()
-	{
-        return "User";
-	}
-};
-struct User
-{
-    bool valid;
-    unsigned long id;
-    Person person;
-    std::string name; //person name
-
-    User() = default;
-    User(const char** s)
-    {
-        name = s[0];
-    }
-    User(cave::Row<char,cave::mmsql::Data> s)
-    {
-        name = s[0];
-    }
-
-
-	static std::string fields()
-	{
-        return "id,person,name";
-	}
-
-	static std::string table()
-	{
-        return "User";
-	}
-};
 
 class Login : public Gtk::Dialog
 {
