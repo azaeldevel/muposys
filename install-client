@@ -27,10 +27,15 @@ case $DISTRO in
 	WEBDIRECTORY="/srv/http"
 	
 	;;
+	Debian)
+	WEBDIRECTORY="/srv/http"
+	
+	;;
     
     *)
 esac
 
+mkdir -p $WEBDIRECTORY
 rm -f html/muposys-html/*~
 cp -r -f html/muposys-html/* $WEBDIRECTORY
 
@@ -72,9 +77,9 @@ case $DISTRO in
     *)
 esac
 
-cp ../cave/bin/Debug/liboctetos-cave-mmsql.0.so $WEBDIRECTORY
-cp core/bin/Debug/libmuposys-core.1.so $WEBDIRECTORY
-cp web/bin/Debug/libmuposys-web.1.so $WEBDIRECTORY
+cp ../cave/bin/Debug/libcave-mmsql-0.so $WEBDIRECTORY
+cp core/bin/Debug/libmuposys-core-1.so $WEBDIRECTORY
+cp web/bin/Debug/libmuposys-web-1.so $WEBDIRECTORY
 cp web/bin/Debug/login $WEBDIRECTORY
 
 

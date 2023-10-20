@@ -58,9 +58,9 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-cave-mmsql.0" />
-					<Add library="muposys-web.1" />
-					<Add library="muposys-core.1" />
+					<Add library="cave-mmsql-0" />
+					<Add library="muposys-web-1" />
+					<Add library="muposys-core-1" />
 					<Add directory="bin/Debug" />
 					<Add directory="../../cave/bin/Debug" />
 					<Add directory="../core/bin/Debug" />
