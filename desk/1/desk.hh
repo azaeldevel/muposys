@@ -99,6 +99,10 @@ namespace oct::mps::v1
 
         //const muposysdb::User& get_user() const;
         void on_logged();
+        template<typename F> void on_logged_listener(F f)
+        {
+            login.signal_logged().connect(f);
+        }
 
     protected:
         Gtk::HeaderBar header;

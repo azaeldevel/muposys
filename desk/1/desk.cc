@@ -86,7 +86,8 @@ void Main::init()
 	show_all_children();
 #endif
 
-    login.signal_logged().connect(sigc::mem_fun(*this,&Main::on_logged));
+    //login.signal_logged().connect(sigc::mem_fun(*this,&Main::on_logged));
+    on_logged_listener(sigc::mem_fun(*this,&Main::on_logged));
 }
 Main::~Main()
 {
@@ -123,6 +124,7 @@ void Main::on_logged()
 #endif
 
 }
+
 
 
 
