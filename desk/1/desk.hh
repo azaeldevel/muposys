@@ -40,6 +40,10 @@ namespace oct::mps::v1
 
     class TableSaling : public Gtk::VBox
     {
+    public:
+        TableSaling();
+        TableSaling(ID);
+
     };
 
     class Login : public Gtk::Dialog
