@@ -263,6 +263,10 @@ namespace oct::mps::v1
             return false;
         }
     };
+    struct CatalogItem
+    {
+
+    };
 
 }
 
