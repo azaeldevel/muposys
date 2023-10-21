@@ -1,6 +1,6 @@
 
-#ifndef MUPOSYS_MAIN_HH
-#define MUPOSYS_MAIN_HH
+#ifndef OCTETOS_MUPOSYS_DESK_V1_HH
+#define OCTETOS_MUPOSYS_DESK_V1_HH
 
 /*
  * Copyright (C) 2022 Azael R. <azael.devel@gmail.com>
@@ -23,19 +23,12 @@
 #include <glibmm/i18n.h>
 #include <gtkmm.h>
 
-#ifdef __linux__
-
-#elif defined(_WIN32) || defined(_WIN64)
-
-#else
-	#error "Plataforma desconocida."
-#endif
-
-//#include "TableSaling.hh"
 #include <muposys/core/1/core.hh>
 
 namespace oct::mps::v1
 {
+    class Main;
+
     namespace cave = oct::cave::v0;
 
     class TableSaling : public Gtk::VBox
@@ -48,6 +41,12 @@ namespace oct::mps::v1
 
     class Login : public Gtk::Dialog
     {
+    public:
+        typedef sigc::signal<void> signal_logged_t;
+
+    public:
+        signal_logged_t signal_logged();
+
     public:
 
         Login();
@@ -64,6 +63,7 @@ namespace oct::mps::v1
         void on_bt_ok_clicked();
         void on_bt_cancel_clicked();
         void on_response(int);
+        signal_logged_t _signal_logged;
 
     private:
         //int retcode;
@@ -82,6 +82,7 @@ namespace oct::mps::v1
 
     class Main : public Gtk::Window
     {
+
     public:
         Main();
         Main(bool devel);
@@ -97,6 +98,7 @@ namespace oct::mps::v1
 
 
         //const muposysdb::User& get_user() const;
+        void on_logged();
 
     protected:
         Gtk::HeaderBar header;
@@ -105,11 +107,7 @@ namespace oct::mps::v1
 
         void init();
         virtual void check_session();
-        virtual void notific_session();
-
-    #ifdef MUPOSYS_DESK_ENABLE_TDD
-        //bool on_key_press_event(GdkEventKey* key_event) override;
-    #endif
+        //virtual void notific_session();
 
     private:
         Login login;
@@ -123,10 +121,6 @@ namespace oct::mps::v1
         Gtk::HBox box_header_controls;
         Gtk::Separator sep_header;
 
-    #ifdef MUPOSYS_DESK_ENABLE_TDD
-        //TableSaling sales;
-        Gtk::ToolButton btSales;
-    #endif
     };
 
     class Restaurant : public Main

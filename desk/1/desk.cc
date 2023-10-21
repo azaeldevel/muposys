@@ -16,10 +16,11 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
- #include <iostream>
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
+    #include <iostream>
+#endif // OCTETOS_MUPOSYS_DESK_V1_TDD
 
 #include "desk.hh"
-
 
 namespace oct::mps::v1
 {
@@ -30,7 +31,7 @@ Main::Main() : devel(false)
 	init();
 
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-#ifdef MUPOSYS_DESK_V0_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
 	show();
 #endif
 }
@@ -39,7 +40,7 @@ Main::Main(bool d) : devel(d)
 	init();
 
 	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-#ifdef MUPOSYS_DESK_V0_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
 	show();
 #endif
 }
@@ -78,12 +79,14 @@ void Main::init()
 	boxSlices.pack_start(tbMain,false,true);
 	boxSlices.pack_start(nbMain,false,true);
 
-#ifdef MUPOSYS_DESK_V0_TDD
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
 	/*int page_index = nbMain.append_page(sales);
 	sales.set_info(nbMain,page_index);*/
 	set_default_size(800,640);
 	show_all_children();
 #endif
+
+    login.signal_logged().connect(sigc::mem_fun(*this,&Main::on_logged));
 }
 Main::~Main()
 {
@@ -107,21 +110,19 @@ void Main::set_subtitle(const char* t )
 {
 	header.set_subtitle(t);
 }
-#ifdef MUPOSYS_DESK_V0_TDD
 
-#endif
-/*const muposysdb::User& Main::get_user() const
-{
-	return credential.userdb;
-}*/
-void Main::notific_session()
-{
-}
+
 const User& Main::get_user()const
 {
     return login.get_user();
 }
+void Main::on_logged()
+{
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
+    std::cout << "Logged\n";
+#endif
 
+}
 
 
 
@@ -254,6 +255,7 @@ void Login::on_response(int res)
 
 	if(actual_user.valid and res == Gtk::RESPONSE_OK)
 	{
+		_signal_logged.emit();
 		hide();
 	}
 	else if(actual_user.valid and res == Gtk::RESPONSE_CANCEL)
@@ -265,7 +267,10 @@ const User& Login::get_user()const
 {
     return actual_user;
 }
-
+Login::signal_logged_t Login::signal_logged()
+{
+    return _signal_logged;
+}
 
 
 
