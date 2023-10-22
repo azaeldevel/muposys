@@ -5,17 +5,17 @@
 
 namespace oct::mps::v1
 {
-    TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::create),order(-1)
+    TableSaling::TableSaling() : connDB_flag(false),crud(Crud::create),order(-1)
     {
         //std::cout << "mps::TableSaling::TableSaling()\n";
         init();
     }
-    TableSaling::TableSaling(ID o) : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::read),order(o)
+    TableSaling::TableSaling(ID o) : connDB_flag(false),crud(Crud::read),order(o)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
     }
-    TableSaling::TableSaling(ID o,Crud c) : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(c),order(o)
+    TableSaling::TableSaling(ID o,Crud c) : connDB_flag(false),crud(c),order(o)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
@@ -100,13 +100,8 @@ namespace oct::mps::v1
         if(last == iter and crud == Crud::create) newrow();
 
         lbTotalAmount.set_text(std::to_string(total()));
-        //if(notebook) mark_unsave();
 
         saved = false;
-    }
-    void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text)
-    {
-
     }
 
     void TableSaling::newrow()
@@ -133,30 +128,7 @@ namespace oct::mps::v1
         lbTotalAmount.set_text("");
         newrow();
     }
-    void TableSaling::mark_unsave()
-    {
-        if(not saved) return;//ya esta marcado como no guardado
 
-        if(notebook)
-        {
-            //std::cout << "Sin guardar\n";
-            if(notebook_page_index < 0) return; //no is a child of nb.
-            Widget* page = notebook->get_nth_page(notebook_page_index);
-            Glib::ustring text = notebook->get_tab_label_text(*page);
-            notebook->set_tab_label_text(*page,text + "*");
-        }
-        else //if other type parent
-        {
-            Gtk::MessageDialog dlg("Error Interno",true,Gtk::MESSAGE_ERROR);
-            dlg.set_secondary_text("No se reconoce el tipo de contenedor.");
-            dlg.run();
-        }
-    }
-    void TableSaling::set_info(Gtk::Notebook& parent,int page_index)
-    {
-        notebook = &parent;
-        notebook_page_index = page_index;
-    }
     void TableSaling::save()
     {
     }
