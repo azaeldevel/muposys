@@ -36,7 +36,7 @@ namespace oct::mps::v1
     public:
         TableSaling();
         TableSaling(ID order);
-        TableSaling(long order,Crud);
+        TableSaling(ID order,Crud);
         void init();
         virtual ~TableSaling();
 
@@ -44,7 +44,6 @@ namespace oct::mps::v1
 
     protected:
 
-        //Connector connDB;
         bool connDB_flag;
 
         void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
@@ -52,12 +51,8 @@ namespace oct::mps::v1
         void treeviewcolumn_validated_on_cell_data_number(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
         void cellrenderer_validated_on_editing_started_number(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
         void cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text);
-
-        //void treeviewcolumn_validated_on_cell_data_quantity(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
-        //void cellrenderer_validated_on_editing_started_quantity(Gtk::CellEditable* cell_editable, const Glib::ustring& path);
         void cellrenderer_validated_on_edited_quantity(const Glib::ustring& path_string, const Glib::ustring& new_text);
 
-        //bool on_key_press_event(GdkEventKey* key_event);
         bool on_quantity_key_press_event(GdkEventKey* key_event);
 
         float total()const;
@@ -65,14 +60,10 @@ namespace oct::mps::v1
         virtual void clear();
         void mark_unsave();
 
-        virtual void download(long order);
+        //virtual void download(long order);
 
-    #ifdef MUPOSYS_DESK_ENABLE_TDD
-        void on_save_clicked();
-        virtual void save();
-    #else
         virtual void save() = 0;
-    #endif
+
         class ModelColumns : public Gtk::TreeModel::ColumnRecord
         {
         public:

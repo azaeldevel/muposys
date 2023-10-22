@@ -5,9 +5,6 @@
 
 namespace oct::mps::v1
 {
-
-
-
     TableSaling::TableSaling() : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(Crud::create),order(-1)
     {
         //std::cout << "mps::TableSaling::TableSaling()\n";
@@ -18,18 +15,15 @@ namespace oct::mps::v1
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
     }
-    TableSaling::TableSaling(long o,Crud c) : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(c),order(o)
+    TableSaling::TableSaling(ID o,Crud c) : connDB_flag(false),notebook(NULL),notebook_page_index(0),crud(c),order(o)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
     }
     void TableSaling::init()
     {
-
-
         set_valign(Gtk::ALIGN_CENTER);
         table.add_events(Gdk::KEY_PRESS_MASK);
-        //table.signal_key_press_event().connect(sigc::mem_fun(*this, &TableSaling::on_key_press_event));
         pack_start(table,false,true);//
         {
             set_homogeneous(false);
@@ -43,20 +37,11 @@ namespace oct::mps::v1
             Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
             Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
             if(crud == Crud::create) cell_quantity->property_editable() = true;
-            //col_quantity->set_cell_data_func(*cell_quantity,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_quantity));
-            //cell_quantity->signal_editing_started().connect(sigc::mem_fun(*this,&TableSaling::cellrenderer_validated_on_editing_started_quantity));
-            //cell_quantity->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_quantity));
 
             table.append_column("Present.", columns.presentation);
 
             if(crud == Crud::create)table.append_column_editable("Number", columns.number);
             else table.append_column("Number", columns.number);
-            //Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
-            //Gtk::TreeViewColumn* col_number = table.get_column(table.get_n_columns() - 1);
-            //col_number->set_cell_data_func(*cell_number,sigc::mem_fun(*this,&TableSaling::treeviewcolumn_validated_on_cell_data_number));
-            //cell_number->property_editable() = true;
-            //cell_number->signal_editing_started().connect(sigc::mem_fun(*this,&TableSaling::cellrenderer_validated_on_editing_started_number));
-            //cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));
 
             table.append_column("Artículo", columns.name);
 
@@ -80,9 +65,9 @@ namespace oct::mps::v1
                 boxTotal.pack_start(lbTotalAmount);
                 lbTotal.set_text("Total : $");
             }
-    #ifdef MUPOSYS_DESK_ENABLE_TDD
+    /*#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
             btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
-    #endif
+    #endif*/
             btSave.set_image_from_icon_name("document-save");
             boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
         }
@@ -109,7 +94,6 @@ namespace oct::mps::v1
     void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
         Gtk::TreeModel::Row row = *iter;
-        //if(int(row[columns.quantity]) > 0) row[columns.amount] = row[columns.quantity] * row[columns.cost_unit];
 
         //std::cout << "Size : " << tree_model->children().size() << "\n";
         const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
@@ -117,7 +101,7 @@ namespace oct::mps::v1
         if(last == iter and crud == Crud::create) newrow();
 
         lbTotalAmount.set_text(std::to_string(total()));
-        if(notebook) mark_unsave();
+        //if(notebook) mark_unsave();
 
         saved = false;
     }
@@ -129,11 +113,6 @@ namespace oct::mps::v1
     void TableSaling::newrow()
     {
         Gtk::TreeModel::Row row = *tree_model->append();
-        /*
-        row[columns.quantity] = 0;
-        row[columns.cost_unit] = 0.0;
-        row[columns.amount] = 0.0;
-        */
     }
 
     float TableSaling::total() const
@@ -184,11 +163,9 @@ namespace oct::mps::v1
         notebook = &parent;
         notebook_page_index = page_index;
     }
-    void TableSaling::download(long order)
+    void TableSaling::save()
     {
-
     }
-
 
 
 
