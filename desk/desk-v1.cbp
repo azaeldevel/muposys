@@ -59,7 +59,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2 -fPIC" />
-					<Add option="-DMUPOSYS_DESK_V0_TDD" />
+					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
 				</Compiler>
 				<Linker>
 					<Add directory="../../cave/bin/Debug" />

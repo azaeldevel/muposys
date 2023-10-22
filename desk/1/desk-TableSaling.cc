@@ -35,7 +35,7 @@ namespace oct::mps::v1
             if(crud == Crud::create) table.append_column_editable("Cant.", columns.quantity);
             else table.append_column("Cant.", columns.quantity);
             Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
-            Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
+            //Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
             if(crud == Crud::create) cell_quantity->property_editable() = true;
 
             table.append_column("Present.", columns.presentation);
@@ -78,7 +78,6 @@ namespace oct::mps::v1
     }
     TableSaling::~TableSaling()
     {
-
     }
     TableSaling::ModelColumns::ModelColumns()
     {
@@ -93,7 +92,7 @@ namespace oct::mps::v1
     }
     void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
-        Gtk::TreeModel::Row row = *iter;
+        //Gtk::TreeModel::Row row = *iter;
 
         //std::cout << "Size : " << tree_model->children().size() << "\n";
         const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
@@ -112,7 +111,7 @@ namespace oct::mps::v1
 
     void TableSaling::newrow()
     {
-        Gtk::TreeModel::Row row = *tree_model->append();
+        *tree_model->append();
     }
 
     float TableSaling::total() const
@@ -128,11 +127,6 @@ namespace oct::mps::v1
     }
 
 
-    bool TableSaling::on_quantity_key_press_event(GdkEventKey* key_event)
-    {
-        //std::cout << "key quantity : " << (char) key_event->keyval << "\n";
-        return false;
-    }
     void TableSaling::clear()
     {
         tree_model->clear();
