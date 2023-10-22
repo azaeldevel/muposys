@@ -106,7 +106,7 @@ namespace oct::mps::v1
 
     void TableSaling::newrow()
     {
-        *tree_model->append();
+        tree_model->append();
     }
 
     float TableSaling::total() const
