@@ -20,6 +20,8 @@
  */
 
 #include <random>
+#include <cstring>
+
 
 #if __linux__
     #if defined LINUX_ARCH
@@ -275,6 +277,47 @@ namespace oct::mps::v1
     };
     struct CatalogItem
     {
+        ID id,catalog;
+        std::string number,brief,presentation;
+        bool active;
+        float value;
+        short type;
+
+
+        CatalogItem() = default;
+        CatalogItem(const char** s)
+        {
+            id = std::atoll(s[0]);
+            catalog = std::atoll(s[1]);
+            number = s[2];
+            brief = s[3];
+            if(strcmp(s[4],"Y") == 0) active = true;
+            else if(strcmp(s[4],"N") == 0) active = false;
+            else active = false;
+            value = std::atof(s[5]);
+        }
+        CatalogItem(cave::Row<char,cave::mmsql::Data> s)
+        {
+            id = std::atoll(s[0]);
+            catalog = std::atoll(s[1]);
+            number = s[2];
+            brief = s[3];
+            if(strcmp(s[4],"Y") == 0) active = true;
+            else if(strcmp(s[4],"N") == 0) active = false;
+            else active = false;
+            value = std::atof(s[5]);
+        }
+
+
+        static std::string fields()
+        {
+            return "id,catalog,number,brief,active,value,presentation,type";
+        }
+
+        static std::string table()
+        {
+            return "CatalogItem";
+        }
 
     };
 

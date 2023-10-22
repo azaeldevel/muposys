@@ -214,12 +214,12 @@ void Login::check_user()
 
     }
 
-    std::vector<User> lst_dbs2;
+    std::vector<User> lstUser;
     std::string strsql = " name ='" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "'";
-    bool lst_dbs2flag = false;
+    bool lstUserflag = false;
     try
     {
- 		 lst_dbs2flag = conn.select(lst_dbs2,strsql);
+ 		 lstUserflag = conn.select(lstUser,strsql);
 	}
 	catch (const cave::ExceptionDriver&)
 	{
@@ -228,12 +228,12 @@ void Login::check_user()
 	{
 	}
 
-	if(lst_dbs2flag)
+	if(lstUserflag)
 	{
-	    //std::cout << "Register : " + std::to_string(lst_dbs2.size()) + "\n";
-	    if(lst_dbs2.size() == 1)
+	    //std::cout << "Register : " + std::to_string(lstUser.size()) + "\n";
+	    if(lstUser.size() == 1)
         {
-            actual_user = lst_dbs2[0];
+            actual_user = lstUser[0];
         }
         else
         {
