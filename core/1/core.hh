@@ -75,6 +75,16 @@ namespace oct::mps::v1
 		char generate_md5();
 	};
 
+
+	enum class Crud
+	{
+		none,
+		create,
+		read,
+		update,
+		remove,
+	};
+
     struct Person
     {
         ID id;
