@@ -296,7 +296,7 @@ namespace oct::mps::v1
             else active = false;
             value = std::atof(s[5]);
         }
-        CatalogItem(cave::Row<char,cave::mmsql::Data> s)
+        CatalogItem(const cave::Row<char,cave::mmsql::Data>& s)
         {
             id = std::atoll(s[0]);
             catalog = std::atoll(s[1]);

@@ -34,6 +34,23 @@ namespace oct::mps::v1
     class TableSaling : public Gtk::VBox
     {
     public:
+
+        class ModelColumns : public Gtk::TreeModel::ColumnRecord
+        {
+        public:
+            ModelColumns();
+
+            Gtk::TreeModelColumn<int> item;
+            Gtk::TreeModelColumn<int> quantity;
+            Gtk::TreeModelColumn<Glib::ustring> presentation;
+            Gtk::TreeModelColumn<Glib::ustring> number;
+            Gtk::TreeModelColumn<Glib::ustring> name;
+            Gtk::TreeModelColumn<float> cost_unit;
+            Gtk::TreeModelColumn<float> amount;
+        };
+
+
+    public:
         TableSaling();
         TableSaling(ID order);
         TableSaling(ID order,Crud);
@@ -54,26 +71,18 @@ namespace oct::mps::v1
         void clear();
 
 
+        template<typename M> void init_table_model()
+        {
+            columns = new M;
+            tree_model = Gtk::ListStore::create((M&)*columns);
+        }
+
+        virtual void init_table();
+
 
         virtual void save() = 0;
 
-        class ModelColumns : public Gtk::TreeModel::ColumnRecord
-        {
-        public:
-            ModelColumns();
-
-            Gtk::TreeModelColumn<int> item;
-            Gtk::TreeModelColumn<int> quantity;
-            Gtk::TreeModelColumn<Glib::ustring> presentation;
-            Gtk::TreeModelColumn<Glib::ustring> number;
-            Gtk::TreeModelColumn<Glib::ustring> name;
-            Gtk::TreeModelColumn<float> cost_unit;
-            Gtk::TreeModelColumn<float> amount;
-
-            //CatalogItem itemDB;
-        };
-
-        ModelColumns columns;
+        ModelColumns* columns;
         Glib::RefPtr<Gtk::ListStore> tree_model;
         bool saved;
 

@@ -5,17 +5,17 @@
 
 namespace oct::mps::v1
 {
-    TableSaling::TableSaling() : connDB_flag(false),crud(Crud::create),order(-1)
+    TableSaling::TableSaling() : connDB_flag(false),crud(Crud::create),order(-1),columns(NULL)
     {
         //std::cout << "mps::TableSaling::TableSaling()\n";
         init();
     }
-    TableSaling::TableSaling(ID o) : connDB_flag(false),crud(Crud::read),order(o)
+    TableSaling::TableSaling(ID o) : connDB_flag(false),crud(Crud::read),order(o),columns(NULL)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
     }
-    TableSaling::TableSaling(ID o,Crud c) : connDB_flag(false),crud(c),order(o)
+    TableSaling::TableSaling(ID o,Crud c) : connDB_flag(false),crud(c),order(o),columns(NULL)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
@@ -27,29 +27,6 @@ namespace oct::mps::v1
         pack_start(table,false,true);//
         {
             set_homogeneous(false);
-
-            tree_model = Gtk::ListStore::create(columns);
-            //tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
-            table.set_model(tree_model);
-
-            if(crud == Crud::create) table.append_column_editable("Cant.", columns.quantity);
-            else table.append_column("Cant.", columns.quantity);
-            Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
-            //Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
-            if(crud == Crud::create) cell_quantity->property_editable() = true;
-
-            table.append_column("Present.", columns.presentation);
-
-            if(crud == Crud::create)table.append_column_editable("Number", columns.number);
-            else table.append_column("Number", columns.number);
-
-            table.append_column("Artículo", columns.name);
-
-            if(crud == Crud::create) table.append_column_numeric_editable("C/U", columns.cost_unit,"%.2f");
-            else table.append_column_numeric("C/U", columns.cost_unit,"%.2f");
-
-            if(crud == Crud::create)table.append_column_numeric_editable("Monto", columns.amount,"%.2f");
-            else table.append_column_numeric("Monto", columns.amount,"%.2f");
         }
 
         pack_start(separator,false,true,5);
@@ -74,7 +51,7 @@ namespace oct::mps::v1
 
         saved = true;
 
-        if(crud == Crud::create) newrow();
+        //if(crud == Crud::create) newrow();
     }
     TableSaling::~TableSaling()
     {
@@ -116,7 +93,7 @@ namespace oct::mps::v1
         for(const Gtk::TreeModel::iterator& it : tree_model->children())
         {
             row = *it;
-            tt += row[columns.amount];
+            tt += row[columns->amount];
         }
         return tt;
     }
@@ -133,6 +110,32 @@ namespace oct::mps::v1
     {
     }
 
+    void TableSaling::init_table()
+    {
+        if(not columns) return;
+
+        //tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
+        table.set_model(tree_model);
+
+            if(crud == Crud::create) table.append_column_editable("Cant.", columns->quantity);
+            else table.append_column("Cant.", columns->quantity);
+            Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
+            //Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
+            if(crud == Crud::create) cell_quantity->property_editable() = true;
+
+            table.append_column("Present.", columns->presentation);
+
+            if(crud == Crud::create)table.append_column_editable("Number", columns->number);
+            else table.append_column("Number", columns->number);
+
+            table.append_column("Artículo", columns->name);
+
+            if(crud == Crud::create) table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
+            else table.append_column_numeric("C/U", columns->cost_unit,"%.2f");
+
+            if(crud == Crud::create)table.append_column_numeric_editable("Monto", columns->amount,"%.2f");
+            else table.append_column_numeric("Monto", columns->amount,"%.2f");
+    }
 
 
 
