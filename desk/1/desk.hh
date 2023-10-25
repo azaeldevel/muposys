@@ -28,6 +28,7 @@
 namespace oct::mps::v1
 {
     class Main;
+    template<typename T> concept model_columns = std::derived_from<T,Gtk::TreeModel::ColumnRecord>;
 
     namespace cave = oct::cave::v0;
 
@@ -48,7 +49,6 @@ namespace oct::mps::v1
             Gtk::TreeModelColumn<float> cost_unit;
             Gtk::TreeModelColumn<float> amount;
         };
-
 
     public:
         TableSaling();
@@ -71,7 +71,7 @@ namespace oct::mps::v1
         void clear();
 
 
-        template<typename M> void init_table_model()
+        template<model_columns M> void init_table_model()
         {
             columns = new M;
             tree_model = Gtk::ListStore::create((M&)*columns);
