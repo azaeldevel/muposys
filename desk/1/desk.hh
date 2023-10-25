@@ -45,7 +45,7 @@ namespace oct::mps::v1
 
         bool connDB_flag;
 
-        void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
+        //void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
 
 
 
@@ -69,6 +69,8 @@ namespace oct::mps::v1
             Gtk::TreeModelColumn<Glib::ustring> name;
             Gtk::TreeModelColumn<float> cost_unit;
             Gtk::TreeModelColumn<float> amount;
+
+            //CatalogItem itemDB;
         };
 
         ModelColumns columns;

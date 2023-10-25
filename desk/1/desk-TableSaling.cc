@@ -29,7 +29,7 @@ namespace oct::mps::v1
             set_homogeneous(false);
 
             tree_model = Gtk::ListStore::create(columns);
-            tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
+            //tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
             table.set_model(tree_model);
 
             if(crud == Crud::create) table.append_column_editable("Cant.", columns.quantity);
@@ -90,7 +90,7 @@ namespace oct::mps::v1
         add(cost_unit);
         add(amount);
     }
-    void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
+    /*void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
         //Gtk::TreeModel::Row row = *iter;
 
@@ -102,7 +102,7 @@ namespace oct::mps::v1
         lbTotalAmount.set_text(std::to_string(total()));
 
         saved = false;
-    }
+    }*/
 
     void TableSaling::newrow()
     {
