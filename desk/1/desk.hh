@@ -32,6 +32,54 @@ namespace oct::mps::v1
 
     namespace cave = oct::cave::v0;
 
+
+    class SearchItem : public Gtk::Dialog
+    {
+    public:
+        SearchItem(ID&);
+        void init();
+
+    protected:
+        void on_bt_ok_clicked();
+        void on_bt_cancel_clicked();
+        void on_response(int);
+        bool on_key_press_event(GdkEventKey* key_event) override;
+        void get_selection();
+
+        void searching(const Glib::ustring& s);
+
+        class ModelColumns : public Gtk::TreeModel::ColumnRecord
+        {
+        public:
+            ModelColumns();
+            Gtk::TreeModelColumn<ID> id;
+            Gtk::TreeModelColumn<Glib::ustring> number;
+            Gtk::TreeModelColumn<Glib::ustring> name;
+            Gtk::TreeModelColumn<Glib::ustring> brief;
+        };
+
+    private:
+        cave::mmsql::Connection connDB;
+        bool connDB_flag;
+        ID& number;
+        Glib::ustring text;
+
+        Gtk::Button btOK;
+        Gtk::Button btCancel;
+        Gtk::Entry inSearch;
+        Gtk::Label lbSearch;
+        Gtk::ButtonBox boxButtons;
+        //Gtk::VBox data;
+        Gtk::HBox boxSearch;
+        Gtk::ScrolledWindow scrolled;
+        static const Glib::ustring search_label;
+
+        ModelColumns colums;
+        Gtk::TreeView tree;
+        Glib::RefPtr<Gtk::ListStore> treemodel;
+    };
+
+
     class TableSaling : public Gtk::VBox
     {
     public:
@@ -63,6 +111,13 @@ namespace oct::mps::v1
         bool connDB_flag;
 
         //void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
+        bool on_key_press_event(GdkEventKey* key_event) override;
+        /**
+         * \brief escribe los datos los datos el regstro currepondientes al item
+         * \param back_number es el numero usado internamente, el cual sera escrito en la base de datos
+         * \param orign_number es el numero escrito por el usuario
+         * */
+        void set_data(Gtk::TreeModel::Row&,const CatalogItem& item);
 
 
 
