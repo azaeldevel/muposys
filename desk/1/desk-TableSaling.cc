@@ -248,7 +248,6 @@ namespace oct::mps::v1
     {
         row[columns->item] = item.id;
         row[columns->number] = item.number;
-        row[columns->name] = "name";
         row[columns->cost_unit] = item.value;
         row[columns->presentation] = item.presentation;
         row[columns->amount] = row[columns->quantity] * row[columns->cost_unit];

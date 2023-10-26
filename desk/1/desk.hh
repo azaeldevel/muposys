@@ -120,8 +120,6 @@ namespace oct::mps::v1
          * */
         void set_data(Gtk::TreeModel::Row&,const CatalogItem& item);
 
-
-
         float total()const;
         void newrow();
         void clear();
