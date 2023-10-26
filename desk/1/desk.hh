@@ -96,6 +96,7 @@ namespace oct::mps::v1
             Gtk::TreeModelColumn<Glib::ustring> name;
             Gtk::TreeModelColumn<float> cost_unit;
             Gtk::TreeModelColumn<float> amount;
+            Gtk::TreeModelColumn<CatalogItem*> itemDB;
         };
 
     public:

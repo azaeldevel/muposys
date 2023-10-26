@@ -84,6 +84,9 @@ namespace oct::mps::v1
     void TableSaling::newrow()
     {
         tree_model->append();
+        Gtk::TreeModel::iterator& end = --tree_model->children();
+        Gtk::TreeModel::Row row = *end;
+        row[columns->itemDB] = NULL;
     }
 
     float TableSaling::total() const
@@ -140,7 +143,7 @@ namespace oct::mps::v1
 
     bool TableSaling::on_key_press_event(GdkEventKey* event)
     {
-        //std::cout << "on_key_press_event\n";
+        //std::cout << "on_key_press_event mias\n";
         if (event->type == GDK_KEY_PRESS and event->keyval == GDK_KEY_F4)
         {
             //std::cout << "on_key_press_event F4 begin\n";
@@ -215,6 +218,8 @@ namespace oct::mps::v1
                     {
                         //std::cout << "writing in model..\n";
                         Gtk::TreeModel::Row row = *iter;
+                        if(row[columns->itemDB]) delete row[columns->itemDB];
+                        else row[columns->itemDB] = new CatalogItem(lstItem[0]);
                         set_data(row,lstItem[0]);
                     }
                     else

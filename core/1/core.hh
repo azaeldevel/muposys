@@ -295,6 +295,7 @@ namespace oct::mps::v1
             else if(strcmp(s[4],"N") == 0) active = false;
             else active = false;
             value = std::atof(s[5]);
+            type = std::atoi(s[6]);
         }
         CatalogItem(const cave::Row<char,cave::mmsql::Data>& s)
         {
@@ -306,6 +307,10 @@ namespace oct::mps::v1
             else if(strcmp(s[4],"N") == 0) active = false;
             else active = false;
             value = std::atof(s[5]);
+            type = std::atoi(s[6]);
+        }
+        CatalogItem(const CatalogItem& s) : id(s.id),catalog(s.catalog),number(s.number),brief(s.brief),active(s.active),value(s.value),type(s.type)
+        {
         }
 
 
