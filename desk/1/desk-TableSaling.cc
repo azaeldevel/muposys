@@ -1,4 +1,5 @@
 
+#include <iostream>
 
 #include "desk.hh"
 
@@ -66,7 +67,8 @@ namespace oct::mps::v1
         add(cost_unit);
         add(amount);
     }
-    /*void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
+
+    void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
         //Gtk::TreeModel::Row row = *iter;
 
@@ -78,7 +80,7 @@ namespace oct::mps::v1
         lbTotalAmount.set_text(std::to_string(total()));
 
         saved = false;
-    }*/
+    }
 
     void TableSaling::newrow()
     {
@@ -116,30 +118,37 @@ namespace oct::mps::v1
     {
         if(not columns) return;
 
-        //tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
         table.set_model(tree_model);
 
-            if(crud == Crud::create)table.append_column_editable("Number", columns->number);
-            else table.append_column("Number", columns->number);
-
-            if(crud == Crud::create) table.append_column_editable("Cant.", columns->quantity);
-            else table.append_column("Cant.", columns->quantity);
+        if(crud == Crud::create)
+        {
+            table.append_column_editable("Number", columns->number);
+            Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(0));
+            cell_number->property_editable() = true;
+            //cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));
+            tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
+            table.append_column_editable("Cant.", columns->quantity);
             Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
-            //Gtk::TreeViewColumn* col_quantity = table.get_column(table.get_n_columns() - 1);
-            if(crud == Crud::create) cell_quantity->property_editable() = true;
-
+            cell_quantity->property_editable() = true;
             table.append_column("Present.", columns->presentation);
-
-            //table.append_column("Artículo", columns->name);
-
-            if(crud == Crud::create) table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
-            else table.append_column_numeric("C/U", columns->cost_unit,"%.2f");
-
-            if(crud == Crud::create)table.append_column_numeric_editable("Monto", columns->amount,"%.2f");
-            else table.append_column_numeric("Monto", columns->amount,"%.2f");
+            table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
+            table.append_column_numeric_editable("Monto", columns->amount,"%.2f");
+        }
+        else
+        {
+            table.append_column("Number", columns->number);
+            table.append_column("Cant.", columns->quantity);
+            table.append_column("Present.", columns->presentation);
+            table.append_column_numeric("C/U", columns->cost_unit,"%.2f");
+            table.append_column_numeric("Monto", columns->amount,"%.2f");
+        }
     }
 
 
+    void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& strnumb)
+    {
+        std::cout << strnumb << "\n";
+    }
     bool TableSaling::on_key_press_event(GdkEventKey* event)
     {
         //std::cout << "on_key_press_event mias\n";

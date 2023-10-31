@@ -118,7 +118,8 @@ namespace oct::mps::v1
          * \param orign_number es el numero escrito por el usuario
          * */
         void set_data(Gtk::TreeModel::Row&,const CatalogItem& item);
-
+        void cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text);
+        void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
         float total()const;
         void newrow();
         void clear();
