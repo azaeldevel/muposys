@@ -120,6 +120,9 @@ namespace oct::mps::v1
         //tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
         table.set_model(tree_model);
 
+            if(crud == Crud::create)table.append_column_editable("Number", columns->number);
+            else table.append_column("Number", columns->number);
+
             if(crud == Crud::create) table.append_column_editable("Cant.", columns->quantity);
             else table.append_column("Cant.", columns->quantity);
             Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
@@ -127,9 +130,6 @@ namespace oct::mps::v1
             if(crud == Crud::create) cell_quantity->property_editable() = true;
 
             table.append_column("Present.", columns->presentation);
-
-            if(crud == Crud::create)table.append_column_editable("Number", columns->number);
-            else table.append_column("Number", columns->number);
 
             table.append_column("Artículo", columns->name);
 
