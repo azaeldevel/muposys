@@ -63,7 +63,6 @@ namespace oct::mps::v1
         add(quantity);
         add(presentation);
         add(number);
-        add(name);
         add(cost_unit);
         add(amount);
     }
@@ -131,7 +130,7 @@ namespace oct::mps::v1
 
             table.append_column("Present.", columns->presentation);
 
-            table.append_column("Artículo", columns->name);
+            //table.append_column("Artículo", columns->name);
 
             if(crud == Crud::create) table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
             else table.append_column_numeric("C/U", columns->cost_unit,"%.2f");
