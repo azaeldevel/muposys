@@ -15,7 +15,7 @@
 					<Add option="-g" />
 				</Compiler>
 				<Linker>
-					<Add library="octetos-cave-mmsql" />
+					<Add library="cave-mmsql-0" />
 					<Add directory="../../cave/bin/Debug" />
 				</Linker>
 			</Target>
