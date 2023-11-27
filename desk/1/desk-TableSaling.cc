@@ -148,12 +148,22 @@ namespace oct::mps::v1
 
     void TableSaling::on_editing_started_number(Gtk::CellEditable* editable, const Glib::ustring& path)
     {
-        std::cout << path << "||\n";
+        //std::cout << path << "||\n";
     }
 
     void TableSaling::on_edited_number(const Glib::ustring& path_string, const Glib::ustring& strnumb)
     {
-        std::cout << strnumb << "\n";
+        std::vector<Glib::ustring> res;
+        if(split(strnumb,res))
+        {
+            std::cout << res[0] << "-" << res[1] << "<<\n";
+        }
+        else
+        {
+            std::cout << strnumb << "<<\n";
+        }
+
+
     }
     bool TableSaling::on_key_press_event(GdkEventKey* event)
     {
@@ -282,5 +292,21 @@ namespace oct::mps::v1
 
 
 
+    bool TableSaling::split(const Glib::ustring& number,std::vector<Glib::ustring>& numbers)
+    {
+        //std::cout << "TableSaling::split : number " << number << "\n";
+        Glib::ustring::size_type found = std::string(number).find("/");
+        //std::cout << "TableSaling::split : found " << found << "\n";
+        if(found != Glib::ustring::npos)
+        {
+            //std::cout << "TableSaling::split : combinada " << number << "\n";
+            if(numbers.size() < 2) numbers.resize(2);
+            numbers[0] = number.substr(0,found);
+            numbers[1] = number.substr(found + 1, number.length() - 1);
+            return true;
+        }
+
+        return false;
+    }
 
 }

@@ -151,6 +151,16 @@ namespace oct::mps::v1
         Gtk::HSeparator separator;
         Crud crud;
         ID order;
+
+
+        /**
+         *\brief Separa el string pasado como argumento
+         *\param str valor para separar
+         *\param res los items separados
+         *\return true si hay mas de un item
+         */
+        bool split(const Glib::ustring& str,std::vector<Glib::ustring>& res);
+
     };
 
     class Login : public Gtk::Dialog
