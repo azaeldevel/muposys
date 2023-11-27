@@ -120,7 +120,7 @@ const User& Main::get_user()const
 void Main::on_logged()
 {
 #ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-    std::cout << "Logged\n";
+    //std::cout << "Logged\n";
 #endif
 
 }

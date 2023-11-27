@@ -125,7 +125,8 @@ namespace oct::mps::v1
             table.append_column_editable("Number", columns->number);
             Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(0));
             cell_number->property_editable() = true;
-            //cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::cellrenderer_validated_on_edited_number));
+            cell_number->signal_editing_started().connect(sigc::mem_fun(*this, &TableSaling::on_editing_started_number));
+            cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::on_edited_number));
             tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
             table.append_column_editable("Cant.", columns->quantity);
             Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
@@ -133,6 +134,7 @@ namespace oct::mps::v1
             table.append_column("Present.", columns->presentation);
             table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
             table.append_column_numeric_editable("Monto", columns->amount,"%.2f");
+
         }
         else
         {
@@ -144,8 +146,12 @@ namespace oct::mps::v1
         }
     }
 
+    void TableSaling::on_editing_started_number(Gtk::CellEditable* editable, const Glib::ustring& path)
+    {
+        std::cout << path << "||\n";
+    }
 
-    void TableSaling::cellrenderer_validated_on_edited_number(const Glib::ustring& path_string, const Glib::ustring& strnumb)
+    void TableSaling::on_edited_number(const Glib::ustring& path_string, const Glib::ustring& strnumb)
     {
         std::cout << strnumb << "\n";
     }
@@ -245,6 +251,18 @@ namespace oct::mps::v1
             else
             {
 
+            }
+
+        }
+        else if ((event->type == GDK_KEY_PRESS and event->keyval == GDK_KEY_KP_Enter) or (event->type == GDK_KEY_PRESS and event->keyval == GDK_KEY_Return))
+        {
+            std::cout << ">>>pppppppppppppppppp<<<\n";
+            Glib::RefPtr<Gtk::TreeSelection> refSelection = table.get_selection();
+            Gtk::TreeModel::iterator iter = refSelection->get_selected();
+            if(iter) //If anything is selected
+            {
+                Gtk::TreeModel::Row row = *iter;
+                std::cout << row[columns->number] << "<<<\n";
             }
 
         }
