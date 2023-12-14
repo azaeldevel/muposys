@@ -41,13 +41,14 @@
 #endif
 
 #include <cave/0/mmsql.hh>
+#include <cave/1/mmsql.hh>
 
 namespace oct::mps::v1
 {
-    namespace cave = oct::cave::v0;
+    namespace cave0 = oct::cave::v0;
     typedef unsigned long ID;
 
-	cave::mmsql::Data default_dtm();
+	cave0::mmsql::Data default_dtm();
 
     class RandomString
 	{
@@ -93,48 +94,15 @@ namespace oct::mps::v1
         std::string name1,name3; //person name
 
         Person() = default;
-        Person(const char** s)
-        {
-            id = std::atoll(s[0]);
-            name1 = s[1];
-            name3 = s[2];
-        }
-        Person(cave::Row<char,cave::mmsql::Data> s)
-        {
-            id = std::atoll(s[0]);
-            name1 = s[1];
-            name3 = s[2];
-        }
+        Person(const char** s);
+        Person(cave0::Row<char,cave0::mmsql::Data> s);
 
-        static std::string fields()
-        {
-            return "id,name1,name3";
-        }
-
-        static std::string table()
-        {
-            return "User";
-        }
-        bool down(cave::mmsql::Connection& conn)
-        {
-            cave::mmsql::Result rs = conn.select("name1,name3", table(),"id = " + std::to_string(id));
-            if(rs.size() > 0)
-            {
-                name1 = rs.next()[0];
-                name3 = rs.next()[1];
-                return true;
-            }
-
-            return false;
-        }
-        void fullname(std::string& c)const
-        {
-            if(name1.empty()) return;
-            c = name1;
-            if(name3.empty()) return;
-            c += " " + name3;
-        }
+        static std::string fields();
+        static std::string table();
+        bool down(cave0::mmsql::Connection& conn);
+        void fullname(std::string& c)const;
     };
+
     struct User
     {
         bool valid;
@@ -143,29 +111,12 @@ namespace oct::mps::v1
         std::string name; //person name
 
         User() = default;
-        User(const char** s)
-        {
-            name = s[0];
-            person.id = std::atoll(s[1]);
-            name = s[2];
-        }
-        User(cave::Row<char,cave::mmsql::Data> s)
-        {
-            name = s[0];
-            person.id = std::atoll(s[1]);
-            name = s[2];
-        }
+        User(const char** s);
+        User(cave0::Row<char,cave0::mmsql::Data> s);
 
 
-        static std::string fields()
-        {
-            return "id,person,name";
-        }
-
-        static std::string table()
-        {
-            return "User";
-        }
+        static std::string fields();
+        static std::string table();
 
     };
     struct Session
@@ -174,43 +125,14 @@ namespace oct::mps::v1
         std::string client,session;
 
         Session() = default;
-        Session(const char** s)
-        {
-            id = std::atoi(s[0]);
-            client = s[1];
-            session = s[2];
-        }
-        Session(cave::Row<char,cave::mmsql::Data> s)
-        {
-            id = std::atoi(s[0]);
-            client = s[1];
-            session = s[2];
-        }
-        static std::string fields()
-        {
-            return "id,client,session";
-        }
-        static std::string table()
-        {
-            return "Session";
-        }
-        cave::mmsql::Result remove(cave::mmsql::Connection& conn)
-        {
-            return conn.remove(table(),"session = " + session);
-        }
-        cave::mmsql::Result insert(cave::mmsql::Connection& conn,std::string const& client)
-        {
-            return conn.insert(std::string("client"),client,table());
-        }
-        cave::mmsql::Result upSession(cave::mmsql::Connection& conn)
-        {
-            return conn.update("client = '" + client + "'", table());
-        }
-        bool downSession(cave::mmsql::Connection& conn)
-        {
-            cave::mmsql::Result rs = conn.select("client = '" + client + "'", table(),"session = " + session);
-            return rs;
-        }
+        Session(const char** s);
+        Session(cave0::Row<char,cave0::mmsql::Data> s);
+        static std::string fields();
+        static std::string table();
+        cave0::mmsql::Result remove(cave0::mmsql::Connection& conn);
+        cave0::mmsql::Result insert(cave0::mmsql::Connection& conn,std::string const& client);
+        cave0::mmsql::Result upSession(cave0::mmsql::Connection& conn);
+        bool downSession(cave0::mmsql::Connection& conn);
 
     };
     struct Variable
@@ -219,61 +141,16 @@ namespace oct::mps::v1
         std::string name,value,session;
 
         Variable() = default;
-        Variable(const char** s)
-        {
-            id = std::atoi(s[0]);
-            name = s[1];
-            value = s[2];
-            session = s[3];
-        }
-        Variable(cave::Row<char,cave::mmsql::Data> s)
-        {
-            id = std::atoi(s[0]);
-            name = s[1];
-            value = s[2];
-            session = s[3];
-        }
-        static std::string fields()
-        {
-            return "id,name,value,session";
-        }
-        static std::string table()
-        {
-            return "Session";
-        }
-        cave::mmsql::Result remove(cave::mmsql::Connection& conn)
-        {
-            return conn.remove(table(),"session = " + session);
-        }
-        cave::mmsql::Result insert(cave::mmsql::Connection& conn)
-        {
-            RandomString ranstr(32,RandomString::md5);
-            ranstr.generate();
-            return conn.insert("name,value,session","'" + name + "','" + value + "','" + (const char*)ranstr + "'" ,table());
-        }
-        cave::mmsql::Result upName(cave::mmsql::Connection& conn)
-        {
-            return conn.update("name = '" + name + "'", table());
-        }
-        cave::mmsql::Result upValue(cave::mmsql::Connection& conn)
-        {
-            return conn.update("value = '" + value + "'", table());
-        }
-        cave::mmsql::Result upSession(cave::mmsql::Connection& conn)
-        {
-            return conn.update("session = '" + session + "'", table());
-        }
-        bool downValue(cave::mmsql::Connection& conn)
-        {
-            cave::mmsql::Result rs = conn.select("value", table(),"session = " + session);
-            if(rs.size() > 0)
-            {
-                value = rs.next()[0];
-                return true;
-            }
-
-            return false;
-        }
+        Variable(const char** s);
+        Variable(cave0::Row<char,cave0::mmsql::Data> s);
+        static std::string fields();
+        static std::string table();
+        cave0::mmsql::Result remove(cave0::mmsql::Connection& conn);
+        cave0::mmsql::Result insert(cave0::mmsql::Connection& conn);
+        cave0::mmsql::Result upName(cave0::mmsql::Connection& conn);
+        cave0::mmsql::Result upValue(cave0::mmsql::Connection& conn);
+        cave0::mmsql::Result upSession(cave0::mmsql::Connection& conn);
+        bool downValue(cave0::mmsql::Connection& conn);
     };
     struct CatalogItem
     {
@@ -283,46 +160,14 @@ namespace oct::mps::v1
         float value;
         short type;
 
-
         CatalogItem() = default;
-        CatalogItem(const char** s)
-        {
-            id = std::atoll(s[0]);
-            catalog = std::atoll(s[1]);
-            number = s[2];
-            brief = s[3];
-            if(strcmp(s[4],"Y") == 0) active = true;
-            else if(strcmp(s[4],"N") == 0) active = false;
-            else active = false;
-            value = std::atof(s[5]);
-            type = std::atoi(s[6]);
-        }
-        CatalogItem(const cave::Row<char,cave::mmsql::Data>& s)
-        {
-            id = std::atoll(s[0]);
-            catalog = std::atoll(s[1]);
-            number = s[2];
-            brief = s[3];
-            if(strcmp(s[4],"Y") == 0) active = true;
-            else if(strcmp(s[4],"N") == 0) active = false;
-            else active = false;
-            value = std::atof(s[5]);
-            type = std::atoi(s[6]);
-        }
-        CatalogItem(const CatalogItem& s) : id(s.id),catalog(s.catalog),number(s.number),brief(s.brief),active(s.active),value(s.value),type(s.type)
-        {
-        }
+        CatalogItem(const char** s);
+        CatalogItem(const cave0::Row<char,cave0::mmsql::Data>& s);
+        CatalogItem(const CatalogItem& s);
 
 
-        static std::string fields()
-        {
-            return "id,catalog,number,brief,active,value,presentation,type";
-        }
-
-        static std::string table()
-        {
-            return "CatalogItem";
-        }
+        static std::string fields();
+        static std::string table();
 
     };
 
