@@ -48,7 +48,7 @@ namespace oct::mps::v1
     namespace cave0 = oct::cave::v0;
     typedef unsigned long ID;
 
-	cave0::mmsql::Data default_dtm();
+	cave0::mmsql::Data default_dtm0();
 
     class RandomString
 	{

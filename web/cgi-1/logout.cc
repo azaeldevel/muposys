@@ -24,7 +24,7 @@
 namespace oct::mps::v1
 {
 
-Logout::Logout(const Params& p) : CGI(default_dtm()), params(p)
+Logout::Logout(const Params& p) : CGI(default_dtm0()), params(p)
 {
 
 }

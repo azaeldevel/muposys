@@ -191,7 +191,7 @@ void Login::on_bt_ok_clicked()
 }
 void Login::check_user()
 {
-	cave0::mmsql::Data dtm = default_dtm();
+	cave0::mmsql::Data dtm = default_dtm0();
 	bool conectfl = false;
 	cave0::mmsql::Connection conn;
 	try

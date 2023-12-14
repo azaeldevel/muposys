@@ -61,12 +61,12 @@ void BodyApplication::set(Application& a)
 Application::~Application()
 {
 }
-Application::Application(BodyApplication& b,const Params& p) : Page(b,default_dtm()),params(p)
+Application::Application(BodyApplication& b,const Params& p) : Page(b,default_dtm0()),params(p)
 {
 	head.title = "Multi-Porpuse Software System";
 	init();
 }
-Application::Application(BodyApplication& b,const std::string& t,const Params& p) : Page(b,t,default_dtm()),params(p)
+Application::Application(BodyApplication& b,const std::string& t,const Params& p) : Page(b,t,default_dtm0()),params(p)
 {
 	init();
 }

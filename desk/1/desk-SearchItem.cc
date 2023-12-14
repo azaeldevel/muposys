@@ -14,7 +14,7 @@ namespace oct::mps::v1
 	void SearchItem::init()
 	{
 		number = -1;
-        cave0::mmsql::Data dtm = default_dtm();
+        cave0::mmsql::Data dtm = default_dtm0();
         try
         {
             connDB_flag = connDB.connect(dtm, true);

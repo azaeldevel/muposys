@@ -22,7 +22,7 @@
 
 namespace oct::mps::v1
 {
-    cave0::mmsql::Data default_dtm()
+    cave0::mmsql::Data default_dtm0()
     {
 #ifdef MUPOSYS_CORE_V1_TDD
         return cave0::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);

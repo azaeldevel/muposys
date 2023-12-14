@@ -28,7 +28,7 @@ namespace oct::mps::v1::server
 
 
 
-Login::Login() : CGI(default_dtm())
+Login::Login() : CGI(default_dtm0())
 {
 }
 Login::~Login()
