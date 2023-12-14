@@ -46,6 +46,7 @@
 namespace oct::mps::v1
 {
     namespace cave0 = oct::cave::v0;
+    namespace core = oct::core::v3;
     typedef unsigned long ID;
 
 	cave0::mmsql::Data default_dtm0();

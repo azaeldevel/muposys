@@ -1,6 +1,6 @@
 
 #include <iostream>
-
+#include <core/3/Exception.hh>
 #include "desk.hh"
 
 
@@ -29,16 +29,17 @@ namespace oct::mps::v1
     void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
         const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
-
         if(last == iter and crud == Crud::create) newrow();
-
         lbTotalAmount.set_text(std::to_string(total()));
-
         saved = false;
     }
 
     void TableSaling::newrow()
     {
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
+        if(not tree_model) throw core::exception("El Model para TreeView no ha sido creado");
+#endif
+
         //std::cout << "void TableSaling::newrow()\n";
         tree_model->append();
         Gtk::TreeModel::iterator& end = --tree_model->children();
@@ -72,6 +73,9 @@ namespace oct::mps::v1
 
     void TableSaling::init_table_model()
     {
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
+        if(not tree_model) throw core::exception("El Model para TreeView no ha sido creado");
+#endif
         table.set_model(tree_model);
 
         set_valign(Gtk::ALIGN_CENTER);
@@ -114,9 +118,7 @@ namespace oct::mps::v1
                 boxTotal.pack_start(lbTotalAmount);
                 lbTotal.set_text("Total : $");
             }
-#ifdef MUPOSYS_DESK_ENABLE_TDD
-            btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
-#endif
+
             btSave.set_image_from_icon_name("document-save");
             boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
         }
@@ -124,7 +126,6 @@ namespace oct::mps::v1
 
     void TableSaling::on_editing_started_number(Gtk::CellEditable* editable, const Glib::ustring& path)
     {
-        //std::cout << path << "||\n";
     }
 
     void TableSaling::on_edited_number(const Glib::ustring& path_string, const Glib::ustring& strnumb)
@@ -238,7 +239,7 @@ namespace oct::mps::v1
             if(iter) //If anything is selected
             {
                 Gtk::TreeModel::Row row = *iter;
-                std::cout << row[columns->number] << "<<<\n";
+                //std::cout << row[columns->number] << "<<<\n";
             }
 
         }

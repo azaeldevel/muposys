@@ -135,8 +135,8 @@ namespace oct::mps::v1
         Crud crud;
         ModelColumns* columns;
         bool saved;
-        Glib::RefPtr<Gtk::ListStore> tree_model;
 
+        Glib::RefPtr<Gtk::ListStore> tree_model;
         Gtk::TreeView table;
         Gtk::Button btSave;
         Gtk::Label lbTotal, lbTotalAmount;
@@ -233,22 +233,6 @@ namespace oct::mps::v1
         Gtk::HBox box_header_info;
         Gtk::HBox box_header_controls;
         Gtk::Separator sep_header;
-
-    };
-
-    class Restaurant : public Main
-    {
-    public:
-        /**
-        *
-        **/
-        Restaurant();
-        Restaurant(bool devel);
-        virtual ~Restaurant();
-
-    protected:
-
-    private:
 
     };
 

@@ -279,52 +279,5 @@ Login::signal_logged_t Login::signal_logged()
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Restaurant::Restaurant()
-{
-}
-Restaurant::Restaurant(bool d) : Main(d)
-{
-}
-Restaurant::~Restaurant()
-{
-}
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
