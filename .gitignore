@@ -28,6 +28,7 @@ bin/
 *.depend
 *.layout
 .objs
+ing/
 
 */Debug
 */Optimized
