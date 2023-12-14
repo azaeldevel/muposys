@@ -67,7 +67,7 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall -std=c++20 `pkg-config gtkmm-3.0 --cflags ` `pkg-config libmariadb --cflags`   `pkg-config libxml-2.0 --cflags`" />
+			<Add option="-Wall -std=c++23 `pkg-config gtkmm-3.0 --cflags ` `pkg-config libmariadb --cflags`   `pkg-config libxml-2.0 --cflags`" />
 			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
