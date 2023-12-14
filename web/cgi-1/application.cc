@@ -46,7 +46,7 @@ std::ostream& BodyApplication::print (std::ostream& out)
 	return out;
 }
 
-void BodyApplication::set(cave::mmsql::Connection& c)
+void BodyApplication::set(cave0::mmsql::Connection& c)
 {
 	connDB = &c;
 }

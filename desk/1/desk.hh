@@ -30,8 +30,6 @@ namespace oct::mps::v1
     class Main;
     template<typename T> concept model_columns = std::derived_from<T,Gtk::TreeModel::ColumnRecord>;
 
-    namespace cave = oct::cave::v0;
-
 
     class SearchItem : public Gtk::Dialog
     {
@@ -59,7 +57,7 @@ namespace oct::mps::v1
         };
 
     private:
-        cave::mmsql::Connection connDB;
+        cave0::mmsql::Connection connDB;
         bool connDB_flag;
         ID& number;
         Glib::ustring text;

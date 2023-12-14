@@ -58,7 +58,7 @@ bool Login::check(std::string& strs)
     {
  		 usrlst_flag = connDB.select(usrlst,strwhere);
 	}
-	catch (const cave::ExceptionDriver&)
+	catch (const cave0::ExceptionDriver&)
 	{
 	}
 	catch (...)

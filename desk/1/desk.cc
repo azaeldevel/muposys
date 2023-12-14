@@ -191,14 +191,14 @@ void Login::on_bt_ok_clicked()
 }
 void Login::check_user()
 {
-	cave::mmsql::Data dtm = default_dtm();
+	cave0::mmsql::Data dtm = default_dtm();
 	bool conectfl = false;
-	cave::mmsql::Connection conn;
+	cave0::mmsql::Connection conn;
 	try
 	{
 		conectfl = conn.connect(dtm, true);
 	}
-	catch (const cave::ExceptionDriver& e)
+	catch (const cave0::ExceptionDriver& e)
 	{
 		return;
 	}
@@ -221,7 +221,7 @@ void Login::check_user()
     {
  		 lstUserflag = conn.select(lstUser,strsql);
 	}
-	catch (const cave::ExceptionDriver&)
+	catch (const cave0::ExceptionDriver&)
 	{
 	}
 	catch (...)

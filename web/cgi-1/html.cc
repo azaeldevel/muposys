@@ -245,14 +245,14 @@ const char* Service::user_name_variable = "oct.mps.web.user";
 Service::Service() : is_open_DB(false)
 {
 }
-Service::Service(const cave::mmsql::Data& dat)
+Service::Service(const cave0::mmsql::Data& dat)
 {
 	bool conectfl = false;
 	try
 	{
 		is_open_DB = connDB.connect(dat, true);
 	}
-	catch (const cave::ExceptionDriver& e)
+	catch (const cave0::ExceptionDriver& e)
 	{
 		return;
 	}
@@ -297,7 +297,7 @@ void Service::remove_session(const char* session)
     {
  		 sesionlst_flag = connDB.select(sesionlst,findSesion);
 	}
-	catch (const cave::ExceptionDriver&)
+	catch (const cave0::ExceptionDriver&)
 	{
 	}
 	catch (...)
@@ -319,7 +319,7 @@ void Service::remove_session(const char* session)
         {
              varslst_flag = connDB.select(sesionlst,findSesion);
         }
-        catch (const cave::ExceptionDriver&)
+        catch (const cave0::ExceptionDriver&)
         {
         }
         catch (...)
@@ -387,7 +387,7 @@ long Service::get_session()
     {
         clientlst_flag = connDB.select(clientlst,findSesion);
 	}
-	catch (const cave::ExceptionDriver&)
+	catch (const cave0::ExceptionDriver&)
 	{
 
 	}
@@ -464,7 +464,7 @@ bool Service::create_session(const char* s,std::string& strsession)
     {
         varslst_flag = connDB.select(varslst,findSesion);
 	}
-	catch (const cave::ExceptionDriver&)
+	catch (const cave0::ExceptionDriver&)
 	{
 	}
 	catch (...)
@@ -551,7 +551,7 @@ std::string Service::get_user()
         {
              clientlst_flag = connDB.select(clientlst,findSesion);
         }
-        catch (const cave::ExceptionDriver&)
+        catch (const cave0::ExceptionDriver&)
         {
         }
         catch (...)
@@ -689,11 +689,11 @@ Page::Page(Body& b,const std::string& t) : body(&b)
 	head.title = t;
 }
 
-Page::Page(Body& b,const cave::mmsql::Data& dat) : Service(dat),body(&b)
+Page::Page(Body& b,const cave0::mmsql::Data& dat) : Service(dat),body(&b)
 {
 
 }
-Page::Page(Body& b,const std::string& t,const cave::mmsql::Data& dat) : Service(dat), body(&b)
+Page::Page(Body& b,const std::string& t,const cave0::mmsql::Data& dat) : Service(dat), body(&b)
 {
 	head.title = t;
 }
@@ -719,7 +719,7 @@ std::ostream& Page::print (std::ostream& out)
 CGI::CGI()
 {
 }
-CGI::CGI(const cave::mmsql::Data& dat) : Service(dat)
+CGI::CGI(const cave0::mmsql::Data& dat) : Service(dat)
 {
 
 }

@@ -21,11 +21,11 @@ public:
 	virtual void programs(std::ostream& out);
 	virtual void panel(std::ostream& out);
 
-	void set(cave::mmsql::Connection& connDB);
+	void set(cave0::mmsql::Connection& connDB);
 	void set(Application&);
 
 protected:
-	cave::mmsql::Connection* connDB;
+	cave0::mmsql::Connection* connDB;
 	Application* application;
 
 };

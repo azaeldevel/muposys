@@ -92,7 +92,7 @@ namespace oct::mps::v1
 	{
 	public:
 		Service();
-		Service(const cave::mmsql::Data&);
+		Service(const cave0::mmsql::Data&);
 		virtual ~Service();
 
 		bool create_session(const char*,std::string&);
@@ -112,7 +112,7 @@ namespace oct::mps::v1
 
 	protected:
 		bool is_open_DB;
-		cave::mmsql::Connection connDB;
+		cave0::mmsql::Connection connDB;
 	};
 	class Page : public Tag, public Service
 	{
@@ -120,8 +120,8 @@ namespace oct::mps::v1
 		Page();
 		Page(Body&);
 		Page(Body&,const std::string& title);
-		Page(Body&,const cave::mmsql::Data&);
-		Page(Body&,const std::string& title,const cave::mmsql::Data&);
+		Page(Body&,const cave0::mmsql::Data&);
+		Page(Body&,const std::string& title,const cave0::mmsql::Data&);
 
 		virtual ~Page();
 
@@ -141,8 +141,8 @@ namespace oct::mps::v1
 		CGI();
 
 		CGI(const std::filesystem::path&);
-		CGI(const cave::mmsql::Data&);
-		CGI(const std::filesystem::path&,const cave::mmsql::Data&);
+		CGI(const cave0::mmsql::Data&);
+		CGI(const std::filesystem::path&,const cave0::mmsql::Data&);
 
 		~CGI();
 

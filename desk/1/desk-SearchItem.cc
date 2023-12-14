@@ -14,12 +14,12 @@ namespace oct::mps::v1
 	void SearchItem::init()
 	{
 		number = -1;
-        cave::mmsql::Data dtm = default_dtm();
+        cave0::mmsql::Data dtm = default_dtm();
         try
         {
             connDB_flag = connDB.connect(dtm, true);
         }
-        catch (const cave::ExceptionDriver& e)
+        catch (const cave0::ExceptionDriver& e)
         {
             Gtk::MessageDialog dlg("Error detectado durante conexion a BD",true,Gtk::MESSAGE_ERROR);
             dlg.set_secondary_text(e.what());
@@ -188,7 +188,7 @@ namespace oct::mps::v1
         {
              lstItemflag = connDB.select(lstItem,where);
         }
-        catch (const cave::ExceptionDriver&)
+        catch (const cave0::ExceptionDriver&)
         {
         }
         catch (...)

@@ -180,13 +180,13 @@ namespace oct::mps::v1
                 Gtk::TreeModel::iterator iter = refSelection->get_selected();
                 if(iter) //If anything is selected
                 {
-                    cave::mmsql::Connection connDB;
-                    cave::mmsql::Data dtm = default_dtm();
+                    cave0::mmsql::Connection connDB;
+                    cave0::mmsql::Data dtm = default_dtm();
                     try
                     {
                         connDB_flag = connDB.connect(dtm, true);
                     }
-                    catch (const cave::ExceptionDriver& e)
+                    catch (const cave0::ExceptionDriver& e)
                     {
                         Gtk::MessageDialog dlg("Error detectado durante conexion a BD",true,Gtk::MESSAGE_ERROR);
                         dlg.set_secondary_text(e.what());
@@ -216,7 +216,7 @@ namespace oct::mps::v1
                     {
                          lstItemflag = connDB.select(lstItem,where);
                     }
-                    catch (const cave::ExceptionDriver& e)
+                    catch (const cave0::ExceptionDriver& e)
                     {
                         Gtk::MessageDialog dlg("Error detectado durante conexion a BD",true,Gtk::MESSAGE_ERROR);
                         dlg.set_secondary_text(e.what());
