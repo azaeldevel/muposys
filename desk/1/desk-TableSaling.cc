@@ -6,17 +6,22 @@
 
 namespace oct::mps::v1
 {
-    TableSaling::TableSaling() : connDB_flag(false),crud(Crud::create),order(-1),columns(NULL)
+    TableSaling::TableSaling() : crud(Crud::create),order(-1),columns(NULL)
     {
         //std::cout << "mps::TableSaling::TableSaling()\n";
         init();
     }
-    TableSaling::TableSaling(ID o) : connDB_flag(false),crud(Crud::read),order(o),columns(NULL)
+    TableSaling::TableSaling(ID o) : crud(Crud::read),order(o),columns(NULL)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
     }
-    TableSaling::TableSaling(ID o,Crud c) : connDB_flag(false),crud(c),order(o),columns(NULL)
+    TableSaling::TableSaling(ID o,Crud c) : crud(c),order(o),columns(NULL)
+    {
+        //std::cout << "mps::TableSaling::TableSaling(long)\n";
+        init();
+    }
+    TableSaling::TableSaling(Crud c) : crud(c),columns(NULL)
     {
         //std::cout << "mps::TableSaling::TableSaling(long)\n";
         init();
@@ -51,8 +56,6 @@ namespace oct::mps::v1
         }
 
         saved = true;
-
-        //if(crud == Crud::create) newrow();
     }
     TableSaling::~TableSaling()
     {
@@ -167,6 +170,7 @@ namespace oct::mps::v1
     }
     bool TableSaling::on_key_press_event(GdkEventKey* event)
     {
+        bool connDB_flag;
         //std::cout << "on_key_press_event mias\n";
         if (event->type == GDK_KEY_PRESS and event->keyval == GDK_KEY_F4)
         {

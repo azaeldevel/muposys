@@ -100,13 +100,12 @@ namespace oct::mps::v1
         TableSaling();
         TableSaling(ID order);
         TableSaling(ID order,Crud);
+        TableSaling(Crud);
         void init();
         virtual ~TableSaling();
 
 
     protected:
-
-        bool connDB_flag;
 
         //void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
         bool on_key_press_event(GdkEventKey* key_event) override;
