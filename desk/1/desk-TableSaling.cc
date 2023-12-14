@@ -6,56 +6,11 @@
 
 namespace oct::mps::v1
 {
-    TableSaling::TableSaling() : crud(Crud::create),order(-1),columns(NULL)
+    TableSaling::TableSaling() : crud(Crud::none),columns(NULL),saved(true)
     {
-        //std::cout << "mps::TableSaling::TableSaling()\n";
-        init();
     }
-    TableSaling::TableSaling(ID o) : crud(Crud::read),order(o),columns(NULL)
+    TableSaling::TableSaling(Crud c) : crud(c),columns(NULL),saved(true)
     {
-        //std::cout << "mps::TableSaling::TableSaling(long)\n";
-        init();
-    }
-    TableSaling::TableSaling(ID o,Crud c) : crud(c),order(o),columns(NULL)
-    {
-        //std::cout << "mps::TableSaling::TableSaling(long)\n";
-        init();
-    }
-    TableSaling::TableSaling(Crud c) : crud(c),columns(NULL)
-    {
-        //std::cout << "mps::TableSaling::TableSaling(long)\n";
-        init();
-    }
-    void TableSaling::init()
-    {
-        set_valign(Gtk::ALIGN_CENTER);
-        table.add_events(Gdk::KEY_PRESS_MASK);
-        pack_start(table,false,true);//
-        {
-            set_homogeneous(false);
-        }
-
-        pack_start(separator,false,true,5);
-
-        pack_start(boxAditional,false,true);
-
-        pack_start(boxFloor,false,true,5);
-        {
-            //agregando widgets de total
-            boxFloor.pack_start(boxTotal);
-            {
-                boxTotal.pack_start(lbTotal);
-                boxTotal.pack_start(lbTotalAmount);
-                lbTotal.set_text("Total : $");
-            }
-    /*#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-            btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
-    #endif*/
-            btSave.set_image_from_icon_name("document-save");
-            boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
-        }
-
-        saved = true;
     }
     TableSaling::~TableSaling()
     {
@@ -73,9 +28,6 @@ namespace oct::mps::v1
 
     void TableSaling::row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
-        //Gtk::TreeModel::Row row = *iter;
-
-        //std::cout << "Size : " << tree_model->children().size() << "\n";
         const Gtk::TreeModel::iterator& last = --(tree_model->children().end());
 
         if(last == iter and crud == Crud::create) newrow();
@@ -87,6 +39,7 @@ namespace oct::mps::v1
 
     void TableSaling::newrow()
     {
+        //std::cout << "void TableSaling::newrow()\n";
         tree_model->append();
         Gtk::TreeModel::iterator& end = --tree_model->children();
         Gtk::TreeModel::Row row = *end;
@@ -117,35 +70,55 @@ namespace oct::mps::v1
     {
     }
 
-    void TableSaling::init_table()
+    void TableSaling::init_table_model()
     {
-        if(not columns) return;
-
         table.set_model(tree_model);
 
-        if(crud == Crud::create)
+        set_valign(Gtk::ALIGN_CENTER);
+        table.add_events(Gdk::KEY_PRESS_MASK);
+        pack_start(table,false,true);//
         {
-            table.append_column_editable("Number", columns->number);
-            Gtk::CellRendererText* cell_number = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(0));
-            cell_number->property_editable() = true;
-            cell_number->signal_editing_started().connect(sigc::mem_fun(*this, &TableSaling::on_editing_started_number));
-            cell_number->signal_edited().connect(sigc::mem_fun(*this, &TableSaling::on_edited_number));
-            tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
-            table.append_column_editable("Cant.", columns->quantity);
-            Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(table.get_n_columns() - 1));
-            cell_quantity->property_editable() = true;
+            set_homogeneous(false);
+            if(crud == Crud::create)
+            {
+                table.append_column_editable("Number", columns->number);
+                int id_quantity = table.append_column_editable("Cant.", columns->quantity);
+                Gtk::CellRendererText* cell_quantity = static_cast<Gtk::CellRendererText*>(table.get_column_cell_renderer(id_quantity - 1));
+                //Gtk::TreeViewColumn* col_quantity = table.get_column(id_quantity - 1);
+                cell_quantity->property_editable() = true;
+                table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
+                table.append_column_numeric_editable("Monto", columns->amount,"%.2f");
+            }
+            else
+            {
+                table.append_column("Number", columns->number);
+                table.append_column("Cant.", columns->quantity);
+                table.append_column_numeric("C/U", columns->cost_unit,"%.2f");
+                table.append_column_numeric("Monto", columns->amount,"%.2f");
+            }
             table.append_column("Present.", columns->presentation);
-            table.append_column_numeric_editable("C/U", columns->cost_unit,"%.2f");
-            table.append_column_numeric_editable("Monto", columns->amount,"%.2f");
 
+            tree_model->signal_row_changed().connect(sigc::mem_fun(*this, &TableSaling::row_changed));
         }
-        else
+
+        pack_start(separator,false,true,5);
+
+        pack_start(boxAditional,false,true);
+
+        pack_start(boxFloor,false,true,5);
         {
-            table.append_column("Number", columns->number);
-            table.append_column("Cant.", columns->quantity);
-            table.append_column("Present.", columns->presentation);
-            table.append_column_numeric("C/U", columns->cost_unit,"%.2f");
-            table.append_column_numeric("Monto", columns->amount,"%.2f");
+            //agregando widgets de total
+            boxFloor.pack_start(boxTotal);
+            {
+                boxTotal.pack_start(lbTotal);
+                boxTotal.pack_start(lbTotalAmount);
+                lbTotal.set_text("Total : $");
+            }
+#ifdef MUPOSYS_DESK_ENABLE_TDD
+            btSave.signal_clicked().connect( sigc::mem_fun(*this,&TableSaling::on_save_clicked));
+#endif
+            btSave.set_image_from_icon_name("document-save");
+            boxFloor.pack_start(btSave,Gtk::PACK_SHRINK);
         }
     }
 
@@ -156,17 +129,6 @@ namespace oct::mps::v1
 
     void TableSaling::on_edited_number(const Glib::ustring& path_string, const Glib::ustring& strnumb)
     {
-        std::vector<Glib::ustring> res;
-        if(split(strnumb,res))
-        {
-            std::cout << res[0] << "-" << res[1] << "<<\n";
-        }
-        else
-        {
-            std::cout << strnumb << "<<\n";
-        }
-
-
     }
     bool TableSaling::on_key_press_event(GdkEventKey* event)
     {
@@ -270,7 +232,7 @@ namespace oct::mps::v1
         }
         else if ((event->type == GDK_KEY_PRESS and event->keyval == GDK_KEY_KP_Enter) or (event->type == GDK_KEY_PRESS and event->keyval == GDK_KEY_Return))
         {
-            std::cout << ">>>pppppppppppppppppp<<<\n";
+            //std::cout << ">>>pppppppppppppppppp<<<\n";
             Glib::RefPtr<Gtk::TreeSelection> refSelection = table.get_selection();
             Gtk::TreeModel::iterator iter = refSelection->get_selected();
             if(iter) //If anything is selected
@@ -294,23 +256,5 @@ namespace oct::mps::v1
     }
 
 
-
-
-    bool TableSaling::split(const Glib::ustring& number,std::vector<Glib::ustring>& numbers)
-    {
-        //std::cout << "TableSaling::split : number " << number << "\n";
-        Glib::ustring::size_type found = std::string(number).find("/");
-        //std::cout << "TableSaling::split : found " << found << "\n";
-        if(found != Glib::ustring::npos)
-        {
-            //std::cout << "TableSaling::split : combinada " << number << "\n";
-            if(numbers.size() < 2) numbers.resize(2);
-            numbers[0] = number.substr(0,found);
-            numbers[1] = number.substr(found + 1, number.length() - 1);
-            return true;
-        }
-
-        return false;
-    }
 
 }

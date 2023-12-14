@@ -98,10 +98,7 @@ namespace oct::mps::v1
 
     public:
         TableSaling();
-        TableSaling(ID order);
-        TableSaling(ID order,Crud);
         TableSaling(Crud);
-        void init();
         virtual ~TableSaling();
 
 
@@ -125,20 +122,20 @@ namespace oct::mps::v1
         void on_editing_started_number(Gtk::CellEditable* editable, const Glib::ustring& path);
 
 
-        template<model_columns M> void init_table_model()
+        template<model_columns M> void create_table()
         {
             columns = new M;
             tree_model = Gtk::ListStore::create((M&)*columns);
+            init_table_model();
         }
-
-        virtual void init_table();
 
 
         virtual void save() = 0;
 
+        Crud crud;
         ModelColumns* columns;
-        Glib::RefPtr<Gtk::ListStore> tree_model;
         bool saved;
+        Glib::RefPtr<Gtk::ListStore> tree_model;
 
         Gtk::TreeView table;
         Gtk::Button btSave;
@@ -146,17 +143,8 @@ namespace oct::mps::v1
         Gtk::HBox boxTotal;
         Gtk::VBox boxFloor,boxAditional;
         Gtk::HSeparator separator;
-        Crud crud;
-        ID order;
-
-
-        /**
-         *\brief Separa el string pasado como argumento
-         *\param str valor para separar
-         *\param res los items separados
-         *\return true si hay mas de un item
-         */
-        bool split(const Glib::ustring& str,std::vector<Glib::ustring>& res);
+    private:
+        void init_table_model();
 
     };
 
