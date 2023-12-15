@@ -84,10 +84,11 @@ void Main::init()
 	sales.set_info(nbMain,page_index);*/
 	set_default_size(800,640);
 	show_all_children();
+	//login.signal_logged().connect(sigc::mem_fun(*this, &Main::on_logged));
 #endif
 
     //login.signal_logged().connect(sigc::mem_fun(*this,&Main::on_logged));
-    on_logged_listener(sigc::mem_fun(*this,&Main::on_logged));
+    //on_logged_listener(sigc::mem_fun(*this,&Main::on_logged));
 }
 Main::~Main()
 {
@@ -112,15 +113,10 @@ void Main::set_subtitle(const char* t )
 	header.set_subtitle(t);
 }
 
-
-const User& Main::get_user()const
-{
-    return login.get_user();
-}
 void Main::on_logged()
 {
 #ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-    //std::cout << "Logged\n";
+    std::cout << "Logged on MUPOSYS\n";
 #endif
 
 }

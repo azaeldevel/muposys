@@ -203,27 +203,20 @@ namespace oct::mps::v1
         void set_title(const char* );
         void set_subtitle(const char* );
         void add_activity(Gtk::Widget&);
-        const User& get_user()const;
 
-
-        //const muposysdb::User& get_user() const;
         void on_logged();
-        template<typename F> void on_logged_listener(F f)
-        {
-            login.signal_logged().connect(f);
-        }
 
     protected:
         Gtk::HeaderBar header;
         Gtk::Toolbar tbMain;
         Gtk::Notebook nbMain;
+        Login login;
 
         void init();
         virtual void check_session();
         //virtual void notific_session();
 
     private:
-        Login login;
         Gtk::Label lbUser;
         bool devel;
         Gtk::VBox boxSlices;
