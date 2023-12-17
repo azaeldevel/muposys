@@ -26,8 +26,31 @@ namespace oct::mps::v2
     class Application : public Gtk::Window
     {
     public:
-      Application();
+        enum class Layout
+        {
+            none,
+            sandwich,//area cliente en 3 sub-areas
 
+        };
+        struct Configuration
+        {
+            Layout layout;
+            bool main_menu;
+            bool status_bar;
+            Glib::ustring title,subtitle;
+            int width,height;
+
+            Configuration();
+        };
+    public:
+      Application();
+      Application(const Configuration& config);
+      inline void init();
+
+    protected:
+
+    private:
+        Configuration config;
     };
 }
 

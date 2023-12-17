@@ -26,10 +26,24 @@ namespace oct::mps::v2
 {
     Application::Application()
     {
-        set_title("Multi-porpuse Software System");
-        set_default_size(800, 600);
+        init();
+    }
+    Application::Application(const Configuration& c) : config(c)
+    {
+        init();
+    }
+    void Application::init()
+    {
+        set_title(config.title);
+        set_default_size(config.width, config.height);
+
     }
 
+
+
+    Application::Configuration::Configuration() : layout(Application::Layout::sandwich),main_menu(false),status_bar(false),title("Multi-porpuse Software System"),subtitle("muposys"),width(800),height(600)
+    {
+    }
 
 }
 
