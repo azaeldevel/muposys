@@ -24,15 +24,32 @@
 
 namespace oct::mps::v1
 {
-Application::Application() : header(NULL)
+    Application::Application() :
+        header(NULL),
+        boxSlices(NULL),
+        boxToolbars(NULL),
+        menu(NULL),
+        stack(NULL)
     {
         init_data();
     }
-    Application::Application(const Configuration& c) : config(c)
+    Application::Application(const Configuration& c) :
+        config(c),
+        header(NULL),
+        boxSlices(NULL),
+        boxToolbars(NULL),
+        menu(NULL),
+        stack(NULL)
     {
         init_data();
     }
-    Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Window(cobject),header(NULL)
+    Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) :
+        Gtk::Window(cobject),
+        header(NULL),
+        boxSlices(NULL),
+        boxToolbars(NULL),
+        menu(NULL),
+        stack(NULL)
     {
         init_controls(builder);
         init_data();
@@ -48,20 +65,23 @@ Application::Application() : header(NULL)
         header->set_show_close_button(true);
         set_titlebar(*header);
         header->set_subtitle(config.subtitle);
+
+        //
+        builder->get_widget("boxSlices", boxSlices);
     }
 
 
-    Gtk::Box& Application::get_menus()
+    Gtk::MenuBar& Application::get_menus()
     {
-        return box_menus;
+        return *menu;
     }
     Gtk::Box& Application::get_toolbar()
     {
-        return box_toolbars;
+        return *boxToolbars;
     }
     Gtk::Stack& Application::get_stack()
     {
-        return stack;
+        return *stack;
     }
 
 

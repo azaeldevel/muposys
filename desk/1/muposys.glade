@@ -5,7 +5,7 @@
   <object class="GtkWindow" id="Application">
     <property name="can-focus">False</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="boxSlices">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>

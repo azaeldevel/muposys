@@ -58,7 +58,7 @@ namespace oct::mps::v1
       Application(const Configuration& config);
       Application(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
 
-      Gtk::Box& get_menus();
+      Gtk::MenuBar& get_menus();
       Gtk::Box& get_toolbar();
       Gtk::Stack& get_stack();
 
@@ -68,11 +68,9 @@ namespace oct::mps::v1
         Configuration config;
 
         Gtk::HeaderBar *header;
-
-        Gtk::Box box_app,box_toolbars,box_menus;
-        Gtk::Stack stack;
-        Gtk::StackSwitcher switcher;
-        Gtk::Statusbar status;
+        Gtk::Box *boxSlices,*boxToolbars;
+        Gtk::MenuBar *menu;
+        Gtk::Stack* stack;
 
     private:
       inline void init_data();
