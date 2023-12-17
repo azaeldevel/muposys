@@ -18,45 +18,41 @@
 
 
 #include <gtkmm.h>
-#include <iostream>
-
-#ifdef __linux__
-	//#include "config.h"
-#elif defined MSYS2
-    //#include "config-cb.h"
-#else
-	#error "Plataforma desconocida."
-#endif
-
-#ifdef ENABLE_NLS
-#  include <libintl.h>
-#endif
-
 #include "desk.hh"
 
+namespace mps = oct::mps::v1;
 
-int main (int argc, char *argv[])
+int main (int argc, char **argv)
 {
-	Gtk::Main kit(argc, argv);
+    auto app = Gtk::Application::create(argc, argv, "octetos.muposys.desk");
 
-	oct::mps::v1::Main* _main_ = NULL;
-	try
-	{
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-		_main_ = new oct::mps::v1::Main(true);
-#else
-		_main_ = new oct::mps::v1::Main;
-#endif
-		if (_main_) kit.run(*_main_);
-	}
-	catch (const std::exception& e)
-	{
-		Gtk::MessageDialog dlg("Error detectado.",true,Gtk::MESSAGE_ERROR);
-		dlg.set_secondary_text(e.what());
-		dlg.run();
-		return EXIT_FAILURE;
-	}
-	//if(_main_) delete _main_;
+  //Load the Glade file and instantiate its widgets:
+  auto refBuilder = Gtk::Builder::create();
+  try
+  {
+    refBuilder->add_from_file("1/muposys.glade");
+  }
+  catch(const Glib::FileError& ex)
+  {
+    std::cerr << "FileError: " << ex.what() << std::endl;
+    return 1;
+  }
+  catch(const Glib::MarkupError& ex)
+  {
+    std::cerr << "MarkupError: " << ex.what() << std::endl;
+    return 1;
+  }
+  catch(const Gtk::BuilderError& ex)
+  {
+    std::cerr << "BuilderError: " << ex.what() << std::endl;
+    return 1;
+  }
 
-	return EXIT_SUCCESS;
+  //Get the GtkBuilder-instantiated dialog:
+  mps::Application* pApp = NULL;
+  refBuilder->get_widget_derived("Application", pApp);
+  if(pApp) app->run(*pApp);
+  delete pApp;
+
+  return 0;
 }

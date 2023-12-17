@@ -24,255 +24,50 @@
 
 namespace oct::mps::v1
 {
-
-
-Main::Main() : devel(false)
-{
-	init();
-
-	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-	show();
-#endif
-}
-Main::Main(bool d) : devel(d)
-{
-	init();
-
-	signal_show().connect(sigc::mem_fun(*this,&Main::check_session));
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-	show();
-#endif
-}
-void Main::init()
-{
-	add_events(Gdk::KEY_PRESS_MASK);
-
-	set_title("Multi-Porpuse Software System");
-	set_subtitle("muposys");
-	header.set_show_close_button(true);
-	set_titlebar(header);
-
-	header.pack_start(box_header);
-	box_header.pack_start(box_header_controls);
-	box_header.pack_start(sep_header,false,true,10);
-	box_header.pack_start(box_header_info);
-
-	box_header_info.pack_start(lbUser);
-
-	box_header_controls.pack_start(btHome);
-	box_header_controls.pack_start(btSysMang);
-	box_header_controls.pack_start(btLogout);
-	box_header_controls.pack_start(btAbout);
-
-	btHome.set_image_from_icon_name("go-home");
-	btSysMang.set_image_from_icon_name("preferences-system");
-	btLogout.set_image_from_icon_name("system-log-out");
-	btAbout.set_image_from_icon_name("help-about");
-
-	btHome.set_tooltip_text("Aplicacion principal");
-	btSysMang.set_tooltip_text("Administración de MUPOSYS");
-	btLogout.set_tooltip_text("Cerrar seción de usuario actual");
-	btAbout.set_tooltip_text("Acerca de MUPOSYS");
-
-	add(boxSlices);
-	boxSlices.pack_start(tbMain,false,true);
-	boxSlices.pack_start(nbMain,false,true);
-
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-	/*int page_index = nbMain.append_page(sales);
-	sales.set_info(nbMain,page_index);*/
-	set_default_size(800,640);
-	show_all_children();
-	//login.signal_logged().connect(sigc::mem_fun(*this, &Main::on_logged));
-#endif
-
-    //login.signal_logged().connect(sigc::mem_fun(*this,&Main::on_logged));
-    //on_logged_listener(sigc::mem_fun(*this,&Main::on_logged));
-}
-Main::~Main()
-{
-}
-void Main::check_session()
-{
-	login.set_transient_for(*this);
-	login.set_modal(true);
-	if(devel) login.set_session("root","123456");
-	login.show();
-}
-void Main::add_activity(Gtk::Widget& w)
-{
-	nbMain.append_page(w);
-}
-void Main::set_title(const char* t )
-{
-	header.set_title(t);
-}
-void Main::set_subtitle(const char* t )
-{
-	header.set_subtitle(t);
-}
-
-void Main::on_logged()
-{
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-    std::cout << "Logged on MUPOSYS\n";
-#endif
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Login::Login()
-{
-	init();
-}
-Login::Login(const Glib::ustring& t, Gtk::Window& p, bool m) : Gtk::Dialog(t,p,m)
-{
-	init();
-}
-void Login::init()
-{
-	get_vbox()->pack_start(boxUser,false,true);
-	get_vbox()->pack_start(boxPass,false,true);
-	get_vbox()->pack_start(lbMessage,false,true);
-	get_vbox()->pack_start(boxButtons,false,true);
-
-	lbUser.set_text("Usuario         : ");
-	boxUser.pack_start(lbUser);
-	boxUser.pack_start(inUser);
-
-	lbPass.set_text("Constraseña : ");
-	boxPass.pack_start(lbPass);
-	boxPass.pack_start(inPwd);
-	inPwd.set_visibility(false);
-
-	boxButtons.pack_start(btCancel);
-	boxButtons.pack_start(btOK);
-
-	btCancel.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_cancel_clicked));
-	btOK.signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_ok_clicked));
-	signal_response().connect(sigc::mem_fun(*this, &Login::on_response) );
-
-	btOK.set_image_from_icon_name("gtk-ok");
-	btCancel.set_image_from_icon_name("gtk-cancel");
-
-	set_default_size(250,100);
-	show_all_children();
-	actual_user.valid = false;
-}
-Login::~Login()
-{
-}
-void Login::on_bt_cancel_clicked()
-{
-	response(Gtk::RESPONSE_CANCEL);
-}
-void Login::on_bt_ok_clicked()
-{
-	check_user();
-	response(Gtk::RESPONSE_OK);
-}
-void Login::check_user()
-{
-	cave0::mmsql::Data dtm = default_dtm0();
-	bool conectfl = false;
-	cave0::mmsql::Connection conn;
-	try
-	{
-		conectfl = conn.connect(dtm, true);
-	}
-	catch (const cave0::ExceptionDriver& e)
-	{
-		return;
-	}
-	catch (const std::exception& e)
-	{
-		return;
-	}
-	catch (...)
-	{
-	}
-	if(conectfl)
+Application::Application() : header(NULL)
     {
-
+        init_data();
+    }
+    Application::Application(const Configuration& c) : config(c)
+    {
+        init_data();
+    }
+    Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Window(cobject),header(NULL)
+    {
+        init_controls(builder);
+        init_data();
+    }
+    void Application::init_data()
+    {
+        set_default_size(config.width, config.height);
+        set_title(config.title);
+    }
+    void Application::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
+    {
+        builder->get_widget("header", header);
+        header->set_show_close_button(true);
+        set_titlebar(*header);
+        header->set_subtitle(config.subtitle);
     }
 
-    std::vector<User> lstUser;
-    std::string strsql = " name ='" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "'";
-    bool lstUserflag = false;
-    try
+
+    Gtk::Box& Application::get_menus()
     {
- 		 lstUserflag = conn.select(lstUser,strsql);
-	}
-	catch (const cave0::ExceptionDriver&)
-	{
-	}
-	catch (...)
-	{
-	}
-
-	if(lstUserflag)
-	{
-	    //std::cout << "Register : " + std::to_string(lstUser.size()) + "\n";
-	    if(lstUser.size() == 1)
-        {
-            actual_user = lstUser[0];
-        }
-        else
-        {
-
-        }
-	}
-
-}
-void Login::set_session(const char* u,const char* p)
-{
-	inUser.set_text(u);
-	inPwd.set_text(p);
-}
-void Login::on_response(int res)
-{
-
-    if(not actual_user.valid)
+        return box_menus;
+    }
+    Gtk::Box& Application::get_toolbar()
     {
-        lbMessage.set_text("Usuario/Contrasena invalido...");
+        return box_toolbars;
+    }
+    Gtk::Stack& Application::get_stack()
+    {
+        return stack;
     }
 
-	if(actual_user.valid and res == Gtk::RESPONSE_OK)
-	{
-		_signal_logged.emit();
-		hide();
-	}
-	else if(actual_user.valid and res == Gtk::RESPONSE_CANCEL)
-	{
-		hide();
-	}
-}
-const User& Login::get_user()const
-{
-    return actual_user;
-}
-Login::signal_logged_t Login::signal_logged()
-{
-    return _signal_logged;
-}
 
-
-
-
+    Application::Configuration::Configuration() : layout(Application::Layout::compressed),main_menu(false),status_bar(false),title("Multi-Porpuse Software System"),subtitle("muposys"),width(800),height(600)
+    {
+    }
 
 
 }

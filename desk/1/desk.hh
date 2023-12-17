@@ -27,205 +27,56 @@
 
 namespace oct::mps::v1
 {
-    class Main;
-    template<typename T> concept model_columns = std::derived_from<T,Gtk::TreeModel::ColumnRecord>;
+    class Sales : public Gtk::Box
+    {
 
+    };
 
-    class SearchItem : public Gtk::Dialog
+    class Application : public Gtk::Window
     {
     public:
-        SearchItem(ID&);
-        void init();
-
-    protected:
-        void on_bt_ok_clicked();
-        void on_bt_cancel_clicked();
-        void on_response(int);
-        bool on_key_press_event(GdkEventKey* key_event) override;
-        void get_selection();
-
-        void searching(const Glib::ustring& s);
-
-        class ModelColumns : public Gtk::TreeModel::ColumnRecord
+        enum class Layout
         {
-        public:
-            ModelColumns();
-            Gtk::TreeModelColumn<ID> id;
-            Gtk::TreeModelColumn<Glib::ustring> number;
-            Gtk::TreeModelColumn<Glib::ustring> name;
-            Gtk::TreeModelColumn<Glib::ustring> brief;
+            none,
+            client_only,
+            compressed,//toolbar y area de cliente
+            sandwich,//area cliente en 3 sub-areas
+            glade,
         };
-
-    private:
-        cave0::mmsql::Connection connDB;
-        bool connDB_flag;
-        ID& number;
-        Glib::ustring text;
-
-        Gtk::Button btOK;
-        Gtk::Button btCancel;
-        Gtk::Entry inSearch;
-        Gtk::Label lbSearch;
-        Gtk::ButtonBox boxButtons;
-        //Gtk::VBox data;
-        Gtk::HBox boxSearch;
-        Gtk::ScrolledWindow scrolled;
-        static const Glib::ustring search_label;
-
-        ModelColumns colums;
-        Gtk::TreeView tree;
-        Glib::RefPtr<Gtk::ListStore> treemodel;
-    };
-
-
-    class TableSaling : public Gtk::VBox
-    {
-    public:
-
-        class ModelColumns : public Gtk::TreeModel::ColumnRecord
+        struct Configuration
         {
-        public:
-            ModelColumns();
+            Layout layout;
+            bool main_menu;
+            bool status_bar;
+            Glib::ustring title,subtitle;
+            int width,height;
 
-            Gtk::TreeModelColumn<int> item;
-            Gtk::TreeModelColumn<int> quantity;
-            Gtk::TreeModelColumn<Glib::ustring> presentation;
-            Gtk::TreeModelColumn<Glib::ustring> number;
-            Gtk::TreeModelColumn<float> cost_unit;
-            Gtk::TreeModelColumn<float> amount;
-            Gtk::TreeModelColumn<CatalogItem*> itemDB;
+            Configuration();
         };
-
     public:
-        TableSaling();
-        TableSaling(Crud);
-        virtual ~TableSaling();
+      Application();
+      Application(const Configuration& config);
+      Application(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
 
+      Gtk::Box& get_menus();
+      Gtk::Box& get_toolbar();
+      Gtk::Stack& get_stack();
 
     protected:
 
-        //void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
-        bool on_key_press_event(GdkEventKey* key_event) override;
-        /**
-         * \brief escribe los datos los datos el regstro currepondientes al item
-         * \param back_number es el numero usado internamente, el cual sera escrito en la base de datos
-         * \param orign_number es el numero escrito por el usuario
-         * */
-        void set_data(Gtk::TreeModel::Row&,const CatalogItem& item);
-
-        void row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
-        float total()const;
-        void newrow();
-        void clear();
-
-        void on_edited_number(const Glib::ustring& path_string, const Glib::ustring& new_text);
-        void on_editing_started_number(Gtk::CellEditable* editable, const Glib::ustring& path);
-
-
-        template<model_columns M> void create_table()
-        {
-            columns = new M;
-            tree_model = Gtk::ListStore::create((M&)*columns);
-            init_table_model();
-        }
-
-
-        virtual void save() = 0;
-
-        Crud crud;
-        ModelColumns* columns;
-        bool saved;
-
-        Glib::RefPtr<Gtk::ListStore> tree_model;
-        Gtk::TreeView table;
-        Gtk::Button btSave;
-        Gtk::Label lbTotal, lbTotalAmount;
-        Gtk::HBox boxTotal;
-        Gtk::VBox boxFloor,boxAditional;
-        Gtk::HSeparator separator;
     private:
-        void init_table_model();
+        Configuration config;
 
-    };
+        Gtk::HeaderBar *header;
 
-    class Login : public Gtk::Dialog
-    {
-    public:
-        typedef sigc::signal<void> signal_logged_t;
-
-    public:
-        signal_logged_t signal_logged();
-
-    public:
-
-        Login();
-        Login(const Glib::ustring& title, Gtk::Window& parent, bool modal);
-        void init();
-        virtual ~Login();
-
-        //int run();
-        void set_session(const char*,const char*);
-        const User& get_user()const;
-
-    protected:
-        Gtk::Label lbMessage;
-        void on_bt_ok_clicked();
-        void on_bt_cancel_clicked();
-        void on_response(int);
-        signal_logged_t _signal_logged;
+        Gtk::Box box_app,box_toolbars,box_menus;
+        Gtk::Stack stack;
+        Gtk::StackSwitcher switcher;
+        Gtk::Statusbar status;
 
     private:
-        //int retcode;
-        Gtk::Button btOK;
-        Gtk::Button btCancel;
-        Gtk::Entry inUser,inPwd;
-        Gtk::Label lbUser,lbPass;
-        Gtk::Box boxUser,boxPass;
-        Gtk::ButtonBox boxButtons;
-        User actual_user;
-
-        void check_user();
-
-    };
-
-
-    class Main : public Gtk::Window
-    {
-
-    public:
-        Main();
-        Main(bool devel);
-        /**
-        *
-        **/
-        virtual ~Main();
-
-        void set_title(const char* );
-        void set_subtitle(const char* );
-        void add_activity(Gtk::Widget&);
-
-        void on_logged();
-
-    protected:
-        Gtk::HeaderBar header;
-        Gtk::Toolbar tbMain;
-        Gtk::Notebook nbMain;
-        Login login;
-
-        void init();
-        virtual void check_session();
-        //virtual void notific_session();
-
-    private:
-        Gtk::Label lbUser;
-        bool devel;
-        Gtk::VBox boxSlices;
-        //Gtk::Button btUserMang;
-        Gtk::Button btHome,btSysMang,btLogout,btAbout;
-        Gtk::HBox box_header;
-        Gtk::HBox box_header_info;
-        Gtk::HBox box_header_controls;
-        Gtk::Separator sep_header;
+      inline void init_data();
+      inline void init_controls(const Glib::RefPtr<Gtk::Builder>& builder);
 
     };
 
