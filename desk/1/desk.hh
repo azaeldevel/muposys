@@ -70,7 +70,8 @@ namespace oct::mps::v1
         Gtk::HeaderBar *header;
         Gtk::Box *boxSlices,*boxToolbars;
         Gtk::MenuBar *menu;
-        Gtk::Stack* stack;
+        Gtk::Stack *stack;
+        Gtk::Statusbar *status;
 
     private:
       inline void init_data();

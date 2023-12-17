@@ -29,7 +29,8 @@ namespace oct::mps::v1
         boxSlices(NULL),
         boxToolbars(NULL),
         menu(NULL),
-        stack(NULL)
+        stack(NULL),
+        status(NULL)
     {
         init_data();
     }
@@ -39,7 +40,8 @@ namespace oct::mps::v1
         boxSlices(NULL),
         boxToolbars(NULL),
         menu(NULL),
-        stack(NULL)
+        stack(NULL),
+        status(NULL)
     {
         init_data();
     }
@@ -49,7 +51,8 @@ namespace oct::mps::v1
         boxSlices(NULL),
         boxToolbars(NULL),
         menu(NULL),
-        stack(NULL)
+        stack(NULL),
+        status(NULL)
     {
         init_controls(builder);
         init_data();
@@ -58,6 +61,7 @@ namespace oct::mps::v1
     {
         set_default_size(config.width, config.height);
         set_title(config.title);
+        status->push("inicializando applicacion...");
     }
     void Application::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
     {
@@ -68,6 +72,12 @@ namespace oct::mps::v1
 
         //
         builder->get_widget("boxSlices", boxSlices);
+
+        //
+        builder->get_widget("menu", menu);
+
+        //
+        builder->get_widget("status", status);
     }
 
 
