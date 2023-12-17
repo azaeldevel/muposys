@@ -24,6 +24,15 @@
 
 namespace oct::mps::v1
 {
+
+    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) :
+        Gtk::Box(cobject)
+    {
+    }
+
+
+
+
     Application::Application() :
         header(NULL),
         boxSlices(NULL),
@@ -78,6 +87,14 @@ namespace oct::mps::v1
 
         //
         builder->get_widget("status", status);
+
+        //
+        builder->get_widget("stack", stack);
+
+        //
+        Saling *saling = NULL;
+        builder->get_widget_derived("Saling", saling);
+        stack->add(*saling,"Venta - Caja");
     }
 
 

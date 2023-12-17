@@ -204,9 +204,10 @@
               </packing>
             </child>
             <child>
-              <object class="GtkStackSwitcher">
+              <object class="GtkStackSwitcher" id="switcher">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="stack">stack</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -222,7 +223,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkStack">
+          <object class="GtkStack" id="stack">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
@@ -256,6 +257,20 @@
           </packing>
         </child>
       </object>
+    </child>
+  </object>
+  <object class="GtkBox" id="Saling">
+    <property name="visible">True</property>
+    <property name="can-focus">False</property>
+    <property name="orientation">vertical</property>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
+    </child>
+    <child>
+      <placeholder/>
     </child>
   </object>
   <object class="GtkHeaderBar" id="header">

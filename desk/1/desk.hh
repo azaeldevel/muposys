@@ -27,9 +27,11 @@
 
 namespace oct::mps::v1
 {
-    class Sales : public Gtk::Box
+    class Saling : public Gtk::Box
     {
-
+    public:
+        Saling() = default;
+        Saling(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
     };
 
     class Application : public Gtk::Window
@@ -72,6 +74,8 @@ namespace oct::mps::v1
         Gtk::MenuBar *menu;
         Gtk::Stack *stack;
         Gtk::Statusbar *status;
+
+
 
     private:
       inline void init_data();
