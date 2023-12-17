@@ -174,4 +174,9 @@ namespace oct::mps::v1
 
 }
 
+namespace oct::mps::v2
+{
+    using namespace oct::mps::v1;
+}
+
 #endif

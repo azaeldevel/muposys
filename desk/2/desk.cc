@@ -16,7 +16,9 @@
  * with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
+#include <muposys/core/1/core.hh>
+
+#ifdef OCTETOS_MUPOSYS_DESK_V2_TDD
     #include <iostream>
 #endif // OCTETOS_MUPOSYS_DESK_V1_TDD
 
@@ -36,12 +38,41 @@ namespace oct::mps::v2
     {
         set_title(config.title);
         set_default_size(config.width, config.height);
+        box_app.set_homogeneous(false);
+        set_child(box_app);
+
+        switch(config.layout)
+        {
+        case Application::Layout::compressed:
+            box_app.append(box_menus);
+            box_app.append(box_toolbars);
+            box_app.append(switcher);
+            switcher.set_stack(stack);
+            box_app.append(stack);
+            box_app.append(status);
+            break;
+        default:
+            throw core::exception("El layout asignado es deconoconido");
+        }
 
     }
 
 
+    Gtk::Box& Application::get_menus()
+    {
+        return box_menus;
+    }
+    Gtk::Box& Application::get_toolbar()
+    {
+        return box_toolbars;
+    }
+    Gtk::Stack& Application::get_stack()
+    {
+        return stack;
+    }
 
-    Application::Configuration::Configuration() : layout(Application::Layout::sandwich),main_menu(false),status_bar(false),title("Multi-porpuse Software System"),subtitle("muposys"),width(800),height(600)
+
+    Application::Configuration::Configuration() : layout(Application::Layout::compressed),main_menu(false),status_bar(false),title("Multi-Porpuse Software System"),subtitle("muposys"),width(800),height(600)
     {
     }
 

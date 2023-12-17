@@ -23,12 +23,14 @@
 
 namespace oct::mps::v2
 {
-    class Application : public Gtk::Window
+    class Application : public Gtk::ApplicationWindow
     {
     public:
         enum class Layout
         {
             none,
+            client_only,
+            compressed,//toolbar y area de cliente
             sandwich,//area cliente en 3 sub-areas
 
         };
@@ -47,10 +49,18 @@ namespace oct::mps::v2
       Application(const Configuration& config);
       inline void init();
 
+      Gtk::Box& get_menus();
+      Gtk::Box& get_toolbar();
+      Gtk::Stack& get_stack();
+
     protected:
 
     private:
         Configuration config;
+        Gtk::Box box_app,box_toolbars,box_menus;
+        Gtk::Stack stack;
+        Gtk::StackSwitcher switcher;
+        Gtk::Statusbar status;
     };
 }
 
