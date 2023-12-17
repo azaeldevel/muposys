@@ -34,11 +34,18 @@ namespace oct::mps::v2
     {
         init();
     }
+    Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Window(cobject)
+    {
+
+    }
     void Application::init()
     {
         set_title(config.title);
         set_default_size(config.width, config.height);
         box_app.set_homogeneous(false);
+        box_menus.set_homogeneous(false);
+        box_toolbars.set_homogeneous(false);
+        box_app.set_orientation(Gtk::Orientation::VERTICAL);
         set_child(box_app);
 
         switch(config.layout)

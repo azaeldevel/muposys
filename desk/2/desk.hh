@@ -23,7 +23,13 @@
 
 namespace oct::mps::v2
 {
-    class Application : public Gtk::ApplicationWindow
+
+    class Sales : public Gtk::Box
+    {
+
+    };
+
+    class Application : public Gtk::Window
     {
     public:
         enum class Layout
@@ -32,7 +38,7 @@ namespace oct::mps::v2
             client_only,
             compressed,//toolbar y area de cliente
             sandwich,//area cliente en 3 sub-areas
-
+            glade,
         };
         struct Configuration
         {
@@ -47,7 +53,7 @@ namespace oct::mps::v2
     public:
       Application();
       Application(const Configuration& config);
-      inline void init();
+      Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& refBuilder);
 
       Gtk::Box& get_menus();
       Gtk::Box& get_toolbar();
@@ -61,6 +67,10 @@ namespace oct::mps::v2
         Gtk::Stack stack;
         Gtk::StackSwitcher switcher;
         Gtk::Statusbar status;
+
+    private:
+      inline void init();
+
     };
 }
 
