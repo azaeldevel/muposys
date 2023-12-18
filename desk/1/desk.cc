@@ -40,10 +40,20 @@ namespace oct::mps::v1
         builder->get_widget("SalingTree", table);
         table_model = Gtk::ListStore::create(model);
         table->set_model(table_model);
-        table->append_column("Numero", model.number);
-        table->append_column("Cant.", model.quantity);
-        table->append_column("C/U", model.cost);
-        table->append_column("Total", model.total);
+        if(crud == Crud::create)
+        {
+            table->append_column_editable("Numero", model.number);
+            table->append_column_editable("Cant.", model.quantity);
+            table->append_column("C/U", model.cost);
+            table->append_column("Total", model.total);
+        }
+        else
+        {
+            table->append_column("Numero", model.number);
+            table->append_column("Cant.", model.quantity);
+            table->append_column("C/U", model.cost);
+            table->append_column("Total", model.total);
+        }
         table_model->append();
         table_model->append();
         table_model->append();
@@ -107,8 +117,8 @@ namespace oct::mps::v1
 
         //
         Saling *saling = NULL;
-        builder->get_widget_derived("Saling", saling);
-        stack->add(*saling,"page0","Ventas - Caja 1");
+        builder->get_widget_derived("Saling", saling,Crud::create);
+        stack->add(*saling,std::to_string((long)saling),"Ventas - Caja 1");
         /*Saling *saling2 = NULL;
         builder->get_widget_derived("Saling", saling2);
         stack->add(*saling2,"page1","Venta - Caja 2");*/
