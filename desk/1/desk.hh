@@ -55,25 +55,37 @@ namespace oct::mps::v1
 
             Configuration();
         };
+        class Model : public Gtk::TreeModel::ColumnRecord
+        {
+        public:
+            Model();
+
+            Gtk::TreeModelColumn<Glib::ustring> number;
+            Gtk::TreeModelColumn<int> quantity;
+        };
+
     public:
       Application();
       Application(const Configuration& config);
       Application(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
 
       Gtk::MenuBar& get_menus();
-      Gtk::Box& get_toolbar();
+      Gtk::Box& get_toolpane();
       Gtk::Stack& get_stack();
 
     protected:
 
     private:
         Configuration config;
+        Model model;
+        Glib::RefPtr<Gtk::ListStore> table_model;
 
         Gtk::HeaderBar *header;
-        Gtk::Box *boxSlices,*boxToolbars;
+        Gtk::Box *boxSlices,*boxToolPane;
         Gtk::MenuBar *menu;
         Gtk::Stack *stack;
         Gtk::Statusbar *status;
+        Gtk::TreeView *table;
 
 
 

@@ -33,35 +33,15 @@ namespace oct::mps::v1
 
 
 
-    Application::Application() :
-        header(NULL),
-        boxSlices(NULL),
-        boxToolbars(NULL),
-        menu(NULL),
-        stack(NULL),
-        status(NULL)
+    Application::Application()
     {
         init_data();
     }
-    Application::Application(const Configuration& c) :
-        config(c),
-        header(NULL),
-        boxSlices(NULL),
-        boxToolbars(NULL),
-        menu(NULL),
-        stack(NULL),
-        status(NULL)
+    Application::Application(const Configuration& c) : config(c)
     {
         init_data();
     }
-    Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) :
-        Gtk::Window(cobject),
-        header(NULL),
-        boxSlices(NULL),
-        boxToolbars(NULL),
-        menu(NULL),
-        stack(NULL),
-        status(NULL)
+    Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Window(cobject)
     {
         init_controls(builder);
         init_data();
@@ -74,6 +54,14 @@ namespace oct::mps::v1
     }
     void Application::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
     {
+        header = NULL;
+        boxSlices = NULL;
+        boxToolPane = NULL;
+        menu = NULL;
+        stack = NULL;
+        status = NULL;
+        table = NULL;
+
         builder->get_widget("header", header);
         header->set_show_close_button(true);
         set_titlebar(*header);
@@ -84,17 +72,26 @@ namespace oct::mps::v1
 
         //
         builder->get_widget("menu", menu);
-
-        //
         builder->get_widget("status", status);
+        builder->get_widget("stack", stack);
+        builder->get_widget("boxToolPane", boxToolPane);
 
         //
-        builder->get_widget("stack", stack);
+        builder->get_widget("SalingTree", table);
+        table_model = Gtk::ListStore::create(model);
+        table->set_model(table_model);
+        table->append_column("Numero", model.number);
+        table->append_column("Cant.", model.quantity);
+        table_model->append();
+
 
         //
         Saling *saling = NULL;
         builder->get_widget_derived("Saling", saling);
-        stack->add(*saling,"Venta - Caja");
+        stack->add(*saling,"page0","Ventas - Caja 1");
+        /*Saling *saling2 = NULL;
+        builder->get_widget_derived("Saling", saling2);
+        stack->add(*saling2,"page1","Venta - Caja 2");*/
     }
 
 
@@ -102,9 +99,9 @@ namespace oct::mps::v1
     {
         return *menu;
     }
-    Gtk::Box& Application::get_toolbar()
+    Gtk::Box& Application::get_toolpane()
     {
-        return *boxToolbars;
+        return *boxToolPane;
     }
     Gtk::Stack& Application::get_stack()
     {
@@ -114,6 +111,14 @@ namespace oct::mps::v1
 
     Application::Configuration::Configuration() : layout(Application::Layout::compressed),main_menu(false),status_bar(false),title("Multi-Porpuse Software System"),subtitle("muposys"),width(800),height(600)
     {
+    }
+
+
+
+    Application::Model::Model()
+    {
+        add(quantity);
+        add(number);
     }
 
 
