@@ -36,17 +36,23 @@ namespace oct::mps::v1
             Model();
 
             Gtk::TreeModelColumn<Glib::ustring> number;
-            Gtk::TreeModelColumn<int> quantity;
+            Gtk::TreeModelColumn<unsigned long> quantity;
+            Gtk::TreeModelColumn<double> cost;
+            Gtk::TreeModelColumn<double> total;
         };
 
     public:
         Saling();
         Saling(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
+        Saling(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&,Crud);
+        inline void init_controls(const Glib::RefPtr<Gtk::Builder>& builder);
+
 
     private:
         Gtk::TreeView *table;
         Model model;
         Glib::RefPtr<Gtk::ListStore> table_model;
+        Crud crud;
     };
 
     class Application : public Gtk::Window

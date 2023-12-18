@@ -24,18 +24,26 @@
 
 namespace oct::mps::v1
 {
-    Saling::Saling() : table(NULL)
+    Saling::Saling() : table(NULL),crud(Crud::none)
     {
     }
-    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) :
-        Gtk::Box(cobject),
-        table(NULL)
+    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Box(cobject),table(NULL),crud(Crud::none)
+    {
+        init_controls(builder);
+    }
+    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder,Crud c) : Gtk::Box(cobject),table(NULL),crud(c)
+    {
+        init_controls(builder);
+    }
+    void Saling::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
     {
         builder->get_widget("SalingTree", table);
         table_model = Gtk::ListStore::create(model);
         table->set_model(table_model);
         table->append_column("Numero", model.number);
         table->append_column("Cant.", model.quantity);
+        table->append_column("C/U", model.cost);
+        table->append_column("Total", model.total);
         table_model->append();
         table_model->append();
         table_model->append();
@@ -45,6 +53,8 @@ namespace oct::mps::v1
     {
         add(quantity);
         add(number);
+        add(cost);
+        add(total);
     }
 
 
