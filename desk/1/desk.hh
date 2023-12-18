@@ -30,8 +30,23 @@ namespace oct::mps::v1
     class Saling : public Gtk::Box
     {
     public:
-        Saling() = default;
+        class Model : public Gtk::TreeModel::ColumnRecord
+        {
+        public:
+            Model();
+
+            Gtk::TreeModelColumn<Glib::ustring> number;
+            Gtk::TreeModelColumn<int> quantity;
+        };
+
+    public:
+        Saling();
         Saling(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
+
+    private:
+        Gtk::TreeView *table;
+        Model model;
+        Glib::RefPtr<Gtk::ListStore> table_model;
     };
 
     class Application : public Gtk::Window
@@ -55,14 +70,6 @@ namespace oct::mps::v1
 
             Configuration();
         };
-        class Model : public Gtk::TreeModel::ColumnRecord
-        {
-        public:
-            Model();
-
-            Gtk::TreeModelColumn<Glib::ustring> number;
-            Gtk::TreeModelColumn<int> quantity;
-        };
 
     public:
       Application();
@@ -77,17 +84,12 @@ namespace oct::mps::v1
 
     private:
         Configuration config;
-        Model model;
-        Glib::RefPtr<Gtk::ListStore> table_model;
 
         Gtk::HeaderBar *header;
         Gtk::Box *boxSlices,*boxToolPane;
         Gtk::MenuBar *menu;
         Gtk::Stack *stack;
         Gtk::Statusbar *status;
-        Gtk::TreeView *table;
-
-
 
     private:
       inline void init_data();

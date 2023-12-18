@@ -24,10 +24,27 @@
 
 namespace oct::mps::v1
 {
-
-    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) :
-        Gtk::Box(cobject)
+    Saling::Saling() : table(NULL)
     {
+    }
+    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) :
+        Gtk::Box(cobject),
+        table(NULL)
+    {
+        builder->get_widget("SalingTree", table);
+        table_model = Gtk::ListStore::create(model);
+        table->set_model(table_model);
+        table->append_column("Numero", model.number);
+        table->append_column("Cant.", model.quantity);
+        table_model->append();
+        table_model->append();
+        table_model->append();
+    }
+
+    Saling::Model::Model()
+    {
+        add(quantity);
+        add(number);
     }
 
 
@@ -60,7 +77,6 @@ namespace oct::mps::v1
         menu = NULL;
         stack = NULL;
         status = NULL;
-        table = NULL;
 
         builder->get_widget("header", header);
         header->set_show_close_button(true);
@@ -76,13 +92,7 @@ namespace oct::mps::v1
         builder->get_widget("stack", stack);
         builder->get_widget("boxToolPane", boxToolPane);
 
-        //
-        builder->get_widget("SalingTree", table);
-        table_model = Gtk::ListStore::create(model);
-        table->set_model(table_model);
-        table->append_column("Numero", model.number);
-        table->append_column("Cant.", model.quantity);
-        table_model->append();
+
 
 
         //
@@ -114,12 +124,6 @@ namespace oct::mps::v1
     }
 
 
-
-    Application::Model::Model()
-    {
-        add(quantity);
-        add(number);
-    }
 
 
 }

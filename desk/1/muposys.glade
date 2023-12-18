@@ -357,6 +357,20 @@
       </packing>
     </child>
   </object>
+  <object class="GtkListStore" id="SalingModel">
+    <columns>
+      <!-- column-name Numero -->
+      <column type="gchararray"/>
+      <!-- column-name Cant. -->
+      <column type="gulong"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">ppp</col>
+        <col id="1">2</col>
+      </row>
+    </data>
+  </object>
   <object class="GtkHeaderBar" id="header">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
