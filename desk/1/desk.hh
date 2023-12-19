@@ -36,7 +36,7 @@ namespace oct::mps::v1
             Model();
 
             Gtk::TreeModelColumn<Glib::ustring> number;
-            Gtk::TreeModelColumn<unsigned long> quantity;
+            Gtk::TreeModelColumn<unsigned long> amount;
             Gtk::TreeModelColumn<double> cost;
             Gtk::TreeModelColumn<double> total;
         };
@@ -47,12 +47,21 @@ namespace oct::mps::v1
         Saling(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&,Crud);
         inline void init_controls(const Glib::RefPtr<Gtk::Builder>& builder);
 
+    private:
+        void on_row_activated(const Gtk::TreeModel::Path& , Gtk::TreeViewColumn*);
+        void on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
+        void on_cell_editing_started(Gtk::CellEditable* 	editable, const Glib::ustring& 	path);
+        void on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
+        void on_column_editing_number(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
 
     private:
         Gtk::TreeView *table;
         Model model;
-        Glib::RefPtr<Gtk::ListStore> table_model;
+        Glib::RefPtr<Gtk::TreeStore> table_model;
         Crud crud;
+        Gtk::TreeModel::Path path_last_actived;
+        Gtk::CellRendererText* cellrender_number;
+        Gtk::TreeViewColumn* col_number;
     };
 
     class Application : public Gtk::Window

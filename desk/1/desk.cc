@@ -37,32 +37,81 @@ namespace oct::mps::v1
     }
     void Saling::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
     {
+        int celrender_index_number;
         builder->get_widget("SalingTree", table);
-        table_model = Gtk::ListStore::create(model);
+        table_model = Gtk::TreeStore::create(model);
         table->set_model(table_model);
+
         if(crud == Crud::create)
         {
-            table->append_column_editable("Numero", model.number);
-            table->append_column_editable("Cant.", model.quantity);
-            table->append_column("C/U", model.cost);
+            celrender_index_number = table->append_column_editable("Numero", model.number);
+            col_number = table->get_column(celrender_index_number - 1);
+            //col_number->set_cell_data_func(*cellrender_number,sigc::mem_fun(*this,&Saling::on_column_editing_number));
+            cellrender_number = static_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(celrender_index_number - 1));
+            cellrender_number->property_editable() = true;
+            //cellrender_number->signal_editing_started().connect(sigc::mem_fun(*this,&Saling::on_cell_editing_started));
+            cellrender_number->signal_edited().connect(sigc::mem_fun(*this,&Saling::on_cell_edited));
+            table->append_column_editable("Cant.", model.amount);
+            table->append_column("Costo", model.cost);
             table->append_column("Total", model.total);
         }
         else
         {
             table->append_column("Numero", model.number);
-            table->append_column("Cant.", model.quantity);
-            table->append_column("C/U", model.cost);
+            table->append_column("Cant.", model.amount);
+            table->append_column("Costo", model.cost);
             table->append_column("Total", model.total);
         }
+        //table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
+        //table_model->signal_row_changed().connect(sigc::mem_fun(*this, &Saling::on_row_changed));
         table_model->append();
         table_model->append();
         table_model->append();
     }
 
+    void Saling::on_row_activated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
+    {
+        //Gtk::TreeModel::iterator iter = table_model->get_iter(path);
+        /*if(iter)
+        {
+            Gtk::TreeModel::Row row = *iter;
+        }*/
+        //path_last_actived = path;
+    }
+    void Saling::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
+    {
+        //Gtk::TreeModel::iterator iter = table_model->get_iter(path);
+        /*if(iter)
+        {
+            Gtk::TreeModel::Row row = *iter;
+        }*/
+        path_last_actived = path;
+    }
+    void Saling::on_cell_editing_started(Gtk::CellEditable* cell, const Glib::ustring& path)
+    {
+        auto entry = dynamic_cast<Gtk::Entry*>(cell);
+        if(entry)
+        {
+            std::cout << entry->get_text() << "\n";
+        }
+    }
+    void Saling::on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
+    {
+        std::cout << new_text << "\n";
+    }
+    void Saling::on_column_editing_number(Gtk::CellRenderer* cell, const Gtk::TreeModel::iterator& iter)
+    {
+        auto entry = dynamic_cast<Gtk::Entry*>(cell);
+        if(entry)
+        {
+            std::cout << entry->get_text() << "\n";
+        }
+    }
+
     Saling::Model::Model()
     {
-        add(quantity);
         add(number);
+        add(amount);
         add(cost);
         add(total);
     }
