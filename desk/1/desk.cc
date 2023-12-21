@@ -24,14 +24,14 @@
 
 namespace oct::mps::v1
 {
-    Saling::Saling() : table(NULL),crud(Crud::none)
+    Saling::Saling() : table(NULL),crud(Crud::none),cellrender_number(NULL)
     {
     }
-    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Box(cobject),table(NULL),crud(Crud::none)
+    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Box(cobject),table(NULL),crud(Crud::none),cellrender_number(NULL)
     {
         init_controls(builder);
     }
-    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder,Crud c) : Gtk::Box(cobject),table(NULL),crud(c)
+    Saling::Saling(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder,Crud c) : Gtk::Box(cobject),table(NULL),crud(c),cellrender_number(NULL)
     {
         init_controls(builder);
     }
@@ -45,7 +45,7 @@ namespace oct::mps::v1
         if(crud == Crud::create)
         {
             celrender_index_number = table->append_column_editable("Numero", model.number);
-            col_number = table->get_column(celrender_index_number - 1);
+            //col_number = table->get_column(celrender_index_number - 1);
             //col_number->set_cell_data_func(*cellrender_number,sigc::mem_fun(*this,&Saling::on_column_editing_number));
             cellrender_number = static_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(celrender_index_number - 1));
             cellrender_number->property_editable() = true;
@@ -63,6 +63,7 @@ namespace oct::mps::v1
             table->append_column("Total", model.total);
         }
         //table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
+        table->signal_key_release_event().connect(sigc::mem_fun(*this, &Saling::keypress));
         //table_model->signal_row_changed().connect(sigc::mem_fun(*this, &Saling::on_row_changed));
         table_model->append();
         table_model->append();
@@ -85,7 +86,7 @@ namespace oct::mps::v1
         {
             Gtk::TreeModel::Row row = *iter;
         }*/
-        path_last_actived = path;
+        //path_last_actived = path;
     }
     void Saling::on_cell_editing_started(Gtk::CellEditable* cell, const Glib::ustring& path)
     {
@@ -97,7 +98,7 @@ namespace oct::mps::v1
     }
     void Saling::on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
     {
-        std::cout << new_text << "\n";
+        std::cout << path_string << ":" << new_text << "\n";
     }
     void Saling::on_column_editing_number(Gtk::CellRenderer* cell, const Gtk::TreeModel::iterator& iter)
     {
@@ -106,6 +107,11 @@ namespace oct::mps::v1
         {
             std::cout << entry->get_text() << "\n";
         }
+    }
+    bool Saling::keypress(GdkEventKey* key_event)
+    {
+        std::cout << "keypress : " << (char) key_event->keyval << "\n";
+        return false;
     }
 
     Saling::Model::Model()
