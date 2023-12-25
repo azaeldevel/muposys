@@ -41,6 +41,7 @@ namespace oct::mps::v1
         builder->get_widget("SalingTree", table);
         table_model = Gtk::TreeStore::create(model);
         table->set_model(table_model);
+        table->set_activate_on_single_click(true);
 
         if(crud == Crud::create)
         {
@@ -62,7 +63,7 @@ namespace oct::mps::v1
             table->append_column("Costo", model.cost);
             table->append_column("Total", model.total);
         }
-        //table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
+        table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
         table->signal_key_release_event().connect(sigc::mem_fun(*this, &Saling::keypress));
         //table_model->signal_row_changed().connect(sigc::mem_fun(*this, &Saling::on_row_changed));
         table_model->append();
@@ -78,6 +79,9 @@ namespace oct::mps::v1
             Gtk::TreeModel::Row row = *iter;
         }*/
         //path_last_actived = path;
+
+        table->set_cursor(path,*column);
+        std::cout << "Activando cell\n";
     }
     void Saling::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
@@ -110,7 +114,7 @@ namespace oct::mps::v1
     }
     bool Saling::keypress(GdkEventKey* key_event)
     {
-        std::cout << "keypress : " << (char) key_event->keyval << "\n";
+        std::cout << "keypress : " << (char)key_event->keyval << "\n";
         return false;
     }
 
