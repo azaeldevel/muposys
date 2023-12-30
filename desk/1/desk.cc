@@ -38,6 +38,7 @@ namespace oct::mps::v1
     void Saling::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
     {
         int celrender_index_number;
+        //int celrender_index_bief;
         builder->get_widget("SalingTree", table);
         table_model = Gtk::TreeStore::create(model);
         table->set_model(table_model);
@@ -46,12 +47,12 @@ namespace oct::mps::v1
         if(crud == Crud::create)
         {
             celrender_index_number = table->append_column_editable("Numero", model.number);
-            //col_number = table->get_column(celrender_index_number - 1);
+            col_number = table->get_column(celrender_index_number - 1);
             //col_number->set_cell_data_func(*cellrender_number,sigc::mem_fun(*this,&Saling::on_column_editing_number));
-            cellrender_number = static_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(celrender_index_number - 1));
+            cellrender_number = dynamic_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(celrender_index_number - 1));
             cellrender_number->property_editable() = true;
             //cellrender_number->signal_editing_started().connect(sigc::mem_fun(*this,&Saling::on_cell_editing_started));
-            cellrender_number->signal_edited().connect(sigc::mem_fun(*this,&Saling::on_cell_edited));
+            //cellrender_number->signal_edited().connect(sigc::mem_fun(*this,&Saling::on_cell_edited));
             table->append_column_editable("Cant.", model.amount);
             table->append_column("Costo", model.cost);
             table->append_column("Total", model.total);
@@ -66,23 +67,76 @@ namespace oct::mps::v1
         table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
         table->signal_key_release_event().connect(sigc::mem_fun(*this, &Saling::keypress));
         //table_model->signal_row_changed().connect(sigc::mem_fun(*this, &Saling::on_row_changed));
+
+        //table->set_enable_search(true);
+        //table->set_search_column(*col_number);
+        //inSearch = table->get_search_entry();
+        //inSearch->signal_changed().connect(sigc::mem_fun(*this, &Saling::searching));
+
         table_model->append();
         table_model->append();
+
         table_model->append();
     }
-
     void Saling::on_row_activated(const Gtk::TreeModel::Path& path, Gtk::TreeViewColumn* column)
     {
-        //Gtk::TreeModel::iterator iter = table_model->get_iter(path);
-        /*if(iter)
-        {
-            Gtk::TreeModel::Row row = *iter;
-        }*/
-        //path_last_actived = path;
+        std::cout << "Actived : " << path[0] << "\n";
 
-        table->set_cursor(path,*column);
-        std::cout << "Activando cell\n";
+        path_actived = path;
     }
+    bool Saling::keypress(GdkEventKey* key_event)
+    {
+        std::cout << "keypress : " << (char)key_event->keyval << "\n";
+        //strsearch.insert(strsearch.size() - 1,(char)key_event->keyval);
+
+        cave::mmsql::Data dtm = default_dtm();
+        bool conectfl = false;
+        cave::mmsql::Connection conn;
+        try
+        {
+            conectfl = conn.connect(dtm, true);
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (...)
+        {
+            return  false;
+        }
+        if(not conectfl)
+        {
+            std::cout << "Fallo la conexion de la base de datos\n";
+            return  false;
+        }
+
+        cellrender_number = dynamic_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(0));
+        std::vector<CatalogItem> rs1;
+        try
+        {
+            std::cout << "Text : " << cellrender_number->property_text().get_value() << "\n";
+             //conn.select(rs1,cellrender_number->property_text().get_value().c_str());
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (...)
+        {
+            return false;
+        }
+
+        return false;
+    }
+
+
     void Saling::on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter)
     {
         //Gtk::TreeModel::iterator iter = table_model->get_iter(path);
@@ -90,14 +144,14 @@ namespace oct::mps::v1
         {
             Gtk::TreeModel::Row row = *iter;
         }*/
-        //path_last_actived = path;
+        std::cout << "Actived : " << path[0] << "\n";
     }
     void Saling::on_cell_editing_started(Gtk::CellEditable* cell, const Glib::ustring& path)
     {
         auto entry = dynamic_cast<Gtk::Entry*>(cell);
         if(entry)
         {
-            std::cout << entry->get_text() << "\n";
+            std::cout << "Cell : " << entry->get_text() << "\n";
         }
     }
     void Saling::on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
@@ -112,10 +166,9 @@ namespace oct::mps::v1
             std::cout << entry->get_text() << "\n";
         }
     }
-    bool Saling::keypress(GdkEventKey* key_event)
+    void Saling::searching()
     {
-        std::cout << "keypress : " << (char)key_event->keyval << "\n";
-        return false;
+        //std::cout << "Searching : " << inSearch->get_text() << "\n";
     }
 
     Saling::Model::Model()

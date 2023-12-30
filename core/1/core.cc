@@ -30,6 +30,22 @@ namespace oct::mps::v1
         return cave0::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
 #endif
     }
+    cave1::mmsql::Data default_dtm1()
+    {
+#ifdef MUPOSYS_CORE_V1_TDD
+        return cave1::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
+#else
+        return cave1::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
+#endif
+    }
+    cave::mmsql::Data default_dtm()
+    {
+#ifdef MUPOSYS_CORE_V1_TDD
+        return cave::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
+#else
+        return cave::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
+#endif
+    }
 
 
 	RandomString::RandomString(unsigned short l,Type t) : leng(l),type(t)
@@ -297,19 +313,118 @@ namespace oct::mps::v1
             value = std::atof(s[5]);
             type = std::atoi(s[6]);
         }
+        CatalogItem::CatalogItem(const cave1::Row<char,cave1::mmsql::Data>& s)
+        {
+            id = std::atoll(s[0]);
+            catalog = std::atoll(s[1]);
+            number = s[2];
+            brief = s[3];
+            if(strcmp(s[4],"Y") == 0) active = true;
+            else if(strcmp(s[4],"N") == 0) active = false;
+            else active = false;
+            value = std::atof(s[5]);
+            type = std::atoi(s[6]);
+        }
         CatalogItem::CatalogItem(const CatalogItem& s) : id(s.id),catalog(s.catalog),number(s.number),brief(s.brief),active(s.active),value(s.value),type(s.type)
         {
         }
-
-
         std::string CatalogItem::fields()
         {
             return "id,catalog,number,brief,active,value,presentation,type";
         }
-
         std::string CatalogItem::table()
         {
             return "CatalogItem";
         }
+
+    CatalogItem& CatalogItem::operator =(const char** s)
+	{
+        id = std::atoll(s[0]);
+        catalog = std::atoll(s[1]);
+        number = s[2];
+        brief = s[3];
+        if(strcmp(s[4],"Y") == 0) active = true;
+        else if(strcmp(s[4],"N") == 0) active = false;
+        else active = false;
+        value = std::atof(s[5]);
+        type = std::atoi(s[6]);
+
+		return *this;
+	}
+	/*std::string CatalogItem::insert_values()const
+	{
+	    std::string vals;
+	    vals += "'" + name + "'";
+	    vals += "," + std::to_string(major);
+	    vals += "," + std::to_string(minor);
+
+        return vals;
+	}*/
+	/*std::string CatalogItem::update_values()const
+	{
+	    std::string vals;
+	    vals += "name = '" + name + "'";
+	    vals += ",major = " + std::to_string(major);
+	    vals += ",minor = " + std::to_string(minor);
+
+        return vals;
+	}*/
+	std::string CatalogItem::update_values(const std::initializer_list<size_t>& list)const
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "catalog = " + std::to_string(catalog);
+	    vals[1] = "number = '" + number + "'";
+	    vals[2] = "brief = '" + brief + "'";
+	    vals[3] = "active = " + std::to_string(active);
+	    vals[4] = "value = " + std::to_string(value);
+	    vals[5] = "presentation = " + presentation + "'";
+	    vals[6] = "type = " + std::to_string(type);
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string CatalogItem::select_fields()
+	{
+        return "id,catalog,number,brief,active,value,presentation,type";
+	}
+	std::string CatalogItem::select_fields(const std::initializer_list<size_t>& list)
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "id";
+	    vals[1] = "catalog ";
+	    vals[2] = "number";
+	    vals[3] = "brief";
+	    vals[4] = "active";
+	    vals[5] = "value";
+	    vals[6] = "presentation";
+	    vals[7] = "type";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string CatalogItem::insert_fields()
+	{
+        return "catalog,number,brief,active,value,presentation,type";
+	}
+	std::string CatalogItem::identifier_name()
+	{
+        return "id";
+	}
+	std::string CatalogItem::identifier_value() const
+	{
+        return std::to_string(id);
+	}
 
 }

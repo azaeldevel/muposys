@@ -49,20 +49,24 @@ namespace oct::mps::v1
 
     private:
         void on_row_activated(const Gtk::TreeModel::Path& , Gtk::TreeViewColumn*);
+        bool keypress(GdkEventKey* key_event);
+
         void on_row_changed(const Gtk::TreeModel::Path& path, const Gtk::TreeModel::iterator& iter);
         void on_cell_editing_started(Gtk::CellEditable* 	editable, const Glib::ustring& 	path);
         void on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& new_text);
         void on_column_editing_number(Gtk::CellRenderer* renderer, const Gtk::TreeModel::iterator& iter);
-        bool keypress(GdkEventKey* key_event);
+        void searching();
 
     private:
         Gtk::TreeView *table;
         Model model;
         Glib::RefPtr<Gtk::TreeStore> table_model;
         Crud crud;
-        //Gtk::TreeModel::Path path_last_actived;
+        Gtk::TreeModel::Path path_actived;
         Gtk::CellRendererText* cellrender_number;
-        //Gtk::TreeViewColumn* col_number;
+        Gtk::TreeViewColumn* col_number;
+        Gtk::Entry* inSearch;
+        std::string strsearch;
     };
 
     class Application : public Gtk::Window

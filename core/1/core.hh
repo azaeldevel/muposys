@@ -46,10 +46,14 @@
 namespace oct::mps::v1
 {
     namespace cave0 = oct::cave::v0;
+    namespace cave1 = oct::cave::v1;
+    namespace cave = oct::cave::v1;
     namespace core = oct::core::v3;
     typedef unsigned long ID;
 
 	cave0::mmsql::Data default_dtm0();
+	cave1::mmsql::Data default_dtm1();
+	cave::mmsql::Data default_dtm();
 
     class RandomString
 	{
@@ -164,11 +168,22 @@ namespace oct::mps::v1
         CatalogItem() = default;
         CatalogItem(const char** s);
         CatalogItem(const cave0::Row<char,cave0::mmsql::Data>& s);
+        CatalogItem(const cave1::Row<char,cave1::mmsql::Data>& s);
         CatalogItem(const CatalogItem& s);
 
 
         static std::string fields();
         static std::string table();
+
+        CatalogItem& operator =(const char** s);
+        //std::string insert_values()const;
+        std::string update_values()const;
+        std::string update_values(const std::initializer_list<size_t>& list)const;
+        static std::string select_fields();
+        static std::string select_fields(const std::initializer_list<size_t>& list);
+        static std::string insert_fields();
+        static std::string identifier_name();
+        std::string identifier_value() const;
 
     };
 
