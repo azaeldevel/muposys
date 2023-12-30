@@ -52,7 +52,7 @@ namespace oct::mps::v1
             cellrender_number = dynamic_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(celrender_index_number - 1));
             cellrender_number->property_editable() = true;
             //cellrender_number->signal_editing_started().connect(sigc::mem_fun(*this,&Saling::on_cell_editing_started));
-            //cellrender_number->signal_edited().connect(sigc::mem_fun(*this,&Saling::on_cell_edited));
+            cellrender_number->signal_edited().connect(sigc::mem_fun(*this,&Saling::on_cell_edited));
             table->append_column_editable("Cant.", model.amount);
             table->append_column("Costo", model.cost);
             table->append_column("Total", model.total);
@@ -64,8 +64,8 @@ namespace oct::mps::v1
             table->append_column("Costo", model.cost);
             table->append_column("Total", model.total);
         }
-        table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
-        table->signal_key_release_event().connect(sigc::mem_fun(*this, &Saling::keypress));
+        //table->signal_row_activated().connect(sigc::mem_fun(*this, &Saling::on_row_activated));
+        //table->signal_key_release_event().connect(sigc::mem_fun(*this, &Saling::keypress));
         //table_model->signal_row_changed().connect(sigc::mem_fun(*this, &Saling::on_row_changed));
 
         //table->set_enable_search(true);
@@ -89,49 +89,6 @@ namespace oct::mps::v1
         std::cout << "keypress : " << (char)key_event->keyval << "\n";
         //strsearch.insert(strsearch.size() - 1,(char)key_event->keyval);
 
-        cave::mmsql::Data dtm = default_dtm();
-        bool conectfl = false;
-        cave::mmsql::Connection conn;
-        try
-        {
-            conectfl = conn.connect(dtm, true);
-        }
-        catch (const cave::ExceptionDriver& e)
-        {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
-            return false;
-        }
-        catch (const std::exception& e)
-        {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
-            return false;
-        }
-        catch (...)
-        {
-            return  false;
-        }
-        if(not conectfl)
-        {
-            std::cout << "Fallo la conexion de la base de datos\n";
-            return  false;
-        }
-
-        cellrender_number = dynamic_cast<Gtk::CellRendererText*>(table->get_column_cell_renderer(0));
-        std::vector<CatalogItem> rs1;
-        try
-        {
-            std::cout << "Text : " << cellrender_number->property_text().get_value() << "\n";
-             //conn.select(rs1,cellrender_number->property_text().get_value().c_str());
-        }
-        catch (const cave::ExceptionDriver& e)
-        {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
-            return false;
-        }
-        catch (...)
-        {
-            return false;
-        }
 
         return false;
     }
@@ -154,9 +111,52 @@ namespace oct::mps::v1
             std::cout << "Cell : " << entry->get_text() << "\n";
         }
     }
-    void Saling::on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& new_text)
+    void Saling::on_cell_edited(const Glib::ustring& path_string, const Glib::ustring& text)
     {
-        std::cout << path_string << ":" << new_text << "\n";
+        //std::cout << path_string << ":" << new_text << "\n";
+
+        cave::mmsql::Data dtm = default_dtm();
+        bool conectfl = false;
+        cave::mmsql::Connection conn;
+        try
+        {
+            conectfl = conn.connect(dtm, true);
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return;
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return;
+        }
+        catch (...)
+        {
+            return;
+        }
+        if(not conectfl)
+        {
+            std::cout << "Fallo la conexion de la base de datos\n";
+            return;
+        }
+
+        std::vector<CatalogItem> rs1;
+        try
+        {
+            conn.select(rs1,text.c_str());
+            std::cout << "Text : " << rs1[0].brief << "\n";
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return;
+        }
+        catch (...)
+        {
+            return;
+        }
     }
     void Saling::on_column_editing_number(Gtk::CellRenderer* cell, const Gtk::TreeModel::iterator& iter)
     {

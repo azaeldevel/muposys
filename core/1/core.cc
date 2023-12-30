@@ -25,25 +25,25 @@ namespace oct::mps::v1
     cave0::mmsql::Data default_dtm0()
     {
 #ifdef MUPOSYS_CORE_V1_TDD
-        return cave0::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
+        return cave0::mmsql::Data ("192.168.1.102","develop","123456", "muposys-dev", 3306);
 #else
-        return cave0::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
+        return cave0::mmsql::Data("192.168.1.102","muposys","123456", "muposys", 3306);
 #endif
     }
     cave1::mmsql::Data default_dtm1()
     {
 #ifdef MUPOSYS_CORE_V1_TDD
-        return cave1::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
+        return cave1::mmsql::Data ("192.168.1.102","develop","123456", "muposys-dev", 3306);
 #else
-        return cave1::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
+        return cave1::mmsql::Data("192.168.1.102","muposys","123456", "muposys", 3306);
 #endif
     }
     cave::mmsql::Data default_dtm()
     {
 #ifdef MUPOSYS_CORE_V1_TDD
-        return cave::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
+        return cave::mmsql::Data ("192.168.1.102","develop","123456", "muposys-dev", 3306);
 #else
-        return cave::mmsql::Data("localhost","muposys","123456", "muposys", 3306);
+        return cave::mmsql::Data("192.168.1.102","muposys","123456", "muposys", 3306);
 #endif
     }
 
