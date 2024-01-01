@@ -204,9 +204,10 @@ namespace oct::mps::v1
 
 
     public:
-        Configuration();
+        Configuration() = default;
         Configuration(const std::filesystem::path& p);
 
+        std::filesystem::path read(const std::filesystem::path& p);
         std::filesystem::path create();
         std::filesystem::path create(const std::filesystem::path& p);
 
@@ -220,6 +221,7 @@ namespace oct::mps::v1
     private:
         static const std::filesystem::path configure_directory;
         static const std::filesystem::path configure_file;
+        static std::filesystem::path defaul_file();
 
     };
 }

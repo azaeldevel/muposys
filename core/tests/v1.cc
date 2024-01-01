@@ -18,7 +18,12 @@ int v1_clean(void)
 void v1_develop()
 {
     std::cout << "\n";
+    char* tmpf_config_temp = tmpnam(NULL);
+    //int tmpf_hanle = mkstemp(tmpf_config_temp);
+    //std::cout << "tmpf_config = " << tmpf_config_temp << "\n";
+    std::filesystem::path tmpf_config = tmpf_config_temp;
     mps::Configuration config;
+    config.create(tmpf_config);
 
     std::string name = config.get_name();
     CU_ASSERT(name.compare("muposys") == 0)
@@ -29,4 +34,6 @@ void v1_develop()
     CU_ASSERT(version.patch == 0)
     CU_ASSERT(version.prerelease.compare("alpha") == 0)
     CU_ASSERT(version.build.compare("v1") == 0)
+
+
 }

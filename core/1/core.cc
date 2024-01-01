@@ -450,31 +450,28 @@ namespace oct::mps::v1
 
     const std::filesystem::path Configuration::configure_directory = ".muposys";
     const std::filesystem::path Configuration::configure_file = "config";
-	Configuration::Configuration()
-	{
-	    create();
 
-	}
 	Configuration::Configuration(const std::filesystem::path& p)
 	{
-        config.readFile(p.c_str());
+	    if(not std::filesystem::exists(p)) read(p);
+	    else create(p);
 	}
 	std::filesystem::path Configuration::create()
 	{
-	    //home directory
-        struct passwd *pw = getpwuid(getuid());
-        std::filesystem::path home = pw->pw_dir;
+        std::filesystem::path fullname = defaul_file();
 
-        //configure directory
-        if(not std::filesystem::exists(home/configure_directory)) std::filesystem::create_directory(home/configure_directory);
-        std::filesystem::path fullname = home/configure_directory/configure_file;
-
-        return create(fullname);
+        if(std::filesystem::exists(fullname))
+        {
+            read(fullname);
+            return fullname;
+        }
+        else
+        {
+            return create(fullname);
+        }
 	}
     std::filesystem::path Configuration::create(const std::filesystem::path& fullname)
 	{
-        if(not std::filesystem::exists(fullname))
-        {
             libconfig::Setting &root = config.getRoot();
             //
             root.add("name", libconfig::Setting::TypeString) = "muposys";
@@ -497,11 +494,6 @@ namespace oct::mps::v1
             mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
 
             config.writeFile(fullname.c_str());
-        }
-        else
-        {
-            config.readFile(fullname.c_str());
-        }
 
         return fullname;
 	}
@@ -523,5 +515,22 @@ namespace oct::mps::v1
         v.build = (std::string)version.lookup("build");
 
         return v;
+    }
+    std::filesystem::path Configuration::read(const std::filesystem::path& p)
+    {
+        config.readFile(p);
+        return p;
+    }
+    std::filesystem::path Configuration::defaul_file()
+    {
+	    //home directory
+        struct passwd *pw = getpwuid(getuid());
+        std::filesystem::path home = pw->pw_dir;
+
+        //configure directory
+        if(not std::filesystem::exists(home/configure_directory)) std::filesystem::create_directory(home/configure_directory);
+        std::filesystem::path fullname = home/configure_directory/configure_file;
+
+        return fullname;
     }
 }
