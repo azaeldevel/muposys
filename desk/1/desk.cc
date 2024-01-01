@@ -143,10 +143,12 @@ namespace oct::mps::v1
         }
 
         std::vector<CatalogItem> rs1;
+        std::string where = "number = '";
+        where += text + "'";
         try
         {
-            conn.select(rs1,text.c_str());
-            std::cout << "Text : " << rs1[0].brief << "\n";
+            conn.select(rs1,where.c_str());
+            //std::cout << "Text : " << rs1[0].brief << "\n";
         }
         catch (const cave::ExceptionDriver& e)
         {
