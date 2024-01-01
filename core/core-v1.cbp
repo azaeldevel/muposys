@@ -13,8 +13,10 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="`pkg-config cunit --cflags`" />
 				</Compiler>
 				<Linker>
+					<Add option="`pkg-config cunit --libs`" />
 					<Add library="cave-mmsql-0" />
 					<Add directory="../../cave/bin/Debug" />
 				</Linker>
@@ -59,15 +61,31 @@
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall -std=c++23" />
+			<Add option="-Wall -std=c++23 `pkg-config libconfig++ --libs` `pkg-config libmariadb libmariadb --cflags`" />
 			<Add option="-DMUPOSYS_CORE_V1_TDD" />
 			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
+			<Add option="`pkg-config libconfig++ --libs` `pkg-config libmariadb --libs`" />
+			<Add library="cave-mmsql-0" />
+			<Add library="cave-mmsql-1" />
 			<Add directory="../../core/bin/Debug" />
+			<Add directory="../../cave/bin/Debug" />
 		</Linker>
 		<Unit filename="1/core.cc" />
 		<Unit filename="1/core.hh" />
+		<Unit filename="tests/main.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="tests/v1.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="tests/v1.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>

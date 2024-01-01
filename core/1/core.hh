@@ -21,27 +21,30 @@
 
 #include <random>
 #include <cstring>
+#include <fstream>
+#include <filesystem>
 
 
 #if __linux__
     #if defined LINUX_ARCH
-        #include <mysql/mysql.h>
+
     #elif defined LINUX_GENTOO
-        #include <mariadb/mysql.h>
+
     #elif defined LINUX_DEBIAN
-        #include <mariadb/mysql.h>
+
     #elif LINUX_MSYS2
         #include <mariadb/mysql.h>
         #error "Plataforma desconocida."
     #endif
 #elif (defined(_WIN32) || defined(_WIN64))
-        #include <mysql/mysql.h>
+
 #else
 	#error "Plataforma desconocida."
 #endif
 
 #include <cave/0/mmsql.hh>
 #include <cave/1/mmsql.hh>
+#include <libconfig.h++>
 
 namespace oct::mps::v1
 {
@@ -187,11 +190,45 @@ namespace oct::mps::v1
 
     };
 
+    class Configuration
+    {
+    public:
+        struct Version
+        {
+            unsigned int major;
+            unsigned int minor;
+            unsigned int patch;
+            std::string prerelease;
+            std::string build;
+        };
+
+
+    public:
+        Configuration();
+        Configuration(const std::filesystem::path& p);
+
+        std::filesystem::path create();
+        std::filesystem::path create(const std::filesystem::path& p);
+
+        std::string get_name() const;
+        Version get_version()const;
+
+    private:
+        //std::fstream file;
+        libconfig::Config config;
+
+    private:
+        static const std::filesystem::path configure_directory;
+        static const std::filesystem::path configure_file;
+
+    };
 }
 
 namespace oct::mps::v2
 {
     using namespace oct::mps::v1;
 }
+
+namespace mps = oct::mps::v1;
 
 #endif
