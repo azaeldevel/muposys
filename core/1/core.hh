@@ -195,9 +195,9 @@ namespace oct::mps::v1
     public:
         struct Version
         {
-            unsigned int major;
-            unsigned int minor;
-            unsigned int patch;
+            int major;
+            int minor;
+            int patch;
             std::string prerelease;
             std::string build;
         };
@@ -211,9 +211,13 @@ namespace oct::mps::v1
         std::filesystem::path create();
         std::filesystem::path create(const std::filesystem::path& p);
         std::filesystem::path create(const std::filesystem::path& p,const std::string& server);
+        std::filesystem::path create(const std::filesystem::path& p,const Version& server,const cave1::mmsql::Data& data);
+        std::filesystem::path create(const std::filesystem::path& p,const Version& server,const cave0::mmsql::Data& data);
 
-        std::string get_name() const;
-        Version get_version()const;
+        void get_name(std::string&) const;
+        void get_version(Version&)const;
+        void get_datasource(cave1::mmsql::Data&)const;
+        void get_datasource(cave0::mmsql::Data&)const;
 
     private:
         //std::fstream file;
@@ -223,6 +227,7 @@ namespace oct::mps::v1
         static const std::filesystem::path configure_directory;
         static const std::filesystem::path configure_file;
         static std::filesystem::path defaul_file();
+        static std::filesystem::path defaul_derectory();
 
     };
 }

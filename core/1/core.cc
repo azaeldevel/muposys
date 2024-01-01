@@ -449,7 +449,11 @@ namespace oct::mps::v1
 
 
     const std::filesystem::path Configuration::configure_directory = ".muposys";
+#ifdef MUPOSYS_CORE_V1_TDD
     const std::filesystem::path Configuration::configure_file = "config";
+#elif
+    const std::filesystem::path Configuration::configure_file = "config-dev";
+#endif // MUPOSYS_CORE_V1_TDD
 
 	Configuration::Configuration() : root(config.getRoot())
 	{
@@ -477,6 +481,7 @@ namespace oct::mps::v1
 	{
             //
             root.add("name", libconfig::Setting::TypeString) = "muposys";
+            root.add("decorated", libconfig::Setting::TypeString) = "Multi-Porpuse Software System";
 
             //version
             libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
@@ -509,15 +514,62 @@ namespace oct::mps::v1
 
         return fullname;
 	}
+	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave1::mmsql::Data& d)
+	{
+            root.add("name", libconfig::Setting::TypeString) = "muposys";
+
+            //version
+            libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
+            version.add("major", libconfig::Setting::TypeInt) = v.major;
+            version.add("minor", libconfig::Setting::TypeInt) = v.minor;
+            version.add("patch", libconfig::Setting::TypeInt) = v.patch;
+            version.add("prerelease", libconfig::Setting::TypeString) = v.prerelease;
+            version.add("build", libconfig::Setting::TypeString) = v.build;
+
+            //database
+            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+            mmsql.add("host", libconfig::Setting::TypeString) = d.get_host();
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+
+            return p;
+	}
+	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave0::mmsql::Data& d)
+	{
+            root.add("name", libconfig::Setting::TypeString) = "muposys";
+
+            //version
+            libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
+            version.add("major", libconfig::Setting::TypeInt) = v.major;
+            version.add("minor", libconfig::Setting::TypeInt) = v.minor;
+            version.add("patch", libconfig::Setting::TypeInt) = v.patch;
+            version.add("prerelease", libconfig::Setting::TypeString) = v.prerelease;
+            version.add("build", libconfig::Setting::TypeString) = v.build;
+
+            //database
+            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+            mmsql.add("host", libconfig::Setting::TypeString) = d.get_host();
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+
+            return p;
+	}
 
 
-    std::string Configuration::get_name() const
+    void Configuration::get_name(std::string& str) const
     {
-        return config.lookup("name");
+        str = (std::string)config.lookup("name");
     }
-    Configuration::Version Configuration::get_version()const
+    void Configuration::get_version(Version& v)const
     {
-        Configuration::Version v;
         const libconfig::Setting &root = config.getRoot();
         const libconfig::Setting &version = root["version"];
         v.major = version.lookup("major");
@@ -526,7 +578,6 @@ namespace oct::mps::v1
         v.prerelease = (std::string)version.lookup("prerelease");
         v.build = (std::string)version.lookup("build");
 
-        return v;
     }
     std::filesystem::path Configuration::read(const std::filesystem::path& p)
     {
@@ -540,9 +591,27 @@ namespace oct::mps::v1
         std::filesystem::path home = pw->pw_dir;
 
         //configure directory
-        if(not std::filesystem::exists(home/configure_directory)) std::filesystem::create_directory(home/configure_directory);
-        std::filesystem::path fullname = home/configure_directory/configure_file;
+        return home/configure_directory/configure_file;
+    }
+    std::filesystem::path Configuration::defaul_derectory()
+    {
+	    //home directory
+        struct passwd *pw = getpwuid(getuid());
+        std::filesystem::path home = pw->pw_dir;
 
-        return fullname;
+        //configure directory
+        return home/configure_directory;
+    }
+    void Configuration::get_datasource(cave1::mmsql::Data& data)const
+    {
+        libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+        libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+        data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(unsigned int)mmsql.lookup("port"));
+    }
+    void Configuration::get_datasource(cave0::mmsql::Data& data)const
+    {
+        /*libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+        libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+        data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(unsigned int)mmsql.lookup("port"));*/
     }
 }

@@ -23,12 +23,13 @@ void v1_develop()
     //std::cout << "tmpf_config = " << tmpf_config_temp << "\n";
     std::filesystem::path tmpf_config = tmpf_config_temp;
     mps::Configuration config;
-    config.create(tmpf_config);
+    config.create();
 
-    std::string name = config.get_name();
+    std::string name;
+    config.get_name(name);
     CU_ASSERT(name.compare("muposys") == 0)
     mps::Configuration::Version version;
-    version = config.get_version();
+    config.get_version(version);
     CU_ASSERT(version.major == 1)
     CU_ASSERT(version.minor == 0)
     CU_ASSERT(version.patch == 0)
