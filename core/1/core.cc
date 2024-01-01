@@ -451,7 +451,10 @@ namespace oct::mps::v1
     const std::filesystem::path Configuration::configure_directory = ".muposys";
     const std::filesystem::path Configuration::configure_file = "config";
 
-	Configuration::Configuration(const std::filesystem::path& p)
+	Configuration::Configuration() : root(config.getRoot())
+	{
+	}
+	Configuration::Configuration(const std::filesystem::path& p) : root(config.getRoot())
 	{
 	    if(not std::filesystem::exists(p)) read(p);
 	    else create(p);
@@ -472,7 +475,6 @@ namespace oct::mps::v1
 	}
     std::filesystem::path Configuration::create(const std::filesystem::path& fullname)
 	{
-            libconfig::Setting &root = config.getRoot();
             //
             root.add("name", libconfig::Setting::TypeString) = "muposys";
 
@@ -490,10 +492,20 @@ namespace oct::mps::v1
             mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
             mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
             mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
             mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
             mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
 
             config.writeFile(fullname.c_str());
+
+        return fullname;
+	}
+    std::filesystem::path Configuration::create(const std::filesystem::path& fullname,const std::string& server)
+	{
+	    std::filesystem::path p = create(fullname);
+        libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+        libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+        mmsql.add("host", libconfig::Setting::TypeString) = server;
 
         return fullname;
 	}

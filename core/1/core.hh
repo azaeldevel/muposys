@@ -204,12 +204,13 @@ namespace oct::mps::v1
 
 
     public:
-        Configuration() = default;
+        Configuration();
         Configuration(const std::filesystem::path& p);
 
         std::filesystem::path read(const std::filesystem::path& p);
         std::filesystem::path create();
         std::filesystem::path create(const std::filesystem::path& p);
+        std::filesystem::path create(const std::filesystem::path& p,const std::string& server);
 
         std::string get_name() const;
         Version get_version()const;
@@ -217,7 +218,7 @@ namespace oct::mps::v1
     private:
         //std::fstream file;
         libconfig::Config config;
-
+        libconfig::Setting& root;
     private:
         static const std::filesystem::path configure_directory;
         static const std::filesystem::path configure_file;
