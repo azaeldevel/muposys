@@ -215,6 +215,7 @@ namespace oct::mps::v1
         std::filesystem::path create(const std::filesystem::path& p,const Version& server,const cave0::mmsql::Data& data);
 
         void get_name(std::string&) const;
+        void get_decorated(std::string&) const;
         void get_version(Version&)const;
         void get_datasource(cave1::mmsql::Data&)const;
         void get_datasource(cave0::mmsql::Data&)const;
@@ -230,6 +231,15 @@ namespace oct::mps::v1
         static std::filesystem::path defaul_derectory();
 
     };
+
+
+    //context variables
+    static const char* name = "muposys";
+    static const char* decorated = "Systema Software de Multi-Proposito";
+    std::string get_name();
+    std::string get_decorated();
+
+
 }
 
 namespace oct::mps::v2

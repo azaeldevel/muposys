@@ -17,7 +17,12 @@ int v1_clean(void)
 
 void v1_develop()
 {
-    std::cout << "\n";
+
+
+}
+
+void v1_configuration_file()
+{
     char* tmpf_config_temp = tmpnam(NULL);
     //int tmpf_hanle = mkstemp(tmpf_config_temp);
     //std::cout << "tmpf_config = " << tmpf_config_temp << "\n";

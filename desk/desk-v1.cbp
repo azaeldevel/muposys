@@ -72,7 +72,7 @@
 			<Add directory="../../../octetos" />
 		</Compiler>
 		<Linker>
-			<Add option="`pkg-config gtkmm-3.0 --libs` `pkg-config libmariadb libmariadb --libs`" />
+			<Add option="`pkg-config gtkmm-3.0 --libs` `pkg-config libmariadb --libs`" />
 		</Linker>
 		<Unit filename="1/desk-SearchItem.cc" />
 		<Unit filename="1/desk-TableSaling.cc" />

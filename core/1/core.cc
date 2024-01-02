@@ -568,6 +568,10 @@ namespace oct::mps::v1
     {
         str = (std::string)config.lookup("name");
     }
+    void Configuration::get_decorated(std::string& str) const
+    {
+        str = (std::string)config.lookup("decorated");
+    }
     void Configuration::get_version(Version& v)const
     {
         const libconfig::Setting &root = config.getRoot();
@@ -613,5 +617,57 @@ namespace oct::mps::v1
         /*libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
         libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
         data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(unsigned int)mmsql.lookup("port"));*/
+    }
+
+
+
+    //const char* name = "muposys";
+    //const char* decorated = "Systema Software de Multi-Proposito";
+
+    std::string get_name()
+    {
+        Configuration config;
+        config.create();
+        std::string n;
+
+        //read from database
+
+
+        //read from config file
+        try
+        {
+            config.get_name(n);
+            return n;
+        }
+        catch(const libconfig::SettingNotFoundException &nfex)
+        {
+
+        }
+
+        //valor por default
+        return name;
+    }
+    std::string get_decorated()
+    {
+        Configuration config;
+        config.create();
+        std::string n;
+
+        //read from database
+
+
+        //read from config file
+        try
+        {
+            config.get_decorated(n);
+            return n;
+        }
+        catch(const libconfig::SettingNotFoundException &nfex)
+        {
+
+        }
+
+        //valor por default
+        return decorated;
     }
 }
