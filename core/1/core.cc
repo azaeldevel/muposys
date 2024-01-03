@@ -524,73 +524,57 @@ namespace oct::mps::v1
 
         return fullname;
 	}
-	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave1::mmsql::Data& d)
+	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave1::mmsql::Data& dt)
 	{
-#ifdef MUPOSYS_CORE_V1_TDD
-            root.add("name", libconfig::Setting::TypeString) = "muposys(dev)";
-#elif
-            root.add("name", libconfig::Setting::TypeString) = "muposys";
-#endif // MUPOSYS_CORE_V1_TDD
+	    create(p);
 
-            //version
-            libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
-            version.add("major", libconfig::Setting::TypeInt) = v.major;
-            version.add("minor", libconfig::Setting::TypeInt) = v.minor;
-            version.add("patch", libconfig::Setting::TypeInt) = v.patch;
-            version.add("prerelease", libconfig::Setting::TypeString) = v.prerelease;
-            version.add("build", libconfig::Setting::TypeString) = v.build;
+        //version
+        libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
+        root["version"]["major"] = v.major;
+        version.add("minor", libconfig::Setting::TypeInt) = v.minor;
+        version.add("patch", libconfig::Setting::TypeInt) = v.patch;
+        version.add("prerelease", libconfig::Setting::TypeString) = v.prerelease;
+        version.add("build", libconfig::Setting::TypeString) = v.build;
 
-            //database
-            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
-            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
-            mmsql.add("host", libconfig::Setting::TypeString) = d.get_host();
-            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
-            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
-#ifdef MUPOSYS_CORE_V1_TDD
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
-            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
-            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
-#elif
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
-#endif // MUPOSYS_CORE_V1_TDD
+        //database
+        root["database"]["mmsql"]["host"] = dt.get_host().c_str();
+        libconfig::Setting &user = root["database"]["mmsql"]["user"];
+        user = dt.get_user().c_str();
+        libconfig::Setting &port = root["database"]["mmsql"]["port"];
+        port = (int)dt.get_port();
+        libconfig::Setting &password = root["database"]["mmsql"]["password"];
+        password = dt.get_password().c_str();
+        libconfig::Setting &database = root["database"]["mmsql"]["database"];
+        database = dt.get_database().c_str();
 
-            return p;
+        return p;
 	}
-	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave0::mmsql::Data& d)
+	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave0::mmsql::Data& dt)
 	{
-#ifdef MUPOSYS_CORE_V1_TDD
-            root.add("name", libconfig::Setting::TypeString) = "muposys(dev)";
-#elif
-            root.add("name", libconfig::Setting::TypeString) = "muposys";
-#endif // MUPOSYS_CORE_V1_TDD
+	    create(p);
 
-            //version
-            libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
-            version.add("major", libconfig::Setting::TypeInt) = v.major;
-            version.add("minor", libconfig::Setting::TypeInt) = v.minor;
-            version.add("patch", libconfig::Setting::TypeInt) = v.patch;
-            version.add("prerelease", libconfig::Setting::TypeString) = v.prerelease;
-            version.add("build", libconfig::Setting::TypeString) = v.build;
+        //version
+        libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
+        root["version"]["major"] = v.major;
+        version.add("minor", libconfig::Setting::TypeInt) = v.minor;
+        version.add("patch", libconfig::Setting::TypeInt) = v.patch;
+        version.add("prerelease", libconfig::Setting::TypeString) = v.prerelease;
+        version.add("build", libconfig::Setting::TypeString) = v.build;
 
-            //database
-            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
-            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
-            mmsql.add("host", libconfig::Setting::TypeString) = d.get_host();
-            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
-            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
-#ifdef MUPOSYS_CORE_V1_TDD
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
-            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
-            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
-#elif
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
-#endif // MUPOSYS_CORE_V1_TDD
+        //database
+        libconfig::Setting &host = root["database"]["mmsql"]["host"];
+        //std::cout << "Host : " << (std::string) host << "\n";
+        host = dt.get_host().c_str();
+        libconfig::Setting &user = root["database"]["mmsql"]["user"];
+        user = dt.get_user().c_str();
+        libconfig::Setting &port = root["database"]["mmsql"]["port"];
+        port = (int)dt.get_port();
+        libconfig::Setting &password = root["database"]["mmsql"]["password"];
+        password = dt.get_password().c_str();
+        libconfig::Setting &database = root["database"]["mmsql"]["database"];
+        database = dt.get_database().c_str();
 
-            return p;
+        return p;
 	}
 
 
