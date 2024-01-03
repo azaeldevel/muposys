@@ -234,7 +234,11 @@ namespace oct::mps::v1
 
 
     //context variables
-    static const char* name = "muposys";
+#ifdef MUPOSYS_CORE_V1_TDD
+            static const char* name = "muposys(dev)";
+#elif
+            static const char* name = "muposys";
+#endif // MUPOSYS_CORE_V1_TDD
     static const char* decorated = "Systema Software de Multi-Proposito";
     std::string get_name();
     std::string get_decorated();

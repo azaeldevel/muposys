@@ -47,7 +47,7 @@ namespace oct::mps::v1
 #ifdef MUPOSYS_CORE_V1_TDD
         return cave0::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
 #else
-        return cave0::mmsql::Data("192.168.1.102","muposys","123456", "muposys", 3306);
+        return cave0::mmsql::Data("localhost","muposys","mps-v1-896", "muposys", 3306);
 #endif
     }
     cave1::mmsql::Data default_dtm1()
@@ -55,7 +55,7 @@ namespace oct::mps::v1
 #ifdef MUPOSYS_CORE_V1_TDD
         return cave1::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
 #else
-        return cave1::mmsql::Data("192.168.1.102","muposys","123456", "muposys", 3306);
+        return cave1::mmsql::Data("localhost","muposys","mps-v1-896", "muposys", 3306);
 #endif
     }
     cave::mmsql::Data default_dtm()
@@ -63,7 +63,7 @@ namespace oct::mps::v1
 #ifdef MUPOSYS_CORE_V1_TDD
         return cave::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
 #else
-        return cave::mmsql::Data("192.168.1.102","muposys","123456", "muposys", 3306);
+        return cave::mmsql::Data("localhost","muposys","mps-v1-896", "muposys", 3306);
 #endif
     }
 
@@ -450,7 +450,7 @@ namespace oct::mps::v1
 
     const std::filesystem::path Configuration::configure_directory = ".muposys";
 #ifdef MUPOSYS_CORE_V1_TDD
-    const std::filesystem::path Configuration::configure_file = "config";
+    const std::filesystem::path Configuration::configure_file = "config-dev";
 #elif
     const std::filesystem::path Configuration::configure_file = "config-dev";
 #endif // MUPOSYS_CORE_V1_TDD
@@ -480,7 +480,11 @@ namespace oct::mps::v1
     std::filesystem::path Configuration::create(const std::filesystem::path& fullname)
 	{
             //
+#ifdef MUPOSYS_CORE_V1_TDD
+            root.add("name", libconfig::Setting::TypeString) = "muposys(dev)";
+#elif
             root.add("name", libconfig::Setting::TypeString) = "muposys";
+#endif // MUPOSYS_CORE_V1_TDD
             root.add("decorated", libconfig::Setting::TypeString) = "Multi-Porpuse Software System";
 
             //version
@@ -495,11 +499,17 @@ namespace oct::mps::v1
             libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
             libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
             mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
-            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
             mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
             mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+#ifdef MUPOSYS_CORE_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+#elif
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+#endif // MUPOSYS_CORE_V1_TDD
 
             config.writeFile(fullname.c_str());
 
@@ -516,7 +526,11 @@ namespace oct::mps::v1
 	}
 	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave1::mmsql::Data& d)
 	{
+#ifdef MUPOSYS_CORE_V1_TDD
+            root.add("name", libconfig::Setting::TypeString) = "muposys(dev)";
+#elif
             root.add("name", libconfig::Setting::TypeString) = "muposys";
+#endif // MUPOSYS_CORE_V1_TDD
 
             //version
             libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
@@ -530,17 +544,27 @@ namespace oct::mps::v1
             libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
             libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
             mmsql.add("host", libconfig::Setting::TypeString) = d.get_host();
-            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
             mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
             mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+#ifdef MUPOSYS_CORE_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+#elif
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+#endif // MUPOSYS_CORE_V1_TDD
 
             return p;
 	}
 	std::filesystem::path Configuration::create(const std::filesystem::path& p,const Version& v,const cave0::mmsql::Data& d)
 	{
+#ifdef MUPOSYS_CORE_V1_TDD
+            root.add("name", libconfig::Setting::TypeString) = "muposys(dev)";
+#elif
             root.add("name", libconfig::Setting::TypeString) = "muposys";
+#endif // MUPOSYS_CORE_V1_TDD
 
             //version
             libconfig::Setting &version = root.add("version", libconfig::Setting::TypeGroup);
@@ -554,11 +578,17 @@ namespace oct::mps::v1
             libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
             libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
             mmsql.add("host", libconfig::Setting::TypeString) = d.get_host();
-            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
             mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
             mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+#ifdef MUPOSYS_CORE_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+#elif
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+#endif // MUPOSYS_CORE_V1_TDD
 
             return p;
 	}
