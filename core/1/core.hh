@@ -190,7 +190,7 @@ namespace oct::mps::v1
 
     };
 
-    class Configuration
+    class Configuration : private libconfig::Config
     {
     public:
         struct Version
@@ -222,7 +222,7 @@ namespace oct::mps::v1
 
     private:
         //std::fstream file;
-        libconfig::Config config;
+        //libconfig::Config config;
         libconfig::Setting& root;
     private:
         static const std::filesystem::path configure_directory;
@@ -234,12 +234,6 @@ namespace oct::mps::v1
 
 
     //context variables
-#ifdef MUPOSYS_CORE_V1_TDD
-            static const char* name = "muposys(dev)";
-#elif
-            static const char* name = "muposys";
-#endif // MUPOSYS_CORE_V1_TDD
-    static const char* decorated = "Systema Software de Multi-Proposito";
     std::string get_name();
     std::string get_decorated();
 

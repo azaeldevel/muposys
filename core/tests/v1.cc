@@ -32,11 +32,11 @@ void v1_configuration_file()
 
     std::string name;
     config.get_name(name);
-#ifdef MUPOSYS_CORE_V1_TDD
+#ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
 #elif
     CU_ASSERT(name.compare("muposys") == 0)
-#endif // MUPOSYS_CORE_V1_TDD
+#endif // OCTETOS_MUPOSYS_V1_TDD
     mps::Configuration::Version version;
     config.get_version(version);
     CU_ASSERT(version.major == 1)

@@ -455,10 +455,10 @@ namespace oct::mps::v1
     const std::filesystem::path Configuration::configure_file = "config-dev";
 #endif // MUPOSYS_CORE_V1_TDD
 
-	Configuration::Configuration() : root(config.getRoot())
+	Configuration::Configuration() : root(getRoot())
 	{
 	}
-	Configuration::Configuration(const std::filesystem::path& p) : root(config.getRoot())
+	Configuration::Configuration(const std::filesystem::path& p) : root(getRoot())
 	{
 	    if(not std::filesystem::exists(p)) read(p);
 	    else create(p);
@@ -511,7 +511,7 @@ namespace oct::mps::v1
             mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
 #endif // MUPOSYS_CORE_V1_TDD
 
-            config.writeFile(fullname.c_str());
+            writeFile(fullname.c_str());
 
         return fullname;
 	}
@@ -580,15 +580,15 @@ namespace oct::mps::v1
 
     void Configuration::get_name(std::string& str) const
     {
-        str = (std::string)config.lookup("name");
+        str = (std::string)lookup("name");
     }
     void Configuration::get_decorated(std::string& str) const
     {
-        str = (std::string)config.lookup("decorated");
+        str = (std::string)lookup("decorated");
     }
     void Configuration::get_version(Version& v)const
     {
-        const libconfig::Setting &root = config.getRoot();
+        const libconfig::Setting &root = getRoot();
         const libconfig::Setting &version = root["version"];
         v.major = version.lookup("major");
         v.minor = version.lookup("minor");
@@ -599,7 +599,7 @@ namespace oct::mps::v1
     }
     std::filesystem::path Configuration::read(const std::filesystem::path& p)
     {
-        config.readFile(p);
+        readFile(p);
         return p;
     }
     std::filesystem::path Configuration::defaul_file()
@@ -658,8 +658,11 @@ namespace oct::mps::v1
 
         }
 
-        //valor por default
-        return name;
+#ifdef OCTETOS_MUPOSYS_V1_TDD
+            return "muposys(dev)";
+#elif
+            return "muposys";
+#endif // OCTETOS_MUPOSYS_V1_TDD
     }
     std::string get_decorated()
     {
@@ -682,6 +685,6 @@ namespace oct::mps::v1
         }
 
         //valor por default
-        return decorated;
+        return "Multi-Porpuse Software System";
     }
 }
