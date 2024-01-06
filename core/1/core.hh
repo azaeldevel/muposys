@@ -211,8 +211,8 @@ namespace oct::mps::v1
         std::filesystem::path create();
         std::filesystem::path create(const std::filesystem::path& p);
         std::filesystem::path create(const std::filesystem::path& p,const std::string& server);
-        std::filesystem::path create(const std::filesystem::path& p,const Version& server,const cave1::mmsql::Data& data);
-        std::filesystem::path create(const std::filesystem::path& p,const Version& server,const cave0::mmsql::Data& data);
+        std::filesystem::path create(const std::filesystem::path& p,const Version&,const cave1::mmsql::Data& data);
+        std::filesystem::path create(const std::filesystem::path& p,const Version&,const cave0::mmsql::Data& data);
 
         void get_name(std::string&) const;
         void get_decorated(std::string&) const;
