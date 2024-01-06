@@ -69,6 +69,12 @@ namespace oct::mps::v1
         std::string strsearch;
     };
 
+
+    class Login : public Gtk::Window
+    {
+
+    };
+
     class Application : public Gtk::Window
     {
     public:
@@ -96,6 +102,8 @@ namespace oct::mps::v1
       Application(const Configuration& config);
       Application(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
 
+      virtual void check_session();
+
       Gtk::MenuBar& get_menus();
       Gtk::Box& get_toolpane();
       Gtk::Stack& get_stack();
@@ -110,6 +118,7 @@ namespace oct::mps::v1
         Gtk::MenuBar *menu;
         Gtk::Stack *stack;
         Gtk::Statusbar *status;
+        Login *login;
 
     private:
       inline void init_data();

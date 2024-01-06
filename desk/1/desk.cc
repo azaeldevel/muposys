@@ -236,6 +236,9 @@ namespace oct::mps::v1
         /*Saling *saling2 = NULL;
         builder->get_widget_derived("Saling", saling2);
         stack->add(*saling2,"page1","Venta - Caja 2");*/
+
+        login = NULL;
+        builder->get_widget_derived("Login", login);
     }
 
 
@@ -250,6 +253,14 @@ namespace oct::mps::v1
     Gtk::Stack& Application::get_stack()
     {
         return *stack;
+    }
+
+    void Application::check_session()
+    {
+        login.set_transient_for(*this);
+        login.set_modal(true);
+        if(devel) login.set_session("root","123456");
+        login.show();
     }
 
 
