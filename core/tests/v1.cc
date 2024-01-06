@@ -34,8 +34,8 @@ void v1_configuration_file()
     config.get_name(name);
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
-#elif
-    CU_ASSERT(name.compare("muposys") == 0)
+#else
+    CU_ASSERT(name.compare("muposys(dev)") == 0)
 #endif // OCTETOS_MUPOSYS_V1_TDD
     mps::Configuration::Version version;
     config.get_version(version);

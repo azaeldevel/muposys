@@ -660,7 +660,7 @@ namespace oct::mps::v1
 
 #ifdef OCTETOS_MUPOSYS_V1_TDD
             return "muposys(dev)";
-#elif
+#else
             return "muposys";
 #endif // OCTETOS_MUPOSYS_V1_TDD
     }

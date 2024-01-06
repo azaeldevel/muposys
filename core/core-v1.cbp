@@ -31,6 +31,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="cave-mmsql-0" />
 				</Linker>
 			</Target>
 			<Target title="libmuposys-core-dbg">
@@ -43,6 +44,7 @@
 				</Compiler>
 				<Linker>
 					<Add library="cave-mmsql-0" />
+					<Add library="cave-mmsql-1" />
 					<Add directory="../../cave/bin/Debug" />
 				</Linker>
 			</Target>
@@ -56,12 +58,13 @@
 				</Compiler>
 				<Linker>
 					<Add library="cave-mmsql-0" />
+					<Add library="cave-mmsql-1" />
 					<Add directory="../../cave/bin/Release" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-Wall -std=c++23 `pkg-config libconfig++ --libs` `pkg-config libmariadb libmariadb --cflags`" />
+			<Add option="-Wall -std=c++23 `pkg-config libconfig++ --cflags` `pkg-config libmariadb libmariadb --cflags`" />
 			<Add option="-DMUPOSYS_CORE_V1_TDD" />
 			<Add directory="../../../octetos" />
 		</Compiler>
