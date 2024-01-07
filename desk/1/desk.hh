@@ -70,8 +70,10 @@ namespace oct::mps::v1
     };
 
 
-    class Login : public Gtk::Window
+    class Login : public Gtk::Dialog
     {
+    public:
+      Login(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
 
     };
 

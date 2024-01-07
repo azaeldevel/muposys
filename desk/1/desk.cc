@@ -195,6 +195,7 @@ namespace oct::mps::v1
     Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Window(cobject)
     {
         init_controls(builder);
+        signal_show().connect(sigc::mem_fun(*this,&Application::check_session));
         init_data();
     }
     void Application::init_data()
@@ -257,10 +258,10 @@ namespace oct::mps::v1
 
     void Application::check_session()
     {
-        login.set_transient_for(*this);
-        login.set_modal(true);
-        if(devel) login.set_session("root","123456");
-        login.show();
+        login->set_transient_for(*this);
+        login->set_modal(true);
+        //if(devel) login.set_session("root","123456");
+        login->show();
     }
 
 
@@ -268,6 +269,12 @@ namespace oct::mps::v1
     {
     }
 
+
+
+      Login::Login(BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>&)  : Gtk::Dialog(obj)
+      {
+
+      }
 
 
 
