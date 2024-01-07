@@ -268,9 +268,43 @@ namespace oct::mps::v1
 
 
 
-    Login::Login(BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>&)  : Gtk::Dialog(obj)
+    Login::Login(BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>& builder)  : Gtk::Dialog(obj)
     {
+        init_controls(builder);
+    }
+    void Login::init_data()
+    {
+        set_title("Login");
 
+        btCancel->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_Cancel_clicked));
+        btAccept->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_Accept_clicked));
+        signal_response().connect(sigc::mem_fun(*this,&Login::on_response));
+    }
+    void Login::init_controls(const Glib::RefPtr<Gtk::Builder>& builder)
+    {
+        inUser = NULL;
+        builder->get_widget("inUser", inUser);
+        inPassword = NULL;
+        builder->get_widget("inPassword", inPassword);
+        btAccept = NULL;
+        builder->get_widget("btAccept", btAccept);
+        btCancel = NULL;
+        builder->get_widget("btCancel", btCancel);
+
+        init_data();
+    }
+
+    void Login::on_bt_Cancel_clicked()
+    {
+        response(Gtk::RESPONSE_CANCEL);
+    }
+    void Login::on_bt_Accept_clicked()
+    {
+        response(Gtk::RESPONSE_OK);
+    }
+    void Login::on_response(int res)
+    {
+        hide();
     }
 
 

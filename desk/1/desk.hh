@@ -75,8 +75,18 @@ namespace oct::mps::v1
     public:
         Login(BaseObjectType*, const Glib::RefPtr<Gtk::Builder>&);
 
-    private:
+    protected:
+        void on_bt_Accept_clicked();
+        void on_bt_Cancel_clicked();
+        void on_response(int);
 
+    private:
+        Gtk::Entry *inUser,*inPassword;
+        Gtk::Button *btAccept, *btCancel;
+
+    private:
+      inline void init_data();
+      inline void init_controls(const Glib::RefPtr<Gtk::Builder>& builder);
     };
 
     class Application : public Gtk::Window
