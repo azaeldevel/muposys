@@ -227,9 +227,6 @@ namespace oct::mps::v1
         builder->get_widget("stack", stack);
         builder->get_widget("boxToolPane", boxToolPane);
 
-
-
-
         //
         Saling *saling = NULL;
         builder->get_widget_derived("Saling", saling,Crud::create);
@@ -271,10 +268,10 @@ namespace oct::mps::v1
 
 
 
-      Login::Login(BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>&)  : Gtk::Dialog(obj)
-      {
+    Login::Login(BaseObjectType* obj, const Glib::RefPtr<Gtk::Builder>&)  : Gtk::Dialog(obj)
+    {
 
-      }
+    }
 
 
 
