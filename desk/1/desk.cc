@@ -195,8 +195,6 @@ namespace oct::mps::v1
     Application::Application(BaseObjectType* cobject, const Glib::RefPtr<Gtk::Builder>& builder) : Gtk::Window(cobject)
     {
         init_controls(builder);
-        signal_show().connect(sigc::mem_fun(*this,&Application::check_session));
-        init_data();
     }
     void Application::init_data()
     {
@@ -231,12 +229,17 @@ namespace oct::mps::v1
         Saling *saling = NULL;
         builder->get_widget_derived("Saling", saling,Crud::create);
         stack->add(*saling,std::to_string((long)saling),"Ventas - Caja 1");
-        /*Saling *saling2 = NULL;
+        /*
+        Saling *saling2 = NULL;
         builder->get_widget_derived("Saling", saling2);
-        stack->add(*saling2,"page1","Venta - Caja 2");*/
+        stack->add(*saling2,"page1","Venta - Caja 2");
+        */
 
         login = NULL;
         builder->get_widget_derived("Login", login);
+        signal_show().connect(sigc::mem_fun(*this,&Application::check_session));
+
+        init_data();
     }
 
 
@@ -275,6 +278,7 @@ namespace oct::mps::v1
     void Login::init_data()
     {
         set_title("Login");
+        set_default_size(300, 150);
 
         btCancel->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_Cancel_clicked));
         btAccept->signal_clicked().connect(sigc::mem_fun(*this,&Login::on_bt_Accept_clicked));
@@ -290,6 +294,8 @@ namespace oct::mps::v1
         builder->get_widget("btAccept", btAccept);
         btCancel = NULL;
         builder->get_widget("btCancel", btCancel);
+        infoLogin = NULL;
+        builder->get_widget("infoLogin", infoLogin);
 
         init_data();
     }

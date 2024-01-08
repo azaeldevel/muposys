@@ -69,7 +69,6 @@ namespace oct::mps::v1
         std::string strsearch;
     };
 
-
     class Login : public Gtk::Dialog
     {
     public:
@@ -82,7 +81,8 @@ namespace oct::mps::v1
 
     private:
         Gtk::Entry *inUser,*inPassword;
-        Gtk::Button *btAccept, *btCancel;
+        Gtk::Button *btAccept,*btCancel;
+        Gtk::InfoBar* infoLogin;
 
     private:
       inline void init_data();
