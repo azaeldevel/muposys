@@ -122,11 +122,21 @@ namespace oct::mps::v1
         User(const char** s);
         User(cave0::Row<char,cave0::mmsql::Data> s);
 
-
         static std::string fields();
         static std::string table();
 
+        User& operator =(const char** s);
+        //std::string insert_values()const;
+        std::string update_values()const;
+        std::string update_values(const std::initializer_list<size_t>& list)const;
+        static std::string select_fields();
+        static std::string select_fields(const std::initializer_list<size_t>& list);
+        static std::string insert_fields();
+        static std::string identifier_name();
+        std::string identifier_value() const;
+
     };
+
     struct Session
     {
         ID id;

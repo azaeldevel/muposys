@@ -299,7 +299,6 @@ namespace oct::mps::v1
 
         init_data();
     }
-
     void Login::on_bt_Cancel_clicked()
     {
         response(Gtk::RESPONSE_CANCEL);
@@ -311,6 +310,55 @@ namespace oct::mps::v1
     void Login::on_response(int res)
     {
         hide();
+    }
+    void Login::check_session()
+    {
+        cave::mmsql::Data dtm = default_dtm();
+        bool conectfl = false;
+        cave::mmsql::Connection conn;
+        try
+        {
+            conectfl = conn.connect(dtm, true);
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return;
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return;
+        }
+        catch (...)
+        {
+            return;
+        }
+        if(not conectfl)
+        {
+            std::cout << "Fallo la conexion de la base de datos\n";
+            return;
+        }
+
+        std::vector<CatalogItem> rs1;
+        std::string strwhere = "name = ";
+        strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 3";
+        where += text + "'";
+        try
+        {
+            conn.select(rs1,where.c_str());
+            //std::cout << "Text : " << rs1[0].brief << "\n";
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return;
+        }
+        catch (...)
+        {
+            return;
+        }
+
     }
 
 

@@ -182,13 +182,13 @@ namespace oct::mps::v1
 
         User::User(const char** s)
         {
-            name = s[0];
+            id = std::atoll(s[0]);
             person.id = std::atoll(s[1]);
             name = s[2];
         }
         User::User(cave0::Row<char,cave0::mmsql::Data> s)
         {
-            name = s[0];
+            id = std::atoll(s[0]);
             person.id = std::atoll(s[1]);
             name = s[2];
         }
@@ -204,6 +204,63 @@ namespace oct::mps::v1
             return "User";
         }
 
+    User& User::operator =(const char** s)
+	{
+        id = std::atoll(s[0]);
+        person.id = std::atoll(s[1]);
+        name = s[2];
+
+		return *this;
+	}
+
+	std::string User::update_values(const std::initializer_list<size_t>& list)const
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "id = " + std::to_string(id);
+	    vals[1] = "person = '" + std::to_string(person.id) + "'";
+	    vals[2] = "name = '" + name + "'";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string User::select_fields()
+	{
+        return "id,person,name";
+	}
+	std::string User::select_fields(const std::initializer_list<size_t>& list)
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "id";
+	    vals[1] = "person ";
+	    vals[2] = "name";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string User::insert_fields()
+	{
+        return "person,name";
+	}
+	std::string User::identifier_name()
+	{
+        return "id";
+	}
+	std::string User::identifier_value() const
+	{
+        return std::to_string(id);
+	}
 
 
 
