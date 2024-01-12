@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/mps-desk-v0" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Debug/mps-desk-v1" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/Debug/obj" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -26,7 +26,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/mps-desk-v0" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/Release/mps-desk-v1" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/Release/obj" />
 				<Option type="0" />
 				<Option compiler="gcc" />

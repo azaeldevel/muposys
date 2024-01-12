@@ -698,7 +698,7 @@ namespace oct::mps::v1
     }
     void Configuration::get_datasource(cave1::mmsql::Data& data)const
     {
-        libconfig::Setting &database = root["database"];
+        libconfig::Setting &database = root.lookup("database");
         libconfig::Setting &mmsql = database["mmsql"];
         data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(unsigned int)mmsql.lookup("port"));
     }
@@ -713,6 +713,12 @@ namespace oct::mps::v1
         std::filesystem::path fullname = defaul_file();
         std::cout << fullname << "\n";
         readFile(fullname.c_str());
+        return;
+    }
+    void Configuration::open(const std::filesystem::path& p)
+    {
+        std::cout << p << "\n";
+        readFile(p.c_str());
         return;
     }
 
