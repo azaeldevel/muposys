@@ -121,6 +121,8 @@ namespace oct::mps::v1
         User() = default;
         User(const char** s);
         User(cave0::Row<char,cave0::mmsql::Data> s);
+        User(cave1::Row<char,cave1::mmsql::Data> s);
+        User(const User& u);
 
         static std::string fields();
         static std::string table();
@@ -223,6 +225,7 @@ namespace oct::mps::v1
         std::filesystem::path create(const std::filesystem::path& p,const std::string& server);
         std::filesystem::path create(const std::filesystem::path& p,const Version&,const cave1::mmsql::Data& data);
         std::filesystem::path create(const std::filesystem::path& p,const Version&,const cave0::mmsql::Data& data);
+        void open();
 
         void get_name(std::string&) const;
         void get_decorated(std::string&) const;

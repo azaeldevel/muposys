@@ -309,11 +309,22 @@ namespace oct::mps::v1
     }
     void Login::on_response(int res)
     {
-        hide();
+        if(check(user))
+        {
+            hide();
+        }
+        else
+        {
+            //
+
+        }
     }
-    void Login::check_session()
+    bool Login::check(User& u)
     {
-        cave::mmsql::Data dtm = default_dtm();
+        Configuration config;
+        config.open();
+        cave1::mmsql::Data dtm;
+        config.get_datasource(dtm);
         bool conectfl = false;
         cave::mmsql::Connection conn;
         try
@@ -323,27 +334,26 @@ namespace oct::mps::v1
         catch (const cave::ExceptionDriver& e)
         {
             std::cout << "Exception (cave testing) : " << e.what() << "\n";
-            return;
+            return false;
         }
         catch (const std::exception& e)
         {
             std::cout << "Exception (cave testing) : " << e.what() << "\n";
-            return;
+            return false;
         }
         catch (...)
         {
-            return;
+            return false;
         }
         if(not conectfl)
         {
             std::cout << "Fallo la conexion de la base de datos\n";
-            return;
+            return false;
         }
 
-        std::vector<CatalogItem> rs1;
-        std::string strwhere = "name = ";
-        strwhere += "'" + inUser.get_text() + "' and pwdtxt = '" + inPwd.get_text() + "' and status = 3";
-        where += text + "'";
+        std::vector<User> rs1;
+        std::string where;
+        where += "'" + inUser->get_text() + "' and pwdtxt = '" + inPassword->get_text() + "' and status = 3";
         try
         {
             conn.select(rs1,where.c_str());
@@ -352,13 +362,24 @@ namespace oct::mps::v1
         catch (const cave::ExceptionDriver& e)
         {
             std::cout << "Exception (cave testing) : " << e.what() << "\n";
-            return;
+            return false;
         }
         catch (...)
         {
-            return;
+            return false;
         }
 
+        if(rs1.size() == 1)
+        {
+            user = rs1[0];
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+        return false;
     }
 
 

@@ -83,10 +83,12 @@ namespace oct::mps::v1
         Gtk::Entry *inUser,*inPassword;
         Gtk::Button *btAccept,*btCancel;
         Gtk::InfoBar* infoLogin;
+        User user;
 
     private:
       inline void init_data();
       inline void init_controls(const Glib::RefPtr<Gtk::Builder>& builder);
+      bool check(User&);
     };
 
     class Application : public Gtk::Window

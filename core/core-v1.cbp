@@ -40,9 +40,10 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-fPIC -g" />
+					<Add option="-fPIC -g `pkg-config libconfig++ --cflags`" />
 				</Compiler>
 				<Linker>
+					<Add option="`pkg-config libconfig++ --libs`" />
 					<Add library="cave-mmsql-0" />
 					<Add library="cave-mmsql-1" />
 					<Add directory="../../cave/bin/Debug" />

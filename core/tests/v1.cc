@@ -28,7 +28,7 @@ void v1_configuration_file()
     //std::cout << "tmpf_config = " << tmpf_config_temp << "\n";
     std::filesystem::path tmpf_config = tmpf_config_temp;
     mps::Configuration config;
-    config.create(tmpf_config);
+    config.create();
 
     std::string name;
     config.get_name(name);
