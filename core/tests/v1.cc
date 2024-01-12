@@ -50,7 +50,7 @@ void v1_configuration_file()
     CU_ASSERT(version.build.compare("v1") == 0)
 
     mps::Configuration config2;
-    config2.open();
+    config2.create();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
 #else

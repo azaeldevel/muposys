@@ -323,7 +323,7 @@ namespace oct::mps::v1
     {
         Configuration config;
         config.open();
-        cave1::mmsql::Data dtm;
+        cave::mmsql::Data dtm;
         config.get_datasource(dtm);
         bool conectfl = false;
         cave::mmsql::Connection conn;

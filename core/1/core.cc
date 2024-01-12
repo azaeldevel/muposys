@@ -532,10 +532,10 @@ namespace oct::mps::v1
 	std::filesystem::path Configuration::create()
 	{
         std::filesystem::path fullname = defaul_file();
-        std::cout << fullname << "\n";
+        //std::cout << fullname << "\n";
         if(std::filesystem::exists(fullname))
         {
-            std::cout << fullname << "\n";
+            //std::cout << fullname << "\n";
             read(fullname);
             return fullname;
         }
@@ -717,7 +717,7 @@ namespace oct::mps::v1
     }
     void Configuration::open(const std::filesystem::path& p)
     {
-        std::cout << p << "\n";
+        //std::cout << p << "\n";
         readFile(p.c_str());
         return;
     }
