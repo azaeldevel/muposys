@@ -711,7 +711,7 @@ namespace oct::mps::v1
     void Configuration::open()
     {
         std::filesystem::path fullname = defaul_file();
-        std::cout << fullname << "\n";
+        //std::cout << fullname << "\n";
         readFile(fullname.c_str());
         return;
     }

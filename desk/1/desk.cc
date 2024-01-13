@@ -322,7 +322,7 @@ namespace oct::mps::v1
     bool Login::check(User& u)
     {
         Configuration config;
-        config.open();
+        config.create();
         cave::mmsql::Data dtm;
         config.get_datasource(dtm);
         bool conectfl = false;
