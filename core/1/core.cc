@@ -44,7 +44,7 @@ namespace oct::mps::v1
 {
     cave0::mmsql::Data default_dtm0()
     {
-#ifdef MUPOSYS_CORE_V1_TDD
+#ifdef OCTETOS_MUPOSYS_V1_TDD
         return cave0::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
 #else
         return cave0::mmsql::Data("localhost","muposys","mps-v1-896", "muposys", 3306);
@@ -52,7 +52,7 @@ namespace oct::mps::v1
     }
     cave1::mmsql::Data default_dtm1()
     {
-#ifdef MUPOSYS_CORE_V1_TDD
+#ifdef OCTETOS_MUPOSYS_V1_TDD
         return cave1::mmsql::Data ("localhost","develop","123456", "muposys-dev", 3306);
 #else
         return cave1::mmsql::Data("localhost","muposys","mps-v1-896", "muposys", 3306);
@@ -515,10 +515,10 @@ namespace oct::mps::v1
 
 
     const std::filesystem::path Configuration::configure_directory = ".muposys";
-#ifdef MUPOSYS_CORE_V1_TDD
+#ifdef OCTETOS_MUPOSYS_V1_TDD
     const std::filesystem::path Configuration::configure_file = "config-dev";
-#elif
-    const std::filesystem::path Configuration::configure_file = "config-dev";
+#else
+    const std::filesystem::path Configuration::configure_file = "config";
 #endif // MUPOSYS_CORE_V1_TDD
 
 	Configuration::Configuration() : root(getRoot())
@@ -526,7 +526,7 @@ namespace oct::mps::v1
 	}
 	Configuration::Configuration(const std::filesystem::path& p) : root(getRoot())
 	{
-	    if(not std::filesystem::exists(p)) read(p);
+	    if(not std::filesystem::exists(p)) open(p);
 	    else create(p);
 	}
 	std::filesystem::path Configuration::create()
@@ -535,8 +535,7 @@ namespace oct::mps::v1
         //std::cout << fullname << "\n";
         if(std::filesystem::exists(fullname))
         {
-            //std::cout << fullname << "\n";
-            read(fullname);
+            open(fullname);
             return fullname;
         }
         else
@@ -556,9 +555,9 @@ namespace oct::mps::v1
 	{
 	    //std::cout << "archivo :" << fullname << "\n";
         //
-#ifdef MUPOSYS_CORE_V1_TDD
+#ifdef OCTETOS_MUPOSYS_V1_TDD
         root.add("name", libconfig::Setting::TypeString) = "muposys(dev)";
-#elif
+#else
         root.add("name", libconfig::Setting::TypeString) = "muposys";
 #endif // MUPOSYS_CORE_V1_TDD
         root.add("decorated", libconfig::Setting::TypeString) = "Multi-Porpuse Software System";
@@ -577,11 +576,11 @@ namespace oct::mps::v1
             mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
             mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
             mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
-#ifdef MUPOSYS_CORE_V1_TDD
+#ifdef OCTETOS_MUPOSYS_V1_TDD
             mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
             mmsql.add("user", libconfig::Setting::TypeString) = "develop";
             mmsql.add("password", libconfig::Setting::TypeString) = "123456";
-#elif
+#else
             mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
             mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
             mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
@@ -673,11 +672,6 @@ namespace oct::mps::v1
         v.build = (std::string)version.lookup("build");
 
     }
-    std::filesystem::path Configuration::read(const std::filesystem::path& p)
-    {
-        readFile(p);
-        return p;
-    }
     std::filesystem::path Configuration::defaul_file()
     {
 	    //home directory
@@ -698,9 +692,11 @@ namespace oct::mps::v1
     }
     void Configuration::get_datasource(cave1::mmsql::Data& data)const
     {
-        libconfig::Setting &database = root["database"];
-        libconfig::Setting &mmsql = database["mmsql"];
-        data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(unsigned int)mmsql.lookup("port"));
+        libconfig::Setting &mmsql = lookup("database")["mmsql"];
+        std::string str;
+        str = (std::string)mmsql.lookup("host");
+        std::cout << "Host :" << str << "\n";
+        data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
     }
     void Configuration::get_datasource(cave0::mmsql::Data& data)const
     {
@@ -711,13 +707,13 @@ namespace oct::mps::v1
     void Configuration::open()
     {
         std::filesystem::path fullname = defaul_file();
-        //std::cout << fullname << "\n";
+        std::cout << "reading : " << fullname << "\n";
         readFile(fullname.c_str());
         return;
     }
     void Configuration::open(const std::filesystem::path& p)
     {
-        //std::cout << p << "\n";
+        std::cout << "reading : " << p << "\n";
         readFile(p.c_str());
         return;
     }

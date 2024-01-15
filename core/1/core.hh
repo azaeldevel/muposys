@@ -219,7 +219,7 @@ namespace oct::mps::v1
         Configuration();
         Configuration(const std::filesystem::path& p);
 
-        std::filesystem::path read(const std::filesystem::path& p);
+        //std::filesystem::path read(const std::filesystem::path& p);
         std::filesystem::path create();
         std::filesystem::path create(const std::filesystem::path& p);
         std::filesystem::path create(const std::filesystem::path& p,const std::string& server);

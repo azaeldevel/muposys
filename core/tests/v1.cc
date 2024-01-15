@@ -39,7 +39,7 @@ void v1_configuration_file()
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
 #else
-    CU_ASSERT(name.compare("muposys(dev)") == 0)
+    CU_ASSERT(name.compare("muposys") == 0)
 #endif // OCTETOS_MUPOSYS_V1_TDD
     mps::Configuration::Version version;
     config.get_version(version);
@@ -54,7 +54,7 @@ void v1_configuration_file()
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
 #else
-    CU_ASSERT(name.compare("muposys(dev)") == 0)
+    CU_ASSERT(name.compare("muposys") == 0)
 #endif // OCTETOS_MUPOSYS_V1_TDD
     mps::Configuration::Version version2;
     config2.get_version(version2);
@@ -69,5 +69,9 @@ void v1_configuration_file()
     //CU_ASSERT(dtm.get_host() == "localhost")
     CU_ASSERT(dtm.get_user() == "develop")
     CU_ASSERT(dtm.get_password() == "123456")
+#ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(dtm.get_database() == "muposys-dev")
+#else
+    CU_ASSERT(dtm.get_database() == "muposys")
+#endif // OCTETOS_MUPOSYS_V1_TDD
 }

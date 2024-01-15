@@ -322,9 +322,42 @@ namespace oct::mps::v1
     bool Login::check(User& u)
     {
         Configuration config;
-        config.create();
         cave::mmsql::Data dtm;
-        config.get_datasource(dtm);
+        std::string name;
+        try
+        {
+            config.open();
+            config.get_name(name);
+            std::cout << "name : " << name << "\n";
+            config.get_datasource(dtm);
+        }
+        catch (const cave::ExceptionDriver& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (const core::exception& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (const libconfig::SettingTypeException& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (const std::exception& e)
+        {
+            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            return false;
+        }
+        catch (...)
+        {
+            return false;
+        }
+
+        std::cout << "Conectando...\n";
+
         bool conectfl = false;
         cave::mmsql::Connection conn;
         try
