@@ -71,8 +71,9 @@
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config libconfig++ --libs` `pkg-config libmariadb --libs`" />
-			<Add library="cave-mmsql-0" />
+			<Add library="octetos-core-3" />
 			<Add library="cave-mmsql-1" />
+			<Add library="cave-mmsql-0" />
 			<Add directory="../../core/bin/Debug" />
 			<Add directory="../../cave/bin/Debug" />
 		</Linker>

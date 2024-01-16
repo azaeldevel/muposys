@@ -694,8 +694,8 @@ namespace oct::mps::v1
     {
         libconfig::Setting &mmsql = lookup("database")["mmsql"];
         std::string str;
-        str = (std::string)mmsql.lookup("host");
-        std::cout << "Host :" << str << "\n";
+        //str = (std::string)mmsql.lookup("host");
+        //std::cout << "Host :" << str << "\n";
         data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
     }
     void Configuration::get_datasource(cave0::mmsql::Data& data)const

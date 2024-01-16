@@ -328,7 +328,7 @@ namespace oct::mps::v1
         {
             config.open();
             config.get_name(name);
-            std::cout << "name : " << name << "\n";
+            //std::cout << "name : " << name << "\n";
             config.get_datasource(dtm);
         }
         catch (const cave::ExceptionDriver& e)
