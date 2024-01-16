@@ -44,7 +44,7 @@
 
 #include <cave/0/mmsql.hh>
 #include <cave/1/mmsql.hh>
-#include <libconfig.h++>
+#include <core/3/Configuration.hh>
 
 namespace oct::mps::v1
 {
@@ -202,17 +202,9 @@ namespace oct::mps::v1
 
     };
 
-    class Configuration : private libconfig::Config
+    class Configuration : public core::Configuration
     {
     public:
-        struct Version
-        {
-            int major;
-            int minor;
-            int patch;
-            std::string prerelease;
-            std::string build;
-        };
 
 
     public:
@@ -220,29 +212,29 @@ namespace oct::mps::v1
         Configuration(const std::filesystem::path& p);
 
         //std::filesystem::path read(const std::filesystem::path& p);
-        std::filesystem::path create();
-        std::filesystem::path create(const std::filesystem::path& p);
-        std::filesystem::path create(const std::filesystem::path& p,const std::string& server);
-        std::filesystem::path create(const std::filesystem::path& p,const Version&,const cave1::mmsql::Data& data);
-        std::filesystem::path create(const std::filesystem::path& p,const Version&,const cave0::mmsql::Data& data);
-        void open();
-        void open(const std::filesystem::path&);
+        void create();
+        void create(const std::filesystem::path&);
+        void create(const std::filesystem::path& p,const std::string& server);
+        void create(const std::filesystem::path& p,const core::Semver&,const cave1::mmsql::Data& data);
+        //
+        void write(const cave1::mmsql::Data&);
 
-        void get_name(std::string&) const;
-        void get_decorated(std::string&) const;
-        void get_version(Version&)const;
-        void get_datasource(cave1::mmsql::Data&)const;
-        void get_datasource(cave0::mmsql::Data&)const;
+        void open();
+        void open(const std::filesystem::path& p);
+
+
+        const std::string& get_decorated() const;
+        cave1::mmsql::Data get_datasource()const;
 
     private:
-        //std::fstream file;
-        //libconfig::Config config;
-        libconfig::Setting& root;
+
+
     private:
         static const std::filesystem::path configure_directory;
         static const std::filesystem::path configure_file;
         static std::filesystem::path defaul_file();
         static std::filesystem::path defaul_derectory();
+        std::string decorated;
 
     };
 

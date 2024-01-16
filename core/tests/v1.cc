@@ -34,15 +34,14 @@ void v1_configuration_file()
     mps::Configuration config;
     config.create(tmpf_config);
 
-    std::string name;
-    config.get_name(name);
+    std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
 #else
     CU_ASSERT(name.compare("muposys") == 0)
 #endif // OCTETOS_MUPOSYS_V1_TDD
-    mps::Configuration::Version version;
-    config.get_version(version);
+    mps::core::Semver version;
+    version = config.get_version();
     CU_ASSERT(version.major == 1)
     CU_ASSERT(version.minor == 0)
     CU_ASSERT(version.patch == 0)
@@ -56,8 +55,8 @@ void v1_configuration_file()
 #else
     CU_ASSERT(name.compare("muposys") == 0)
 #endif // OCTETOS_MUPOSYS_V1_TDD
-    mps::Configuration::Version version2;
-    config2.get_version(version2);
+    mps::core::Semver version2;
+    version2 = config2.get_version();
     CU_ASSERT(version2.major == 1)
     CU_ASSERT(version2.minor == 0)
     CU_ASSERT(version2.patch == 0)
@@ -65,7 +64,7 @@ void v1_configuration_file()
     CU_ASSERT(version2.build.compare("v1") == 0)
 
     cave1::mmsql::Data dtm;
-    config2.get_datasource(dtm);
+    dtm = config2.get_datasource();
     //CU_ASSERT(dtm.get_host() == "localhost")
     CU_ASSERT(dtm.get_user() == "develop")
     CU_ASSERT(dtm.get_password() == "123456")
