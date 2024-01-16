@@ -83,6 +83,7 @@ namespace oct::mps::v1
         Gtk::Entry *inUser,*inPassword;
         Gtk::Button *btAccept,*btCancel;
         Gtk::InfoBar* infoLogin;
+        Gtk::Label* lbLoginMessage;
         User user;
 
     private:

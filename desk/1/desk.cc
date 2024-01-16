@@ -296,6 +296,9 @@ namespace oct::mps::v1
         builder->get_widget("btCancel", btCancel);
         infoLogin = NULL;
         builder->get_widget("infoLogin", infoLogin);
+        lbLoginMessage = NULL;
+        builder->get_widget("lbLoginMessage", lbLoginMessage);
+        lbLoginMessage->set_text("Usuario/contrasena incirrectos, favor de verificar");
 
         init_data();
     }
@@ -312,11 +315,12 @@ namespace oct::mps::v1
         if(check(user))
         {
             hide();
+            infoLogin->set_visible(false);
         }
         else
         {
             //
-
+            infoLogin->set_visible(true);
         }
     }
     bool Login::check(User& u)
@@ -367,12 +371,12 @@ namespace oct::mps::v1
         }
         catch (const cave::ExceptionDriver& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception : " << e.what() << "\n";
             return false;
         }
         catch (const std::exception& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception : " << e.what() << "\n";
             return false;
         }
         catch (...)
@@ -395,7 +399,7 @@ namespace oct::mps::v1
         }
         catch (const cave::ExceptionDriver& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception " << e.what() << "\n";
             return false;
         }
         catch (...)
