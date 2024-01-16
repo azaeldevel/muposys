@@ -657,7 +657,7 @@ namespace oct::mps::v1
     }
     void Configuration::open()
     {
-        core::Configuration::open();
+        core::Configuration::open(defaul_file());
     }
     void Configuration::open(const std::filesystem::path& p)
     {

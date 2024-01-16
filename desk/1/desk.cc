@@ -327,28 +327,29 @@ namespace oct::mps::v1
         try
         {
             config.open();
-            config.get_name(name);
+            name = config.get_name();
             //std::cout << "name : " << name << "\n";
-            config.get_datasource(dtm);
+            dtm = config.get_datasource();
+            //std::cout << "host : " << dtm.get_host() << "\n";
         }
         catch (const cave::ExceptionDriver& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception: " << e.what() << "\n";
             return false;
         }
         catch (const core::exception& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception: " << e.what() << "\n";
             return false;
         }
         catch (const libconfig::SettingTypeException& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception: " << e.what() << "\n";
             return false;
         }
         catch (const std::exception& e)
         {
-            std::cout << "Exception (cave testing) : " << e.what() << "\n";
+            std::cout << "Exception: " << e.what() << "\n";
             return false;
         }
         catch (...)
@@ -356,7 +357,7 @@ namespace oct::mps::v1
             return false;
         }
 
-        std::cout << "Conectando...\n";
+        //std::cout << "Conectando...\n";
 
         bool conectfl = false;
         cave::mmsql::Connection conn;
@@ -386,7 +387,7 @@ namespace oct::mps::v1
 
         std::vector<User> rs1;
         std::string where;
-        where += "'" + inUser->get_text() + "' and pwdtxt = '" + inPassword->get_text() + "' and status = 3";
+        where += " name = '" + inUser->get_text() + "' and pwdtxt = '" + inPassword->get_text() + "' and status = 3";
         try
         {
             conn.select(rs1,where.c_str());

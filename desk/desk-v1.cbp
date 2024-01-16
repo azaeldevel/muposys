@@ -74,6 +74,8 @@
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config gtkmm-3.0 --libs` `pkg-config libmariadb --libs`" />
+			<Add library="octetos-core-3" />
+			<Add directory="../../core/bin/Debug" />
 		</Linker>
 		<Unit filename="1/desk-SearchItem.cc" />
 		<Unit filename="1/desk-TableSaling.cc" />
