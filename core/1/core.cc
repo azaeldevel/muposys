@@ -28,12 +28,11 @@
 
     #elif defined LINUX_DEBIAN
 
-    #elif LINUX_MSYS2
-        #include <mariadb/mysql.h>
-        #error "Plataforma desconocida."
     #endif
 #elif (defined(_WIN32) || defined(_WIN64))
-
+    #include <unistd.h>
+    #include <sys/types.h>
+    #include <pwd.h>
 #else
 	#error "Plataforma desconocida."
 #endif
