@@ -18,24 +18,7 @@
 
 
 
-#if __linux__
-    #include <unistd.h>
-    #include <sys/types.h>
-    #include <pwd.h>
-    #if defined LINUX_ARCH
-
-    #elif defined LINUX_GENTOO
-
-    #elif defined LINUX_DEBIAN
-
-    #endif
-#elif (defined(_WIN32) || defined(_WIN64))
-    #include <unistd.h>
-    #include <sys/types.h>
-    #include <pwd.h>
-#else
-	#error "Plataforma desconocida."
-#endif
+#include <core/3/platform.hh>
 
 #include "core.hh"
 
@@ -613,17 +596,14 @@ namespace oct::mps::v1
     std::filesystem::path Configuration::defaul_file()
     {
 	    //home directory
-        struct passwd *pw = getpwuid(getuid());
-        std::filesystem::path home = pw->pw_dir;
+        std::filesystem::path home = core::get_user_directory();
 
         //configure directory
         return home/configure_directory/configure_file;
     }
     std::filesystem::path Configuration::defaul_derectory()
     {
-	    //home directory
-        struct passwd *pw = getpwuid(getuid());
-        std::filesystem::path home = pw->pw_dir;
+        std::filesystem::path home = core::get_user_directory();
 
         //configure directory
         return home/configure_directory;
