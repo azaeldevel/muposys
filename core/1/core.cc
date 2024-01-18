@@ -18,7 +18,6 @@
 
 
 
-#include <core/3/platform.hh>
 
 #include "core.hh"
 
@@ -495,14 +494,27 @@ namespace oct::mps::v1
         return std::to_string(id);
 	}
 
-
-    const std::filesystem::path Configuration::configure_directory = ".muposys";
+    //AppData\Local\Microsoft\WindowsApps
+    //const std::filesystem::path Configuration::configure_directory = ".muposys";
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     const std::filesystem::path Configuration::configure_file = "config-dev";
 #else
     const std::filesystem::path Configuration::configure_file = "config";
 #endif // MUPOSYS_CORE_V1_TDD
 
+    std::filesystem::path Configuration::muposys_directory()
+    {
+        if(core::get_platform_type() == core::platform_type::linux)
+        {
+            return ".muposys";
+        }
+        else if(core::get_platform_type() == core::platform_type::linux)
+        {
+            return L"AppData/Local/muposys";
+        }
+
+        return "";
+    }
 	Configuration::Configuration()
 	{
 	}
@@ -599,14 +611,14 @@ namespace oct::mps::v1
         std::filesystem::path home = core::get_user_directory();
 
         //configure directory
-        return home/configure_directory/configure_file;
+        return home/muposys_directory()/configure_file;
     }
     std::filesystem::path Configuration::defaul_derectory()
     {
         std::filesystem::path home = core::get_user_directory();
 
         //configure directory
-        return home/configure_directory;
+        return home/muposys_directory();
     }
     cave1::mmsql::Data Configuration::get_datasource()const
     {

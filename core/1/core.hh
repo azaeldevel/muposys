@@ -25,6 +25,8 @@
 #include <filesystem>
 
 
+#include <core/3/platform.hh>
+
 #if __linux__
     #if defined LINUX_ARCH
 
@@ -230,7 +232,7 @@ namespace oct::mps::v1
 
 
     private:
-        static const std::filesystem::path configure_directory;
+        static std::filesystem::path muposys_directory();
         static const std::filesystem::path configure_file;
         static std::filesystem::path defaul_file();
         static std::filesystem::path defaul_derectory();
