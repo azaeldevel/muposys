@@ -22,7 +22,6 @@ int v1_clean(void)
 void v1_develop()
 {
 
-
 }
 
 void v1_configuration_file()
