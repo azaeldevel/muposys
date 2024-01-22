@@ -31,7 +31,7 @@ void v1_configuration_file()
     //std::cout << "tmpf_config = " << tmpf_config_temp << "\n";
     std::filesystem::path tmpf_config = tmpf_config_temp;
     mps::Configuration config;
-    config.create(tmpf_config);
+    config.create("mps-conf");
 
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
