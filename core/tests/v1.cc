@@ -46,6 +46,7 @@ void v1_configuration_file()
     }
     //std::cout << "MUPOSYS - TEST 1.6\n";
 
+
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
