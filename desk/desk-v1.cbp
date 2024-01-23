@@ -50,11 +50,16 @@
 				<Option type="3" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-g -fPIC" />
+					<Add option="-g -fPIC `pkg-config libconfig++ --cflags`" />
 					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
 				</Compiler>
 				<Linker>
+					<Add option="`pkg-config libconfig++ --libs`" />
+					<Add library="cave-mmsql-0" />
+					<Add library="cave-mmsql-1" />
+					<Add library="muposys-core-1" />
 					<Add directory="../../cave/bin/Debug" />
+					<Add directory="../core/bin/Debug" />
 				</Linker>
 			</Target>
 			<Target title="libmuposys-desk">
