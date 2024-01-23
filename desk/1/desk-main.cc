@@ -48,10 +48,24 @@ int main (int argc, char **argv)
     return 1;
   }
 
+    mps::Application* pApp = NULL;
+  try
+  {
+    refBuilder->get_widget_derived("Application", pApp);
+    if(pApp) app->run(*pApp);
+  }
+  catch(const std::exception& ex)
+  {
+    std::cerr << "FileError: " << ex.what() << std::endl;
+    return 1;
+  }
+  catch(const mps::core::exception& ex)
+  {
+    std::cerr << "BuilderError: " << ex.what() << std::endl;
+    return 1;
+  }
+
   //Get the GtkBuilder-instantiated dialog:
-  mps::Application* pApp = NULL;
-  refBuilder->get_widget_derived("Application", pApp);
-  if(pApp) app->run(*pApp);
   delete pApp;
 
   return 0;

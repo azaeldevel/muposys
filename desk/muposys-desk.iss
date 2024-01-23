@@ -44,6 +44,7 @@ Source: "desk-installer\libstdc++-6.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "desk-installer\mps-desk-v1.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "desk-installer\muposys-core-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "desk-installer\octetos-core-3.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "desk-installer\config-dev"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

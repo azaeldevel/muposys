@@ -547,9 +547,9 @@ namespace oct::mps::v1
 	}
     void Configuration::create(const std::filesystem::path& fullname)
 	{
+	    //std::cout << "archivo :" << fullname << "\n";
 	    core::Configuration::create(fullname);
 	    libconfig::Setting &root = getRoot();
-	    //std::cout << "archivo :" << fullname << "\n";
 
 	    libconfig::Setting &name_setting = lookup("name");
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -583,8 +583,8 @@ namespace oct::mps::v1
         mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
         mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
 #endif
-        save();
-        open();
+        save(fullname);
+        open(fullname);
 	}
     void Configuration::create(const std::filesystem::path& fullname,const std::string& server)
 	{
@@ -605,14 +605,7 @@ namespace oct::mps::v1
     {
         return decorated;
     }
-    std::filesystem::path Configuration::defaul_file()
-    {
-	    //home directory
-        std::filesystem::path home = core::get_user_directory();
 
-        //configure directory
-        return home/muposys_directory()/configure_file;
-    }
     std::filesystem::path Configuration::defaul_derectory()
     {
         std::filesystem::path home = core::get_user_directory();
@@ -653,6 +646,19 @@ namespace oct::mps::v1
     void Configuration::open(const std::filesystem::path& p)
     {
         core::Configuration::open(p);
+    }
+    std::filesystem::path Configuration::defaul_file()
+    {
+        std::filesystem::path workdir;
+#ifdef OCTETOS_MUPOSYS_V1_TDD
+        workdir /= "bin";
+        workdir /= "Debug";
+        workdir /= configure_file;
+#else
+        workdir /= configure_file;
+#endif // OCTETOS_MUPOSYS_V1_TDD
+        //std::cout << "configure_file : " << workdir << "\n";
+        return workdir;
     }
 
 

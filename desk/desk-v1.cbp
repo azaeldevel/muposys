@@ -29,14 +29,16 @@
 			<Target title="Release">
 				<Option output="bin/Release/mps-desk-v1" prefix_auto="1" extension_auto="1" />
 				<Option object_output="bin/Release/obj" />
-				<Option type="0" />
+				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
 				</Compiler>
 				<Linker>
+					<Add option="`pkg-config libconfig++ --libs`" />
 					<Add library="cave-mmsql-0" />
+					<Add library="cave-mmsql-1" />
 					<Add library="muposys-core-1" />
 					<Add directory="../../cave/bin/Release" />
 					<Add directory="../core/bin/Release" />
@@ -62,10 +64,9 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2 -fPIC" />
-					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
 				</Compiler>
 				<Linker>
-					<Add directory="../../cave/bin/Debug" />
+					<Add directory="../../cave/bin/Release" />
 				</Linker>
 			</Target>
 		</Build>
