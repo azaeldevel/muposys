@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+    ServerAdmin azael.devel@gmail.com
+    DocumentRoot "/home/azael/develop/octetos/muposys/server"
+    ServerName muposys.net
+    ServerAlias muposys.net
+    ErrorLog "/var/log/httpd/muposys.net-error_log"
+    CustomLog "/var/log/httpd/muposys.net-access_log" common
+
+    <Directory "/home/azael/develop/octetos/muposys/server">
+    	Options Indexes FollowSymLinks
+       	AllowOverride None
+       	Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerAdmin azael.devel@gmail.com
+    DocumentRoot "/home/azael/develop/octetos/muposys/server"
+    ServerName muposys.net
+    ServerAlias muposys.net
+    #SSLEngine on
+    #SSLCertificateFile "/etc/httpd/conf/server.crt"
+    #SSLCertificateKeyFile "/etc/httpd/conf/server.key"
+    ErrorLog "/var/log/httpd/muposys.net-error_log"
+    CustomLog "/var/log/httpd/muposys.net-access_log" common
+
+    <Directory "/home/azael/develop/octetos/muposys/server">
+    	Options Indexes FollowSymLinks
+       	AllowOverride None
+       	Require all granted
+    </Directory>
+</VirtualHost>

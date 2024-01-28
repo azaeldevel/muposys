@@ -583,6 +583,8 @@ namespace oct::mps::v1
         mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
         mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
 #endif
+
+
         save(fullname);
         open(fullname);
 	}
