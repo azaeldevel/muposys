@@ -18,19 +18,25 @@
 
 
 #include <gtkmm.h>
+#include "muposys.h"
 #include "desk.hh"
 
 namespace mps = oct::mps::v1;
 
 int main (int argc, char **argv)
 {
+
     auto app = Gtk::Application::create(argc, argv, "octetos.muposys.desk");
 
   //Load the Glade file and instantiate its widgets:
   auto refBuilder = Gtk::Builder::create();
   try
   {
+  #if OCTETOS_MUPOSYS_DESK_V1_TDD
     refBuilder->add_from_file("1/muposys.glade");
+  #elif OCTETOS_MUPOSYS_DESK_V1_DEPLOY
+    refBuilder->add_from_file("muposys.glade");
+  #endif
   }
   catch(const Glib::FileError& ex)
   {

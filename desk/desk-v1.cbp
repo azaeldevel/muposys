@@ -13,7 +13,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
-					<Add option="-g `pkg-config libconfig++ --cflags`" />
+					<Add option="-g `pkg-config libconfig++ --cflags` `pkg-config glib-2.0 --cflags`" />
 					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
 				</Compiler>
 				<Linker>
@@ -21,8 +21,10 @@
 					<Add library="cave-mmsql-0" />
 					<Add library="cave-mmsql-1" />
 					<Add library="muposys-core-1" />
+					<Add library="muposys-desk-resources-1" />
 					<Add directory="../../cave/bin/Debug" />
 					<Add directory="../core/bin/Debug" />
+					<Add directory="bin/Debug" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -32,7 +34,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
+					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_DEPLOY" />
 				</Compiler>
 				<Linker>
 					<Add library="cave-mmsql-0" />
@@ -67,24 +69,69 @@
 					<Add directory="../../cave/bin/Debug" />
 				</Linker>
 			</Target>
+			<Target title="libmuposys-desk-resources-dbg">
+				<Option output="bin/Debug/muposys-desk-resources-1" imp_lib="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).a" def_file="$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).def" prefix_auto="1" extension_auto="1" />
+				<Option object_output="bin/Debug/obj" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g -fPIC `pkg-config glib-2.0 --cflags`" />
+					<Add option="-DOCTETOS_MUPOSYS_DESK_V1_TDD" />
+				</Compiler>
+				<Linker>
+					<Add option="`pkg-config glib-2.0 --libs`" />
+					<Add directory="../../cave/bin/Debug" />
+				</Linker>
+				<ExtraCommands>
+					<Add before="glib-compile-resources  1/muposys.xml --sourcedir=1 --target=bin/Debug/muposys.cc --generate-source" />
+					<Add before="glib-compile-resources  1/muposys.xml --sourcedir=1 --target=bin/Debug/muposys.h  --generate-header" />
+				</ExtraCommands>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall -std=c++23 `pkg-config gtkmm-3.0 --cflags ` `pkg-config libmariadb --cflags`   `pkg-config libxml-2.0 --cflags`" />
 			<Add directory="../../../octetos" />
+			<Add directory="bin/Debug" />
 		</Compiler>
 		<Linker>
 			<Add option="`pkg-config gtkmm-3.0 --libs` `pkg-config libmariadb --libs`" />
 			<Add library="octetos-core-3" />
 			<Add directory="../../core/bin/Debug" />
 		</Linker>
-		<Unit filename="1/desk-SearchItem.cc" />
-		<Unit filename="1/desk-TableSaling.cc" />
+		<Unit filename="1/desk-SearchItem.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="libmuposys-desk-dbg" />
+			<Option target="libmuposys-desk" />
+		</Unit>
+		<Unit filename="1/desk-TableSaling.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="libmuposys-desk-dbg" />
+			<Option target="libmuposys-desk" />
+		</Unit>
 		<Unit filename="1/desk-main.cc">
 			<Option target="Debug" />
 			<Option target="Release" />
 		</Unit>
-		<Unit filename="1/desk.cc" />
-		<Unit filename="1/desk.hh" />
+		<Unit filename="1/desk.cc">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="libmuposys-desk-dbg" />
+			<Option target="libmuposys-desk" />
+		</Unit>
+		<Unit filename="1/desk.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+			<Option target="libmuposys-desk-dbg" />
+			<Option target="libmuposys-desk" />
+		</Unit>
+		<Unit filename="bin/Debug/muposys.cc">
+			<Option target="libmuposys-desk-resources-dbg" />
+		</Unit>
+		<Unit filename="bin/Debug/muposys.h">
+			<Option target="libmuposys-desk-resources-dbg" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
