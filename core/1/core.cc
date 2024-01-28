@@ -18,25 +18,6 @@
 
 
 
-#if __linux__
-    #include <unistd.h>
-    #include <sys/types.h>
-    #include <pwd.h>
-    #if defined LINUX_ARCH
-
-    #elif defined LINUX_GENTOO
-
-    #elif defined LINUX_DEBIAN
-
-    #elif LINUX_MSYS2
-        #include <mariadb/mysql.h>
-        #error "Plataforma desconocida."
-    #endif
-#elif (defined(_WIN32) || defined(_WIN64))
-
-#else
-	#error "Plataforma desconocida."
-#endif
 
 #include "core.hh"
 
@@ -513,14 +494,27 @@ namespace oct::mps::v1
         return std::to_string(id);
 	}
 
-
-    const std::filesystem::path Configuration::configure_directory = ".muposys";
+    //AppData\Local\Microsoft\WindowsApps
+    //const std::filesystem::path Configuration::configure_directory = ".muposys";
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     const std::filesystem::path Configuration::configure_file = "config-dev";
 #else
     const std::filesystem::path Configuration::configure_file = "config";
 #endif // MUPOSYS_CORE_V1_TDD
 
+    std::filesystem::path Configuration::muposys_directory()
+    {
+        if(core::get_platform_type() == core::platform_type::linux)
+        {
+            return ".muposys";
+        }
+        else if(core::get_platform_type() == core::platform_type::linux)
+        {
+            return L"AppData/Local/muposys";
+        }
+
+        return "";
+    }
 	Configuration::Configuration()
 	{
 	}
@@ -553,9 +547,9 @@ namespace oct::mps::v1
 	}
     void Configuration::create(const std::filesystem::path& fullname)
 	{
+	    //std::cout << "archivo :" << fullname << "\n";
 	    core::Configuration::create(fullname);
 	    libconfig::Setting &root = getRoot();
-	    //std::cout << "archivo :" << fullname << "\n";
 
 	    libconfig::Setting &name_setting = lookup("name");
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -589,8 +583,8 @@ namespace oct::mps::v1
         mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
         mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
 #endif
-        save();
-        open();
+        save(fullname);
+        open(fullname);
 	}
     void Configuration::create(const std::filesystem::path& fullname,const std::string& server)
 	{
@@ -611,23 +605,13 @@ namespace oct::mps::v1
     {
         return decorated;
     }
-    std::filesystem::path Configuration::defaul_file()
-    {
-	    //home directory
-        struct passwd *pw = getpwuid(getuid());
-        std::filesystem::path home = pw->pw_dir;
 
-        //configure directory
-        return home/configure_directory/configure_file;
-    }
     std::filesystem::path Configuration::defaul_derectory()
     {
-	    //home directory
-        struct passwd *pw = getpwuid(getuid());
-        std::filesystem::path home = pw->pw_dir;
+        std::filesystem::path home = core::get_user_directory();
 
         //configure directory
-        return home/configure_directory;
+        return home/muposys_directory();
     }
     cave1::mmsql::Data Configuration::get_datasource()const
     {
@@ -662,6 +646,19 @@ namespace oct::mps::v1
     void Configuration::open(const std::filesystem::path& p)
     {
         core::Configuration::open(p);
+    }
+    std::filesystem::path Configuration::defaul_file()
+    {
+        std::filesystem::path workdir;
+#ifdef OCTETOS_MUPOSYS_V1_TDD
+        workdir /= "bin";
+        workdir /= "Debug";
+        workdir /= configure_file;
+#else
+        workdir /= configure_file;
+#endif // OCTETOS_MUPOSYS_V1_TDD
+        //std::cout << "configure_file : " << workdir << "\n";
+        return workdir;
     }
 
 

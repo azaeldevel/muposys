@@ -228,7 +228,7 @@ namespace oct::mps::v1
         //
         Saling *saling = NULL;
         builder->get_widget_derived("Saling", saling,Crud::create);
-        stack->add(*saling,std::to_string((long)saling),"Ventas - Caja 1");
+        stack->add(*saling,std::to_string((long long)saling),"Ventas - Caja 1");
         /*
         Saling *saling2 = NULL;
         builder->get_widget_derived("Saling", saling2);

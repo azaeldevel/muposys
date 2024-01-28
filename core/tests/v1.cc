@@ -22,17 +22,30 @@ int v1_clean(void)
 void v1_develop()
 {
 
-
 }
 
 void v1_configuration_file()
 {
+    //std::cout << "MUPOSYS - TEST 1\n";
     char* tmpf_config_temp = tmpnam(NULL);
+    //std::cout << "MUPOSYS - TEST 1.2\n";
     //int tmpf_hanle = mkstemp(tmpf_config_temp);
     //std::cout << "tmpf_config = " << tmpf_config_temp << "\n";
+    //std::cout << "MUPOSYS - TEST 1.3\n";
     std::filesystem::path tmpf_config = tmpf_config_temp;
+    //std::cout << "MUPOSYS - TEST 1.4\n";
     mps::Configuration config;
-    config.create(tmpf_config);
+    //std::cout << "MUPOSYS - TEST 1.5\n";
+    try
+    {
+        config.create(tmpf_config_temp);
+    }
+    catch(const mps::core::exception& e)
+    {
+        std::cout << e.what()<<"\n";
+    }
+    //std::cout << "MUPOSYS - TEST 1.6\n";
+
 
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -48,6 +61,7 @@ void v1_configuration_file()
     CU_ASSERT(version.prerelease.compare("alpha") == 0)
     CU_ASSERT(version.build.compare("v1") == 0)
 
+    //std::cout << "MUPOSYS - TEST 2\n";
     mps::Configuration config2;
     config2.create();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
