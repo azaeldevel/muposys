@@ -30,14 +30,14 @@ int main (int argc, char **argv)
 
   //Load the Glade file and instantiate its widgets:
   auto refBuilder = Gtk::Builder::create();
-  try
-  {
-  #if OCTETOS_MUPOSYS_DESK_V1_TDD
-    refBuilder->add_from_file("1/muposys.glade");
-  #elif OCTETOS_MUPOSYS_DESK_V1_DEPLOY
-    refBuilder->add_from_file("muposys.glade");
-  #endif
-  }
+    try
+    {
+#if OCTETOS_MUPOSYS_DESK_V1_TDD
+        refBuilder->add_from_file("1/muposys.glade");
+#elif OCTETOS_MUPOSYS_DESK_V1_DEPLOY
+        refBuilder->add_from_file("muposys.glade");
+#endif
+    }
   catch(const Glib::FileError& ex)
   {
     std::cerr << "FileError: " << ex.what() << std::endl;
