@@ -1,0 +1,22 @@
+name = "muposys(dev)";
+version : 
+{
+  major = 1;
+  minor = 0;
+  patch = 0;
+  prerelease = "alpha";
+  build = "v1";
+};
+decorated = "Multi-Porpuse Software System";
+database : 
+{
+  mmsql : 
+  {
+    host = "localhost";
+    port = 3306;
+    flags = 0;
+    database = "muposys-dev";
+    user = "develop";
+    password = "123456";
+  };
+};
