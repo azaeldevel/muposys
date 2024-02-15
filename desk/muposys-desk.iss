@@ -7,7 +7,7 @@
 #define MyAppVersion "1.0.0-alpha"
 #define MyAppPublisher "Octetos, Inc."
 #define MyAppURL "https://www.example.com/"
-#define MyAppExeName "ucrt64\bin\mps-desk-v1.exe"
+#define MyAppExeName "mps-desk-v1.exe"
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".mps"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt

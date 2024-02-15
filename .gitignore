@@ -186,4 +186,5 @@ core/muposys-core/.vs
 *-old.*
 core/src/muposysdb.*
 desk/desk-installer
+desk/Output
 
