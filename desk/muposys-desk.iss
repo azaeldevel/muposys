@@ -7,7 +7,7 @@
 #define MyAppVersion "1.0.0-alpha"
 #define MyAppPublisher "Octetos, Inc."
 #define MyAppURL "https://www.example.com/"
-#define MyAppExeName "mps-desk-v1.exe"
+#define MyAppExeName "ucrt64\bin\mps-desk-v1.exe"
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".mps"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
@@ -41,17 +41,19 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "bin\desk-installer\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion 
-Source: "..\..\core\bin\Release\octetos-core-3.dll"; DestDir: "{app}"; Flags: ignoreversion     
-Source: "..\..\cave\bin\Release\cave-mmsql-0.dll"; DestDir: "{app}"; Flags: ignoreversion   
-Source: "..\..\cave\bin\Release\cave-mmsql-1.dll"; DestDir: "{app}"; Flags: ignoreversion       
-Source: "..\core\bin\Release\muposys-core-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\Release\muposys-desk-1.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\desk-installer\*.dll"; DestDir: "{app}"; Flags: ignoreversion   
-Source: "bin\desk-installer\config-dev"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\desk-installer\share\*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs  
-Source: "bin\desk-installer\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs  
-Source: "bin\desk-installer\muposys.glade"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\desk-installer\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+;Source: "bin\desk-installer\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion 
+;Source: "bin\desk-installer\*.dll"; DestDir: "{app}"; Flags: ignoreversion   
+;Source: "bin\desk-installer\config-dev"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "bin\desk-installer\share\*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs  
+;Source: "bin\desk-installer\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs  
+;Source: "bin\desk-installer\muposys.glade"; DestDir: "{app}"; Flags: ignoreversion     
+
+;Source: "..\..\core\bin\Release\octetos-core-3.dll"; DestDir: "{app}"; Flags: ignoreversion     
+;Source: "..\..\cave\bin\Release\cave-mmsql-0.dll"; DestDir: "{app}"; Flags: ignoreversion   
+;Source: "..\..\cave\bin\Release\cave-mmsql-1.dll"; DestDir: "{app}"; Flags: ignoreversion       
+;Source: "..\core\bin\Release\muposys-core-1.dll"; DestDir: "{app}"; Flags: ignoreversion   
+;Source: "bin\Release\muposys-desk-1.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
