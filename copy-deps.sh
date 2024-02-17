@@ -32,6 +32,8 @@ if [ -f "$DIRECTORY/$NAME" ] ; then
 	exit
 fi
 
+REPEAT="N"
+
 echo "copiying platform deps.."
 list=`ntldd $1`
 readarray -t lines <<<"$list"
@@ -62,15 +64,24 @@ do
 		continue
 	fi
 	echo "Procesando $dll.."
-	cp -v $dll $DIRECTORY
+	
 	NAME="$(basename -- $1)"
 	if [ -f "$DIRECTORY/$NAME" ] ; then
-		echo "Already exists $DIRECTORY/$NAME.."	
 		if [ "$4" == "--check-againg" ]
 		then
-			$0 $dll $DIRECTORY $TARGET "--check-no"		
+			REPEAT="Y"
+		else 
+			echo "Already exists $DIRECTORY/$NAME.."
+			REPEAT="N"
 		fi			
 	else 
-		$0 $dll $DIRECTORY $TARGET "--check-no"	
+		REPEAT="N"
 	fi 
+	cp -uv $dll $DIRECTORY
+	if [ "$REPEAT" == "Y" ]
+	then
+			$0 $dll $DIRECTORY $TARGET "--check-no"	
+	else 
+			echo "Already exists $DIRECTORY/$NAME.."				
+	fi
 done
