@@ -1,7 +1,7 @@
 #!/bin/sh
 #https://gist.github.com/mjakeman/0add69647a048a5e262d591072c7facb
 
-echo "Running for $1"
+
 TARGET=""
 DIRECTORY=""
 PLATFORM="/ucrt64"
@@ -41,36 +41,4 @@ cp desk/bin/$TARGET/mps-desk-v1.exe $DIRECTORY
 cp desk/bin/$TARGET/muposys-desk-1.dll $DIRECTORY
 
 
-echo "copiying platform deps.."
-list=`ntldd desk/bin/$TARGET/$1`
-readarray -t lines <<<"$list"
-#echo ${lines[0]}
-mkdir -p $DIRECTORY
-for line in "${lines[@]}"
-do
-	#echo "$dll.."
-	dll=`sed 's/[^"]*\(C:[^"]*.dll\) ([^"]*)/\1/' <<< "$line"`
-	#echo "$dll.."
-	WINDIR="$(dirname "${dll}")"
-	WINFILE="$(basename "${dll}")"
-	if [ -f "$WINFILE" ] ; then
-		echo "Skiping $dll.."
-		continue
-	fi
-	#echo "dir:$WINDIR"
-	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
-		echo "Skiping $dll.."
-		continue
-	fi
-	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
-		echo "Skiping $dll.."
-		continue
-	fi
-	if ! [ -f "$dll" ] ; then
-		echo "$dll"
-		continue
-	fi
-	echo "Procesando $dll.."
-	cp -v $dll $DIRECTORY
-	$0 $dll $DIRECTORY
-done
+./copy-deps.sh $1 $DIRECTORY $TARGET "--check-againg"
