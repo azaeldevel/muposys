@@ -44,10 +44,10 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "bin\desk-installer\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
 ;Source: "bin\desk-installer\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion 
 ;Source: "bin\desk-installer\*.dll"; DestDir: "{app}"; Flags: ignoreversion   
-;Source: "bin\desk-installer\config-dev"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\desk-installer\config-dev"; DestDir: "{app}"; Flags: ignoreversion
 ;Source: "bin\desk-installer\share\*"; DestDir: "{app}\share"; Flags: ignoreversion recursesubdirs  
 ;Source: "bin\desk-installer\etc\*"; DestDir: "{app}\etc"; Flags: ignoreversion recursesubdirs  
-;Source: "bin\desk-installer\muposys.glade"; DestDir: "{app}"; Flags: ignoreversion     
+Source: "bin\desk-installer\muposys.glade"; DestDir: "{app}"; Flags: ignoreversion     
 
 ;Source: "..\..\core\bin\Release\octetos-core-3.dll"; DestDir: "{app}"; Flags: ignoreversion     
 ;Source: "..\..\cave\bin\Release\cave-mmsql-0.dll"; DestDir: "{app}"; Flags: ignoreversion   

@@ -37,8 +37,8 @@ echo "copiying octetos deps.."
 cp ../core/bin/$TARGET/muposys-core-1.dll $DIRECTORY
 cp ../../cave/bin/$TARGET/cave-mmsql-0.dll $DIRECTORY
 cp ../../cave/bin/$TARGET/cave-mmsql-1.dll $DIRECTORY
-cp bin/$TARGET/mps-desk-v1.exe $DIRECTORY
-cp bin/$TARGET/muposys-desk-1.dll $DIRECTORY
+cp bin/Release/mps-desk-v1.exe $DIRECTORY
+cp bin/Release/muposys-desk-1.dll $DIRECTORY
 
 cp -u 1/muposys.glade $DIRECTORY
 
