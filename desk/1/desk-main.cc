@@ -27,19 +27,21 @@ int main (int argc, char **argv)
 {
     auto app = Gtk::Application::create(argc, argv, "octetos.muposys.desk");
 
+    std::filesystem::path glade;
+#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
+    glade = "1/muposys.glade";
+#else
+    glade = "muposys.glade";
+#endif
     //Load the Glade file and instantiate its widgets:
     auto refBuilder = Gtk::Builder::create();
     try
     {
-#ifdef OCTETOS_MUPOSYS_DESK_V1_TDD
-        refBuilder->add_from_file("1/muposys.glade");
-#else
-        refBuilder->add_from_file("muposys.glade");
-#endif
+        refBuilder->add_from_file(glade.string().c_str());
     }
     catch(const Glib::FileError& ex)
     {
-        std::cerr << "FileError: " << ex.what() << std::endl;
+        std::cerr << "File(galde) error: " << ex.what() << std::endl;
         return 1;
     }
     catch(const Glib::MarkupError& ex)
