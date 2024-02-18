@@ -34,7 +34,7 @@ fi
 
 REPEAT="N"
 
-echo "copiying platform deps.."
+#echo "copiying platform deps.."
 list=`ntldd $1`
 readarray -t lines <<<"$list"
 #echo ${lines[0]}
@@ -43,7 +43,7 @@ for line in "${lines[@]}"
 do
 	#echo "$dll.."
 	dll=`sed 's/[^"]*\(C:[^"]*.dll\) ([^"]*)/\1/' <<< "$line"`
-	#echo "$dll.."
+	echo "Procesando $dll.."
 	WINDIR="$(dirname "${dll}")"
 	WINFILE="$(basename "${dll}")"
 	if [ -f "$WINFILE" ] ; then
@@ -59,12 +59,30 @@ do
 		echo "Skiping $dll.."
 		continue
 	fi
-	if ! [ -f "$dll" ] ; then
+	cp -uv $dll $DIRECTORY
+done
+
+for line in "${lines[@]}"
+do
+	#echo "$dll.."
+	dll=`sed 's/[^"]*\(C:[^"]*.dll\) ([^"]*)/\1/' <<< "$line"`
+	echo "Procesando $dll.."
+	WINDIR="$(dirname "${dll}")"
+	WINFILE="$(basename "${dll}")"
+	if [ -f "$WINFILE" ] ; then
 		echo "Skiping $dll.."
 		continue
 	fi
-	echo "Procesando $dll.."
-	
+	#echo "dir:$WINDIR"
+	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
+		echo "Skiping $dll.."
+		continue
+	fi
+	if [ "$WINDIR" = "C:\Windows\SYSTEM32" ]; then
+		echo "Skiping $dll.."
+		continue
+	fi
+	echo "Procesando $dll.."	
 	NAME="$(basename -- $1)"
 	if [ -f "$DIRECTORY/$NAME" ] ; then
 		if [ "$4" == "--check-againg" ]
@@ -80,8 +98,9 @@ do
 	cp -uv $dll $DIRECTORY
 	if [ "$REPEAT" == "Y" ]
 	then
-			$0 $dll $DIRECTORY $TARGET "--check-no"	
+			$0 $dll $DIRECTORY $TARGET "--check-againg"	
 	else 
-			echo "Already exists $DIRECTORY/$NAME.."				
+			echo "Already exists $DIRECTORY/$NAME.."	
+			$0 $dll $DIRECTORY $TARGET "--check-no"
 	fi
 done
