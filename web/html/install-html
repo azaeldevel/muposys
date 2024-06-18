@@ -1,0 +1,49 @@
+#!/bin/bash
+
+MIDDLESERVER=""
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+	ManjaroLinux)   
+		MIDDLESERVER="srv/http"
+	;;
+	*)
+	echo "Servidor desconocido."
+esac
+DOCUMENTROOT=""
+
+if [ "$1" ]; then
+  DOCUMENTROOT=$1
+else
+  echo "Deve indicar el Documento raiz para el servidor"
+  exit
+fi
+SITE=""
+if [ "$2" ]; then
+  SITE=$2
+else
+  echo "Deve indicar el Documento raiz para el servidor"
+  exit
+fi
+
+SERVER="$DOCUMENTROOT/$MIDDLESERVER/$SITE"
+
+echo $SERVER
+
+if [ ! -d "$SERVER/theme/gnome-2.91" ] ; then
+	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then
+		wget https://download.gnome.org/sources/gnome-icon-theme/2.91/gnome-icon-theme-2.91.93.tar.bz2
+	fi
+	mkdir gnome-2.91
+	tar -xjf gnome-icon-theme-2.91.93.tar.bz2 -C gnome-2.91 --strip-components=1
+	mkdir -p $SERVER/theme/gnome-2.91
+	mv gnome-2.91/gnome/* $SERVER/theme/gnome-2.91/
+	rm -r gnome-2.91
+fi
+
+cp index.html $SERVER
+cp login.html $SERVER
+cp user-mang.html $SERVER
+cp user-register.html $SERVER
+cp -r user-mang $SERVER
+cp -r css $SERVER
+cp -r js $SERVER

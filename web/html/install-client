@@ -4,7 +4,7 @@
 #WEBDIRECTORY="/var/www/muposys"
 #WEBDIRECTORY="/var/www/vhosts/muposys/html"
 #WEBDIRECTORY="/srv/http/"
-
+DOCUMENTROOT=""
 DISTRO=$(lsb_release -i | cut -c 16- | xargs)
 case $DISTRO in
     Redcore)
