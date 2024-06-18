@@ -27,7 +27,7 @@ fi
 
 SERVER="$DOCUMENTROOT/$MIDDLESERVER/$SITE"
 
-echo $SERVER
+#echo $SERVER
 
 if [ ! -d "$SERVER/theme/gnome-2.91" ] ; then
 	if [ ! -f "gnome-icon-theme-2.91.93.tar.bz2" ]; then

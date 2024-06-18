@@ -1,0 +1,32 @@
+#!/bin/bash
+
+MIDDLESERVER=""
+DISTRO=$(lsb_release -i | cut -c 16- | xargs)
+case $DISTRO in
+	ManjaroLinux)   
+		MIDDLESERVER="srv/http"
+	;;
+	*)
+	echo "Servidor desconocido."
+esac
+DOCUMENTROOT=""
+
+if [ "$1" ]; then
+  DOCUMENTROOT=$1
+else
+  echo "Deve indicar el Documento raiz para el servidor"
+  exit
+fi
+SITE=""
+if [ "$2" ]; then
+  SITE=$2
+else
+  echo "Deve indicar el Documento raiz para el servidor"
+  exit
+fi
+
+SERVER="$DOCUMENTROOT/$MIDDLESERVER/$SITE"
+
+#echo $SERVER
+
+
