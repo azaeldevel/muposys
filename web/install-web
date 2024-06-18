@@ -1,10 +1,12 @@
 #!/bin/bash
 
 MIDDLESERVER=""
+CGISERVER=""
 DISTRO=$(lsb_release -i | cut -c 16- | xargs)
 case $DISTRO in
 	ManjaroLinux)   
 		MIDDLESERVER="srv/http"
+		CGISERVER="srv/cgi"
 	;;
 	*)
 	echo "Servidor desconocido."
@@ -26,7 +28,7 @@ else
 fi
 
 SERVER="$DOCUMENTROOT/$MIDDLESERVER/$SITE"
-
+CGI="$DOCUMENTROOT/$CGISERVER/$SITE"
 #echo $SERVER
 
-
+cp bin/Debug/login $CGI/
