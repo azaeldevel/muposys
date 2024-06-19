@@ -1,6 +1,7 @@
 #ifndef MUPOSYS_WEB_HTML_HH
 #define MUPOSYS_WEB_HTML_HH
 
+#include <stdio.h>
 #include <iostream>
 #include <vector>
 #include <filesystem>
@@ -166,8 +167,9 @@ namespace oct::mps::v1
 	{
 
 	public:
-		Parameters(EnviromentCGI);
+		//Parameters(EnviromentCGI);
 		Parameters(std::istream&);
+		Parameters(const std::string&);
 
 		const char* find(const char*)const;
 

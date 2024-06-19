@@ -23,18 +23,34 @@ namespace mps = oct::mps::v1;
 
 int main ()
 {
+	/*
 	mps::server::Login login;
 	return login.main();
-	/*
-	printf("Content-type: text/html\n\n");
- 	printf("<html><title>Hello</title><body>\n");
-
-	std::cout << "Presesando...\n";
-	mps::Parameters params(std::cin);
-
-
- 	printf("<br><br>\n");
- 	printf("</body></html>");
 	*/
+
+	std::cout << "Content-type:text/html\r\n\r\n";
+    std::cout << "<html>\n";
+    std::cout << "<head>\n";
+    std::cout << "<title>Hello World - First CGI Program</title>\n";
+    std::cout << "</head>\n";
+    std::cout << "<body>\n";
+
+    std::string strin;
+    std::cin >> strin;
+    std::cout << "<h2>";
+    std::cout << strin;
+    /*
+    mps::Parameters params(std::cin);
+    std::cout << params.size() << "<br>";
+    for(auto const& s : params)
+    {
+        std::cout << s.first << " => " << s.second << "<br>";
+    }
+    */
+    std::cout << "</h2>\n";
+    std::cout << "</body>\n";
+    std::cout << "</html>\n";
+
+    return 0;
 }
 

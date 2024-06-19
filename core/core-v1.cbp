@@ -63,7 +63,7 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
-					<Add option="-O2 -fPIC" />
+					<Add option="-fPIC -O2 `pkg-config libconfig++ --cflags`" />
 				</Compiler>
 				<Linker>
 					<Add library="cave-mmsql-0" />

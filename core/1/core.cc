@@ -506,15 +506,36 @@ namespace oct::mps::v1
     {
         if(core::get_platform_type() == core::platform_type::linux)
         {
+#ifdef OCTETOS_MUPOSYS_V1_TDD
             return ".muposys";
+#else
+            return "/etc/muposys";
+#endif // MUPOSYS_CORE_V1_TDD
         }
-        else if(core::get_platform_type() == core::platform_type::linux)
+        else if(core::get_platform_type() == core::platform_type::windows)
         {
             return L"AppData/Local/muposys";
         }
 
         return "";
     }
+
+    std::filesystem::path Configuration::default_file()
+    {
+        std::filesystem::path home = core::get_user_directory();
+
+        //configure directory
+        return home/muposys_directory()/configure_file;
+    }
+
+    std::filesystem::path Configuration::defaul_derectory()
+    {
+        std::filesystem::path home = core::get_user_directory();
+
+        //configure directory
+        return home/muposys_directory();
+    }
+
 	Configuration::Configuration()
 	{
 	}
@@ -526,7 +547,7 @@ namespace oct::mps::v1
 
 	void Configuration::create()
 	{
-        std::filesystem::path fullname = defaul_file();
+        std::filesystem::path fullname = default_file();
         //std::cout << fullname << "\n";
         if(std::filesystem::exists(fullname))
         {
@@ -608,13 +629,6 @@ namespace oct::mps::v1
         return decorated;
     }
 
-    std::filesystem::path Configuration::defaul_derectory()
-    {
-        std::filesystem::path home = core::get_user_directory();
-
-        //configure directory
-        return home/muposys_directory();
-    }
     cave1::mmsql::Data Configuration::get_datasource()const
     {
         libconfig::Setting &mmsql = lookup("database")["mmsql"];
@@ -643,24 +657,11 @@ namespace oct::mps::v1
     }
     void Configuration::open()
     {
-        core::Configuration::open(defaul_file());
+        core::Configuration::open(default_file());
     }
     void Configuration::open(const std::filesystem::path& p)
     {
         core::Configuration::open(p);
-    }
-    std::filesystem::path Configuration::defaul_file()
-    {
-        std::filesystem::path workdir;
-#ifdef OCTETOS_MUPOSYS_V1_TDD
-        workdir /= "bin";
-        workdir /= "Debug";
-        workdir /= configure_file;
-#else
-        workdir /= configure_file;
-#endif // OCTETOS_MUPOSYS_V1_TDD
-        //std::cout << "configure_file : " << workdir << "\n";
-        return workdir;
     }
 
 

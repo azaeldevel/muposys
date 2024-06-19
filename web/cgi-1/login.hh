@@ -18,6 +18,8 @@ public:
 	Login();
 	~Login();
 
+	bool check(const Parameters&);
+
 	virtual int main(std::ostream& out = std::cout);
 
 

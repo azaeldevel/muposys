@@ -221,6 +221,9 @@ namespace oct::mps::v1
         //
         void write(const cave1::mmsql::Data&);
 
+        /**
+        *\brief open the file by default
+        **/
         void open();
         void open(const std::filesystem::path& p);
 
@@ -228,14 +231,15 @@ namespace oct::mps::v1
         const std::string& get_decorated() const;
         cave1::mmsql::Data get_datasource()const;
 
-    private:
-
-
-    private:
-        static std::filesystem::path muposys_directory();
-        static const std::filesystem::path configure_file;
-        static std::filesystem::path defaul_file();
+        static std::filesystem::path default_file();
         static std::filesystem::path defaul_derectory();
+        static std::filesystem::path muposys_directory();
+
+    private:
+
+
+    private:
+        static const std::filesystem::path configure_file;
         std::string decorated;
 
     };

@@ -21,6 +21,7 @@
 
 
 #include "login.hh"
+#include "../../core/1/core.hh"
 
 
 namespace oct::mps::v1::server
@@ -35,18 +36,62 @@ Login::~Login()
 {
 }
 
+bool Login::check(const Parameters& params)
+{
+    std::cout << "Login::check : Step 1.0<br>\n";
+	std::string userstr, password;
 
+	std::cout << "Login::check : Step 1.1<br>\n";
+	if(params.find("user")) userstr = params.find("user");
+	std::cout << "Login::check : Step 1.3<br>\n";
+	if(params.find("psw")) password = params.find("psw");
+	std::cout << "Login::check : Step 1.4<br>\n";
+
+	Configuration config(Configuration::default_file());
+    //std::cout << config3.get_file_name() << "\n";
+    cave1::mmsql::Data data = config.get_datasource();
+
+    bool conectfl = false;
+	cave1::mmsql::Connection conn;
+	try
+	{
+		conectfl = conn.connect(data, true);
+	}
+	catch (const cave::ExceptionDriver& e)
+	{
+		std::cout << "Exception (cave testing) : " << e.what() << "\n";
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "Exception (cave testing) : " << e.what() << "\n";
+	}
+	catch (const core::exception& e)
+	{
+		std::cout << "Exception (cave testing) : " << e.what() << "\n";
+	}
+	catch (...)
+	{
+	}
+
+	//std::cout << "running\n";
+
+    User user;
+
+
+	return false;
+}
 bool Login::check(std::string& strs)
 {
-	//std::cout << "Login::check : Step 1.0<br>\n";
+	std::cout << "Login::check : Step 1.0<br>\n";
 	std::string userstr, password;
-	//std::cout << "Login::check : Step 1.1<br>\n";
 
 	PostParams postparams;
+	std::cout << "Login::check : Step 1.1<br>\n";
 	if(postparams.find("user")) userstr = postparams.find("user");
+	std::cout << "Login::check : Step 1.3<br>\n";
 	if(postparams.find("psw")) password = postparams.find("psw");
+	std::cout << "Login::check : Step 1.4<br>\n";
 
-	//std::cout << "check : Step 6<br>\n";
 
 	User* userbd;
 	std::string strwhere = "name = ";
@@ -60,6 +105,7 @@ bool Login::check(std::string& strs)
 	}
 	catch (const cave0::ExceptionDriver&)
 	{
+
 	}
 	catch (...)
 	{
@@ -81,7 +127,6 @@ bool Login::check(std::string& strs)
 		userbd = &usrlst.at(0);
 	}
 
-	//std::cout << "check : Step 4\n<br>";
 
 	//if(userbd->size() == 1)
 	{
@@ -122,24 +167,24 @@ bool Login::check(std::string& strs)
 		delete usrlst;
 	}*/
 
-	//std::cout << (fluser? "check pass" : "check fail") << "\n";
+	std::cout << "Login::check : Step 1.5<br>\n";
 	return fluser;
 }
 int Login::main(std::ostream& out)
 {
-	/*mps::contenttype(out,"text","html");
+	contenttype(out,"text","html");
 	std::string strsession;
 	try
 	{
 		if(check(strsession))
 		{
 			std::string url = "application.cgi?session=" + strsession;
-			//out << "url : " << url << "\n";
+			out << "url : " << url << "\n";
 			head.redirect(0,url.c_str());
 		}
 		else
 		{
-			//out << "Location:/login.html?failure\n\n";
+			out << "Location:/login.html?failure\n\n";
 			head.redirect(0,"login.html?failure");
 		}
 		head.print(out);
@@ -151,7 +196,7 @@ int Login::main(std::ostream& out)
 		//head.redirect(0,"/login.html?error");
 		//head.print(out);
 		return EXIT_FAILURE;
-	}*/
+	}
 
 	return EXIT_SUCCESS;
 }

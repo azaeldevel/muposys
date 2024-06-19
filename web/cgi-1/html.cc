@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <ctime>
+#include <core/3/string.hh>
 
 #include "html.hh"
 
@@ -728,13 +729,30 @@ CGI::~CGI()
 }
 
 
-Parameters::Parameters(EnviromentCGI env)
+/*Parameters::Parameters(EnviromentCGI env)
 {
 	if(env == EnviromentCGI::QUERY_STRING) build_query_string();
-}
+}*/
 Parameters::Parameters(std::istream& in)
 {
 	build(in);
+}
+Parameters::Parameters(const std::string& in)
+{
+	std::vector<std::string> vec = core::split(in,"&");
+	std::vector<std::string> sub;
+	for(const std::string& s : vec)
+    {
+        sub = core::split(s,"=");
+        if(sub.size() == 2)
+        {
+            insert(make_pair(sub[0],sub[1]));
+        }
+        else if(sub.size() == 1)
+        {
+            insert(make_pair(sub[0],""));
+        }
+    }
 }
 void Parameters::build_query_string()
 {
@@ -787,7 +805,7 @@ const char* Parameters::find(const char* k) const
 }
 
 
-GetParams::GetParams() : Parameters(EnviromentCGI::QUERY_STRING)
+GetParams::GetParams() : Parameters(std::cin)
 {
 }
 

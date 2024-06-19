@@ -46,6 +46,7 @@ void v1_configuration_file()
     }
     //std::cout << "MUPOSYS - TEST 1.6\n";
 
+    //std::cout << mps::Configuration::defaul_file() << "\n";
 
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -87,4 +88,9 @@ void v1_configuration_file()
 #else
     CU_ASSERT(dtm.get_database() == "muposys")
 #endif // OCTETOS_MUPOSYS_V1_TDD
+
+    mps::Configuration config3(mps::Configuration::default_file());
+    //std::cout << config3.get_file_name() << "\n";
+    cave1::mmsql::Data data = config3.get_datasource();
+
 }

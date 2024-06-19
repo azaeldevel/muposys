@@ -32,9 +32,9 @@ CGI="$SERVER/cgi"
 #echo $SERVER
 
 mkdir -p $CGI
-cp bin/Debug/login $CGI/login.cgi
 cp ../../core/bin/Debug/liboctetos-core-3.so $CGI
 cp ../../cave/bin/Debug/libcave-mmsql-0.so $CGI
 cp ../../cave/bin/Debug/libcave-mmsql-1.so $CGI
 cp ../core/bin/Debug/libmuposys-core-1.so $CGI
 cp bin/Debug/libmuposys-web-1.so $CGI
+cp bin/Debug/login $CGI/login.cgi
