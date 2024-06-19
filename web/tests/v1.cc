@@ -49,7 +49,7 @@ void v1_developing()
 
 
     mps::server::Login login;
-    login.check(params);
+    CU_ASSERT(login.check(params));
 
 }
 

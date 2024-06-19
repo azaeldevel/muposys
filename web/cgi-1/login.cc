@@ -38,14 +38,14 @@ Login::~Login()
 
 bool Login::check(const Parameters& params)
 {
-    std::cout << "Login::check : Step 1.0<br>\n";
+    //std::cout << "Login::check : Step 1.0<br>\n";
 	std::string userstr, password;
 
-	std::cout << "Login::check : Step 1.1<br>\n";
+	//std::cout << "Login::check : Step 1.1<br>\n";
 	if(params.find("user")) userstr = params.find("user");
-	std::cout << "Login::check : Step 1.3<br>\n";
+	//std::cout << "Login::check : Step 1.3<br>\n";
 	if(params.find("psw")) password = params.find("psw");
-	std::cout << "Login::check : Step 1.4<br>\n";
+	//std::cout << "Login::check : Step 1.4<br>\n";
 
 	Configuration config(Configuration::default_file());
     //std::cout << config3.get_file_name() << "\n";
@@ -73,10 +73,32 @@ bool Login::check(const Parameters& params)
 	{
 	}
 
-	//std::cout << "running\n";
+	std::string where;
+	where = "user=";
+	where += userstr;
+	where += " and ";
+	where += "pws=";
+	where += "'";
+	where += password;
+	where += "'";
 
-    User user;
+	std::cout << where << "\n";
 
+    std::vector<User> rsuser;
+    try
+    {
+		 conn.select(rsuser,where.c_str());
+	}
+	catch (const cave::ExceptionDriver&)
+	{
+	    return false;
+	}
+	catch (...)
+	{
+	    return false;
+	}
+
+	if(rsuser.size() == 1) return true;
 
 	return false;
 }
