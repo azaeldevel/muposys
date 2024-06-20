@@ -80,7 +80,7 @@ bool Login::check(const Parameters& params)
 	where += "pwdtxt=";
 	where += "'";
 	where += password;
-	where += "'";
+	where += "' and status = 3";
 
 	std::cout << where << "\n";
 
