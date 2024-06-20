@@ -74,10 +74,10 @@ bool Login::check(const Parameters& params)
 	}
 
 	std::string where;
-	where = "id=";
+	where = "name=";
 	where += userstr;
 	where += " and ";
-	where += "pws=";
+	where += "pwdtxt=";
 	where += "'";
 	where += password;
 	where += "'";
