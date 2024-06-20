@@ -729,30 +729,23 @@ CGI::~CGI()
 }
 
 
+Parameters::Parameters()
+{
+    std::cin >> strdata;
+	split(strdata);
+}
 /*Parameters::Parameters(EnviromentCGI env)
 {
 	if(env == EnviromentCGI::QUERY_STRING) build_query_string();
 }*/
 Parameters::Parameters(std::istream& in)
 {
-	build(in);
+    in >> strdata;
+	split(strdata);
 }
-Parameters::Parameters(const std::string& in)
+Parameters::Parameters(const std::string& in) : strdata(in)
 {
-	std::vector<std::string> vec = core::split(in,"&");
-	std::vector<std::string> sub;
-	for(const std::string& s : vec)
-    {
-        sub = core::split(s,"=");
-        if(sub.size() == 2)
-        {
-            insert(make_pair(sub[0],sub[1]));
-        }
-        else if(sub.size() == 1)
-        {
-            insert(make_pair(sub[0],""));
-        }
-    }
+	split(in);
 }
 void Parameters::build_query_string()
 {
@@ -794,6 +787,23 @@ void Parameters::build(std::istream& in)
 		insert(make_pair(name,value));
 	}
 }
+void Parameters::split(const std::string& in)
+{
+	std::vector<std::string> vec = core::split(in,"&");
+	std::vector<std::string> sub;
+	for(const std::string& s : vec)
+    {
+        sub = core::split(s,"=");
+        if(sub.size() == 2)
+        {
+            insert(make_pair(sub[0],sub[1]));
+        }
+        else if(sub.size() == 1)
+        {
+            insert(make_pair(sub[0],""));
+        }
+    }
+}
 
 const char* Parameters::find(const char* k) const
 {
@@ -802,6 +812,10 @@ const char* Parameters::find(const char* k) const
 	if(it != end()) return it->second.c_str();
 
 	return NULL;
+}
+const std::string& Parameters::get_string()const
+{
+    return strdata;
 }
 
 

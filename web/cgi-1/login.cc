@@ -196,13 +196,14 @@ bool Login::check(std::string& strs)
 int Login::main(std::ostream& out)
 {
 	contenttype(out,"text","html");
-	std::string strsession;
+	Parameters params;
 	try
 	{
-		if(check(strsession))
+		if(check(params))
 		{
-			std::string url = "application.cgi?session=" + strsession;
-			out << "url : " << url << "\n";
+			std::string url = "/application.html?user=";
+			url += params.find("user");
+			//out << "url : " << url << "\n";
 			head.redirect(0,url.c_str());
 		}
 		else

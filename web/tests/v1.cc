@@ -47,7 +47,6 @@ void v1_developing()
     CU_ASSERT_FALSE(params.find("psw") == NULL)
     CU_ASSERT(strcmp(params.find("psw"),"123456") == 0)
 
-
     mps::server::Login login;
     CU_ASSERT(login.check(params));
 

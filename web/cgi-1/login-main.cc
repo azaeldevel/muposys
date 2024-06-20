@@ -23,12 +23,11 @@ namespace mps = oct::mps::v1;
 
 int main ()
 {
-	/*
 	mps::server::Login login;
 	return login.main();
-	*/
 
-	std::cout << "Content-type:text/html\r\n\r\n";
+
+	/*std::cout << "Content-type:text/html\r\n\r\n";
     std::cout << "<html>\n";
     std::cout << "<head>\n";
     std::cout << "<title>Hello World - First CGI Program</title>\n";
@@ -38,7 +37,7 @@ int main ()
     std::string strin;
     std::cin >> strin;
     std::cout << "<h2>";
-    std::cout << strin;
+    std::cout << strin;*/
     /*
     mps::Parameters params(std::cin);
     std::cout << params.size() << "<br>";
@@ -47,9 +46,9 @@ int main ()
         std::cout << s.first << " => " << s.second << "<br>";
     }
     */
-    std::cout << "</h2>\n";
+    /*std::cout << "</h2>\n";
     std::cout << "</body>\n";
-    std::cout << "</html>\n";
+    std::cout << "</html>\n";*/
 
     return 0;
 }

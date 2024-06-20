@@ -165,17 +165,22 @@ namespace oct::mps::v1
 
 	class Parameters : public std::map<std::string, std::string>
 	{
-
 	public:
 		//Parameters(EnviromentCGI);
+		Parameters();
 		Parameters(std::istream&);
 		Parameters(const std::string&);
 
 		const char* find(const char*)const;
+		const std::string& get_string()const;
 
 	private:
 		void build_query_string();
 		void build(std::istream&);
+		void split(const std::string&);
+
+    private:
+        std::string strdata;
 	};
 
 	class GetParams : public Parameters
