@@ -32,7 +32,7 @@ int v1_clean(void)
 void v1_developing()
 {
 
-    mps::Parameters params("user=root&psw=1234567");
+    mps::Parameters params("user=root&psw=123456");
     /*
     std::cout << params.size() << "<br>";
     for(auto const& s : params)
@@ -45,7 +45,7 @@ void v1_developing()
     CU_ASSERT_FALSE(params.find("user") == NULL)
     CU_ASSERT(strcmp(params.find("user"),"root") == 0)
     CU_ASSERT_FALSE(params.find("psw") == NULL)
-    CU_ASSERT(strcmp(params.find("psw"),"1234567") == 0)
+    CU_ASSERT(strcmp(params.find("psw"),"123456") == 0)
 
 
     mps::server::Login login;

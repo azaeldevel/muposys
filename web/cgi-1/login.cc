@@ -74,15 +74,15 @@ bool Login::check(const Parameters& params)
 	}
 
 	std::string where;
-	where = "name=";
+	where = "name='";
 	where += userstr;
-	where += " and ";
+	where += "' and ";
 	where += "pwdtxt=";
 	where += "'";
 	where += password;
 	where += "' and status = 3";
 
-	std::cout << where << "\n";
+	//std::cout << where << "\n";
 
     std::vector<User> rsuser;
     try
@@ -97,6 +97,7 @@ bool Login::check(const Parameters& params)
 	{
 	    return false;
 	}
+	//std::cout << "size : " << rsuser.size()  << "\n";
 
 	if(rsuser.size() == 1) return true;
 
