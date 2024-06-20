@@ -1,0 +1,13 @@
+
+body
+{
+  	background-color: gray;
+}
+
+#workarea
+{
+	margin-top : 2vh;
+  	display: flex;
+  	flex-direction: column; /* make the form elements stack vertical instead of inline */
+  	align-items: center; /* center the items horizontally */
+}
