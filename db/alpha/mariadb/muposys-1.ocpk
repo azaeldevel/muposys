@@ -1,0 +1,7 @@
+host = "[require]";
+user = "[require]";
+port = "3306";
+password = "[require]";
+database = "[require]";
+template = "muposys-1";
+files = ("default-data-1.sql");
