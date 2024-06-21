@@ -11,3 +11,12 @@ body
   	flex-direction: column; /* make the form elements stack vertical instead of inline */
   	align-items: center; /* center the items horizontally */
 }
+
+form
+{
+	display: table;
+}
+form.inputs
+{
+  	float: left;
+}
