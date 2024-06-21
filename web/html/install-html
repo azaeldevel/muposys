@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 MIDDLESERVER=""
 DISTRO=$(lsb_release -i | cut -c 16- | xargs)
 case $DISTRO in
@@ -25,6 +26,13 @@ else
   exit
 fi
 
+TEMPLATE=""
+if [ "$3" ]; then
+  TEMPLATE=$3
+else
+  TEMPLATE="classic"
+fi
+
 SERVER="$DOCUMENTROOT/$MIDDLESERVER/$SITE"
 
 #echo $SERVER
@@ -40,11 +48,35 @@ if [ ! -d "$SERVER/theme/gnome-2.91" ] ; then
 	rm -r gnome-2.91
 fi
 
-cp index.html $SERVER
-cp login.html $SERVER
-cp user-mang.html $SERVER
-cp user-register.html $SERVER
-cp -r user-mang $SERVER
-cp -r css $SERVER
-cp -r js $SERVER
-cp application.html $SERVER
+case $TEMPLATE in
+  	"simple")
+		cp simple/index.html $SERVER
+		cp simple/login.html $SERVER
+		cp simple/user-mang.html $SERVER
+		cp simple/user-register.html $SERVER
+		cp -r simple/css $SERVER
+		cp -r simple/js $SERVER
+		cp application.html $SERVER
+    ;;
+  	"classic")  
+		cp index.html $SERVER
+		cp login.html $SERVER
+		cp user-mang.html $SERVER
+		cp user-register.html $SERVER
+		cp -r user-mang $SERVER
+		cp -r css $SERVER
+		cp -r js $SERVER
+		cp application.html $SERVER
+	;;
+	*)
+		cp index.html $SERVER
+		cp login.html $SERVER
+		cp user-mang.html $SERVER
+		cp user-register.html $SERVER
+		cp -r user-mang $SERVER
+		cp -r css $SERVER
+		cp -r js $SERVER
+		cp application.html $SERVER
+esac
+
+
