@@ -201,7 +201,7 @@ int Login::main(std::ostream& out)
 	{
 		if(check(params))
 		{
-			std::string url = "/application.html?user=";
+			std::string url = "/muposys.html?user=";
 			url += params.find("user");
 			//out << "url : " << url << "\n";
 			head.redirect(0,url.c_str());

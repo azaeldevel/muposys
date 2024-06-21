@@ -56,7 +56,7 @@ case $TEMPLATE in
 		cp simple/user-register.html $SERVER
 		cp -r simple/css $SERVER
 		cp -r simple/js $SERVER
-		cp application.html $SERVER
+		cp simple/muposys.html $SERVER
     ;;
   	"classic")  
 		cp index.html $SERVER
