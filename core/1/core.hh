@@ -230,6 +230,7 @@ namespace oct::mps::v1
 
         const std::string& get_decorated() const;
         cave1::mmsql::Data get_datasource()const;
+        cave0::mmsql::Data get_datasource_0()const;
 
         static std::filesystem::path default_file();
         static std::filesystem::path defaul_derectory();

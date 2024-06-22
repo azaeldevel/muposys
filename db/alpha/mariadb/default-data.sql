@@ -4,9 +4,8 @@ INSERT INTO Version(id,name,major,minor,patch) VALUES(1,'database',0,2,0);
 
 INSERT INTO UserManagement(id) VALUES(1);
 INSERT INTO Permission(id,name,brief) VALUES(1,'login','Permisos para acceder a muposys.');
-
-
 INSERT INTO Person(id,name1,name3) VALUES(1,'Azael','Reyes');
+
 INSERT INTO UserManagement(id) VALUES(2);
 INSERT INTO User(id,person,name) VALUES(2,1,'root');
 UPDATE User SET pwdtxt='123456' WHERE id = 2;

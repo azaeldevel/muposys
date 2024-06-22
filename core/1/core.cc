@@ -640,6 +640,17 @@ namespace oct::mps::v1
 
         return data;
     }
+
+    cave0::mmsql::Data Configuration::get_datasource_0()const
+    {
+        libconfig::Setting &mmsql = lookup("database")["mmsql"];
+        //std::string str;
+        cave0::mmsql::Data data((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+        //str = (std::string)mmsql.lookup("host");
+        //std::cout << "Host :" << str << "\n";
+
+        return data;
+    }
     void Configuration::write(const cave1::mmsql::Data& dt)
     {
 	    libconfig::Setting &root = getRoot();

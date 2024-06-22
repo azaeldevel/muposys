@@ -245,28 +245,20 @@ void script::source(const char* s)
 const char* Service::user_name_variable = "oct.mps.web.user";
 Service::Service() : is_open_DB(false)
 {
+    Configuration config;
+    cave0::mmsql::Data dat = config.get_datasource_0();
+    bool conectfl = false;
+    is_open_DB = connDB.connect(dat, true);
+	if(conectfl)
+    {
+    }
 }
 Service::Service(const cave0::mmsql::Data& dat)
 {
 	bool conectfl = false;
-	try
-	{
-		is_open_DB = connDB.connect(dat, true);
-	}
-	catch (const cave0::ExceptionDriver& e)
-	{
-		return;
-	}
-	catch (const std::exception& e)
-	{
-		return;
-	}
-	catch (...)
-	{
-	}
+    is_open_DB = connDB.connect(dat, true);
 	if(conectfl)
     {
-
     }
 }
 Service::~Service()
