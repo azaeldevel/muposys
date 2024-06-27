@@ -738,9 +738,14 @@ namespace oct::mps::v1
         write(p,dt);
 	}
 
-    const std::string& Configuration::get_decorated() const
+    std::string Configuration::get_decorated() const
     {
-        return decorated;
+        if(exists("decorated"))
+        {
+            return (std::string)lookup("decorated");
+        }
+
+        return "";
     }
 
     cave1::mmsql::Data Configuration::get_datasource()const

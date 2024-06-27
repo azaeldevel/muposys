@@ -273,7 +273,7 @@ namespace oct::mps::v1
         void open(const std::filesystem::path& p);
 
 
-        const std::string& get_decorated() const;
+        std::string get_decorated() const;
         cave1::mmsql::Data get_datasource()const;
         cave0::mmsql::Data get_datasource_0()const;
 
@@ -286,7 +286,7 @@ namespace oct::mps::v1
 
     private:
         static const std::filesystem::path configure_file;
-        std::string decorated;
+        //std::string decorated;
 
     };
 
