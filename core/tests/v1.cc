@@ -77,7 +77,7 @@ void v1_configuration_file()
     //std::cout << "MUPOSYS - TEST 1.5\n";
     try
     {
-        config.create(tmpf_config_temp);
+        //config.create(tmpf_config_temp);
     }
     catch(const mps::core::exception& e)
     {

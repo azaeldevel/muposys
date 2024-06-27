@@ -233,24 +233,6 @@ namespace oct::mps::v1
         Configuration();
         Configuration(const std::filesystem::path& p);
 
-        //std::filesystem::path read(const std::filesystem::path& p);
-        /**
-        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
-        **/
-        //void create();
-        /**
-        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
-        **/
-        void create(const std::filesystem::path&);
-        /**
-        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
-        **/
-        void create(const std::filesystem::path& p,const std::string& server);
-        /**
-        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
-        **/
-        void create(const std::filesystem::path& p,const core::Semver&,const cave1::mmsql::Data& data);
-        //
 
         /**
         *\brief Write this section data on file
