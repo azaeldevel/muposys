@@ -103,8 +103,8 @@ void v1_configuration_file()
     CU_ASSERT(version.build.compare("v1") == 0)
 
     //std::cout << "MUPOSYS - TEST 2\n";
-    /*mps::Configuration config2;
-    config2.create();
+    mps::Configuration config2;
+    config2.open(config2.default_file());
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
 #else
@@ -132,6 +132,6 @@ void v1_configuration_file()
 
     mps::Configuration config3(mps::Configuration::default_file());
     //std::cout << config3.get_file_name() << "\n";
-    cave1::mmsql::Data data = config3.get_datasource();*/
+    cave1::mmsql::Data data = config3.get_datasource();
 
 }

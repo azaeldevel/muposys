@@ -255,7 +255,7 @@ namespace oct::mps::v1
         /**
         *\brief Write this section data on file
         **/
-        void write(const std::filesystem::path&,const cave1::mmsql::Data&);
+        void write(const cave1::mmsql::Data&);
 
 
         /**

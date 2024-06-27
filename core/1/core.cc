@@ -688,41 +688,6 @@ namespace oct::mps::v1
 	{
 	    //std::cout << "archivo :" << fullname << "\n";
 	    core::Configuration::create(fullname);
-	    libconfig::Setting &root = getRoot();
-
-#ifdef OCTETOS_MUPOSYS_V1_TDD
-        libconfig::Setting &name = lookup("name");
-        name = "muposys(dev)";
-        libconfig::Setting &decorated = lookup("decorated");
-        decorated = "Multi-Porpuse Software System (dev)";
-#else
-        root.add("name", libconfig::Setting::TypeString) = "muposys";
-        root.add("decorated", libconfig::Setting::TypeString) = "Multi-Porpuse Software System";
-#endif
-
-        //version
-        libconfig::Setting &version_setting = root.lookup("version");
-        version_setting.lookup("major") = 1;
-        version_setting.lookup("minor") = 0;
-        version_setting.lookup("patch") = 0;
-        version_setting.lookup("prerelease") = "alpha";
-        version_setting.lookup("build") = "v1";
-
-        //database
-        libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
-        libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
-        mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
-        mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
-        mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
-#ifdef OCTETOS_MUPOSYS_V1_TDD
-        mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
-        mmsql.add("user", libconfig::Setting::TypeString) = "develop";
-        mmsql.add("password", libconfig::Setting::TypeString) = "123456";
-#else
-        mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-        mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-        mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
-#endif
 	}
     void Configuration::create(const std::filesystem::path& fullname,const std::string& server)
 	{
@@ -735,8 +700,8 @@ namespace oct::mps::v1
 	{
 	    create(p);
 
-        core::Configuration::write(p,v);
-        write(p,dt);
+        core::Configuration::write(v);
+        write(dt);
 	}
 
     cave1::mmsql::Data Configuration::get_datasource()const
@@ -744,9 +709,9 @@ namespace oct::mps::v1
         //std::string str;
         cave1::mmsql::Data data;
 
-        if(exists("database"))
+        if(getRoot().exists("database"))
         {
-            if(exists("mmsql"))
+            if(getRoot().lookup("database").exists("mmsql"))
             {
                 libconfig::Setting &mmsql = lookup("database")["mmsql"];
                 //str = (std::string)mmsql.lookup("host");
@@ -755,7 +720,7 @@ namespace oct::mps::v1
             }
             else
             {
-                libconfig::Setting &database = lookup("database");
+                libconfig::Setting &database = getRoot().lookup("database");
                 libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
                 mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
                 mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
@@ -809,7 +774,7 @@ namespace oct::mps::v1
 
         return data;
     }
-    void Configuration::write(const std::filesystem::path& file,const cave1::mmsql::Data& dt)
+    void Configuration::write(const cave1::mmsql::Data& dt)
     {
 	    libconfig::Setting &root = getRoot();
         libconfig::Setting &mmsql = root.lookup("database")["mmsql"];
@@ -823,12 +788,34 @@ namespace oct::mps::v1
         password = dt.get_password().c_str();
         libconfig::Setting &database = mmsql["database"];
         database = dt.get_database().c_str();
-
-        writeFile(file.string().c_str());
     }
     void Configuration::open(const std::filesystem::path& p)
     {
         core::Configuration::open(p);
+
+        if(getRoot().exists("database"))
+        {
+        }
+        else
+        {
+            //database
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+            mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
+            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+    #else
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+    #endif
+        }
+
     }
     void Configuration::save()
     {
