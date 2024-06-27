@@ -815,7 +815,6 @@ namespace oct::mps::v1
             mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
     #endif
         }
-
     }
     void Configuration::save()
     {
