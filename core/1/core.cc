@@ -832,4 +832,80 @@ namespace oct::mps::v1
     {
         core::Configuration::save(p);
     }
+
+
+    std::string Configuration::get_name() const
+    {
+        if(getRoot().exists("name"))
+        {
+            return (std::string)lookup("name");
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+            name_setting = "muposys(dev)";
+            return "muposys(dev)";
+    #else
+            name_setting = "muposys";
+            return "muposys";
+    #endif
+        }
+
+        return "";
+    }
+    core::Semver Configuration::get_version()const
+    {
+        if(getRoot().exists("version"))
+        {
+            core::Semver version;
+            const libconfig::Setting &version_setting = lookup("version");
+            version.major = version_setting.lookup("major");
+            version.minor = version_setting.lookup("minor");
+            version.patch = version_setting.lookup("patch");
+            version.prerelease = (std::string)version_setting.lookup("prerelease");
+            version.build = (std::string)version_setting.lookup("build");
+            return version;
+        }
+        else
+        {
+            core::Semver version;
+            version.major = 1;
+            version.minor = 0;
+            version.patch = 0;
+            version.prerelease = "alpha";
+            version.build = "v1";
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
+            version_setting.add("major", libconfig::Setting::TypeInt) = version.major ;
+            version_setting.add("minor", libconfig::Setting::TypeInt) = version.minor;
+            version_setting.add("patch", libconfig::Setting::TypeInt) = version.patch;
+            version_setting.add("prerelease", libconfig::Setting::TypeString) = version.prerelease;
+            version_setting.add("build", libconfig::Setting::TypeString) = version.build;
+            return version;
+        }
+
+        core::Semver version;
+        return version;
+    }
+    std::string Configuration::get_decorated() const
+    {
+        if(getRoot().exists("decorated"))
+        {
+            return (std::string)lookup("decorated");
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &decorated_setting = root.add("decorated", libconfig::Setting::TypeString);
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+            decorated_setting = "Multi-porpuse Software System (develop)";
+    #else
+            decorated_setting = "Multi-porpuse Software System";
+    #endif
+        }
+
+        return "";
+    }
 }

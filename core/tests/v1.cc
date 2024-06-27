@@ -86,7 +86,7 @@ void v1_configuration_file()
     //std::cout << "MUPOSYS - TEST 1.6\n";
 
     //std::cout << mps::Configuration::defaul_file() << "\n";
-    std::cout << " config.get_name() : " << config.get_name() << "\n";
+    //std::cout << " config.get_name() : >>" << config.get_name() << "<<<\n";
 
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -121,7 +121,7 @@ void v1_configuration_file()
     cave1::mmsql::Data dtm;
     dtm = config2.get_datasource();
     //CU_ASSERT(dtm.get_host() == "localhost")
-    std::cout << " dtm.get_user() : " << dtm.get_user() << "\n";
+    //std::cout << " dtm.get_user() : " << dtm.get_user() << "\n";
     CU_ASSERT(dtm.get_user() == "develop")
     CU_ASSERT(dtm.get_password() == "123456")
 #ifdef OCTETOS_MUPOSYS_V1_TDD

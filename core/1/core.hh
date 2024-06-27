@@ -261,6 +261,10 @@ namespace oct::mps::v1
         static std::filesystem::path defaul_derectory();
         static std::filesystem::path muposys_directory();
 
+        std::string get_name() const;
+        std::string get_decorated() const;
+        core::Semver get_version() const;
+
     private:
 
 
