@@ -663,13 +663,13 @@ namespace oct::mps::v1
 	    else create(p);
 	}
 
-	void Configuration::create()
+	/*void Configuration::create()
 	{
         std::filesystem::path fullname = default_file();
         std::cout << fullname << "\n";
         if(std::filesystem::exists(fullname))
         {
-            open(fullname);
+            throw core::exception("El archivo indicado ya existe.");
         }
         else
         {
@@ -683,29 +683,30 @@ namespace oct::mps::v1
 
             return create(fullname);
         }
-	}
+	}*/
     void Configuration::create(const std::filesystem::path& fullname)
 	{
 	    //std::cout << "archivo :" << fullname << "\n";
 	    core::Configuration::create(fullname);
 	    libconfig::Setting &root = getRoot();
 
-	    libconfig::Setting &name_setting = lookup("name");
 #ifdef OCTETOS_MUPOSYS_V1_TDD
-        name_setting = "muposys(dev)";
+        libconfig::Setting &name = lookup("name");
+        name = "muposys(dev)";
+        libconfig::Setting &decorated = lookup("decorated");
+        decorated = "Multi-Porpuse Software System (dev)";
 #else
-        name_setting = "muposys";
-#endif
+        root.add("name", libconfig::Setting::TypeString) = "muposys";
         root.add("decorated", libconfig::Setting::TypeString) = "Multi-Porpuse Software System";
+#endif
 
         //version
-        core::Semver version = get_version();
-        version.major = 1;
-        version.minor = 0;
-        version.patch = 0;
-        version.prerelease = "alpha";
-        version.build = "v1";
-        core::Configuration::write(fullname,version);
+        libconfig::Setting &version_setting = root.lookup("version");
+        version_setting.lookup("major") = 1;
+        version_setting.lookup("minor") = 0;
+        version_setting.lookup("patch") = 0;
+        version_setting.lookup("prerelease") = "alpha";
+        version_setting.lookup("build") = "v1";
 
         //database
         libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
@@ -737,16 +738,6 @@ namespace oct::mps::v1
         core::Configuration::write(p,v);
         write(p,dt);
 	}
-
-    std::string Configuration::get_decorated() const
-    {
-        if(exists("decorated"))
-        {
-            return (std::string)lookup("decorated");
-        }
-
-        return "";
-    }
 
     cave1::mmsql::Data Configuration::get_datasource()const
     {
@@ -835,10 +826,6 @@ namespace oct::mps::v1
 
         writeFile(file.string().c_str());
     }
-    void Configuration::open()
-    {
-        core::Configuration::open(default_file());
-    }
     void Configuration::open(const std::filesystem::path& p)
     {
         core::Configuration::open(p);
@@ -850,59 +837,5 @@ namespace oct::mps::v1
     void Configuration::save(const std::filesystem::path& p)
     {
         core::Configuration::save(p);
-    }
-
-
-    //const char* name = "muposys";
-    //const char* decorated = "Systema Software de Multi-Proposito";
-
-    std::string get_name()
-    {
-        Configuration config;
-        config.create();
-        std::string n;
-
-        //read from database
-
-
-        //read from config file
-        try
-        {
-            n = config.get_name();
-            return n;
-        }
-        catch(const libconfig::SettingNotFoundException &nfex)
-        {
-
-        }
-
-#ifdef OCTETOS_MUPOSYS_V1_TDD
-            return "muposys(dev)";
-#else
-            return "muposys";
-#endif // OCTETOS_MUPOSYS_V1_TDD
-    }
-    std::string get_decorated()
-    {
-        Configuration config;
-        config.create();
-        std::string n;
-
-        //read from database
-
-
-        //read from config file
-        try
-        {
-            n = config.get_decorated();
-            return n;
-        }
-        catch(const libconfig::SettingNotFoundException &nfex)
-        {
-
-        }
-
-        //valor por default
-        return "Multi-Porpuse Software System";
     }
 }

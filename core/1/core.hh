@@ -237,7 +237,7 @@ namespace oct::mps::v1
         /**
         *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
         **/
-        void create();
+        //void create();
         /**
         *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
         **/
@@ -269,11 +269,9 @@ namespace oct::mps::v1
         /**
         *\brief open the file by default
         **/
-        void open();
+        //void open();
         void open(const std::filesystem::path& p);
 
-
-        std::string get_decorated() const;
         cave1::mmsql::Data get_datasource()const;
         cave0::mmsql::Data get_datasource_0()const;
 
@@ -292,8 +290,8 @@ namespace oct::mps::v1
 
 
     //context variables
-    std::string get_name();
-    std::string get_decorated();
+    //std::string get_name();
+    //std::string get_decorated();
 
 
 }

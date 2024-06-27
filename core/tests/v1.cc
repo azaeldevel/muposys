@@ -86,7 +86,7 @@ void v1_configuration_file()
     //std::cout << "MUPOSYS - TEST 1.6\n";
 
     //std::cout << mps::Configuration::defaul_file() << "\n";
-    /*std::cout << " config.get_name() : " << config.get_name() << "\n";
+    std::cout << " config.get_name() : " << config.get_name() << "\n";
 
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -103,7 +103,7 @@ void v1_configuration_file()
     CU_ASSERT(version.build.compare("v1") == 0)
 
     //std::cout << "MUPOSYS - TEST 2\n";
-    mps::Configuration config2;
+    /*mps::Configuration config2;
     config2.create();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
     CU_ASSERT(name.compare("muposys(dev)") == 0)
