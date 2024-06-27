@@ -148,14 +148,24 @@ namespace oct::mps::v1
 
         Session() = default;
         Session(const char** s);
-        Session(cave0::Row<char,cave0::mmsql::Data> s);
+        Session(cave1::Row<char,cave1::mmsql::Data> s);
         static std::string fields();
         static std::string table();
-        cave0::mmsql::Result remove(cave0::mmsql::Connection& conn);
-        cave0::mmsql::Result insert(cave0::mmsql::Connection& conn,std::string const& client);
-        cave0::mmsql::Result upSession(cave0::mmsql::Connection& conn);
-        bool downSession(cave0::mmsql::Connection& conn);
+        cave1::mmsql::Result remove(cave1::mmsql::Connection& conn);
+        cave1::mmsql::Result insert(cave1::mmsql::Connection& conn);
+        cave1::mmsql::Result upSession(cave1::mmsql::Connection& conn);
+        bool downSession(cave1::mmsql::Connection& conn);
 
+
+        Session& operator =(const char** s);
+        //std::string insert_values()const;
+        std::string update_values()const;
+        std::string update_values(const std::initializer_list<size_t>& list)const;
+        static std::string select_fields();
+        static std::string select_fields(const std::initializer_list<size_t>& list);
+        static std::string insert_fields();
+        static std::string identifier_name();
+        std::string identifier_value() const;
     };
     struct Variable
     {
@@ -164,15 +174,25 @@ namespace oct::mps::v1
 
         Variable() = default;
         Variable(const char** s);
-        Variable(cave0::Row<char,cave0::mmsql::Data> s);
+        Variable(cave1::Row<char,cave1::mmsql::Data> s);
         static std::string fields();
         static std::string table();
-        cave0::mmsql::Result remove(cave0::mmsql::Connection& conn);
-        cave0::mmsql::Result insert(cave0::mmsql::Connection& conn);
-        cave0::mmsql::Result upName(cave0::mmsql::Connection& conn);
-        cave0::mmsql::Result upValue(cave0::mmsql::Connection& conn);
-        cave0::mmsql::Result upSession(cave0::mmsql::Connection& conn);
-        bool downValue(cave0::mmsql::Connection& conn);
+        cave1::mmsql::Result remove(cave1::mmsql::Connection& conn);
+        cave1::mmsql::Result insert(cave1::mmsql::Connection& conn);
+        cave1::mmsql::Result upName(cave1::mmsql::Connection& conn);
+        cave1::mmsql::Result upValue(cave1::mmsql::Connection& conn);
+        cave1::mmsql::Result upSession(cave1::mmsql::Connection& conn);
+        bool downValue(cave1::mmsql::Connection& conn);
+
+        Variable& operator =(const char** s);
+        //std::string insert_values()const;
+        std::string update_values()const;
+        std::string update_values(const std::initializer_list<size_t>& list)const;
+        static std::string select_fields();
+        static std::string select_fields(const std::initializer_list<size_t>& list);
+        static std::string insert_fields();
+        static std::string identifier_name();
+        std::string identifier_value() const;
     };
     struct CatalogItem
     {
@@ -214,13 +234,38 @@ namespace oct::mps::v1
         Configuration(const std::filesystem::path& p);
 
         //std::filesystem::path read(const std::filesystem::path& p);
+        /**
+        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
+        **/
         void create();
+        /**
+        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
+        **/
         void create(const std::filesystem::path&);
+        /**
+        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
+        **/
         void create(const std::filesystem::path& p,const std::string& server);
+        /**
+        *\brief Create a new config file and create the proper default config tree(whitout save on file), it shoul not be exists in that case throw a exception
+        **/
         void create(const std::filesystem::path& p,const core::Semver&,const cave1::mmsql::Data& data);
         //
-        void write(const cave1::mmsql::Data&);
 
+        /**
+        *\brief Write this section data on file
+        **/
+        void write(const std::filesystem::path&,const cave1::mmsql::Data&);
+
+
+        /**
+        *\brief save to file by default file name
+        **/
+        void save();
+        /**
+        *\brief save to file
+        **/
+        void save(const std::filesystem::path& p);
         /**
         *\brief open the file by default
         **/

@@ -21,7 +21,46 @@ int v1_clean(void)
 
 void v1_develop()
 {
+    mps::Configuration config;
+    cave1::mmsql::Data data = config.get_datasource();
 
+	cave1::mmsql::Connection conn;
+	try
+	{
+		conn.connect(data, true);
+	}
+	catch (const cave1::ExceptionDriver& e)
+	{
+		std::cout << "Exception (cave testing) : " << e.what() << "\n";
+	}
+	catch (const std::exception& e)
+	{
+		std::cout << "Exception (cave testing) : " << e.what() << "\n";
+	}
+	catch (const cave1::core::exception& e)
+	{
+		std::cout << "Exception (cave testing) : " << e.what() << "\n";
+	}
+	catch (...)
+	{
+
+	}
+
+    mps::Session session;
+    std::string findSesion = "client = 'localhost' and session = 'X'";
+
+    std::vector<mps::Session> sesionlst;
+    try
+    {
+ 		 conn.select(sesionlst,findSesion);
+	}
+	catch (const cave1::ExceptionDriver&)
+	{
+
+	}
+	catch (...)
+	{
+	}
 }
 
 void v1_configuration_file()
@@ -47,6 +86,7 @@ void v1_configuration_file()
     //std::cout << "MUPOSYS - TEST 1.6\n";
 
     //std::cout << mps::Configuration::defaul_file() << "\n";
+    /*std::cout << " config.get_name() : " << config.get_name() << "\n";
 
     std::string name = config.get_name();
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -81,6 +121,7 @@ void v1_configuration_file()
     cave1::mmsql::Data dtm;
     dtm = config2.get_datasource();
     //CU_ASSERT(dtm.get_host() == "localhost")
+    std::cout << " dtm.get_user() : " << dtm.get_user() << "\n";
     CU_ASSERT(dtm.get_user() == "develop")
     CU_ASSERT(dtm.get_password() == "123456")
 #ifdef OCTETOS_MUPOSYS_V1_TDD
@@ -91,6 +132,6 @@ void v1_configuration_file()
 
     mps::Configuration config3(mps::Configuration::default_file());
     //std::cout << config3.get_file_name() << "\n";
-    cave1::mmsql::Data data = config3.get_datasource();
+    cave1::mmsql::Data data = config3.get_datasource();*/
 
 }

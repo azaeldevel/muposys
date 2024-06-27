@@ -29,7 +29,7 @@ namespace oct::mps::v1::server
 
 
 
-Login::Login() : CGI(default_dtm0())
+Login::Login() : CGI(Configuration().get_datasource())
 {
 }
 Login::~Login()
@@ -102,96 +102,6 @@ bool Login::check(const Parameters& params)
 	if(rsuser.size() == 1) return true;
 
 	return false;
-}
-bool Login::check(std::string& strs)
-{
-	std::cout << "Login::check : Step 1.0<br>\n";
-	std::string userstr, password;
-
-	PostParams postparams;
-	std::cout << "Login::check : Step 1.1<br>\n";
-	if(postparams.find("user")) userstr = postparams.find("user");
-	std::cout << "Login::check : Step 1.3<br>\n";
-	if(postparams.find("psw")) password = postparams.find("psw");
-	std::cout << "Login::check : Step 1.4<br>\n";
-
-
-	User* userbd;
-	std::string strwhere = "name = ";
-	strwhere += "'" + userstr + "' and status = 3";
-	//std::vector<muposysdb::User*>* usrlst = muposysdb::User::select(connDB,strwhere);
-	std::vector<User> usrlst;
-    bool usrlst_flag = false;
-    try
-    {
- 		 usrlst_flag = connDB.select(usrlst,strwhere);
-	}
-	catch (const cave0::ExceptionDriver&)
-	{
-
-	}
-	catch (...)
-	{
-	}
-	bool fluser = false;
-	if(usrlst.size() == 0)
-	{
-		//no se encontro elusuario en la BD.
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-	}
-	else if(usrlst.size() > 1)
-	{
-		//hay muchas coincidencian, este es un error en el diseño de la base de
-		//datos, el nombre de usario deve cumpliar con la restricción de sér único.
-		//std::cout << "Fail : " << __FILE__ << ":" << __LINE__<< "<br>";
-	}
-	else
-	{
-		userbd = &usrlst.at(0);
-	}
-
-
-	//if(userbd->size() == 1)
-	{
-		if(userbd->valid and  usrlst_flag)
-		{
-			//std::cout << "check pass : Step\n<br>";
-			if(create_session(userbd->name.c_str(),strs))
-			{
-				//std::cout << "Step login permission\n<br>";
-				if(permission("login",userbd->name.c_str()))
-				{
-					//std::cout << "Step permission\n<br>";
-					fluser = true;
-				}
-				else
-				{
-					//std::cout << "Not permission\n<br>";
-				}
-			}
-			else
-			{
-				//std::cout << "Fallo registro de secion<br>";
-			}
-			//std::cout << "Done check \n<br>";
-		}
-		else
-		{
-			//if(userstr.compare(userbd->getName()) != 0) std::cout << userstr << " != " << userbd->getName () << "<br>";
-			//if(password.compare(userbd->getPwdtxt()) != 0)std::cout << password << " != " << userbd->getPwdtxt () << "<br>";
-		}
-	}
-	/*if(usrlst)
-	{
-		for(auto u : *usrlst)
-		{
-			delete u;
-		}
-		delete usrlst;
-	}*/
-
-	std::cout << "Login::check : Step 1.5<br>\n";
-	return fluser;
 }
 int Login::main(std::ostream& out)
 {
