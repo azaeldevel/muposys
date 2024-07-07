@@ -263,7 +263,7 @@ namespace oct::mps::v1
             client = s[1];
             session = s[2];
         }
-        Session::Session(cave0::Row<char,cave0::mmsql::Data> s)
+        Session::Session(cave1::Row<char,cave1::mmsql::Data> s)
         {
             id = std::atoi(s[0]);
             client = s[1];
@@ -277,24 +277,81 @@ namespace oct::mps::v1
         {
             return "Session";
         }
-        cave0::mmsql::Result Session::remove(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Session::remove(cave1::mmsql::Connection& conn)
         {
             return conn.remove(table(),"session = " + session);
         }
-        cave0::mmsql::Result Session::insert(cave0::mmsql::Connection& conn,std::string const& client)
+        cave1::mmsql::Result Session::insert(cave1::mmsql::Connection& conn)
         {
             return conn.insert(std::string("client"),client,table());
         }
-        cave0::mmsql::Result Session::upSession(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Session::upSession(cave1::mmsql::Connection& conn)
         {
             return conn.update("client = '" + client + "'", table());
         }
-        bool Session::downSession(cave0::mmsql::Connection& conn)
+        bool Session::downSession(cave1::mmsql::Connection& conn)
         {
-            cave0::mmsql::Result rs = conn.select("client = '" + client + "'", table(),"session = " + session);
+            cave1::mmsql::Result rs = conn.select("client = '" + client + "'", table(),"session = " + session);
             return rs;
         }
 
+
+    Session& Session::operator =(const char** s)
+	{
+        id = std::atoi(s[0]);
+        client = s[1];
+        session = s[2];
+
+		return *this;
+	}
+	std::string Session::update_values(const std::initializer_list<size_t>& list)const
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "id = " + std::to_string(id);
+	    vals[1] = "client = '" + client + "'";
+	    vals[2] = "session = '" + session + "'";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string Session::select_fields()
+	{
+        return "id,client,session";
+	}
+	std::string Session::select_fields(const std::initializer_list<size_t>& list)
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "id";
+	    vals[1] = "client ";
+	    vals[2] = "session";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string Session::insert_fields()
+	{
+        return "client,session";
+	}
+	std::string Session::identifier_name()
+	{
+        return "id";
+	}
+	std::string Session::identifier_value() const
+	{
+        return std::to_string(id);
+	}
 
 
 
@@ -306,7 +363,7 @@ namespace oct::mps::v1
             value = s[2];
             session = s[3];
         }
-        Variable::Variable(cave0::Row<char,cave0::mmsql::Data> s)
+        Variable::Variable(cave1::Row<char,cave1::mmsql::Data> s)
         {
             id = std::atoi(s[0]);
             name = s[1];
@@ -321,31 +378,31 @@ namespace oct::mps::v1
         {
             return "Session";
         }
-        cave0::mmsql::Result Variable::remove(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Variable::remove(cave1::mmsql::Connection& conn)
         {
             return conn.remove(table(),"session = " + session);
         }
-        cave0::mmsql::Result Variable::insert(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Variable::insert(cave1::mmsql::Connection& conn)
         {
             RandomString ranstr(32,RandomString::md5);
             ranstr.generate();
             return conn.insert("name,value,session","'" + name + "','" + value + "','" + (const char*)ranstr + "'" ,table());
         }
-        cave0::mmsql::Result Variable::upName(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Variable::upName(cave1::mmsql::Connection& conn)
         {
             return conn.update("name = '" + name + "'", table());
         }
-        cave0::mmsql::Result Variable::upValue(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Variable::upValue(cave1::mmsql::Connection& conn)
         {
             return conn.update("value = '" + value + "'", table());
         }
-        cave0::mmsql::Result Variable::upSession(cave0::mmsql::Connection& conn)
+        cave1::mmsql::Result Variable::upSession(cave1::mmsql::Connection& conn)
         {
             return conn.update("session = '" + session + "'", table());
         }
-        bool Variable::downValue(cave0::mmsql::Connection& conn)
+        bool Variable::downValue(cave1::mmsql::Connection& conn)
         {
-            cave0::mmsql::Result rs = conn.select("value", table(),"session = " + session);
+            cave1::mmsql::Result rs = conn.select("value", table(),"session = " + session);
             if(rs.size() > 0)
             {
                 value = rs.next()[0];
@@ -354,6 +411,67 @@ namespace oct::mps::v1
 
             return false;
         }
+
+    Variable& Variable::operator =(const char** s)
+	{
+        id = std::atoi(s[0]);
+        name = s[1];
+        value = s[2];
+        session = s[3];
+
+		return *this;
+	}
+	std::string Variable::update_values(const std::initializer_list<size_t>& list)const
+	{
+	    std::vector<std::string> vals(3);
+	    vals[0] = "id = " + std::to_string(id);
+	    vals[1] = "name = '" + name + "'";
+	    vals[1] = "value = '" + value + "'";
+	    vals[2] = "session = '" + session + "'";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string Variable::select_fields()
+	{
+        return "id,name,value,session";
+	}
+	std::string Variable::select_fields(const std::initializer_list<size_t>& list)
+	{
+	    std::vector<std::string> vals(4);
+	    vals[0] = "id";
+	    vals[1] = "name ";
+	    vals[2] = "value ";
+	    vals[3] = "session";
+
+        std::string str;
+        str = vals[std::data(list)[0]];
+        for(size_t i = 1; i < list.size(); i++)
+        {
+            str += "," + vals[std::data(list)[i]];
+        }
+
+        return str;
+	}
+	std::string Variable::insert_fields()
+	{
+        return "name,value";
+	}
+	std::string Variable::identifier_name()
+	{
+        return "id";
+	}
+	std::string Variable::identifier_value() const
+	{
+        return std::to_string(id);
+	}
+
 
 
         CatalogItem::CatalogItem(const char** s)
@@ -542,102 +660,126 @@ namespace oct::mps::v1
 	Configuration::Configuration(const std::filesystem::path& p) : core::Configuration(p)
 	{
 	    if(std::filesystem::exists(p)) open(p);
-	    else create(p);
 	}
 
-	void Configuration::create()
-	{
-        std::filesystem::path fullname = default_file();
-        //std::cout << fullname << "\n";
-        if(std::filesystem::exists(fullname))
-        {
-            open(fullname);
-        }
-        else
-        {
-            if(std::filesystem::exists(defaul_derectory()))
-            {
-            }
-            else
-            {
-                std::filesystem::create_directory(defaul_derectory());
-            }
-
-            return create(fullname);
-        }
-	}
-    void Configuration::create(const std::filesystem::path& fullname)
-	{
-	    //std::cout << "archivo :" << fullname << "\n";
-	    core::Configuration::create(fullname);
-	    libconfig::Setting &root = getRoot();
-
-	    libconfig::Setting &name_setting = lookup("name");
-#ifdef OCTETOS_MUPOSYS_V1_TDD
-        name_setting = "muposys(dev)";
-#else
-        name_setting = "muposys";
-#endif
-        root.add("decorated", libconfig::Setting::TypeString) = "Multi-Porpuse Software System";
-
-        //version
-        core::Semver version = get_version();
-        version.major = 1;
-        version.minor = 0;
-        version.patch = 0;
-        version.prerelease = "alpha";
-        version.build = "v1";
-        core::Configuration::write(version);
-
-        //database
-        libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
-        libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
-        mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
-        mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
-        mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
-#ifdef OCTETOS_MUPOSYS_V1_TDD
-        mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
-        mmsql.add("user", libconfig::Setting::TypeString) = "develop";
-        mmsql.add("password", libconfig::Setting::TypeString) = "123456";
-#else
-        mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
-        mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
-        mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
-#endif
-
-
-        save(fullname);
-        open(fullname);
-	}
-    void Configuration::create(const std::filesystem::path& fullname,const std::string& server)
-	{
-	    create(fullname);
-	    libconfig::Setting &root = getRoot();
-        libconfig::Setting &mmsql = root.lookup("database")["mmsql"];
-        mmsql["host"] = server;
-	}
-	void Configuration::create(const std::filesystem::path& p,const core::Semver& v,const cave1::mmsql::Data& dt)
-	{
-	    create(p);
-
-        core::Configuration::write(v);
-        write(dt);
-	}
-
-    const std::string& Configuration::get_decorated() const
-    {
-        return decorated;
-    }
 
     cave1::mmsql::Data Configuration::get_datasource()const
     {
-        libconfig::Setting &mmsql = lookup("database")["mmsql"];
         //std::string str;
         cave1::mmsql::Data data;
-        //str = (std::string)mmsql.lookup("host");
-        //std::cout << "Host :" << str << "\n";
-        data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
 
+        if(getRoot().exists("database"))
+        {
+            if(getRoot().lookup("database").exists("mmsql"))
+            {
+                libconfig::Setting &mmsql = lookup("database")["mmsql"];
+                //str = (std::string)mmsql.lookup("host");
+                //std::cout << "Host :" << str << "\n";
+                data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+            }
+            else
+            {
+                libconfig::Setting &database = getRoot().lookup("database");
+                libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+                mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
+                mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+                mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+                mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+                mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+                mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+    #else
+                mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+                mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+                mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+    #endif
+                //str = (std::string)mmsql.lookup("host");
+                //std::cout << "Host :" << str << "\n";
+                data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+            }
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+            mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
+            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+#ifdef OCTETOS_MUPOSYS_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+#else
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+#endif
+            //str = (std::string)mmsql.lookup("host");
+            //std::cout << "Host :" << str << "\n";
+            data.set((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+        }
+
+        return data;
+    }
+
+    cave0::mmsql::Data Configuration::get_datasource_0()const
+    {
+        if(getRoot().exists("database"))
+        {
+            if(getRoot().lookup("database").exists("mmsql"))
+            {
+                libconfig::Setting &mmsql = lookup("database")["mmsql"];
+                //str = (std::string)mmsql.lookup("host");
+                //std::cout << "Host :" << str << "\n";
+                cave0::mmsql::Data data((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+                return data;
+            }
+            else
+            {
+                libconfig::Setting &database = getRoot().lookup("database");
+                libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+                mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
+                mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+                mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+                mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+                mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+                mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+    #else
+                mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+                mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+                mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+    #endif
+                cave0::mmsql::Data data((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+                return data;
+            }
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+            mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
+            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+#ifdef OCTETOS_MUPOSYS_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+#else
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+#endif
+            //str = (std::string)mmsql.lookup("host");
+            //std::cout << "Host :" << str << "\n";
+
+            cave0::mmsql::Data data((std::string)mmsql.lookup("host"),(std::string)mmsql.lookup("user"),(std::string)mmsql.lookup("password"),(std::string)mmsql.lookup("database"),(int)mmsql.lookup("port"));
+            return data;
+        }
+
+        cave0::mmsql::Data data;
         return data;
     }
     void Configuration::write(const cave1::mmsql::Data& dt)
@@ -655,66 +797,115 @@ namespace oct::mps::v1
         libconfig::Setting &database = mmsql["database"];
         database = dt.get_database().c_str();
     }
-    void Configuration::open()
-    {
-        core::Configuration::open(default_file());
-    }
     void Configuration::open(const std::filesystem::path& p)
     {
         core::Configuration::open(p);
+
+        if(getRoot().exists("database"))
+        {
+        }
+        else
+        {
+            //database
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &database = root.add("database", libconfig::Setting::TypeGroup);
+            libconfig::Setting &mmsql = database.add("mmsql", libconfig::Setting::TypeGroup);
+            mmsql.add("host", libconfig::Setting::TypeString) = "localhost";
+            mmsql.add("port", libconfig::Setting::TypeInt) = 3306;
+            mmsql.add("flags", libconfig::Setting::TypeInt) = 0;
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys-dev";
+            mmsql.add("user", libconfig::Setting::TypeString) = "develop";
+            mmsql.add("password", libconfig::Setting::TypeString) = "123456";
+    #else
+            mmsql.add("database", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("user", libconfig::Setting::TypeString) = "muposys";
+            mmsql.add("password", libconfig::Setting::TypeString) = "mps-v1-896";
+    #endif
+        }
+    }
+    void Configuration::save()
+    {
+        core::Configuration::save(default_file());
+    }
+    void Configuration::save(const std::filesystem::path& p)
+    {
+        core::Configuration::save(p);
     }
 
 
-    //const char* name = "muposys";
-    //const char* decorated = "Systema Software de Multi-Proposito";
-
-    std::string get_name()
+    std::string Configuration::get_name() const
     {
-        Configuration config;
-        config.create();
-        std::string n;
-
-        //read from database
-
-
-        //read from config file
-        try
+        if(getRoot().exists("name"))
         {
-            n = config.get_name();
-            return n;
+            return (std::string)lookup("name");
         }
-        catch(const libconfig::SettingNotFoundException &nfex)
+        else
         {
-
-        }
-
-#ifdef OCTETOS_MUPOSYS_V1_TDD
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &name_setting = root.add("name", libconfig::Setting::TypeString);
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+            name_setting = "muposys(dev)";
             return "muposys(dev)";
-#else
+    #else
+            name_setting = "muposys";
             return "muposys";
-#endif // OCTETOS_MUPOSYS_V1_TDD
+    #endif
+        }
+
+        return "";
     }
-    std::string get_decorated()
+    core::Semver Configuration::get_version()const
     {
-        Configuration config;
-        config.create();
-        std::string n;
-
-        //read from database
-
-
-        //read from config file
-        try
+        if(getRoot().exists("version"))
         {
-            n = config.get_decorated();
-            return n;
+            core::Semver version;
+            const libconfig::Setting &version_setting = lookup("version");
+            version.major = version_setting.lookup("major");
+            version.minor = version_setting.lookup("minor");
+            version.patch = version_setting.lookup("patch");
+            version.prerelease = (std::string)version_setting.lookup("prerelease");
+            version.build = (std::string)version_setting.lookup("build");
+            return version;
         }
-        catch(const libconfig::SettingNotFoundException &nfex)
+        else
         {
-
+            core::Semver version;
+            version.major = 1;
+            version.minor = 0;
+            version.patch = 0;
+            version.prerelease = "alpha";
+            version.build = "v1";
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &version_setting = root.add("version", libconfig::Setting::TypeGroup);
+            version_setting.add("major", libconfig::Setting::TypeInt) = version.major ;
+            version_setting.add("minor", libconfig::Setting::TypeInt) = version.minor;
+            version_setting.add("patch", libconfig::Setting::TypeInt) = version.patch;
+            version_setting.add("prerelease", libconfig::Setting::TypeString) = version.prerelease;
+            version_setting.add("build", libconfig::Setting::TypeString) = version.build;
+            return version;
         }
 
-        //valor por default
-        return "Multi-Porpuse Software System";
+        core::Semver version;
+        return version;
+    }
+    std::string Configuration::get_decorated() const
+    {
+        if(getRoot().exists("decorated"))
+        {
+            return (std::string)lookup("decorated");
+        }
+        else
+        {
+            libconfig::Setting &root = getRoot();
+            libconfig::Setting &decorated_setting = root.add("decorated", libconfig::Setting::TypeString);
+    #ifdef OCTETOS_MUPOSYS_V1_TDD
+            decorated_setting = "Multi-porpuse Software System (develop)";
+    #else
+            decorated_setting = "Multi-porpuse Software System";
+    #endif
+        }
+
+        return "";
     }
 }

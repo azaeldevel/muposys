@@ -245,28 +245,20 @@ void script::source(const char* s)
 const char* Service::user_name_variable = "oct.mps.web.user";
 Service::Service() : is_open_DB(false)
 {
-}
-Service::Service(const cave0::mmsql::Data& dat)
-{
-	bool conectfl = false;
-	try
-	{
-		is_open_DB = connDB.connect(dat, true);
-	}
-	catch (const cave0::ExceptionDriver& e)
-	{
-		return;
-	}
-	catch (const std::exception& e)
-	{
-		return;
-	}
-	catch (...)
-	{
-	}
+    Configuration config;
+    cave1::mmsql::Data dat = config.get_datasource();
+    bool conectfl = false;
+    is_open_DB = connDB.connect(dat, true);
 	if(conectfl)
     {
-
+    }
+}
+Service::Service(const cave1::mmsql::Data& dat)
+{
+	bool conectfl = false;
+    is_open_DB = connDB.connect(dat, true);
+	if(conectfl)
+    {
     }
 }
 Service::~Service()
@@ -296,7 +288,7 @@ void Service::remove_session(const char* session)
     bool sesionlst_flag = false;
     try
     {
- 		 sesionlst_flag = connDB.select(sesionlst,findSesion);
+ 		 connDB.select(sesionlst,findSesion);
 	}
 	catch (const cave0::ExceptionDriver&)
 	{
@@ -318,7 +310,7 @@ void Service::remove_session(const char* session)
         bool varslst_flag = false;
         try
         {
-             varslst_flag = connDB.select(sesionlst,findSesion);
+             connDB.select(sesionlst,findSesion);
         }
         catch (const cave0::ExceptionDriver&)
         {
@@ -383,10 +375,10 @@ long Service::get_session()
 
 	//std::vector<muposysdb::Session*>* clientlst = muposysdb::Session::select(connDB,findSesion,0);
 	std::vector<Session> clientlst;
-    bool clientlst_flag = false;
+
     try
     {
-        clientlst_flag = connDB.select(clientlst,findSesion);
+        connDB.select(clientlst,findSesion);
 	}
 	catch (const cave0::ExceptionDriver&)
 	{
@@ -396,7 +388,6 @@ long Service::get_session()
 	{
 
 	}
-	if(not clientlst_flag) return -1;
 
 	//std::cout << "Service::get_session : Step 2<br>\n";
 
@@ -434,7 +425,8 @@ bool Service::create_session(const char* s,std::string& strsession)
 	//std::cout << "Service::register_session : Step 1<br>\n";
 
 	Session session;
-	session.insert(connDB,getenv("REMOTE_ADDR"));
+	session.client = getenv("REMOTE_ADDR");
+	session.insert(connDB);
 	RandomString ranstr(32,RandomString::md5);
 	ranstr.generate();
 	session.session = (const char*)ranstr;
@@ -453,19 +445,17 @@ bool Service::create_session(const char* s,std::string& strsession)
 
 	//std::cout << "Service::register_session : Step 2<br>\n";
 
-	Variable variable;
+	std::vector<Variable> variable;
 	std::string findSesion = "id = '";
 	findSesion += std::to_string(session.id);
 	findSesion = findSesion + "' and name = '" + user_name_variable + "'";
 	//std::cout << "Service::register_session : " << findSesion << "<br>\n";
 	//std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
-	std::vector<Variable> varslst;
-    bool varslst_flag = false;
     try
     {
-        varslst_flag = connDB.select(varslst,findSesion);
+        connDB.select(variable,findSesion);
 	}
-	catch (const cave0::ExceptionDriver&)
+	catch (const cave1::ExceptionDriver&)
 	{
 	}
 	catch (...)
@@ -481,31 +471,31 @@ bool Service::create_session(const char* s,std::string& strsession)
 		flag_session = variable.upSession(connDB,session);
 		flag_op = true;
 	}
-	else */if(varslst.size() == 0)
+	else */if(variable.size() == 0)
 	{
 		//std::cout << "Service::register_session inserting..<br>\n";
-		flag_main = variable.insert(connDB);
+		flag_main = variable[0].insert(connDB);
 		//std::cout << "Service::register_session inserting 1<br>\n";
-		variable.name = user_name_variable;
-		flag_name = variable.upName(connDB);
+		variable[0].name = user_name_variable;
+		flag_name = variable[0].upName(connDB);
 		//std::cout << "Service::register_session inserting 2<br>\n";
-		variable.value = s;
-		flag_val = variable.upValue(connDB);
+		variable[0].value = s;
+		flag_val = variable[0].upValue(connDB);
 		//std::cout << "Service::register_session inserting 3<br>\n";
-		variable.session = session.session;
-		flag_session = variable.upSession(connDB);
+		variable[0].session = session.session;
+		flag_session = variable[0].upSession(connDB);
 		//std::cout << "Service::register_session inserting 4<br>\n";
 		flag_op = true;
 		//std::cout << "Service::register_session updated..<br>\n";
 	}
-	else if(varslst.size() == 1)
+	else if(variable.size() == 1)
 	{
 		//std::cout << "Service::register_session updating..<br>\n";
 		flag_name = true;
 		flag_main = true;
-		varslst.front().value = s;
-		flag_val = varslst.front().upValue(connDB);
-		flag_session = varslst.front().upSession(connDB);
+		variable.front().value = s;
+		flag_val = variable.front().upValue(connDB);
+		flag_session = variable.front().upSession(connDB);
 		flag_op = true;
 	}
 
@@ -547,10 +537,9 @@ std::string Service::get_user()
 		//std::cout << "SQL Service::get_user : " << findSesion << "<br>\n";
 		//std::vector<muposysdb::Variable*>* varslst = muposysdb::Variable::select(connDB,findSesion,0);
 		std::vector<Variable> clientlst;
-        bool clientlst_flag = false;
         try
         {
-             clientlst_flag = connDB.select(clientlst,findSesion);
+             connDB.select(clientlst,findSesion);
         }
         catch (const cave0::ExceptionDriver&)
         {
@@ -690,11 +679,11 @@ Page::Page(Body& b,const std::string& t) : body(&b)
 	head.title = t;
 }
 
-Page::Page(Body& b,const cave0::mmsql::Data& dat) : Service(dat),body(&b)
+Page::Page(Body& b,const cave1::mmsql::Data& dat) : Service(dat),body(&b)
 {
 
 }
-Page::Page(Body& b,const std::string& t,const cave0::mmsql::Data& dat) : Service(dat), body(&b)
+Page::Page(Body& b,const std::string& t,const cave1::mmsql::Data& dat) : Service(dat), body(&b)
 {
 	head.title = t;
 }
@@ -720,7 +709,7 @@ std::ostream& Page::print (std::ostream& out)
 CGI::CGI()
 {
 }
-CGI::CGI(const cave0::mmsql::Data& dat) : Service(dat)
+CGI::CGI(const cave1::mmsql::Data& dat) : Service(dat)
 {
 
 }
