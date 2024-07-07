@@ -65,10 +65,10 @@
 		<Unit filename="check.c">
 			<Option compilerVar="CC" />
 			<Option target="check-c-dbg" />
-			<Option target="check-cc-r" />
 		</Unit>
 		<Unit filename="check.cc">
 			<Option target="check-cc-dbg" />
+			<Option target="check-cc-r" />
 		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />

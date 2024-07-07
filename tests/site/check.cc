@@ -7,7 +7,6 @@
 
 std::map<std::string,std::string> POST;
 
-
 std::vector<std::string> split(const std::string& str,const std::string& delim)
 {
     std::vector<std::string> tokens;
@@ -57,7 +56,6 @@ int main(int argc, char *argv[])
     auto params = split(strpost,"&");
     POST = get_post(params,"=");
 
-    //printf("Content-type: text/html\n\n");
     /*for (auto const& x : POST)
     {
         std::cout << x.first  // string (key)
@@ -66,6 +64,9 @@ int main(int argc, char *argv[])
               << std::endl;
     }
     */
+
+
+    printf("Content-type: text/html\n\n");
     std::map<std::string,std::string>::iterator result = POST.find(std::string("counter"));
     int number;
     if(result != POST.end())
