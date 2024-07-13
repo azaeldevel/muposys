@@ -22,6 +22,6 @@ INSERT INTO UserPermission(user,permission) VALUES(6,1);
 
 INSERT INTO UserManagement(id) VALUES(7);
 INSERT INTO Person(id,name1,name3) VALUES(7,'Rubi','Martinez');
-INSERT INTO User(id,person,name) VALUES(7,7,'lramirez');
+INSERT INTO User(id,person,name) VALUES(7,7,'rmartinez');
 UPDATE User SET pwdtxt='123456' WHERE id = 7;
 INSERT INTO UserPermission(user,permission) VALUES(7,1);

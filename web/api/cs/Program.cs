@@ -11,8 +11,12 @@ UserService users = new UserService();
 
 app.MapGet("/", () => "Hello World!");
 //app.MapGet("/user/{id?}", (int? id) => $"A users {id}");
-app.MapGet("/api/user/{id?}", (int? id) => { return $"A users {users.GetUser((int)id).id}"; });
-app.MapGet("/api/user/name/{id?}", (int? id) => { return $"A users {users.GetUser((int)id).name}"; });
+//app.MapGet("/api/user/{id?}", (int? id) => { return $"A users {users.GetUser((int)id).id}"; });
+//app.MapGet("/api/user/all/id", (int? id) => { return $"A users {users.GetUser((int)id).name}"; });
+app.MapGet("/api/user/all/full", (int? id) => { return $"A users {users.to_json()}"; });
+app.MapGet("/api/user/{id?}/full", (int? id) => { return $"A users {users.GetUser((int)id).to_json()}"; });
+app.MapGet("/api/user/{id?}/name", (int? id) => { return $"A users {users.GetUser((int)id).name}"; });
+app.MapGet("/api/user/{id?}/person", (int? id) => { return $"A users {users.GetUser((int)id).person}"; });
 
 
 /*app.MapGet("/users", (IUserService userservice) =>
