@@ -187,4 +187,4 @@ core/muposys-core/.vs
 core/src/muposysdb.*
 desk/desk-installer
 desk/Output
-
+*.vsidx
