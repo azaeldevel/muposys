@@ -1,0 +1,1 @@
+CREATE VIEW User_Autho AS SELECT id, concat('Basic ',TO_BASE64(concat(name,':',pwdtxt))) as autho FROM User;
