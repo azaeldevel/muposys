@@ -8,7 +8,7 @@ if(isset($_POST["counter"]))
 }
 else
 {
-	echo "#"
+	echo "#";
 }
 
 ?>
